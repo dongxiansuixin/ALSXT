@@ -5133,7 +5133,7 @@ FAttackReactionAnimation UALSXTImpactReactionComponent::SelectAttackReactionMont
 		if (FilteredMontages.Contains(LastAttackReactionAnimation))
 		{
 			int IndexToRemove = FilteredMontages.Find(LastAttackReactionAnimation);
-			FilteredMontages.RemoveAt(IndexToRemove, 1, true);
+			FilteredMontages.RemoveAt(IndexToRemove, EAllowShrinking::Yes);
 		}
 
 		//Shuffle Array
@@ -5201,7 +5201,7 @@ FImpactReactionAnimation UALSXTImpactReactionComponent::SelectImpactReactionMont
 		if (FilteredMontages.Contains(LastImpactReactionAnimation))
 		{
 			int IndexToRemove = FilteredMontages.Find(LastImpactReactionAnimation);
-			FilteredMontages.RemoveAt(IndexToRemove, 1, true);
+			FilteredMontages.RemoveAt(IndexToRemove, EAllowShrinking::Yes);
 		}
 
 		//Shuffle Array
