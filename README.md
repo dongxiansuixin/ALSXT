@@ -22,13 +22,15 @@ An Unreal Engine 5 plugin that extends ALS-Refactored with a set of popular repl
 
 _ALSXT is under heavy development, many features may not be finished or production-ready_.
 
+[ALSXT Notion](https://alsxt.notion.site/2be59e501e7a4bf583437d1636bc7f2f?v=ac361eb5a6a14081892ff9a68e3e7a44)
+
 _[Contibutors](#Contributions) and PRs are welcome_.
 
-Source Assets of the Meshes, Textures, Sounds and Cascaduer files.
+[ALSXT-Assets](https://github.com/Voidware-Prohibited/ALSXT-Assets): Source Assets of the Meshes, Textures, Sounds and Cascaduer files.
 
 # Introduction
 
-Two example Character classes are provided `ALSXTCharacter` and `ALSXTCharacterAdvanced`, each with their respective feature-sets. You can create a sub-class or blueprint of either class or simply use `ALSXTCharacterAdvanced` as an example for building your own custom class from the base `ALSXTCharacter` class.
+Two example Character classes are provided `ALSXTCharacter` and `ALSXTCharacterAdvanced`, each with their respective feature-sets. Create a child C++ class or blueprint of either class or simply use `ALSXTCharacterAdvanced` as an example for building your own custom class from the base `ALSXTCharacter` class.
 
 **Features**
 
@@ -60,7 +62,6 @@ ALSXT Advanced
 - Camera FX Component _In Progress_
 - Acrobatic Actions (Flipping, Wallrunning etc) _In Progress_
 
-
 **Planned Features**
 - New Skeletal Mesh and Clothing set with Morph Targets/Shape Keys
 - Stationary Modes (Sitting, Vehilcles etc)
@@ -71,16 +72,25 @@ ALSXT Advanced
 **Dependencies**
 
 - [Advanced Locomotion System Refactored](https://github.com/Sixze/ALS-Refactored/)
+- [Gameplay Abilities](https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Plugins/GameplayAbilities/)
 
 **Integrations**
+While any integration is possible, ALSXT was designed to facilitate the integration of the following:
 
+- [Target Vector](https://github.com/Voidware-Prohibited/TargetVector)
+- [Flora](https://github.com/Voidware-Prohibited/Flora)
+- [Ballistics FX](https://www.fab.com/listings/5a08c83d-deb0-4989-baaa-79b68e340e24)
 - [Procedural Recoil Animation System](https://www.fab.com/listings/c664053f-900b-4f33-aa26-4bdb46959e4c)
+- [FPS First Person Shooter Framework (SKG Shooter Framework V2)](https://www.fab.com/listings/dbed40cd-4529-455a-aab0-b1b353fb0180)
+- [Survival Game Kit V2](https://www.fab.com/listings/3db63098-0a00-432d-b359-becc6e32096f)
 
 **Important Note**
 
 ALSXT is not automatically synced with the main ALS-Refactored repository, but is instead maintained through [this fork](https://github.com/Voidware-Prohibited/ALS-Refactored). If you find changes in ALS-Refactored have broken ALSXT you may use this fork to maintain more stability in your projects.
 
 # Installation
+
+## From Scratch
 
 - Begin with an empty C++ Project
 - Install and setup Enhanced Input Plugin
@@ -91,6 +101,17 @@ ALSXT is not automatically synced with the main ALS-Refactored repository, but i
      - Note: Various `SurfaceTypes` and a new `CollisionChannel` named `Transferrable` are required for the Footprints and Impact Effects to work. SurfaceTypes can be renamed and/or re-assigned in the respective effects Settings.
 - Build your Solution in Visual Studio or Rider again
 - Once compilation is successful you can now begin using ALSXT in your project
+
+## For Existing C++ Project
+
+- Install Enhanced Input, MetaSound and ALS-Refactored plugins.
+- Clone/download ALSXT into your projects Plugin folder (You should have both ALS-Refactored and ALSXT side by side)
+- Integrate Config\DefaultEngine.ini into your projects DefaultEngine.ini
+     - Note: Various `SurfaceTypes` and a new `CollisionChannel` named `Transferrable` are required for the Footprints and Impact Effects to work. SurfaceTypes can be renamed and/or re-assigned in the respective effects Settings.
+- Build your Solution in Visual Studio or Rider again
+- Once compilation is successful you can now begin using ALSXT in your project
+
+
 
 # Settings
 
