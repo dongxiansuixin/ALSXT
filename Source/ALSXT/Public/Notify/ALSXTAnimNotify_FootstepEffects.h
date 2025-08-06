@@ -8,6 +8,7 @@
 #include "Settings/ALSXTFootstepEffectSettings.h"
 #include "State/ALSXTFootstepState.h"
 #include "Notifies/AlsAnimNotify_FootstepEffects.h"
+#include "Settings/ALSXTVertexSettings.h"
 #include "ALSXTAnimNotify_FootstepEffects.generated.h"
 
 class USoundBase;
@@ -272,6 +273,9 @@ public:
 	bool EnableVertexPaintTrace{ false };
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TWeakObjectPtr<UALSXTVertexColorPhysicalMaterialMap> VertexColorPhysicalMaterialMap;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool EnableCharacterMovementSound{ true };
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -320,7 +324,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", Meta = (AllowPrivateAccess))
 	UALSXTFootstepEffectsSettings* FootstepEffectsSettings;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Sound", Meta = (AllowPrivateAccess, ClampMin = 0, ForceUnits = "x"))
 	float SoundVolumeMultiplier{ 1.0f };
 

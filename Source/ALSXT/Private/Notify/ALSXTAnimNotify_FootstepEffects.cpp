@@ -3,6 +3,7 @@
 #include "AlsCharacter.h"
 #include "ALSXTAnimationInstance.h"
 #include "ALSXTCharacter.h"
+#include "ALSXTVertexFunctionLibrary.h"
 #include "DrawDebugHelpers.h"
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
@@ -98,15 +99,6 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 	FCollisionQueryParams QueryParameters{ ANSI_TO_TCHAR(__FUNCTION__), true, Mesh->GetOwner() };
 	QueryParameters.bReturnPhysicalMaterial = true;
 
-	// if (FootstepEffectsSettings->EnableVertexPaintTrace)
-	// {
-	// 
-	// }
-	// else
-	// {
-	// 
-	// }
-
 	if (World->LineTraceSingleByChannel(Hit, FootTransform.GetLocation(),
 		FootTransform.GetLocation() - FootZAxis *
 		(FootstepEffectsSettings->SurfaceTraceDistance * CapsuleScale),
@@ -139,6 +131,30 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 		HitResult.Component = nullptr;
 		HitPhysicalMaterial = nullptr;
 		HitResult.PhysMaterial = nullptr;
+	}
+
+	if (HitComponent != nullptr)
+	{
+		UStaticMeshComponent* StaticMeshComp = Cast<UStaticMeshComponent>(HitComponent);
+
+		if (StaticMeshComp)
+		{
+			if (FootstepEffectsSettings->EnableVertexPaintTrace)
+			{
+				int32 HitVertexID = UALSXTVertexFunctionLibrary::GetClosestVertexIDFromStaticMesh(StaticMeshComp, Hit.ImpactPoint);
+				EProminentRGBAChannel ProminentRGBAChannel = UALSXTVertexFunctionLibrary::GetProminentVertexColorChannel(StaticMeshComp, HitVertexID);
+				if (ProminentRGBAChannel != EProminentRGBAChannel::None)
+				{
+					// Convert ProminentRGBAChannel to EVertexColorChannel
+					uint8 EnumAsUint8 = static_cast<uint8>(ProminentRGBAChannel);
+					EVertexColorChannel VertexColorChannel = static_cast<EVertexColorChannel>(EnumAsUint8);
+
+					// Find Matching Physical Material
+					UALSXTVertexColorPhysicalMaterialMap* VertexColorPhysicalMaterialMap = FootstepEffectsSettings->VertexColorPhysicalMaterialMap.Get();
+					VertexColorPhysicalMaterialMap->VertexColorPhysicalMaterialMap.VertexColorPhysicalMaterialMap.Find(VertexColorChannel);
+				}
+			}
+		}
 	}
 
 	FGameplayTag CharacterGait = IALSXTCharacterInterface::Execute_GetCharacterGait(Mesh->GetOwner());
