@@ -27,7 +27,27 @@ public class ALSXT : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core", "Landscape", "CoreUObject", "Engine", "AudioExtensions", "UMG", "GameplayTags", "GameplayCameras", "CinematicCamera", "AIModule", "AnimGraphRuntime", "RigVM", "ControlRig", "EnhancedInput", "ALS", "ALSCamera", "Niagara",
+				"Core",
+				"Landscape",
+				"CoreUObject",
+				"Engine",
+				"AudioExtensions",
+				"UMG",
+				"GameplayTags",
+				"GameplayCameras",
+				"CinematicCamera",
+				"AIModule",
+				"AnimGraphRuntime",
+				"RigVM",
+				"ControlRig",
+				"EnhancedInput",
+				"ALS",
+				"ALSCamera",
+				"Niagara",
+				"NetCore",
+				"StructUtils",
+				"NetCommon",
+				"Networking"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -37,10 +57,11 @@ public class ALSXT : ModuleRules
 			new string[]
 			{
 				"EngineSettings",
-				"NetCore",
 				"PhysicsCore",
 				"Slate",
 				"SlateCore",
+				"GameplayTasks",
+				"GameplayAbilities"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
