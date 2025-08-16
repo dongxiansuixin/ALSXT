@@ -170,7 +170,7 @@ void UALSXTCharacterSoundComponent::SetNewSound(UObject* Sound, TArray<UObject*>
 	if (PreviousAssetsReferences.Num() >= abs(NoRepeats))
 	{
 		PreviousAssetsReferences.Add(Sound);
-		PreviousAssetsReferences.RemoveAt(0, 1, true);
+		PreviousAssetsReferences.RemoveAt(0, 1, EAllowShrinking::Yes);
 	}
 	else
 	{
@@ -561,7 +561,7 @@ UNiagaraSystem* UALSXTCharacterSoundComponent::DetermineNewBreathParticle()
 			if (FilteredParticles.Contains(LastBreathParticle))
 			{
 				int IndexToRemove = FilteredParticles.Find(LastBreathParticle);
-				FilteredParticles.RemoveAt(IndexToRemove, 1, true);
+				FilteredParticles.RemoveAt(IndexToRemove, 1, EAllowShrinking::Yes);
 			}
 
 			//Shuffle Array
@@ -795,7 +795,7 @@ FALSXTWeaponActionSound UALSXTCharacterSoundComponent::SelectWeaponActionSound(U
 		if (FilteredSounds.Contains(LastWeaponActionSound))
 		{
 			int IndexToRemove = FilteredSounds.Find(LastWeaponActionSound);
-			FilteredSounds.RemoveAt(IndexToRemove, 1, true);
+			FilteredSounds.RemoveAt(IndexToRemove, 1, EAllowShrinking::Yes);
 		}
 
 		//Shuffle Array

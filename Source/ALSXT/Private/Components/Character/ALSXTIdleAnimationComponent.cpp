@@ -285,7 +285,7 @@ void UALSXTIdleAnimationComponent::SetNewAnimationImplementation(UAnimMontage* A
 		NewIdleState.CurrentIdleMontage = Animation;
 		SetIdleState(NewIdleState);
 		PreviousMontages.Add(Animation);
-		PreviousMontages.RemoveAt(0, 1, true);
+		PreviousMontages.RemoveAt(0, 1, EAllowShrinking::Yes);
 	}
 	else
 	{

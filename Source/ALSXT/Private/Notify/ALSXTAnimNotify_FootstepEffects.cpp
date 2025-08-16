@@ -151,7 +151,7 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 
 					// Find Matching Physical Material
 					UALSXTVertexColorPhysicalMaterialMap* VertexColorPhysicalMaterialMap = FootstepEffectsSettings->VertexColorPhysicalMaterialMap.Get();
-					VertexColorPhysicalMaterialMap->VertexColorPhysicalMaterialMap.VertexColorPhysicalMaterialMap.Find(VertexColorChannel);
+					UPhysicalMaterial** VertexColorChannelPhysicalMaterial = VertexColorPhysicalMaterialMap->VertexColorPhysicalMaterialMap.VertexColorPhysicalMaterialMap.Find(VertexColorChannel);
 				}
 			}
 		}

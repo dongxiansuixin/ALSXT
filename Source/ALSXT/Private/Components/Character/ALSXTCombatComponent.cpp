@@ -998,7 +998,7 @@ FAttackAnimation UALSXTCombatComponent::SelectAttackMontage_Implementation(const
 		if (FilteredMontages.Contains(LastAttackAnimation))
 		{
 			int IndexToRemove = FilteredMontages.Find(LastAttackAnimation);
-			FilteredMontages.RemoveAt(IndexToRemove, 1, true);
+			FilteredMontages.RemoveAt(IndexToRemove, 1, EAllowShrinking::Yes);
 		}
 
 		//Shuffle Array
@@ -1065,7 +1065,7 @@ FSyncedAttackAnimation UALSXTCombatComponent::SelectSyncedAttackMontage_Implemen
 		if (FilteredMontages.Contains(LastSyncedAttackAnimation))
 		{
 			int IndexToRemove = FilteredMontages.Find(LastSyncedAttackAnimation);
-			FilteredMontages.RemoveAt(IndexToRemove, 1, true);
+			FilteredMontages.RemoveAt(IndexToRemove, 1, EAllowShrinking::Yes);
 		}
 
 		//Shuffle Array

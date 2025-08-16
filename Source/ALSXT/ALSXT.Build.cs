@@ -47,7 +47,11 @@ public class ALSXT : ModuleRules
 				"NetCore",
 				"StructUtils",
 				"NetCommon",
-				"Networking"
+				"Networking",
+				"GameFeatures",
+				"ModularGameplay",
+				"ModularGameplayActors",
+				"AbilitySystemGameFeatureActions"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -61,7 +65,8 @@ public class ALSXT : ModuleRules
 				"Slate",
 				"SlateCore",
 				"GameplayTasks",
-				"GameplayAbilities"
+				"GameplayAbilities",
+				"TargetingSystem"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

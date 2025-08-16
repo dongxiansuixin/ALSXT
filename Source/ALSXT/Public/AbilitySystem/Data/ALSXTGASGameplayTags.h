@@ -27,10 +27,32 @@ namespace ALSXTGASGameplayTags
 	namespace State
 	{
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Health);
+		
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Blood);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_BodyTemp);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Hydration);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Nutrition);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Encumberance);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Energy);
+		
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Stamina);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Strength);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Stability);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_HoldBreath);
 		
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Health);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Blood);
+
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_BodyTemp);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Hydration);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Nutrition);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Encumberance);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Energy);
+		
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Stamina);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Strength);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Stability);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_HoldBreath);
 	}
 	
 	namespace Statuses
