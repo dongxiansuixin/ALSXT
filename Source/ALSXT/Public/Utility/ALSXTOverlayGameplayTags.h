@@ -1,0 +1,10 @@
+#pragma once
+
+#include "NativeGameplayTags.h"
+
+namespace ALSXTOverlaySlotTags
+{
+	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Left)
+	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Right)
+	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Both)
+}
