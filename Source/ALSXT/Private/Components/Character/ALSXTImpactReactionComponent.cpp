@@ -2428,7 +2428,7 @@ bool UALSXTImpactReactionComponent::ValidateNewHit(AActor* ActorToCheck)
 		{
 			ObstacleImpactHistory.RemoveAt(ObstacleImpactHistory.Num() - 1);
 		}
-		FImpactHistoryEntry NewEntry{ ActorToCheck, GetWorld()->GetTimeSeconds() };
+		FImpactHistoryEntry NewEntry{ ActorToCheck, static_cast<float>(GetWorld()->GetTimeSeconds()) };
 		ObstacleImpactHistory.Add(NewEntry);
 		return true;
 	}
@@ -2463,7 +2463,7 @@ bool UALSXTImpactReactionComponent::ValidateNewAnticipationHit(AActor* ActorToCh
 		{
 			AnticipationImpactHistory.RemoveAt(0);
 		}
-		FImpactHistoryEntry NewEntry{ ActorToCheck, GetWorld()->GetTimeSeconds() };
+		FImpactHistoryEntry NewEntry{ ActorToCheck, static_cast<float>(GetWorld()->GetTimeSeconds()) };
 		AnticipationImpactHistory.Add(NewEntry);
 		return !RecentlyHit;
 	}
@@ -2473,7 +2473,7 @@ bool UALSXTImpactReactionComponent::ValidateNewAnticipationHit(AActor* ActorToCh
 		{
 			AnticipationImpactHistory.RemoveAt(0);
 		}
-		FImpactHistoryEntry NewEntry{ ActorToCheck, GetWorld()->GetTimeSeconds() };
+		FImpactHistoryEntry NewEntry{ ActorToCheck, static_cast<float>(GetWorld()->GetTimeSeconds()) };
 		AnticipationImpactHistory.Add(NewEntry);
 		return true;
 	}
@@ -7080,6 +7080,9 @@ void UALSXTImpactReactionComponent::StartAttackResponseImplementation(FAttackDou
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("IsAttackReactionNOTAllowedToStart"));
 	}
 }
+
+void UALSXTImpactReactionComponent::SpawnParticleActorImplementation(FDoubleHitResult Hit, TSubclassOf<AActor> ParticleActor)
+{}
 
 // Refresh
 

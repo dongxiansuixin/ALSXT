@@ -47,6 +47,10 @@ public:
 	FGameplayAttributeData StaminaRegeneration;
 	ATTRIBUTE_ACCESSORS(UALSXTStaminaAttributeSet, StaminaRegeneration)
 
+	UPROPERTY(BlueprintReadOnly, Category = "Breathing Rate", ReplicatedUsing = OnRep_BreathingRate)
+	FGameplayAttributeData BreathingRate;
+	ATTRIBUTE_ACCESSORS(UALSXTStaminaAttributeSet, BreathingRate);
+
 protected:
 	
 	UFUNCTION()
@@ -57,4 +61,7 @@ protected:
 
 	UFUNCTION()
 	virtual void OnRep_StaminaRegeneration(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	virtual void OnRep_BreathingRate(const FGameplayAttributeData& OldValue);
 };

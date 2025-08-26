@@ -20,6 +20,7 @@
 #include "Settings/ALSXTDefensiveModeSettings.h"
 #include "ALSXTImpactReactionComponent.generated.h"
 
+struct FALSXTDefensiveModeState;
 class AALSXTCharacter;
 
 UCLASS(Blueprintable, ClassGroup=(Physics), meta=(BlueprintSpawnableComponent) )

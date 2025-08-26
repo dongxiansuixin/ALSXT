@@ -15,7 +15,16 @@
 #include "State/ALSXTBreathState.h"
 #include "State/ALSXTSlidingState.h"
 #include "AlsCharacterMovementComponent.h"
+#include "Settings/ALSXTStatusSettings.h"
+#include "State/ALSXTClothingState.h"
+#include "State/ALSXTStatusState.h"
 #include "ALSXTCharacterInterface.generated.h"
+
+class UALSXTCameraAnimationInstance;
+class UAlsCameraComponent;
+class UALSXTCharacterSettings;
+class UALSXTAnimationInstance;
+class AALSXTCharacter;
 
 USTRUCT(BlueprintType)
 struct ALSXT_API FALSXTJigglePhysicsSettings

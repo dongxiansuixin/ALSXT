@@ -9,6 +9,7 @@
 #include "Settings/ALSXTFirearmSettings.h"
 #include "ALSXTAdvancedAnimationInstance.generated.h"
 
+class UALSXTAdvancedAnimationInstanceSettings;
 class UALSXTAdvancedLinkedAnimationInstance;
 class AALSXTCharacterAdvanced;
 

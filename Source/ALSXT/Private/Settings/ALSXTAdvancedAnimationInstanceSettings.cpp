@@ -4,6 +4,7 @@
 
 UALSXTAdvancedAnimationInstanceSettings::UALSXTAdvancedAnimationInstanceSettings()
 {
+	Param = true;
 	// InAir.GroundPredictionResponseChannels =
 	// {
 	// 	ECC_WorldStatic,

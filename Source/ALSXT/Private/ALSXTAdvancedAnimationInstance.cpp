@@ -6,8 +6,6 @@
 #include "ALSXTAdvancedAnimationInstanceProxy.h"
 #include "Interfaces/ALSXTFirearmInterface.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTAdvancedAnimationInstance)
-
 UALSXTAdvancedAnimationInstance::UALSXTAdvancedAnimationInstance()
 {
 	RootMotionMode = ERootMotionMode::RootMotionFromMontagesOnly;

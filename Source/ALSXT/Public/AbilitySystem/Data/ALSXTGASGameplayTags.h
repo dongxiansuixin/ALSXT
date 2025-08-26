@@ -5,6 +5,14 @@
 #include "CoreMinimal.h"
 #include "NativeGameplayTags.h"
 
+namespace ALSXTAbilityGameplayTags
+{
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Jump);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Roll);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Mantle);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(HoldItem);
+}
+
 namespace ALSXTGASGameplayTags
 {
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Effect_NoLevel);
@@ -39,6 +47,7 @@ namespace ALSXTGASGameplayTags
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Strength);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Stability);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_HoldBreath);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Breath);
 		
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Health);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Blood);
@@ -53,6 +62,7 @@ namespace ALSXTGASGameplayTags
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Strength);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Stability);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_HoldBreath);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Breath);
 	}
 	
 	namespace Statuses

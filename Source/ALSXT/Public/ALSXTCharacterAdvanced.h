@@ -60,10 +60,6 @@ public:
 	TObjectPtr<UInputAction> SwitchTargetRightAction;
 
 	// Components
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UCineCameraComponent> BodyCamera;
-
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	class UALSXTCombatComponent* Combat;
 
@@ -115,7 +111,7 @@ protected:
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Als|Input Actions")
 	bool CanPerformAcrobaticAction() const;
 
-	void OnDesiredAimingChanged_Implementation(bool bPreviousDesiredAiming) override;
+	virtual void OnDesiredAimingChanged_Implementation(bool bPreviousDesiredAiming) override;
 
 	
 protected:
@@ -320,38 +316,38 @@ public:
 	virtual FGameplayTag GetCharacterFirearmFingerActionHand_Implementation() const override;
 	
 	//Character Camera Effects Component Interface
-	UAlsCameraComponent* GetCameraComponent_Implementation() const override;
-	UALSXTCharacterCameraEffectsComponent* GetCameraEffectsComponent_Implementation() const override;
-	FALSXTGeneralCameraEffectsSettings GetCameraEffectsSettings_Implementation() const override;
-	void SetRadialBlurEffect_Implementation(float Amount) override;
-	void ResetRadialBlurEffect_Implementation() override;
-	void SetFocusEffect_Implementation(bool NewFocus) override;
-	void AddDrunkEffect_Implementation(float Magnitude, float Length, float FadeInLength, float FadeOutLength) override;
-	void ResetDrunkEffect_Implementation() override;
-	void AddHighEffect_Implementation(float Magnitude, float Length, float FadeInLength, float FadeOutLength) override;
-	void ResetHighEffect_Implementation() override;
-	void AddSuppressionEffect_Implementation(float Magnitude, float PostDelay) override;
-	void ResetSuppressionEffect_Implementation() override;
-	void AddBlindnessEffect_Implementation(float Magnitude, float Length, float FadeOutLength) override;
-	void ResetBlindnessEffect_Implementation() override;
-	void AddProjectileFlyByEffect_Implementation(USoundBase* Sound, FVector Location, FRotator Rotation) override;
-	void AddConcussionEffect_Implementation(float Magnitude, float Length, float FadeInLength, float FadeOutLength) override;
-	void ResetConcussionEffect_Implementation() override;
-	void AddDamageEffect_Implementation(float Damage, const FGameplayTag& DamageType, const FHitResult& HitResult, float PostDelay) override;
-	void ResetDamageEffect_Implementation() override;
-	void AddNearDeathEffect_Implementation(float Damage, const FGameplayTag& DamageType) override;
-	void ResetNearDeathEffect_Implementation() override;
-	void AddDeathEffect_Implementation(float Damage, const FGameplayTag& DamageType, const FHitResult& HitResult, float PostDelay) override;
-	void ResetDeathEffect_Implementation() override;
+	virtual UAlsCameraComponent* GetCameraComponent_Implementation() const override;
+	virtual UALSXTCharacterCameraEffectsComponent* GetCameraEffectsComponent_Implementation() const override;
+	virtual FALSXTGeneralCameraEffectsSettings GetCameraEffectsSettings_Implementation() const override;
+	virtual void SetRadialBlurEffect_Implementation(float Amount) override;
+	virtual void ResetRadialBlurEffect_Implementation() override;
+	virtual void SetFocusEffect_Implementation(bool NewFocus) override;
+	virtual void AddDrunkEffect_Implementation(float Magnitude, float Length, float FadeInLength, float FadeOutLength) override;
+	virtual void ResetDrunkEffect_Implementation() override;
+	virtual void AddHighEffect_Implementation(float Magnitude, float Length, float FadeInLength, float FadeOutLength) override;
+	virtual void ResetHighEffect_Implementation() override;
+	virtual void AddSuppressionEffect_Implementation(float Magnitude, float PostDelay) override;
+	virtual void ResetSuppressionEffect_Implementation() override;
+	virtual void AddBlindnessEffect_Implementation(float Magnitude, float Length, float FadeOutLength) override;
+	virtual void ResetBlindnessEffect_Implementation() override;
+	virtual void AddProjectileFlyByEffect_Implementation(USoundBase* Sound, FVector Location, FRotator Rotation) override;
+	virtual void AddConcussionEffect_Implementation(float Magnitude, float Length, float FadeInLength, float FadeOutLength) override;
+	virtual void ResetConcussionEffect_Implementation() override;
+	virtual void AddDamageEffect_Implementation(float Damage, const FGameplayTag& DamageType, const FHitResult& HitResult, float PostDelay) override;
+	virtual void ResetDamageEffect_Implementation() override;
+	virtual void AddNearDeathEffect_Implementation(float Damage, const FGameplayTag& DamageType) override;
+	virtual void ResetNearDeathEffect_Implementation() override;
+	virtual void AddDeathEffect_Implementation(float Damage, const FGameplayTag& DamageType, const FHitResult& HitResult, float PostDelay) override;
+	virtual void ResetDeathEffect_Implementation() override;
 
 	//Head Look At Interface
-	void IsInFrontOf_Implementation(bool& IsInFrontOf, FVector LookAtActorLocation) const override;
+	virtual void IsInFrontOf_Implementation(bool& IsInFrontOf, FVector LookAtActorLocation) const override;
 
 	// Combat Interface
-	FALSXTGeneralCombatSettings GetGeneralCombatSettings_Implementation() override;
-	FALSXTCombatAttackTraceSettings GetCombatAttackTraceSettings_Implementation() override;
-	void BeginCombatAttackCollisionTrace_Implementation(FALSXTCombatAttackTraceSettings TraceSettings) override;
-	void EndCombatAttackCollisionTrace_Implementation() override;
+	virtual FALSXTGeneralCombatSettings GetGeneralCombatSettings_Implementation() override;
+	virtual FALSXTCombatAttackTraceSettings GetCombatAttackTraceSettings_Implementation() override;
+	virtual void BeginCombatAttackCollisionTrace_Implementation(FALSXTCombatAttackTraceSettings TraceSettings) override;
+	virtual void EndCombatAttackCollisionTrace_Implementation() override;
 
 	//Firearm Interface
 	virtual FALSXTFirearmAimState GetFirearmAimState_Implementation() const override;

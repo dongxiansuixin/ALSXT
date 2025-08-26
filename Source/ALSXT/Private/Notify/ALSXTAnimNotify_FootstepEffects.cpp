@@ -26,7 +26,7 @@
 
 FString UALSXTAnimNotify_FootstepEffects::GetNotifyName_Implementation() const
 {
-	return FString::Format(TEXT("ALSXT Footstep Effects: {0}"), { AlsEnumUtility::GetNameStringByValue(FootBone) });
+	return FString::Format(TEXT("ALSXT Footstep Effects: {0}"), { "AlsEnumUtility::GetNameStringByValue(FootBone)" });
 }
 
 void UALSXTAnimNotify_FootstepEffects::SetFootstepEffectsSettings(UALSXTFootstepEffectsSettings* NewALSXTFootstepEffectsSettings, float NewSoundVolumeMultiplier, float NewSoundPitchMultiplier, EAlsFootBone NewFootBone, bool bNewSkipEffectsWhenInAir, bool bNewSpawnSound, EALSXTFootstepSoundType NewFootstepSoundType, bool bNewIgnoreFootstepSoundBlockCurve, bool bNewSpawnDecal, bool bNewSpawnParticleSystem)

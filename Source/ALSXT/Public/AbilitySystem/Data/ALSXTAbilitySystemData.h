@@ -8,7 +8,7 @@
 #include "GameplayTagContainer.h"
 #include "ScalableFloat.h"
 #include "Abilities/GameplayAbilityTargetTypes.h"
-#include "InstancedStruct.h"
+#include "StructUtils/InstancedStruct.h"
 #include "ALSXTAbilitySystemData.generated.h"
 
 struct FCustomAttributeInitializer;

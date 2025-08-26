@@ -79,3 +79,8 @@ void UALSXTStaminaAttributeSet::OnRep_StaminaRegeneration(const FGameplayAttribu
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UALSXTStaminaAttributeSet, StaminaRegeneration, OldValue);
 }
+
+void UALSXTStaminaAttributeSet::OnRep_BreathingRate(const FGameplayAttributeData& OldValue)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UALSXTStaminaAttributeSet, BreathingRate, OldValue);
+}

@@ -5,6 +5,8 @@
 #include "Engine/EngineTypes.h"
 #include "ALSXTMeshPaintingSettings.generated.h"
 
+class UALSXTMeshPaintingSettings;
+
 USTRUCT(BlueprintType)
 struct ALSXT_API FMeshPaintingParameters
 {

@@ -7,7 +7,7 @@ public class ALSXT : ModuleRules
 	public ALSXT(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_4;
+		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_6;
 		bUseUnity = false;
 
 		PublicIncludePaths.AddRange(

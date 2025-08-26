@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerController.h"
+#include "ModularPlayerController.h"
 #include "ALSXTPlayerController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ALSXT_API AALSXTPlayerController : public APlayerController
+class ALSXT_API AALSXTPlayerController : public AModularPlayerController
 {
 	GENERATED_BODY()
 

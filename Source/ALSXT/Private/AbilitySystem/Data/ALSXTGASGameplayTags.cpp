@@ -3,6 +3,14 @@
 #include "AbilitySystem/Data/ALSXTGASGameplayTags.h"
 #include "NativeGameplayTags.h"
 
+namespace ALSXTAbilityGameplayTags
+{
+	UE_DEFINE_GAMEPLAY_TAG(Jump, TEXT("Gameplay.Ability.Jump"))
+	UE_DEFINE_GAMEPLAY_TAG(Roll, TEXT("Gameplay.Ability.Roll"))
+	UE_DEFINE_GAMEPLAY_TAG(Mantle, TEXT("Gameplay.Ability.Mantle"))
+	UE_DEFINE_GAMEPLAY_TAG(HoldItem, TEXT("Gameplay.Ability.HoldItem"))
+}
+
 namespace ALSXTGASGameplayTags
 {
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Effect_NoLevel, "Effect.NoLevel", "This GE won't be leveled up or down. Base level will always be the same (upon granting it).")
@@ -28,6 +36,7 @@ namespace ALSXTGASGameplayTags
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Strength, "State.Max.Strength", "Max Strength reached")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Stability, "State.Max.Stamina", "Max Stamina reached")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_HoldBreath, "State.Max.HoldBreath", "Max HoldBreath reached")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Breath, "State.Max.Breath", "Max HoldBreath reached")
 
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Blood, "State.Max.Blood", "Max Blood reached")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_BodyTemp, "State.Max.BodyTemp", "Max BodyTemp reached")
@@ -40,6 +49,7 @@ namespace ALSXTGASGameplayTags
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_Strength, "State.Blocked.Regeneration.Strength", "Block Strength regeneration.")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_Stability, "State.Blocked.Regeneration.Stability", "Block Stability regeneration.")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_HoldBreath, "State.Blocked.Regeneration.HoldBreath", "Block HoldBreath regeneration.")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_Breath, "State.Blocked.Regeneration.Breath", "Block HoldBreath regeneration.")
 
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_Blood, "State.Blocked.Regeneration.Blood", "Block Blood regeneration.")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_BodyTemp, "State.Blocked.Regeneration.BodyTemp", "Block BodyTemp regeneration.")

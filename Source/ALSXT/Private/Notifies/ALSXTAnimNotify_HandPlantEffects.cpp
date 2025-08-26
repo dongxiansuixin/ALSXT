@@ -39,7 +39,7 @@ void UALSXTHandPlantEffectsSettings::PostEditChangeProperty(FPropertyChangedEven
 
 FString UALSXTAnimNotify_HandPlantEffects::GetNotifyName_Implementation() const
 {
-	TStringBuilder<64> NotifyNameBuilder{InPlace, TEXTVIEW("Als Footstep Effects: "), AlsEnumUtility::GetNameStringByValue(HandBone)};
+	TStringBuilder<64> NotifyNameBuilder{InPlace, TEXTVIEW("Als Footstep Effects: "), "AlsEnumUtility::GetNameStringByValue(HandBone)"};
 
 	return FString{NotifyNameBuilder};
 }

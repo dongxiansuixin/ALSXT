@@ -17,11 +17,6 @@
 AALSXTCharacterAdvanced::AALSXTCharacterAdvanced(const FObjectInitializer& ObjectInitializer) :
 	Super(ObjectInitializer)
 {
-	BodyCamera = CreateDefaultSubobject<UCineCameraComponent>(TEXT("Body Camera"));
-	BodyCamera->SetupAttachment(GetMesh(), FName("spine_03"));
-	BodyCamera->SetRelativeRotation_Direct({ 0.0f, 90.0f, -90.0f });
-	BodyCamera->SetRelativeLocation_Direct({ 0.0f, 20.72f, 0.0f });
-	
 	Combat = CreateDefaultSubobject<UALSXTCombatComponent>(TEXT("Combat"));
 	AddOwnedComponent(Combat);
 

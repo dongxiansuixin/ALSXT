@@ -1,7 +1,7 @@
 // MIT
 
 
-#include "AbilitySystem/GameplayEffects/ALSXTGameplayEffectCostBase.h"
+#include "AbilitySystem/GameplayEffects/ALSXTGameplayEffectCooldownBase.h"
 
 
 
