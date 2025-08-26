@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AbilitySystemInterface.h"
 #include "AlsCharacter.h"
 #include "GameFramework/Character.h"
 #include "AlsCameraComponent.h"
@@ -11,6 +12,7 @@
 #include "Components/Character/ALSXTImpactReactionComponent.h"
 #include "Components/Character/ALSXTCharacterSoundComponent.h"
 #include "Components/Character/ALSXTIdleAnimationComponent.h"
+#include "Components/GameFrameworkComponentManager.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "CineCameraComponent.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -55,6 +57,8 @@
 // #include "ALSXTAnimationInstance.h"
 #include "ALSXTCharacter.generated.h"
 
+class UALSXTCameraAnimationInstance;
+class UALSXTMantlingSettings;
 class UALSXTAnimationInstance;
 class UALSXTCharacterMovementComponent;
 class UALSXTCharacterSettings;
@@ -66,13 +70,27 @@ struct FInputActionValue;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSetupPlayerInputComponentDelegate);
 
+// AALSXTCharacter is a template class that contains all shared Logic and Data for Player and NPC Child Classes.
+// This Class is set up for Modular Gameplay Features
+// This Class is Abstract and should not be used directly! (Not-Blueprintable)
+/////// UCLASS(Abstract, NotBlueprintable)
+
+class UAbilitySystemComponent;
+class UALSXTAbilitySystemComponent;
+
 UCLASS(AutoExpandCategories = ("Settings|Als Character Example", "State|Als Character Example"))
-class ALSXT_API AALSXTCharacter : public AAlsCharacter, public IALSXTCharacterCustomizationComponentInterface, public IALSXTStationaryModeComponentInterface, public IALSXTCollisionInterface, public IALSXTHeadLookAtInterface, public IALSXTTargetLockInterface, public IALSXTCharacterSoundComponentInterface, public IALSXTMeshPaintingInterface, public IALSXTCharacterInterface, public IALSXTHeldItemInterface, public IALSXTIdleAnimationComponentInterface
+class ALSXT_API AALSXTCharacter : public AAlsCharacter, public IAbilitySystemInterface, public IALSXTCharacterCustomizationComponentInterface, public IALSXTStationaryModeComponentInterface, public IALSXTCollisionInterface, public IALSXTHeadLookAtInterface, public IALSXTTargetLockInterface, public IALSXTCharacterSoundComponentInterface, public IALSXTMeshPaintingInterface, public IALSXTCharacterInterface, public IALSXTHeldItemInterface, public IALSXTIdleAnimationComponentInterface
 {
 	GENERATED_BODY()
 
 public:
 	AALSXTCharacter(const FObjectInitializer& ObjectInitializer);
+
+	// Implement the IAbilitySystemInterface. (This is used to find the Ability System Component.)
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	UFUNCTION(Category = "Ability System")
+	virtual UALSXTAbilitySystemComponent* GetALSXTAbilitySystemComponent() const;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings|Als Character", Meta = (AllowPrivateAccess))
 	TObjectPtr<UALSXTCharacterSettings> ALSXTSettings;
@@ -227,7 +245,7 @@ protected:
 	bool ShouldUpdateBreathState() const;
 	bool ShouldTransitionBreathState();
 	FALSXTTargetBreathState CalculateTargetBreathState();
-	void SetTargetBreathState(FALSXTTargetBreathState NewTargetBreathState);
+	void SetTargetBreathState(const FALSXTTargetBreathState& NewTargetBreathState);
 	void TransitionBreathState();
 
 	virtual void OnOverlayModeChanged_Implementation(const FGameplayTag& PreviousOverlayMode) override;
@@ -797,6 +815,14 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Transient, Meta = (AllowPrivateAccess))
 	FGameplayTag GestureHand{ FGameplayTag::EmptyTag };
 
+	// AvailableHands
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Als Character|Desired State", Replicated, Meta = (AllowPrivateAccess))
+	FGameplayTagContainer DesiredAvailableHands;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Transient, Meta = (AllowPrivateAccess))
+	FGameplayTagContainer AvailableHands;
+
 	// Desired Emote
 
 public:
@@ -869,7 +895,7 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character")
 	bool CanSelectGesture() const;
 
-	const FGameplayTagContainer GetAvailableGestureHands() const;
+	const FGameplayTagContainer& GetAvailableGestureHands() const;
 
 	const FGameplayTag& GetGestureHand() const;
 
@@ -1205,14 +1231,16 @@ public:
 
 	virtual void InputCrouch();
 
-	void ApplyDesiredStance() override;
+	virtual void ApplyDesiredStance() override;
 
 	void ALSXTRefreshRotationInstant(const float TargetYawAngle, const ETeleportType Teleport);
 
 	// Camera
 
 protected:
+	virtual void PreInitializeComponents() override;
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void CalcCamera(float DeltaTime, FMinimalViewInfo& ViewInfo) override;
 	void CalcADSCamera(FMinimalViewInfo& ViewInfo);
 
@@ -1272,11 +1300,7 @@ private:
 
 	void InputLeanLeft(const FInputActionValue& ActionValue);
 
-	void InputToggleLeanLeft(const FInputActionValue& ActionValue);
-
 	void InputLeanRight(const FInputActionValue& ActionValue);
-
-	void InputToggleLeanRight(const FInputActionValue& ActionValue);
 
 	void InputSwitchWeaponFirearmStance();
 
@@ -2121,23 +2145,23 @@ protected:
 	virtual FGameplayTag GetCharacterVaultType_Implementation() const override;
 
 	// Character Sound Component Interface Functions
-	virtual bool CanPlayCharacterMovementSound_Implementation() const;
-	virtual bool CanPlayWeaponMovementSound_Implementation() const;
-	virtual bool ShouldPlayWeaponMovementSound_Implementation(const FGameplayTag& Type, const FGameplayTag& Strength) const;
-	virtual bool ShouldPlayMovementAccentSound_Implementation(UPARAM(meta = (Categories = "Als.LocomotionAction"))const FGameplayTag& Type, UPARAM(meta = (Categories = "Als.Object Weight"))const FGameplayTag& Weight) const;
-	virtual void PlayBreathEffects_Implementation(const FGameplayTag& StaminaOverride);
-	virtual void PlayCharacterMovementSound_Implementation(bool AccentSound, bool WeaponSound, UPARAM(meta = (Categories = "Als.Character Movement Sound"))const FGameplayTag& Type, UPARAM(meta = (Categories = "Als.Object Weight"))const FGameplayTag& Weight);
+	virtual bool CanPlayCharacterMovementSound_Implementation() const override;
+	virtual bool CanPlayWeaponMovementSound_Implementation() const override;
+	virtual bool ShouldPlayWeaponMovementSound_Implementation(const FGameplayTag& Type, const FGameplayTag& Strength) const override;
+	virtual bool ShouldPlayMovementAccentSound_Implementation(UPARAM(meta = (Categories = "Als.LocomotionAction"))const FGameplayTag& Type, UPARAM(meta = (Categories = "Als.Object Weight"))const FGameplayTag& Weight) const override;
+	virtual void PlayBreathEffects_Implementation(const FGameplayTag& StaminaOverride) override;
+	virtual void PlayCharacterMovementSound_Implementation(bool AccentSound, bool WeaponSound, UPARAM(meta = (Categories = "Als.Character Movement Sound"))const FGameplayTag& Type, UPARAM(meta = (Categories = "Als.Object Weight"))const FGameplayTag& Weight) override;
 	virtual void PlayActionSound_Implementation(bool MovementSound, bool AccentSound, bool WeaponSound, UPARAM(meta = (Categories = "Als.Character Movement Sound"))const FGameplayTag& Type, UPARAM(meta = (Categories = "Als.Sex"))const FGameplayTag& SoundSex, UPARAM(meta = (Categories = "Als.Voice Variant"))const FGameplayTag& Variant, UPARAM(meta = (Categories = "Als.OverlayMode"))const FGameplayTag& Overlay, UPARAM(meta = (Categories = "Als.Action Strength"))const FGameplayTag& Strength, const float Stamina) override;
 	virtual void PlayAttackSound_Implementation(bool MovementSound, bool AccentSound, bool WeaponSound, UPARAM(meta = (Categories = "Als.Sex"))const FGameplayTag& SoundSex, UPARAM(meta = (Categories = "Als.Voice Variant"))const FGameplayTag& Variant, UPARAM(meta = (Categories = "Als.OverlayMode"))const FGameplayTag& Overlay, UPARAM(meta = (Categories = "Als.Action Strength"))const FGameplayTag& Strength, const FGameplayTag& AttackMode, const float Stamina) override;
 	virtual void PlayDamageSound_Implementation(bool MovementSound, bool AccentSound, bool WeaponSound, UPARAM(meta = (Categories = "Als.Sex"))const FGameplayTag& SoundSex, UPARAM(meta = (Categories = "Als.Voice Variant"))const FGameplayTag& Variant, UPARAM(meta = (Categories = "Als.OverlayMode"))const FGameplayTag& Overlay, UPARAM(meta = (Categories = "Als.Attack Method"))const FGameplayTag& AttackMethod, UPARAM(meta = (Categories = "Als.Action Strength"))const FGameplayTag& Strength, const FGameplayTag& AttackForm, const float Damage) override;
 
-	virtual float GetCurrentStamina_Implementation() const;
-	virtual FGameplayTag GetCurrentStaminaTag_Implementation() const;
-	virtual FGameplayTag GetCurrentBreathType_Implementation() const;
-	virtual FString GetCurrentBreathSounds_Implementation() const;
-	virtual FString GetCurrentBreathSound_Implementation() const;
+	virtual float GetCurrentStamina_Implementation() const override;
+	virtual FGameplayTag GetCurrentStaminaTag_Implementation() const override;
+	virtual FGameplayTag GetCurrentBreathType_Implementation() const override;
+	virtual FString GetCurrentBreathSounds_Implementation() const override;
+	virtual FString GetCurrentBreathSound_Implementation() const override;
 	// virtual FString GetCurrentVocalizations_Implementation() const;
-	virtual FString GetCurrentVocalization_Implementation() const;
+	virtual FString GetCurrentVocalization_Implementation() const override;
 
 	// Freelooking Interface Functions
 	virtual FGameplayTag GetCharacterFreelooking_Implementation() const override;
@@ -2194,9 +2218,8 @@ inline const FGameplayTag& AALSXTCharacter::GetGestureHand() const
 	return GestureHand;
 }
 
-inline const FGameplayTagContainer AALSXTCharacter::GetAvailableGestureHands() const
+inline const FGameplayTagContainer& AALSXTCharacter::GetAvailableGestureHands() const
 {
-	FGameplayTagContainer AvailableHands;
 	return AvailableHands;
 }
 

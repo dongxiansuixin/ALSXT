@@ -531,9 +531,17 @@ void AALSXTCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, DesiredGestureHand, Parameters)
 }
 
+void AALSXTCharacter::PreInitializeComponents()
+{
+	Super::PreInitializeComponents();
+
+	UGameFrameworkComponentManager::AddGameFrameworkComponentReceiver(this);
+}
+
 void AALSXTCharacter::BeginPlay()
 {
 	AlsCharacter = Cast<AAlsCharacter>(GetParentActor());
+	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(this, UGameFrameworkComponentManager::NAME_GameActorReady);
 	Super::BeginPlay();
 
 	// GetCapsuleComponent()->OnComponentHit.AddUniqueDynamic(ImpactReaction, &UALSXTImpactReactionComponent::OnCapsuleHit);
@@ -547,6 +555,24 @@ void AALSXTCharacter::BeginPlay()
 	RefreshOverlayObject();
 	IALSXTCharacterInterface::Execute_GetCharacterCameraAnimationInstance(this)->OnFirstPersonOverrideChanged.AddDynamic(this, &AALSXTCharacter::OnFirstPersonOverrideChanged);
 
+}
+
+void AALSXTCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	UGameFrameworkComponentManager::RemoveGameFrameworkComponentReceiver(this);
+
+	Super::EndPlay(EndPlayReason);
+}
+
+
+UAbilitySystemComponent* AALSXTCharacter::GetAbilitySystemComponent() const
+{
+	return nullptr;
+}
+
+UALSXTAbilitySystemComponent* AALSXTCharacter::GetALSXTAbilitySystemComponent() const
+{
+	return nullptr;
 }
 
 void AALSXTCharacter::CalcCamera(const float DeltaTime, FMinimalViewInfo& ViewInfo)
@@ -3617,6 +3643,11 @@ FALSXTTargetBreathState AALSXTCharacter::CalculateTargetBreathState()
 		NewTargetBreathState.TransitionRate = 1.0;
 		return NewTargetBreathState;
 	}
+}
+
+void AALSXTCharacter::SetTargetBreathState(const FALSXTTargetBreathState& NewTargetBreathState)
+{
+	BreathState.TargetState = NewTargetBreathState;
 }
 
 void AALSXTCharacter::TransitionBreathState()
