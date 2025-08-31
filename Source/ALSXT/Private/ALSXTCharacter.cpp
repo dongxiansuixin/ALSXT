@@ -570,7 +570,7 @@ UAbilitySystemComponent* AALSXTCharacter::GetAbilitySystemComponent() const
 	return nullptr;
 }
 
-UALSXTAbilitySystemComponent* AALSXTCharacter::GetALSXTAbilitySystemComponent() const
+UAlsxtAbilitySystemComponent* AALSXTCharacter::GetAlsxtAbilitySystemComponent() const
 {
 	return nullptr;
 }

@@ -2,9 +2,9 @@
 
 #include "AbilitySystem/Character/GASDemoCharacterMovementComponent.h"
 
-#include "AbilitySystem/FunctionLibrary/ALSXTAbilitySystemBlueprintLibrary.h"
+#include "AbilitySystem/FunctionLibrary/AlsxtAbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
-#include "AbilitySystem/AttributeSets/ALSXTMovementAttributeSet.h"
+#include "AbilitySystem/AttributeSets/AlsxtMovementAttributeSet.h"
 
 // Sets default values for this component's properties
 UGASDemoCharacterMovementComponent::UGASDemoCharacterMovementComponent()

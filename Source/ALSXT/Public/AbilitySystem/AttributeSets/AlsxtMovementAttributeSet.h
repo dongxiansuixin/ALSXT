@@ -1,0 +1,45 @@
+// MIT
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "AbilitySystemComponent.h"
+#include "AlsxtAttributeSetBase.h"
+#include "AlsxtMovementAttributeSet.generated.h"
+
+
+// Contains Attributes related to Movement.
+//
+//	Contents:
+UCLASS()
+class ALSXT_API UAlsxtMovementAttributeSet : public UAlsxtAttributeSetBase
+{
+	GENERATED_BODY()
+
+public:
+	
+	UAlsxtMovementAttributeSet();
+
+	// Attribute Set Overrides.
+	virtual void PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const override;
+
+	virtual void ClampAttributes(const FGameplayAttribute& Attribute, float& NewValue) const override;
+
+	// Set Attributes to replicate.
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Movement Attribute Set", ReplicatedUsing = OnRep_MovementSpeedMultiplier)
+	FGameplayAttributeData MovementSpeedMultiplier;
+	ATTRIBUTE_ACCESSORS(UAlsxtMovementAttributeSet, MovementSpeedMultiplier)
+
+	UPROPERTY(BlueprintReadOnly, Category = "Movement Attribute Set", ReplicatedUsing = OnRep_MovementAccelerationMultiplier)
+	FGameplayAttributeData MovementAccelerationMultiplier;
+	ATTRIBUTE_ACCESSORS(UAlsxtMovementAttributeSet, MovementAccelerationMultiplier)
+protected:
+	
+	UFUNCTION()
+	virtual void OnRep_MovementSpeedMultiplier(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	virtual void OnRep_MovementAccelerationMultiplier(const FGameplayAttributeData& OldValue);
+};

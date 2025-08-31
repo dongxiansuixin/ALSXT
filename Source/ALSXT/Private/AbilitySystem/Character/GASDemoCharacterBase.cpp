@@ -6,8 +6,8 @@
 #include "AbilitySystemGlobals.h"
 #include "AbilitySystem/Character/GASDemoCharacterMovementComponent.h"
 #include "GameFramework/PlayerState.h"
-#include "AbilitySystem/AbilitySystemComponent/ALSXTAbilitySystemComponent.h"
-#include "AbilitySystem/AttributeSets/ALSXTMovementAttributeSet.h"
+#include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
+#include "AbilitySystem/AttributeSets/AlsxtMovementAttributeSet.h"
 
 
 AGASDemoCharacterBase::AGASDemoCharacterBase(const FObjectInitializer& ObjectInitializer)
@@ -18,7 +18,7 @@ AGASDemoCharacterBase::AGASDemoCharacterBase(const FObjectInitializer& ObjectIni
 	//SetNetUpdateFrequency(100.0f);
 	
 	// Create the Ability System Component sub-object.
-	AbilitySystemComponent = CreateDefaultSubobject<UALSXTAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent = CreateDefaultSubobject<UAlsxtAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 }
 
@@ -32,7 +32,7 @@ UAbilitySystemComponent* AGASDemoCharacterBase::GetAbilitySystemComponent() cons
 	return AbilitySystemComponent.Get();
 }
 
-UALSXTAbilitySystemComponent* AGASDemoCharacterBase::GetALSXTAbilitySystemComponent() const
+UAlsxtAbilitySystemComponent* AGASDemoCharacterBase::GetALSXTAbilitySystemComponent() const
 {
 	return AbilitySystemComponent.Get();
 }
@@ -48,7 +48,7 @@ void AGASDemoCharacterBase::InitializeAbilitySystem()
 	// Call the function on "Custom Ability System Component" to set up references and Init data. (Client)
 	AbilitySystemComponent->InitializeAbilitySystemData(AbilitySystemInitializationData, this, this);
 
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UALSXTMovementAttributeSet::GetMovementSpeedMultiplierAttribute()).AddUObject(this, &ThisClass::MovementSpeedMultiplierChanged);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UAlsxtMovementAttributeSet::GetMovementSpeedMultiplierAttribute()).AddUObject(this, &ThisClass::MovementSpeedMultiplierChanged);
 	
 	PostInitializeAbilitySystem();
 }

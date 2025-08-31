@@ -76,7 +76,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSetupPlayerInputComponentDelegate);
 /////// UCLASS(Abstract, NotBlueprintable)
 
 class UAbilitySystemComponent;
-class UALSXTAbilitySystemComponent;
+class UAlsxtAbilitySystemComponent;
 
 UCLASS(AutoExpandCategories = ("Settings|Als Character Example", "State|Als Character Example"))
 class ALSXT_API AALSXTCharacter : public AAlsCharacter, public IAbilitySystemInterface, public IALSXTCharacterCustomizationComponentInterface, public IALSXTStationaryModeComponentInterface, public IALSXTCollisionInterface, public IALSXTHeadLookAtInterface, public IALSXTTargetLockInterface, public IALSXTCharacterSoundComponentInterface, public IALSXTMeshPaintingInterface, public IALSXTCharacterInterface, public IALSXTHeldItemInterface, public IALSXTIdleAnimationComponentInterface
@@ -90,7 +90,7 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	UFUNCTION(Category = "Ability System")
-	virtual UALSXTAbilitySystemComponent* GetALSXTAbilitySystemComponent() const;
+	virtual UAlsxtAbilitySystemComponent* GetAlsxtAbilitySystemComponent() const;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings|Als Character", Meta = (AllowPrivateAccess))
 	TObjectPtr<UALSXTCharacterSettings> ALSXTSettings;

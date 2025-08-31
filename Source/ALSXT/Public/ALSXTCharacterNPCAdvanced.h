@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ALSXTCharacterNPC.h"
+#include "AlsxtCharacterNPC.h"
 #include "ALSXTCharacterNPCAdvanced.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ALSXT_API AALSXTCharacterNPCAdvanced : public AALSXTCharacterNPC
+class ALSXT_API AALSXTCharacterNPCAdvanced : public AAlsxtCharacterNPC
 {
 	GENERATED_BODY()
 	

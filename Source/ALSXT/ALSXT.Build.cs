@@ -5,7 +5,7 @@ public class ALSXT : ModuleRules
 	public ALSXT(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_6;
+		IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
 
 		// CppCompileWarningSettings.UnsafeTypeCastWarningLevel = WarningLevel.Warning;
 		CppCompileWarningSettings.NonInlinedGenCppWarningLevel = WarningLevel.Warning;

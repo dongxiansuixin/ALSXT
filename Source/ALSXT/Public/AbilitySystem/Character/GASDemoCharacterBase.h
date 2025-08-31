@@ -5,11 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
-#include "AbilitySystem/Data/ALSXTAbilitySystemData.h"
+#include "AbilitySystem/Data/AlsxtAbilitySystemData.h"
 #include "GASDemoCharacterBase.generated.h"
 
 class UGASDemoCharacterMovementComponent;
-class UALSXTAbilitySystemComponent;
+class UAlsxtAbilitySystemComponent;
 // Character Base is a template class that contains all shared logic for "Player Characters" and "Non Player Characters".
 // This Class is Abstract and should not be used directly! (Not-Blueprintable)
 UCLASS(Abstract, NotBlueprintable)
@@ -27,7 +27,7 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	UFUNCTION(BlueprintPure, Category = "Ability System")
-	UALSXTAbilitySystemComponent* GetALSXTAbilitySystemComponent() const;
+	UAlsxtAbilitySystemComponent* GetALSXTAbilitySystemComponent() const;
 	
 	void InitializeAbilitySystem();
 
@@ -47,7 +47,7 @@ protected:
 	FAbilitySystemInitializationData AbilitySystemInitializationData;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UALSXTAbilitySystemComponent> AbilitySystemComponent;
+	TObjectPtr<UAlsxtAbilitySystemComponent> AbilitySystemComponent;
 
 	void MovementSpeedMultiplierChanged(const FOnAttributeChangeData& OnAttributeChangeData);
 	virtual void PossessedBy(AController* NewController) override;
