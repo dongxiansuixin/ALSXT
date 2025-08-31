@@ -1,7 +1,7 @@
 // MIT
 
 
-#include "ALSXTVertexFunctionLibrary.h"
+#include "AlsxtVertexFunctionLibrary.h"
 #include "CoreMinimal.h"
 #include "StaticMeshResources.h"
 #include "Engine/StaticMesh.h"
@@ -12,7 +12,7 @@
 
 #include "RawMesh.h" // For accessing FRawMeshVertexData
 
-int32 UALSXTVertexFunctionLibrary::GetClosestVertexIDFromStaticMesh(UStaticMeshComponent* StaticMeshComponent, const FVector& WorldLocation)
+int32 UAlsxtVertexFunctionLibrary::GetClosestVertexIDFromStaticMesh(UStaticMeshComponent* StaticMeshComponent, const FVector& WorldLocation)
 {
 	if (!StaticMeshComponent || !StaticMeshComponent->GetStaticMesh())
 	{
@@ -71,7 +71,7 @@ int32 UALSXTVertexFunctionLibrary::GetClosestVertexIDFromStaticMesh(UStaticMeshC
 	return ClosestVertexId;
 }
 
-EProminentRGBAChannel UALSXTVertexFunctionLibrary::GetProminentVertexColorChannel(UStaticMeshComponent* StaticMeshComponent, int32 VertexID)
+EProminentRGBAChannel UAlsxtVertexFunctionLibrary::GetProminentVertexColorChannel(UStaticMeshComponent* StaticMeshComponent, int32 VertexID)
 {
     if (!StaticMeshComponent || !StaticMeshComponent->GetStaticMesh() || VertexID < 0)
     {

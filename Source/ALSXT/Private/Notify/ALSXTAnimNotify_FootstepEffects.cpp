@@ -3,7 +3,7 @@
 #include "AlsCharacter.h"
 #include "ALSXTAnimationInstance.h"
 #include "ALSXTCharacter.h"
-#include "ALSXTVertexFunctionLibrary.h"
+#include "AlsxtVertexFunctionLibrary.h"
 #include "DrawDebugHelpers.h"
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
@@ -141,8 +141,8 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 		{
 			if (FootstepEffectsSettings->EnableVertexPaintTrace)
 			{
-				int32 HitVertexID = UALSXTVertexFunctionLibrary::GetClosestVertexIDFromStaticMesh(StaticMeshComp, Hit.ImpactPoint);
-				EProminentRGBAChannel ProminentRGBAChannel = UALSXTVertexFunctionLibrary::GetProminentVertexColorChannel(StaticMeshComp, HitVertexID);
+				int32 HitVertexID = UAlsxtVertexFunctionLibrary::GetClosestVertexIDFromStaticMesh(StaticMeshComp, Hit.ImpactPoint);
+				EProminentRGBAChannel ProminentRGBAChannel = UAlsxtVertexFunctionLibrary::GetProminentVertexColorChannel(StaticMeshComp, HitVertexID);
 				if (ProminentRGBAChannel != EProminentRGBAChannel::None)
 				{
 					// Convert ProminentRGBAChannel to EVertexColorChannel

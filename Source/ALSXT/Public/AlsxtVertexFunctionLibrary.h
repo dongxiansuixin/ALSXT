@@ -6,10 +6,10 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Components/StaticMeshComponent.h"
 #include "Utility/ALSXTVertexEnums.h"
-#include "ALSXTVertexFunctionLibrary.generated.h"
+#include "AlsxtVertexFunctionLibrary.generated.h"
 
 UCLASS()
-class ALSXT_API UALSXTVertexFunctionLibrary : public UBlueprintFunctionLibrary
+class ALSXT_API UAlsxtVertexFunctionLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 	
