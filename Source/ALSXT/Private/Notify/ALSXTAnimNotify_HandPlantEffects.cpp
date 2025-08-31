@@ -1,4 +1,4 @@
-#include "Notifies/ALSXTAnimNotify_HandPlantEffects.h"
+#include "Notify/ALSXTAnimNotify_HandPlantEffects.h"
 
 #include "AlsCharacter.h"
 #include "DrawDebugHelpers.h"

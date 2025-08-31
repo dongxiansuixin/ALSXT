@@ -1,4 +1,5 @@
-// MIT
+// Copyright (C) 2025 Uriel Ballinas, VOIDWARE Prohibited. All rights reserved.
+// This software is licensed under the MIT License (LICENSE.md).
 
 #pragma once
 
@@ -11,24 +12,32 @@
 #include "ALSXTCharacter.h"
 #include "AlsxtPlayerState.generated.h"
 
+/**
+* @file AlsxtPlayerState.h
+* @brief Base ALSXT Player State class. ASC and Gameplay Abilities/Effect are implemented here.
+* AlsxtPlayerState is a template class that contains all shared Logic and Data for Player State Classes.
+* Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
+*/
+
 class UALSXTCharacterMovementComponent;
 /**
  * 
  */
 UCLASS()
-class ALSXT_API AAlsxtPlayerState : public AModularPlayerState, public IAbilitySystemInterface
+class ALSXT_API AAlsxtPlayerState : public AModularPlayerState, public IAlsxtAbilitySystemInterface
 {
 	GENERATED_BODY()
 	
 public:
-	AAlsxtPlayerState();
+	AAlsxtPlayerState(const FObjectInitializer& ObjectInitializer);
+
+	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintPure, Category = "MovementComponent")
-	UALSXTCharacterMovementComponent* GetALSXTCharacterMovementComponent() const;
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override
-	{ return AbilitySystemComponent; }
-	virtual UAlsxtAbilitySystemComponent* GetALSXTAbilitySystemComponent() const
-	{ return AbilitySystemComponent; }
+	UALSXTCharacterMovementComponent* GetAlsxtCharacterMovementComponent() const;
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual UAlsxtAbilitySystemComponent* GetAlsxtAbilitySystemComponent() const override;
+
 
 	void InitializeAbilitySystem();
 

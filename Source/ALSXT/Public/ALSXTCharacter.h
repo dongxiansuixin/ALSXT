@@ -54,6 +54,7 @@
 #include "Notifies/AlsAnimNotify_FootstepEffects.h"
 #include "State/ALSXTFootstepState.h"
 #include "InputActionValue.h"
+#include "AbilitySystem/Interfaces/AlsxtAbilitySystemInterface.h"
 // #include "ALSXTAnimationInstance.h"
 #include "ALSXTCharacter.generated.h"
 
@@ -79,7 +80,7 @@ class UAbilitySystemComponent;
 class UAlsxtAbilitySystemComponent;
 
 UCLASS(AutoExpandCategories = ("Settings|Als Character Example", "State|Als Character Example"))
-class ALSXT_API AALSXTCharacter : public AAlsCharacter, public IAbilitySystemInterface, public IALSXTCharacterCustomizationComponentInterface, public IALSXTStationaryModeComponentInterface, public IALSXTCollisionInterface, public IALSXTHeadLookAtInterface, public IALSXTTargetLockInterface, public IALSXTCharacterSoundComponentInterface, public IALSXTMeshPaintingInterface, public IALSXTCharacterInterface, public IALSXTHeldItemInterface, public IALSXTIdleAnimationComponentInterface
+class ALSXT_API AALSXTCharacter : public AAlsCharacter, public IAlsxtAbilitySystemInterface, public IALSXTCharacterCustomizationComponentInterface, public IALSXTStationaryModeComponentInterface, public IALSXTCollisionInterface, public IALSXTHeadLookAtInterface, public IALSXTTargetLockInterface, public IALSXTCharacterSoundComponentInterface, public IALSXTMeshPaintingInterface, public IALSXTCharacterInterface, public IALSXTHeldItemInterface, public IALSXTIdleAnimationComponentInterface
 {
 	GENERATED_BODY()
 
@@ -90,7 +91,7 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	UFUNCTION(Category = "Ability System")
-	virtual UAlsxtAbilitySystemComponent* GetAlsxtAbilitySystemComponent() const;
+	virtual UAlsxtAbilitySystemComponent* GetAlsxtAbilitySystemComponent() const override;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings|Als Character", Meta = (AllowPrivateAccess))
 	TObjectPtr<UALSXTCharacterSettings> ALSXTSettings;

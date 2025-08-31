@@ -13,6 +13,5 @@ class ALSXT_API AAlsxtPlayerStateAdvanced : public AAlsxtPlayerState
 	GENERATED_BODY()
 	
 public:
-	AAlsxtPlayerStateAdvanced();
 	
 };

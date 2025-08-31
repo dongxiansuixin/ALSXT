@@ -1,13 +1,24 @@
-// MIT
+// Copyright (C) 2025 Uriel Ballinas, VOIDWARE Prohibited. All rights reserved.
+// This software is licensed under the MIT License (LICENSE.md).
 
 
 #include "AbilitySystem/PlayerState/AlsxtPlayerState.h"
-
 #include "ALSXTCharacter.h"
+#include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
 #include "AbilitySystem/AttributeSets/AlsxtMovementAttributeSet.h"
 
+/**
+* @file AlsxtPlayerState.cpp
+* @brief Base ALSXT Player State class. ASC and Gameplay Abilities/Effect are implemented here.
+* AlsxtPlayerState is a template class that contains all shared Logic and Data for Player State Classes.
+* Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
+*/
 
-AAlsxtPlayerState::AAlsxtPlayerState()
+/**
+* @brief Constructor for AlsxtPlayerState adding the Ability System Component
+* @param ObjectInitializer The object initializer for constructing this object.
+*/
+AAlsxtPlayerState::AAlsxtPlayerState(const FObjectInitializer& ObjectInitializer)
 {
 	// If the NetUpdateFrequency is too low, there will be a delay on Ability activation / Effect application on the client.
 	SetNetUpdateFrequency(100.0f);
@@ -20,13 +31,40 @@ AAlsxtPlayerState::AAlsxtPlayerState()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 }
 
-UALSXTCharacterMovementComponent* AAlsxtPlayerState::GetALSXTCharacterMovementComponent() const
+void AAlsxtPlayerState::BeginPlay()
+{
+	Super::BeginPlay();
+	 
+	// Provide this character as owner and avatar
+	AbilitySystemComponent->InitAbilityActorInfo(this, GetPawn());
+}
+
+/**
+* @brief Connect Interface Function to provide a pointer to the AlsxtCharacterMovementComponent
+*/
+UALSXTCharacterMovementComponent* AAlsxtPlayerState::GetAlsxtCharacterMovementComponent() const
 {
 	if (Cast<AALSXTCharacter>(GetPawn()))
 	{
 		return Cast<UALSXTCharacterMovementComponent>(Cast<AALSXTCharacter>(GetPawn())->GetCharacterMovement());
 	}
 	return nullptr;
+}
+
+/**
+* @brief Connect Interface Function to provide a pointer to the AbilitySystemComponent
+*/
+UAbilitySystemComponent* AAlsxtPlayerState::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
+/**
+* @brief Connect Interface Function to provide a pointer to the AlsxtAbilitySystemComponent
+*/
+UAlsxtAbilitySystemComponent* AAlsxtPlayerState::GetAlsxtAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
 }
 
 void AAlsxtPlayerState::InitializeAbilitySystem()
@@ -56,5 +94,5 @@ void AAlsxtPlayerState::PostInitializeAbilitySystem_Implementation()
 void AAlsxtPlayerState::MovementSpeedMultiplierChanged(const FOnAttributeChangeData& OnAttributeChangeData) const
 {
 	UE_LOG(LogTemp, Warning, TEXT("%f"), OnAttributeChangeData.NewValue);
-	GetALSXTCharacterMovementComponent()->SetMovementSpeedMultiplier(OnAttributeChangeData.NewValue);
+	GetAlsxtCharacterMovementComponent()->SetMovementSpeedMultiplier(OnAttributeChangeData.NewValue);
 }

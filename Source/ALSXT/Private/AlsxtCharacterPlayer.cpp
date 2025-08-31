@@ -1,43 +1,39 @@
-// MIT
+// Copyright (C) 2025 Uriel Ballinas, VOIDWARE Prohibited. All rights reserved.
+// This software is licensed under the MIT License (LICENSE.md).
 
 
 #include "AlsxtCharacterPlayer.h"
 
-
-bool AAlsxtCharacterPlayer::VerifyPlayerControllerDependency() const
+void AAlsxtCharacterPlayer::BeginPlay()
 {
-	// Get the owning Player Controller
-	APlayerController* CurrentPlayerController = Cast<APlayerController>(GetController());
-
-	if (CurrentPlayerController)
+	Super::BeginPlay();
+	
+	// Set a Soft Object Pointer to the Player State
+	if (const APlayerController* CurrentPlayerController = Cast<APlayerController>(GetController()))
 	{
-		// Attempt to cast to your custom Player State class
-		AALSXTPlayerController* ALSXTPlayerControllerDependency = Cast<AALSXTPlayerController>(CurrentPlayerController);
-
-		// If the cast is successful, it means your custom Player Controller class is in use
-		return ALSXTPlayerControllerDependency != nullptr;			
+		if (CurrentPlayerController->PlayerState)
+		{
+			PlayerState = CurrentPlayerController->PlayerState;
+		}
 	}
-
-	return false; // No Player Controller found
+	
 }
 
-bool AAlsxtCharacterPlayer::VerifyPlayerStateDependency() const
+UAbilitySystemComponent* AAlsxtCharacterPlayer::GetAbilitySystemComponent() const
 {
-	// Get the owning Player Controller
-	APlayerController* CurrentPlayerController = Cast<APlayerController>(GetController());
-
-	if (CurrentPlayerController)
+	if (IAlsxtAbilitySystemInterface* AlsxtAbilitySystemInterface = Cast<IAlsxtAbilitySystemInterface>(PlayerState.Get()))
 	{
-		// Get the Player State from the Player Controller
-		APlayerState* CurrentPlayerState = CurrentPlayerController->PlayerState;
-
-		// Attempt to cast to your custom Player State class
-		AAlsxtPlayerState* ALSXTPlayerStateDependency = Cast<AAlsxtPlayerState>(CurrentPlayerState);
-
-		// If the cast is successful, it means your custom Player State class is in use
-		return ALSXTPlayerStateDependency != nullptr;
+		return AlsxtAbilitySystemInterface->GetAbilitySystemComponent();
 	}
+	return nullptr;
+}
 
-	return false; // No Player Controller or Player State found
+UAlsxtAbilitySystemComponent* AAlsxtCharacterPlayer::GetAlsxtAbilitySystemComponent() const
+{
+	if (IAlsxtAbilitySystemInterface* AlsxtAbilitySystemInterface = Cast<IAlsxtAbilitySystemInterface>(PlayerState.Get()))
+	{
+		return AlsxtAbilitySystemInterface->GetAlsxtAbilitySystemComponent();
+	}
+	return nullptr;
 }
 
