@@ -5,9 +5,10 @@
 
 #include "CoreMinimal.h"
 #include "ALSXTCharacter.h"
-#include "ALSXTPlayerController.h"
 #include "AbilitySystem/PlayerState/AlsxtPlayerState.h"
 #include "AlsxtCharacterPlayer.generated.h"
+
+// class AlsxtPlayerController;
 
 // AAlsxtCharacterPlayer is a template class that contains all shared Logic and Data for Player Classes.
 // AAlsxtCharacterPlayer depends on AAlsxtPlayerState and AAlsxtPlayerController to function.

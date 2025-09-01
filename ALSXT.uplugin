@@ -86,6 +86,14 @@
 		{
 			"Name": "AbilitySystemGameFeatureActions",
 			"Enabled": true
+		},
+		{
+			"Name": "ContextualAnimation",
+			"Enabled": true
+		},
+		{
+			"Name": "DataRegistry",
+			"Enabled": true
 		}
 	]
 }

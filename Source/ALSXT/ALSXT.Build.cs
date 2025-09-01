@@ -11,7 +11,7 @@ public class ALSXT : ModuleRules
 		CppCompileWarningSettings.NonInlinedGenCppWarningLevel = WarningLevel.Warning;
 
 		PublicDependencyModuleNames.AddRange([
-			"Core",	"Landscape", "CoreUObject", "Engine", "AudioExtensions", "UMG", "GameplayTags", "GameplayCameras", "CinematicCamera", "AIModule", "AnimGraphRuntime", "RigVM", "ControlRig", "EnhancedInput", "ALS", "ALSCamera", "Niagara", "NetCore", "StructUtils", "NetCommon", "Networking", "GameFeatures", "ModularGameplay", "ModularGameplayActors", "AbilitySystemGameFeatureActions", "GameplayTasks", "GameplayAbilities"
+			"Core",	"Landscape", "CoreUObject", "Engine", "AudioExtensions", "UMG", "GameplayTags", "GameplayCameras", "CinematicCamera", "AIModule", "AnimGraphRuntime", "RigVM", "ControlRig", "EnhancedInput", "ALS", "ALSCamera", "Niagara", "NetCore", "StructUtils", "NetCommon", "Networking", "GameFeatures", "ModularGameplay", "ModularGameplayActors", "AbilitySystemGameFeatureActions", "GameplayTasks", "GameplayAbilities", "Chooser", "ContextualAnimation", "DataRegistry"
 		]);			
 		
 		PrivateDependencyModuleNames.AddRange([
