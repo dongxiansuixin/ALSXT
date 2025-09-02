@@ -10,7 +10,7 @@
 #include "AlsCameraComponent.h"
 #include "Components/Character/ALSXTCharacterCameraEffectsComponent.h"
 #include "Math/Vector.h"
-#include "ALSXTBlueprintFunctionLibrary.h"
+#include "AlsxtBlueprintFunctionLibrary.h"
 #include "Engine/World.h"
 #include "Net/Core/PushModel/PushModel.h"
 

@@ -1,13 +1,22 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright (C) 2025 Uriel Ballinas, VOIDWARE Prohibited. All rights reserved.
+// This software is licensed under the MIT License (LICENSE.md).
 
 #include "AlsxtPlayerController.h"
-
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "AbilitySystem/Data/AlsxtGasGameplayTags.h"
 #include "AbilitySystem/Interfaces/AlsxtAbilitySystemInterface.h"
 #include "Utility/AlsGameplayTags.h"
 #include "Utility/AlsVector.h"
+
+// #include UE_INLINE_GENERATED_CPP_BY_NAME(AlsxtPlayerController)
+
+/**
+* @file AlsxtPlayerController.cpp
+* @brief template class that contains all shared Logic and Data for Player Classes.
+* AAlsxtCharacterPlayer depends on AAlsxtPlayerState and AAlsxtPlayerController to function.
+* Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
+*/
 
 void AAlsxtPlayerController::BeginPlay()
 {
@@ -20,7 +29,7 @@ void AAlsxtPlayerController::BeginPlay()
 	}
 
 	// Retrieve and Set a Reference to AAlsxtCharacterPlayer
-	if (const TSoftObjectPtr<AAlsxtCharacterPlayer> CurrentAlsxtPlayerCharacter = Cast<AAlsxtCharacterPlayer>(PlayerState.Get()))
+	if (const TSoftObjectPtr<AAlsxtCharacterPlayer> CurrentAlsxtPlayerCharacter = Cast<AAlsxtCharacterPlayer>(GetPawn()))
 	{
 		AlsxtCharacterPlayer = CurrentAlsxtPlayerCharacter;
 	}
@@ -156,7 +165,8 @@ void AAlsxtPlayerController::Input_OnJump(const FInputActionValue& ActionValue)
 			AlsxtCharacterPlayer.Get()->SetDesiredStance(AlsStanceTags::Standing);
 			return;
 		}
-
+		const FGameplayTagContainer TagsContainer {ALSXTAbilityGameplayTags::Jump};
+		AlsxtAbilitySystemComponent->TryActivateAbilitiesByTag(TagsContainer);
 		AlsxtCharacterPlayer.Get()->Jump();
 	}
 	else

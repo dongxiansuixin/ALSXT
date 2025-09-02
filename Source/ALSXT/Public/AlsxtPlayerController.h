@@ -1,4 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (C) 2025 Uriel Ballinas, VOIDWARE Prohibited. All rights reserved.
+// This software is licensed under the MIT License (LICENSE.md).
 
 #pragma once
 
@@ -13,8 +14,12 @@ class UInputAction;
 class UAlsxtAbilitySystemComponent;
 
 /**
- * 
- */
+* @file AlsxtPlayerController.h
+* @brief template class that contains all shared Logic and Data for Player Classes.
+* AAlsxtCharacterPlayer depends on AAlsxtPlayerState and AAlsxtPlayerController to function.
+* Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
+*/
+
 UCLASS()
 class ALSXT_API AAlsxtPlayerController : public AModularPlayerController
 {

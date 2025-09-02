@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "ALSXTStationaryModeComponent.generated.h"
+#include "AlsxtStationaryModeComponent.generated.h"
 
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ALSXT_API UALSXTStationaryModeComponent : public UActorComponent
+class ALSXT_API UAlsxtStationaryModeComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UALSXTStationaryModeComponent();
+	UAlsxtStationaryModeComponent();
 
 protected:
 	// Called when the game starts

@@ -1,3 +1,6 @@
+// Copyright (C) 2025 Uriel Ballinas, VOIDWARE Prohibited. All rights reserved.
+// This software is licensed under the MIT License (LICENSE.md).
+
 #pragma once
 
 #include "AbilitySystemInterface.h"
@@ -6,8 +9,8 @@
 #include "AlsCameraComponent.h"
 #include "ALSXTCharacterMovementComponent.h"
 #include "Components/SceneCaptureComponent2D.h"
-#include "Components/Mesh/ALSXTPaintableSkeletalMeshComponent.h"
-#include "Components/Mesh/ALSXTPaintableStaticMeshComponent.h"
+#include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
+#include "Components/Mesh/AlsxtPaintableStaticMeshComponent.h"
 #include "Components/Character/ALSXTCharacterCustomizationComponent.h"
 #include "Components/Character/ALSXTImpactReactionComponent.h"
 #include "Components/Character/ALSXTCharacterSoundComponent.h"
@@ -56,6 +59,10 @@
 #include "InputActionValue.h"
 #include "AbilitySystem/Interfaces/AlsxtAbilitySystemInterface.h"
 // #include "ALSXTAnimationInstance.h"
+#include "GameFramework/GameplayCameraComponent.h"
+#include "AbilitySystem/Data/AlsxtAbilitySystemData.h"
+
+
 #include "ALSXTCharacter.generated.h"
 
 class UALSXTCameraAnimationInstance;
@@ -68,24 +75,37 @@ class UAlsCameraComponent;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+class UAbilitySystemComponent;
+class UAlsxtAbilitySystemComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSetupPlayerInputComponentDelegate);
 
-// AALSXTCharacter is a template class that contains all shared Logic and Data for Player and NPC Child Classes.
-// This Class is set up for Modular Gameplay Features
-// This Class is Abstract and should not be used directly! (Not-Blueprintable)
-/////// UCLASS(Abstract, NotBlueprintable)
-
-class UAbilitySystemComponent;
-class UAlsxtAbilitySystemComponent;
+/**
+* @file ALSXTCharacter.h
+* @brief Template class that contains all shared Logic and Data for Player and NPC Child Classes.
+* This Class is set up for Modular Gameplay Features
+* This Class is Abstract and should not be used directly! (Not-Blueprintable)
+* change to UCLASS(Abstract, NotBlueprintable) after restructuring classes
+*/
 
 UCLASS(AutoExpandCategories = ("Settings|Als Character Example", "State|Als Character Example"))
 class ALSXT_API AALSXTCharacter : public AAlsCharacter, public IAlsxtAbilitySystemInterface, public IALSXTCharacterCustomizationComponentInterface, public IALSXTStationaryModeComponentInterface, public IALSXTCollisionInterface, public IALSXTHeadLookAtInterface, public IALSXTTargetLockInterface, public IALSXTCharacterSoundComponentInterface, public IALSXTMeshPaintingInterface, public IALSXTCharacterInterface, public IALSXTHeldItemInterface, public IALSXTIdleAnimationComponentInterface
 {
 	GENERATED_BODY()
 
+protected:
+	// Data used to initialize the Ability System Component. (Can be found in "AbilitySystemData.h")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability System", Meta = (ShowOnlyInnerProperties))
+	FAbilitySystemInitializationData AbilitySystemInitializationData;
+	
+
 public:
 	AALSXTCharacter(const FObjectInitializer& ObjectInitializer);
+
+	virtual const FAbilitySystemInitializationData& GetAbilitySystemInitializationData() const override
+	{
+		return AbilitySystemInitializationData;
+	}
 
 	// Implement the IAbilitySystemInterface. (This is used to find the Ability System Component.)
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
@@ -109,6 +129,9 @@ public:
 
 	// Cameras
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
+	TObjectPtr<UGameplayCameraComponent> GameplayCamera;
+	
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<UAlsCameraComponent> Camera;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
@@ -121,35 +144,35 @@ public:
 
 	// Overlay
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> OverlaySkeletalMesh;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> OverlaySkeletalMesh;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableStaticMeshComponent> OverlayStaticMesh;
+	TObjectPtr<UAlsxtPaintableStaticMeshComponent> OverlayStaticMesh;
 	
 	// Body
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<USceneComponent> BodyParts;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Head;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Head;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<USkeletalMeshComponent> HeadDummyShadow;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Teeth;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Teeth;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Tongue;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Tongue;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Hair;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Hair;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<USkeletalMeshComponent> HairDummyShadow;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> FacialHair;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> FacialHair;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<USkeletalMeshComponent> FacialHairDummyShadow;
@@ -159,49 +182,49 @@ public:
 	TObjectPtr<USceneComponent> ClothingSlots;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Headwear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Headwear;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<USkeletalMeshComponent> HeadwearDummyShadow;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Facewear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Facewear;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<USkeletalMeshComponent> FacewearDummyShadow;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Eyewear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Eyewear;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<USkeletalMeshComponent> EyewearDummyShadow;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Earwear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Earwear;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> BottomUnderwear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> BottomUnderwear;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> TopUnderwear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> TopUnderwear;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Bottom;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Bottom;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Top;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Top;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> TopJacket;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> TopJacket;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> TopVest;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> TopVest;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Gloves;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Gloves;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Footwear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Footwear;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Meta = (AllowPrivateAccess))
 	TObjectPtr<USceneCaptureComponent2D> MeshPaintingSceneCapture;
@@ -234,7 +257,7 @@ public:
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Als Character")
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> ALSXTMesh;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> ALSXTMesh;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Als Character")
 	TObjectPtr<UALSXTCharacterMovementComponent> ALSXTCharacterMovement;

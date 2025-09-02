@@ -15,6 +15,7 @@
 */
 
 class UAlsxtAbilitySystemComponent;
+struct FAbilitySystemInitializationData;
 
 /** Interface for actors that expose access to an ability system component */
 UINTERFACE(MinimalAPI)
@@ -22,12 +23,13 @@ class UAlsxtAbilitySystemInterface : public UAbilitySystemInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IAlsxtAbilitySystemInterface : public IAbilitySystemInterface {
+class ALSXT_API IAlsxtAbilitySystemInterface : public IAbilitySystemInterface
+{
 	GENERATED_BODY()
 
 public:
 
 	/** Returns the ability system component to use for this actor. It may live on another actor, such as a Pawn using the PlayerState's component */
 	virtual UAlsxtAbilitySystemComponent* GetAlsxtAbilitySystemComponent() const = 0;
-
+	virtual const FAbilitySystemInitializationData& GetAbilitySystemInitializationData() const = 0;
 };

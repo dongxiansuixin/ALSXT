@@ -18,7 +18,7 @@
 * @brief Constructor for AlsxtPlayerState adding the Ability System Component
 * @param ObjectInitializer The object initializer for constructing this object.
 */
-AAlsxtPlayerState::AAlsxtPlayerState(const FObjectInitializer& ObjectInitializer)
+AAlsxtPlayerState::AAlsxtPlayerState(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	// If the NetUpdateFrequency is too low, there will be a delay on Ability activation / Effect application on the client.
 	SetNetUpdateFrequency(100.0f);
@@ -29,6 +29,7 @@ AAlsxtPlayerState::AAlsxtPlayerState(const FObjectInitializer& ObjectInitializer
 
 	// Set Replication Mode to Mixed for Players.
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
+	AbilitySystemInitializationData = FAbilitySystemInitializationData();
 }
 
 void AAlsxtPlayerState::BeginPlay()

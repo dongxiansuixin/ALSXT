@@ -11,11 +11,11 @@ public class ALSXT : ModuleRules
 		CppCompileWarningSettings.NonInlinedGenCppWarningLevel = WarningLevel.Warning;
 
 		PublicDependencyModuleNames.AddRange([
-			"Core",	"Landscape", "CoreUObject", "Engine", "AudioExtensions", "UMG", "GameplayTags", "GameplayCameras", "CinematicCamera", "AIModule", "AnimGraphRuntime", "RigVM", "ControlRig", "EnhancedInput", "ALS", "ALSCamera", "Niagara", "NetCore", "StructUtils", "NetCommon", "Networking", "GameFeatures", "ModularGameplay", "ModularGameplayActors", "AbilitySystemGameFeatureActions", "GameplayTasks", "GameplayAbilities", "Chooser", "ContextualAnimation", "DataRegistry"
+			"Core",	"Landscape", "CoreUObject", "Engine", "AudioExtensions", "UMG", "GameplayTags", "GameplayCameras", "CinematicCamera", "AIModule", "AnimGraphRuntime", "RigVM", "ControlRig", "EnhancedInput", "ALS", "ALSCamera", "Niagara", "NetCore", "StructUtils", "NetCommon", "Networking", "GameFeatures", "ModularGameplay", "ModularGameplayActors", "AbilitySystemGameFeatureActions", "GameplayTasks", "Chooser", "ContextualAnimation", "DataRegistry"
 		]);			
 		
 		PrivateDependencyModuleNames.AddRange([
-			"EngineSettings", "PhysicsCore", "Slate", "SlateCore", "TargetingSystem"
+			"EngineSettings", "PhysicsCore", "Slate", "SlateCore", "GameplayAbilities", "TargetingSystem"
 		]);
 
 		if (Target.Type == TargetRules.TargetType.Editor)

@@ -6,6 +6,13 @@
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(AlsxtCharacterPlayer)
 
+/**
+* @file AlsxtCharacterPlayer.cpp
+* @brief template class that contains all shared Logic and Data for Player Classes.
+* AAlsxtCharacterPlayer depends on AAlsxtPlayerState and AAlsxtPlayerController to function.
+* Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
+*/
+
 void AAlsxtCharacterPlayer::BeginPlay()
 {
 	Super::BeginPlay();

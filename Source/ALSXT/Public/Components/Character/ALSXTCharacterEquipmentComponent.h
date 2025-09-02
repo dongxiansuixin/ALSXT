@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Components/Mesh/ALSXTPaintableSkeletalMeshComponent.h"
+#include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
 #include "Settings/ALSXTClothingSettings.h"
 #include "ALSXTCharacterEquipmentComponent.generated.h"
 
@@ -30,53 +30,53 @@ public:
 	TObjectPtr<USceneComponent> ClothingSlots;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Headwear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Headwear;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<USkeletalMeshComponent> HeadwearDummyShadow;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Facewear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Facewear;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<USkeletalMeshComponent> FacewearDummyShadow;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Eyewear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Eyewear;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<USkeletalMeshComponent> EyewearDummyShadow;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Earwear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Earwear;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> BottomUnderwear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> BottomUnderwear;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> TopUnderwear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> TopUnderwear;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Bottom;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Bottom;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Top;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Top;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> TopJacket;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> TopJacket;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> TopVest;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> TopVest;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Gloves;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Gloves;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Footwear;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Footwear;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ALS|Als Character", Meta = (AllowPrivateAccess))
 	FALSXTGeneralClothingSettings Settings;
 
-	TArray<UALSXTPaintableSkeletalMeshComponent*> GetAllComponents();
-	TArray<UALSXTPaintableSkeletalMeshComponent*> GetHighlightableComponents();
+	TArray<UAlsxtPaintableSkeletalMeshComponent*> GetAllComponents();
+	TArray<UAlsxtPaintableSkeletalMeshComponent*> GetHighlightableComponents();
 };

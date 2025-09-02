@@ -7,7 +7,9 @@
 #include "AbilitySystem/Data/AlsxtAbilitySystemData.h"
 #include "AlsxtAbilitySystemComponent.generated.h"
 
+class AALSXTCharacter;
 class AGASDemoCharacterBase;
+class ALSXTCharacter;
 
 UENUM(BlueprintType)
 enum class ECustomEffectEventType: uint8
@@ -25,7 +27,7 @@ class ALSXT_API UAlsxtAbilitySystemComponent : public UAbilitySystemComponent
 
 public:
 
-	UAlsxtAbilitySystemComponent();
+	UAlsxtAbilitySystemComponent(const FObjectInitializer& ObjectInitializer);
 
 	virtual void InitAbilityActorInfo(AActor* InOwnerActor, AActor* InAvatarActor) override;
 	
@@ -46,6 +48,7 @@ public:
 	virtual void ChangeLevel(const float DesiredLevel, const bool bInitialization = false);
 
 	AGASDemoCharacterBase* GetCharacterBaseAvatar() const;
+	AALSXTCharacter* GetAlsxtBaseAvatar() const;
 
 	virtual FActiveGameplayEffectHandle SetActiveGameplayEffectInhibit(FActiveGameplayEffectHandle&& ActiveGEHandle, bool bInhibit, bool bInvokeGameplayCueEvents) override;
 

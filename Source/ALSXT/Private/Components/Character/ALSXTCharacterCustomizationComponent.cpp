@@ -2,7 +2,7 @@
 
 
 #include "Components/Character/ALSXTCharacterCustomizationComponent.h"
-#include "Components/Mesh/ALSXTPaintableSkeletalMeshComponent.h"
+#include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
 
 // Sets default values for this component's properties
 UALSXTCharacterCustomizationComponent::UALSXTCharacterCustomizationComponent()
@@ -36,18 +36,18 @@ FALSXTCharacterVoiceParameters UALSXTCharacterCustomizationComponent::GetVoicePa
 	return VoiceParameters;
 }
 
-TArray<UALSXTPaintableSkeletalMeshComponent*> UALSXTCharacterCustomizationComponent::GetAllComponents()
+TArray<UAlsxtPaintableSkeletalMeshComponent*> UALSXTCharacterCustomizationComponent::GetAllComponents()
 {
-	TArray<UALSXTPaintableSkeletalMeshComponent*> AllComponents;
+	TArray<UAlsxtPaintableSkeletalMeshComponent*> AllComponents;
 	return AllComponents;
 }
 
-TArray<UALSXTPaintableSkeletalMeshComponent*> UALSXTCharacterCustomizationComponent::GetHighlightableComponents()
+TArray<UAlsxtPaintableSkeletalMeshComponent*> UALSXTCharacterCustomizationComponent::GetHighlightableComponents()
 {
-	TArray<UALSXTPaintableSkeletalMeshComponent*> AllComponents {GetAllComponents()};
-	TArray<UALSXTPaintableSkeletalMeshComponent*> HighlightableComponents;
+	TArray<UAlsxtPaintableSkeletalMeshComponent*> AllComponents {GetAllComponents()};
+	TArray<UAlsxtPaintableSkeletalMeshComponent*> HighlightableComponents;
 
-	for (UALSXTPaintableSkeletalMeshComponent* Component : AllComponents)
+	for (UAlsxtPaintableSkeletalMeshComponent* Component : AllComponents)
 	{
 		if (IsValid(Component))
 		{

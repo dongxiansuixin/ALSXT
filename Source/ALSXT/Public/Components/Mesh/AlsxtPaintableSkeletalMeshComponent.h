@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/Mesh/ALSXTViewModelSkeletalMeshComponent.h"
+#include "Components/Mesh/AlsxtViewModelSkeletalMeshComponent.h"
 #include "NativeGameplayTags.h"
 #include "Utility/ALSXTGameplayTags.h"
 #include "Utility/ALSXTStructs.h"
@@ -14,7 +14,7 @@
 #include "PhysicalMaterials/PhysicalMaterialMask.h"
 #include "UObject/Script.h"
 #include "Engine/TextureRenderTarget2D.h"
-#include "ALSXTPaintableSkeletalMeshComponent.generated.h"
+#include "AlsxtPaintableSkeletalMeshComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeSkeletalMeshMaterialSignature, UMaterialInterface*, PreviousMaterial, UMaterialInterface*, NewMaterial);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeSkeletalMeshPaintingSettingsMapSignature, UALSXTMeshPaintingSettingsMap*, PreviousSettingsMap, UALSXTMeshPaintingSettingsMap*, NewSettingsMap);
@@ -27,12 +27,12 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeSkeletalMeshElementalCondi
  * 
  */
 UCLASS(Blueprintable, ClassGroup=(Rendering, Common), hidecategories=Object, config=Engine, editinlinenew, meta =(BlueprintSpawnableComponent))
-class ALSXT_API UALSXTPaintableSkeletalMeshComponent : public UALSXTViewModelSkeletalMeshComponent
+class ALSXT_API UAlsxtPaintableSkeletalMeshComponent : public UAlsxtViewModelSkeletalMeshComponent
 {
 	GENERATED_BODY()
 
 public:
-	UALSXTPaintableSkeletalMeshComponent();
+	UAlsxtPaintableSkeletalMeshComponent();
 
 private:
 	UPROPERTY(EditAnywhere, Setter = SetMeshPaintingSettingsMap, BlueprintSetter = SetMeshPaintingSettingsMap, Getter = GetMeshPaintingSettingsMap, BlueprintGetter = GetMeshPaintingSettingsMap, Category = "Settings")

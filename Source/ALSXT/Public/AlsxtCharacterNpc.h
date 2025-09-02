@@ -4,27 +4,28 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ALSXTCharacter.h"
 #include "AbilitySystem/Data/AlsxtAbilitySystemData.h"
 #include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
 #include "UObject/ObjectPtr.h"
 #include "AbilitySystemComponent.h"
-#include "AlsxtCharacterNPC.generated.h"
+#include "ALSXTCharacter.h"
+#include "AlsxtCharacterNpc.generated.h"
 
 
 /**
-* @file AlsxtCharacterNPC.cpp
+* @file AlsxtCharacterNpc.cpp
 * @brief Base AI ALSXT Character class. AI do not have Player States so we implement everything directly on the Avatar.
 * AlsxtCharacterNPC is a template class that contains all shared Logic and Data for NPC Classes.
 * Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
 */
 
 UCLASS()
-class ALSXT_API AAlsxtCharacterNPC : public AALSXTCharacter
+class ALSXT_API AAlsxtCharacterNpc : public AALSXTCharacter
 {
 	GENERATED_BODY()
 
 public:
+	AAlsxtCharacterNpc(const FObjectInitializer& ObjectInitializer);
 
 	virtual void BeginPlay() override;
 	
@@ -35,8 +36,8 @@ public:
 	
 protected:
 	// Data used to initialize the Ability System Component. (Can be found in "AbilitySystemData.h")
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability System", Meta = (ShowOnlyInnerProperties))
-	FAbilitySystemInitializationData AbilitySystemInitializationData;
+	// UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability System", Meta = (ShowOnlyInnerProperties))
+	// FAbilitySystemInitializationData AbilitySystemInitializationData;
 	
 	UAlsxtAbilitySystemComponent* AbilitySystemComponent;
 

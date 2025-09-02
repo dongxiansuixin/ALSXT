@@ -46,7 +46,7 @@ void AGASDemoCharacterBase::InitializeAbilitySystem()
 	}
 	
 	// Call the function on "Custom Ability System Component" to set up references and Init data. (Client)
-	AbilitySystemComponent->InitializeAbilitySystemData(AbilitySystemInitializationData, this, this);
+	// AbilitySystemComponent->InitializeAbilitySystemData(AbilitySystemInitializationData, this, this);
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UAlsxtMovementAttributeSet::GetMovementSpeedMultiplierAttribute()).AddUObject(this, &ThisClass::MovementSpeedMultiplierChanged);
 	

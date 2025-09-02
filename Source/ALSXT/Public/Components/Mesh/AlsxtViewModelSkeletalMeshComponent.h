@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Components/SkeletalMeshComponent.h"
-#include "ALSXTViewModelSkeletalMeshComponent.generated.h"
+#include "AlsxtViewModelSkeletalMeshComponent.generated.h"
 
 UCLASS(Blueprintable, ClassGroup=(Rendering, Common), hidecategories=Object, config=Engine, editinlinenew, meta=(BlueprintSpawnableComponent))
-class ALSXT_API UALSXTViewModelSkeletalMeshComponent : public USkeletalMeshComponent
+class ALSXT_API UAlsxtViewModelSkeletalMeshComponent : public USkeletalMeshComponent
 {
 	GENERATED_BODY()
 public:
-	UALSXTViewModelSkeletalMeshComponent();
+	UAlsxtViewModelSkeletalMeshComponent();
 
 protected:
 	uint8 MaxOwnerAttempts = 10;

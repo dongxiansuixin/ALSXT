@@ -8,11 +8,13 @@
 #include "AbilitySystem/PlayerState/AlsxtPlayerState.h"
 #include "AlsxtCharacterPlayer.generated.h"
 
-// class AlsxtPlayerController;
+/**
+* @file AlsxtCharacterPlayer.h
+* @brief template class that contains all shared Logic and Data for Player Classes.
+* AAlsxtCharacterPlayer depends on AAlsxtPlayerState and AAlsxtPlayerController to function.
+* Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
+*/
 
-// AAlsxtCharacterPlayer is a template class that contains all shared Logic and Data for Player Classes.
-// AAlsxtCharacterPlayer depends on AAlsxtPlayerState and AAlsxtPlayerController to function.
-// Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
 UCLASS()
 class ALSXT_API AAlsxtCharacterPlayer : public AALSXTCharacter
 {

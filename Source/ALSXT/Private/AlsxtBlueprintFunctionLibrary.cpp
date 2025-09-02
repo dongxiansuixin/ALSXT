@@ -1,12 +1,12 @@
 // MIT
 
 
-#include "ALSXTBlueprintFunctionLibrary.h"
+#include "AlsxtBlueprintFunctionLibrary.h"
 #include "GameFramework/PlayerController.h"
 #include "Interfaces/ALSXTControllerRenderInterface.h"
 #include "Utility/ALSXTGameplayTags.h"
 
-FQuat UALSXTBlueprintFunctionLibrary::ConvertEulerToQuaternion(FRotator CurrentRotation)
+FQuat UAlsxtBlueprintFunctionLibrary::ConvertEulerToQuaternion(FRotator CurrentRotation)
 {
 	FQuat q;
 	float yaw = CurrentRotation.Yaw * PI / 180;
@@ -28,7 +28,7 @@ FQuat UALSXTBlueprintFunctionLibrary::ConvertEulerToQuaternion(FRotator CurrentR
 	return q;
 }
 
-bool UALSXTBlueprintFunctionLibrary::GetAdjustedRenderMatrix(const UMeshComponent* Component,
+bool UAlsxtBlueprintFunctionLibrary::GetAdjustedRenderMatrix(const UMeshComponent* Component,
 	APlayerController* PlayerController, float DesiredFOV, FMatrix& AdjustedRenderMatrix)
 {
 	if (Component && PlayerController && PlayerController->PlayerCameraManager)
@@ -83,7 +83,7 @@ bool UALSXTBlueprintFunctionLibrary::GetAdjustedRenderMatrix(const UMeshComponen
 	return false;
 }
 
-void UALSXTBlueprintFunctionLibrary::GetSideFromHit(FDoubleHitResult Hit, FGameplayTag& Side)
+void UAlsxtBlueprintFunctionLibrary::GetSideFromHit(FDoubleHitResult Hit, FGameplayTag& Side)
 {
 	float DotProduct{ Hit.OriginHitResult.HitResult.GetActor()->GetDotProductTo(Hit.HitResult.HitResult.GetActor()) };
 
@@ -93,7 +93,7 @@ void UALSXTBlueprintFunctionLibrary::GetSideFromHit(FDoubleHitResult Hit, FGamep
 	Side = ALSXTImpactSideTags::Left;
 }
 
-void UALSXTBlueprintFunctionLibrary::GetStrengthFromHit(FDoubleHitResult Hit, FGameplayTag& Strength)
+void UAlsxtBlueprintFunctionLibrary::GetStrengthFromHit(FDoubleHitResult Hit, FGameplayTag& Strength)
 {
 	float HitMass = Hit.HitResult.Mass;
 	FVector HitVelocity = Hit.HitResult.Velocity;

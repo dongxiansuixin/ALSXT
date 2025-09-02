@@ -1,25 +1,25 @@
 // MIT
 
 
-#include "Components/Mesh/ALSXTViewModelStaticMeshComponent.h"
-#include "ALSXTBlueprintFunctionLibrary.h"
+#include "Components/Mesh/AlsxtViewModelStaticMeshComponent.h"
+#include "AlsxtBlueprintFunctionLibrary.h"
 #include "Interfaces/ALSXTControllerRenderInterface.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 #include "GameFramework/Pawn.h"
 
-UALSXTViewModelStaticMeshComponent::UALSXTViewModelStaticMeshComponent()
+UAlsxtViewModelStaticMeshComponent::UAlsxtViewModelStaticMeshComponent()
 {
 }
 
-void UALSXTViewModelStaticMeshComponent::BeginPlay()
+void UAlsxtViewModelStaticMeshComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	
 	PlayerController = GetWorld()->GetFirstPlayerController();
 }
 
-FMatrix UALSXTViewModelStaticMeshComponent::GetRenderMatrix() const
+FMatrix UAlsxtViewModelStaticMeshComponent::GetRenderMatrix() const
 {
 	FMatrix Matrix = Super::GetRenderMatrix();
 	
@@ -65,6 +65,6 @@ FMatrix UALSXTViewModelStaticMeshComponent::GetRenderMatrix() const
 		}
 	}
 
-	UALSXTBlueprintFunctionLibrary::GetAdjustedRenderMatrix(this, PlayerController.Get(), DesiredFOV, Matrix);
+	UAlsxtBlueprintFunctionLibrary::GetAdjustedRenderMatrix(this, PlayerController.Get(), DesiredFOV, Matrix);
 	return Matrix;
 }

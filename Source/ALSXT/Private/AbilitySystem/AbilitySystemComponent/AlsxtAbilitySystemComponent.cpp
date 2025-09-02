@@ -1,13 +1,15 @@
 // MITE
 
 #include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
+
+#include "ALSXTCharacter.h"
 #include "AbilitySystem/AttributeSets/AlsxtLevelAttributeSet.h"
 #include "AbilitySystem/Data/AlsxtGasGameplayTags.h"
 #include "AbilitySystem/FunctionLibrary/AlsxtAbilitySystemBlueprintLibrary.h"
-#include "AbilitySystem//Character/GASDemoCharacterBase.h"
+#include "AbilitySystem/Character/GASDemoCharacterBase.h"
 
 
-UAlsxtAbilitySystemComponent::UAlsxtAbilitySystemComponent()
+UAlsxtAbilitySystemComponent::UAlsxtAbilitySystemComponent(const FObjectInitializer& ObjectInitializer)  : Super(ObjectInitializer)
 {
 	// Sets the Ability System Component to use "Mixed" replication mode. This will replicate minimal Gameplay Effects to Simulated Proxies and full info to everyone else.
 	ReplicationMode = EGameplayEffectReplicationMode::Mixed;
@@ -59,29 +61,30 @@ void UAlsxtAbilitySystemComponent::ChangeLevel_Implementation(const float Desire
 
 	// Update all attributes that should be leveled up
 	
-	if (const AGASDemoCharacterBase* const CharacterBase = GetCharacterBaseAvatar())
+	if (const AALSXTCharacter* const CharacterBase = GetAlsxtBaseAvatar())
 	{
-		for (const TTuple<FGameplayAttribute, FCustomAttributeInitializer>& AttributeBaseValue : CharacterBase->GetAbilitySystemInitializationData().AttributeBaseValues)
-		{
-			// Don't touch the level itself.
-			if (AttributeBaseValue.Key.GetAttributeSetClass() == UAlsxtLevelAttributeSet::StaticClass())
-			{
-				continue;
-			}
-
-			// Don't touch Current Attribute if they are marked to not level up. They will be adjusted when the Max will (See the AttributeSets)
-			if (!bInitialization && NoLevelAttribute.Contains(AttributeBaseValue.Key))
-			{
-				continue;
-			}
-			
-			// Update the attribute using the new level. 
-			if (HasAttributeSetForAttribute(AttributeBaseValue.Key))
-			{
-			    const float NewValue = AttributeBaseValue.Value.Value.GetValueAtLevel(NewLevel);
-				SetNumericAttributeBase(AttributeBaseValue.Key, NewValue);
-			}
-		}
+		const FAbilitySystemInitializationData& Data = CharacterBase->GetAbilitySystemInitializationData();
+		// for (const TTuple<FGameplayAttribute, FCustomAttributeInitializer>& AttributeBaseValue : Cast<FAbilitySystemInitializationData>(CharacterBase->GetAbilitySystemInitializationData()))
+		// {
+		// 	// Don't touch the level itself.
+		// 	if (AttributeBaseValue.Key.GetAttributeSetClass() == UAlsxtLevelAttributeSet::StaticClass())
+		// 	{
+		// 		continue;
+		// 	}
+ 	// 
+		// 	// Don't touch Current Attribute if they are marked to not level up. They will be adjusted when the Max will (See the AttributeSets)
+		// 	if (!bInitialization && NoLevelAttribute.Contains(AttributeBaseValue.Key))
+		// 	{
+		// 		continue;
+		// 	}
+		// 	
+		// 	// Update the attribute using the new level. 
+		// 	if (HasAttributeSetForAttribute(AttributeBaseValue.Key))
+		// 	{
+		// 	    const float NewValue = AttributeBaseValue.Value.Value.GetValueAtLevel(NewLevel);
+		// 		SetNumericAttributeBase(AttributeBaseValue.Key, NewValue);
+		// 	}
+		// }
 	}
 
 	// Update all GEs
@@ -110,6 +113,11 @@ void UAlsxtAbilitySystemComponent::ChangeLevel_Implementation(const float Desire
 AGASDemoCharacterBase* UAlsxtAbilitySystemComponent::GetCharacterBaseAvatar() const
 {
 	return Cast<AGASDemoCharacterBase>(GetAvatarActor_Direct());
+}
+
+AALSXTCharacter* UAlsxtAbilitySystemComponent::GetAlsxtBaseAvatar() const
+{
+	return Cast<AALSXTCharacter>(GetAvatarActor_Direct());
 }
 
 FActiveGameplayEffectHandle UAlsxtAbilitySystemComponent::SetActiveGameplayEffectInhibit(FActiveGameplayEffectHandle&& ActiveGEHandle, bool bInhibit, bool bInvokeGameplayCueEvents)
@@ -192,89 +200,93 @@ FActiveGameplayEffectHandle UAlsxtAbilitySystemComponent::ApplyGameplayEffectSpe
 	return Super::ApplyGameplayEffectSpecToTarget(GameplayEffect, Target, PredictionKey);
 }
 
-void UAlsxtAbilitySystemComponent::InitializeAbilitySystemData(const FAbilitySystemInitializationData& InitializationData, AActor* InOwningActor, AActor* InAvatarActor)
-{
-	if (AbilitySystemDataInitialized)
-	{
-		return;
-	}
-	
-	AbilitySystemDataInitialized = true;
-
-	// Set the Owning Actor and Avatar Actor. (Used throughout the Gameplay Ability System to get references etc.)
-	InitAbilityActorInfo(InOwningActor, InAvatarActor);
-
-	// Apply the Gameplay Tag container as loose Gameplay Tags. (These are not replicated by default and should be applied on both server and client respectively.)
-	if (!InitializationData.GameplayTags.IsEmpty())
-	{
-		AddLooseGameplayTags(InitializationData.GameplayTags);
-	}
-
-	/** This is our entry point for other component to react to gameplay effect added and removed.
-	 * Changes to the gameplay effects are handled differently (using their own delegate sets)
-	 * -> FActiveGameplayEffectEvents* EventSet = ASC->GetActiveEffectEventSet(Handle);
-	 * (See EffectWidgetControllerBase::InitializeController_Implementation)
-	 */
-	OnActiveGameplayEffectAddedDelegateToSelf.AddUObject(this, &UAlsxtAbilitySystemComponent::OnGameplayEffectAddedCallback);
-	ActiveGameplayEffects.OnActiveGameplayEffectRemovedDelegate.AddUObject(this, &UAlsxtAbilitySystemComponent::OnGameplayEffectRemovedCallback);
-	
-	// Check to see if we have authority. (Attribute Sets / Attribute Base Values / Gameplay Abilities / Gameplay Effects should only be added -or- set on authority and will be replicated to the client automatically.)
-	if (!GetOwnerActor()->HasAuthority())
-	{
-		return;
-	}
-	
-	// Grant Attribute Sets if the array isn't empty.
-	if (!InitializationData.AttributeSets.IsEmpty())
-	{
-		for (const TSubclassOf<UAttributeSet> AttributeSetClass : InitializationData.AttributeSets)
-		{
-			GetOrCreateAttributeSet(AttributeSetClass);
-		}
-	}
-
-	// Set base attribute values if the map isn't empty.
-	if (!InitializationData.AttributeBaseValues.IsEmpty())
-	{
-		for (const TTuple<FGameplayAttribute, FCustomAttributeInitializer>& AttributeBaseValue : InitializationData.AttributeBaseValues)
-		{
-			if (HasAttributeSetForAttribute(AttributeBaseValue.Key))
-			{
-				SetNumericAttributeBase(AttributeBaseValue.Key, AttributeBaseValue.Value.Value.GetValueAtLevel(0.f));
-			}
-		}
-	}
-
-	// Grant Gameplay Abilities if the array isn't empty.
-	if (!InitializationData.GameplayAbilities.IsEmpty())
-	{
-		for (const TSubclassOf<UGameplayAbility> GameplayAbility : InitializationData.GameplayAbilities)
-		{
-			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(GameplayAbility, 0, INDEX_NONE, this);
-			
-			GiveAbility(AbilitySpec);
-		}
-	}
-
-	// Apply Gameplay Effects if the array isn't empty.
-	if (!InitializationData.GameplayEffects.IsEmpty())
-	{
-		for (const TSubclassOf<UGameplayEffect>& GameplayEffect : InitializationData.GameplayEffects)
-		{
-			if (!IsValid(GameplayEffect))
-			{
-				continue;
-			}
-			
-			FGameplayEffectContextHandle EffectContextHandle = MakeEffectContext();
-			EffectContextHandle.AddSourceObject(this);
-
-			if (FGameplayEffectSpecHandle GameplayEffectSpecHandle = MakeOutgoingSpec(GameplayEffect, 1, EffectContextHandle); GameplayEffectSpecHandle.IsValid())
-			{
-				ApplyGameplayEffectSpecToTarget(*GameplayEffectSpecHandle.Data.Get(), this);
-			}
-		}
-	}
-
-	ChangeLevel(GetNumericAttribute(UAlsxtLevelAttributeSet::GetCurrentLevelAttribute()), true);
-}
+ void UAlsxtAbilitySystemComponent::InitializeAbilitySystemData(const FAbilitySystemInitializationData& InitializationData, AActor* InOwningActor, AActor* InAvatarActor)
+ {
+ 	if (AbilitySystemDataInitialized)
+ 	{
+ 		return;
+ 	}
+ 	
+ 	AbilitySystemDataInitialized = true;
+ 
+ 	// Set the Owning Actor and Avatar Actor. (Used throughout the Gameplay Ability System to get references etc.)
+ 	InitAbilityActorInfo(InOwningActor, InAvatarActor);
+ 
+ 	// Apply the Gameplay Tag container as loose Gameplay Tags. (These are not replicated by default and should be applied on both server and client respectively.)
+ 	if (!InitializationData.GameplayTags.IsEmpty())
+ 	{
+ 		AddLooseGameplayTags(InitializationData.GameplayTags);
+ 	}
+ 
+ 	/** This is our entry point for other component to react to gameplay effect added and removed.
+ 	 * Changes to the gameplay effects are handled differently (using their own delegate sets)
+ 	 * -> FActiveGameplayEffectEvents* EventSet = ASC->GetActiveEffectEventSet(Handle);
+ 	 * (See EffectWidgetControllerBase::InitializeController_Implementation)
+ 	 */
+ 	OnActiveGameplayEffectAddedDelegateToSelf.AddUObject(this, &UAlsxtAbilitySystemComponent::OnGameplayEffectAddedCallback);
+ 	ActiveGameplayEffects.OnActiveGameplayEffectRemovedDelegate.AddUObject(this, &UAlsxtAbilitySystemComponent::OnGameplayEffectRemovedCallback);
+ 	
+ 	// Check to see if we have authority. (Attribute Sets / Attribute Base Values / Gameplay Abilities / Gameplay Effects should only be added -or- set on authority and will be replicated to the client automatically.)
+ 	if (!GetOwnerActor()->HasAuthority())
+ 	{
+ 		return;
+ 	}
+ 	
+ 	// Grant Attribute Sets if the array isn't empty.
+ 	if (!InitializationData.AttributeSets.IsEmpty())
+ 	{
+ 		for (const TSubclassOf<UAttributeSet> AttributeSetClass : InitializationData.AttributeSets)
+ 		{
+ 			GetOrCreateAttributeSet(AttributeSetClass);
+ 		}
+ 	}
+ 
+ 	// Set base attribute values if the map isn't empty.
+ 	if (!InitializationData.AttributeBaseValues.IsEmpty())
+ 	{
+ 		for (const TTuple<FGameplayAttribute, FCustomAttributeInitializer>& AttributeBaseValue : InitializationData.AttributeBaseValues)
+ 		{
+ 			if (HasAttributeSetForAttribute(AttributeBaseValue.Key))
+ 			{
+ 				SetNumericAttributeBase(AttributeBaseValue.Key, AttributeBaseValue.Value.Value.GetValueAtLevel(0.f));
+ 			}
+ 		}
+ 	}
+ 
+ 	// Grant Gameplay Abilities if the array isn't empty.
+ 	if (!InitializationData.GameplayAbilities.IsEmpty())
+ 	{
+ 		for (const TSubclassOf<UGameplayAbility> GameplayAbility : InitializationData.GameplayAbilities)
+ 		{
+ 			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(GameplayAbility, 0, INDEX_NONE, this);
+ 			
+ 			GiveAbility(AbilitySpec);
+ 		}
+ 	}
+ 
+ 	// Apply Gameplay Effects if the array isn't empty.
+ 	if (!InitializationData.GameplayEffects.IsEmpty())
+ 	{
+ 		for (const TSubclassOf<UGameplayEffect>& GameplayEffect : InitializationData.GameplayEffects)
+ 		{
+ 			if (!IsValid(GameplayEffect))
+ 			{
+ 				continue;
+ 			}
+ 			else
+ 			{
+ 				FGameplayEffectContextHandle EffectContextHandle = MakeEffectContext();
+                EffectContextHandle.AddSourceObject(this);
+                
+                if (FGameplayEffectSpecHandle GameplayEffectSpecHandle = MakeOutgoingSpec(GameplayEffect, 1, EffectContextHandle); GameplayEffectSpecHandle.IsValid())
+                {
+                	ApplyGameplayEffectSpecToTarget(*GameplayEffectSpecHandle.Data.Get(), this);
+                }
+ 			}
+ 			
+ 			
+ 		}
+ 	}
+ 
+ 	ChangeLevel(GetNumericAttribute(UAlsxtLevelAttributeSet::GetCurrentLevelAttribute()), true);
+ }

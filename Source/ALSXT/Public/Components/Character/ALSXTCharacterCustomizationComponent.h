@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Settings/ALSXTCharacterSoundSettings.h"
-#include "Components/Mesh/ALSXTPaintableSkeletalMeshComponent.h"
+#include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
 #include "ALSXTCharacterCustomizationComponent.generated.h"
 
 
@@ -57,18 +57,18 @@ public:
 	FALSXTCharacterMorphParameters CharacterMorphParameters;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> Hair;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Hair;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<USkeletalMeshComponent> HairDummyShadow;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTPaintableSkeletalMeshComponent> FacialHair;
+	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> FacialHair;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<USkeletalMeshComponent> FacialHairDummyShadow;
 
-	TArray<UALSXTPaintableSkeletalMeshComponent*> GetAllComponents();
+	TArray<UAlsxtPaintableSkeletalMeshComponent*> GetAllComponents();
 	
-	TArray<UALSXTPaintableSkeletalMeshComponent*> GetHighlightableComponents();
+	TArray<UAlsxtPaintableSkeletalMeshComponent*> GetHighlightableComponents();
 };

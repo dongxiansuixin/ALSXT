@@ -1,7 +1,7 @@
 // MIT
 
 
-#include "Components/PlayerController/ALSXTPlayerViewportEffectsComponent.h"
+#include "Components/PlayerController/AlsxtPlayerViewportEffectsComponent.h"
 #include "Interfaces/ALSXTCharacterInterface.h"
 #include "Interfaces/ALSXTControllerVFXInterface.h"
 #include "Engine/Scene.h"
@@ -10,7 +10,7 @@
 #include "Curves/CurveVector.h"
 
 // Sets default values for this component's properties
-UALSXTPlayerViewportEffectsComponent::UALSXTPlayerViewportEffectsComponent()
+UAlsxtPlayerViewportEffectsComponent::UAlsxtPlayerViewportEffectsComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -21,7 +21,7 @@ UALSXTPlayerViewportEffectsComponent::UALSXTPlayerViewportEffectsComponent()
 
 
 // Called when the game starts
-void UALSXTPlayerViewportEffectsComponent::BeginPlay()
+void UAlsxtPlayerViewportEffectsComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -53,7 +53,7 @@ void UALSXTPlayerViewportEffectsComponent::BeginPlay()
 
 				if (GeneralCameraEffectsSettings.bEnableDepthOfFieldEffect)
 				{
-					GetWorld()->GetTimerManager().SetTimer(DepthOfFieldTraceTimer, this, &UALSXTPlayerViewportEffectsComponent::DepthOfFieldTrace, 0.01f, true);
+					GetWorld()->GetTimerManager().SetTimer(DepthOfFieldTraceTimer, this, &UAlsxtPlayerViewportEffectsComponent::DepthOfFieldTrace, 0.01f, true);
 
 					//Enable Parameters
 					PostProcessComponent->Settings.bOverride_DepthOfFieldFocalDistance = true;
@@ -80,7 +80,7 @@ void UALSXTPlayerViewportEffectsComponent::BeginPlay()
 					const FWeightedBlendable RadialBlurBlend{ 0.0f, GeneralCameraEffectsSettings.RadialBlurMaterial };
 					PostProcessComponent->Settings.WeightedBlendables.Array.Add(RadialBlurBlend);
 					RadialBlurEffectBlendableIndex = PostProcessComponent->Settings.WeightedBlendables.Array.Num() - 1;
-					GetWorld()->GetTimerManager().SetTimer(RadialBlurEffectTimer, this, &UALSXTPlayerViewportEffectsComponent::SetRadialBlurEffect, 0.01f, true);
+					GetWorld()->GetTimerManager().SetTimer(RadialBlurEffectTimer, this, &UAlsxtPlayerViewportEffectsComponent::SetRadialBlurEffect, 0.01f, true);
 				}
 
 				if (GeneralCameraEffectsSettings.bEnableDrunkEffect)
@@ -132,14 +132,14 @@ void UALSXTPlayerViewportEffectsComponent::BeginPlay()
 }
 
 // Called every frame
-void UALSXTPlayerViewportEffectsComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UAlsxtPlayerViewportEffectsComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
 }
 
-void UALSXTPlayerViewportEffectsComponent::DepthOfFieldTrace()
+void UAlsxtPlayerViewportEffectsComponent::DepthOfFieldTrace()
 {
 	if (GetOwner()->GetLocalRole() == ROLE_SimulatedProxy)
 	{
@@ -186,7 +186,7 @@ void UALSXTPlayerViewportEffectsComponent::DepthOfFieldTrace()
 	// PostProcessComponent->Settings.DepthOfFieldNearTransitionRegion = FMath::Min(0.0, HitDistance);
 }
 
-void UALSXTPlayerViewportEffectsComponent::SetRadialBlurEffect()
+void UAlsxtPlayerViewportEffectsComponent::SetRadialBlurEffect()
 {
 	float Velocity = Character->GetVelocity().Size();
 	float BlurAmount = FMath::GetMappedRangeValueClamped(FVector2D{ 0.0, GeneralCameraEffectsSettings.RadialBlurMaxVelocity }, FVector2D{ 0.0f, GeneralCameraEffectsSettings.RadialBlurMaxWeight }, Velocity);
@@ -194,7 +194,7 @@ void UALSXTPlayerViewportEffectsComponent::SetRadialBlurEffect()
 }
 
 // Drunk Effect
-void UALSXTPlayerViewportEffectsComponent::AddDrunkEffect(float Amount, float RecoveryDelay)
+void UAlsxtPlayerViewportEffectsComponent::AddDrunkEffect(float Amount, float RecoveryDelay)
 {
 	if (GeneralCameraEffectsSettings.bEnableDrunkEffect)
 	{
@@ -206,18 +206,18 @@ void UALSXTPlayerViewportEffectsComponent::AddDrunkEffect(float Amount, float Re
 	}
 }
 
-void UALSXTPlayerViewportEffectsComponent::ResetDrunkEffect()
+void UAlsxtPlayerViewportEffectsComponent::ResetDrunkEffect()
 {
 	PostProcessComponent->Settings.WeightedBlendables.Array[DrunkEffectBlendableIndex].Weight = 0.0f;
 }
 
-void UALSXTPlayerViewportEffectsComponent::BeginFadeOutDrunkEffect(float NewRecoveryScale, float NewRecoveryDelay)
+void UAlsxtPlayerViewportEffectsComponent::BeginFadeOutDrunkEffect(float NewRecoveryScale, float NewRecoveryDelay)
 {
 	DrunkEffectRecoveryScale = NewRecoveryScale;
-	GetWorld()->GetTimerManager().SetTimer(DrunkEffectFadeOutTimer, this, &UALSXTPlayerViewportEffectsComponent::FadeOutDrunkEffect, 0.01f, true, NewRecoveryDelay);
+	GetWorld()->GetTimerManager().SetTimer(DrunkEffectFadeOutTimer, this, &UAlsxtPlayerViewportEffectsComponent::FadeOutDrunkEffect, 0.01f, true, NewRecoveryDelay);
 }
 
-void UALSXTPlayerViewportEffectsComponent::FadeOutDrunkEffect()
+void UAlsxtPlayerViewportEffectsComponent::FadeOutDrunkEffect()
 {
 	if (IsValid(PostProcessComponent))
 	{
@@ -232,7 +232,7 @@ void UALSXTPlayerViewportEffectsComponent::FadeOutDrunkEffect()
 
 
 // High Effect
-void UALSXTPlayerViewportEffectsComponent::AddHighEffect(float Amount, float RecoveryDelay)
+void UAlsxtPlayerViewportEffectsComponent::AddHighEffect(float Amount, float RecoveryDelay)
 {
 	if (GeneralCameraEffectsSettings.bEnableHighEffect)
 	{
@@ -249,18 +249,18 @@ void UALSXTPlayerViewportEffectsComponent::AddHighEffect(float Amount, float Rec
 	}
 }
 
-void UALSXTPlayerViewportEffectsComponent::ResetHighEffect()
+void UAlsxtPlayerViewportEffectsComponent::ResetHighEffect()
 {
 	PostProcessComponent->Settings.WeightedBlendables.Array[HighEffectBlendableIndex].Weight = 0.0f;
 }
 
-void UALSXTPlayerViewportEffectsComponent::BeginFadeOutHighEffect(float NewRecoveryScale, float NewRecoveryDelay)
+void UAlsxtPlayerViewportEffectsComponent::BeginFadeOutHighEffect(float NewRecoveryScale, float NewRecoveryDelay)
 {
 	HighEffectRecoveryScale = NewRecoveryScale;
-	GetWorld()->GetTimerManager().SetTimer(HighEffectFadeOutTimer, this, &UALSXTPlayerViewportEffectsComponent::FadeOutHighEffect, 0.01f, true, NewRecoveryDelay);
+	GetWorld()->GetTimerManager().SetTimer(HighEffectFadeOutTimer, this, &UAlsxtPlayerViewportEffectsComponent::FadeOutHighEffect, 0.01f, true, NewRecoveryDelay);
 }
 
-void UALSXTPlayerViewportEffectsComponent::FadeOutHighEffect()
+void UAlsxtPlayerViewportEffectsComponent::FadeOutHighEffect()
 {
 	if (IsValid(PostProcessComponent))
 	{
@@ -274,7 +274,7 @@ void UALSXTPlayerViewportEffectsComponent::FadeOutHighEffect()
 }
 
 // Suppression Effect
-void UALSXTPlayerViewportEffectsComponent::AddSuppressionEffect(float Amount, float RecoveryDelay)
+void UAlsxtPlayerViewportEffectsComponent::AddSuppressionEffect(float Amount, float RecoveryDelay)
 {
 	if (GeneralCameraEffectsSettings.bEnableSuppressionEffect)
 	{
@@ -286,18 +286,18 @@ void UALSXTPlayerViewportEffectsComponent::AddSuppressionEffect(float Amount, fl
 	}
 }
 
-void UALSXTPlayerViewportEffectsComponent::ResetSuppressionEffect()
+void UAlsxtPlayerViewportEffectsComponent::ResetSuppressionEffect()
 {
 	PostProcessComponent->Settings.WeightedBlendables.Array[SuppressionEffectBlendableIndex].Weight = 0.0f;
 }
 
-void UALSXTPlayerViewportEffectsComponent::BeginFadeOutSuppressionEffect(float NewRecoveryScale, float NewRecoveryDelay)
+void UAlsxtPlayerViewportEffectsComponent::BeginFadeOutSuppressionEffect(float NewRecoveryScale, float NewRecoveryDelay)
 {
 	SuppressionEffectRecoveryScale = NewRecoveryScale;
-	GetWorld()->GetTimerManager().SetTimer(SuppressionEffectFadeOutTimer, this, &UALSXTPlayerViewportEffectsComponent::FadeOutSuppressionEffect, 0.01f, true, NewRecoveryDelay);
+	GetWorld()->GetTimerManager().SetTimer(SuppressionEffectFadeOutTimer, this, &UAlsxtPlayerViewportEffectsComponent::FadeOutSuppressionEffect, 0.01f, true, NewRecoveryDelay);
 }
 
-void UALSXTPlayerViewportEffectsComponent::FadeOutSuppressionEffect()
+void UAlsxtPlayerViewportEffectsComponent::FadeOutSuppressionEffect()
 {
 	if (IsValid(PostProcessComponent))
 	{
@@ -311,7 +311,7 @@ void UALSXTPlayerViewportEffectsComponent::FadeOutSuppressionEffect()
 }
 
 // Blindness Effect
-void UALSXTPlayerViewportEffectsComponent::AddBlindnessEffect(float Amount, float RecoveryDelay)
+void UAlsxtPlayerViewportEffectsComponent::AddBlindnessEffect(float Amount, float RecoveryDelay)
 {
 	if (GeneralCameraEffectsSettings.bEnableBlindnessEffect)
 	{
@@ -323,18 +323,18 @@ void UALSXTPlayerViewportEffectsComponent::AddBlindnessEffect(float Amount, floa
 	}
 }
 
-void UALSXTPlayerViewportEffectsComponent::ResetBlindnessEffect()
+void UAlsxtPlayerViewportEffectsComponent::ResetBlindnessEffect()
 {
 	PostProcessComponent->Settings.WeightedBlendables.Array[BlindnessEffectBlendableIndex].Weight = 0.0f;
 }
 
-void UALSXTPlayerViewportEffectsComponent::BeginFadeOutBlindnessEffect(float NewRecoveryScale, float NewRecoveryDelay)
+void UAlsxtPlayerViewportEffectsComponent::BeginFadeOutBlindnessEffect(float NewRecoveryScale, float NewRecoveryDelay)
 {
 	BlindnessEffectRecoveryScale = NewRecoveryScale;
-	GetWorld()->GetTimerManager().SetTimer(BlindnessEffectFadeOutTimer, this, &UALSXTPlayerViewportEffectsComponent::FadeOutBlindnessEffect, 0.01f, true, NewRecoveryDelay);
+	GetWorld()->GetTimerManager().SetTimer(BlindnessEffectFadeOutTimer, this, &UAlsxtPlayerViewportEffectsComponent::FadeOutBlindnessEffect, 0.01f, true, NewRecoveryDelay);
 }
 
-void UALSXTPlayerViewportEffectsComponent::FadeOutBlindnessEffect()
+void UAlsxtPlayerViewportEffectsComponent::FadeOutBlindnessEffect()
 {
 	if (IsValid(PostProcessComponent))
 	{
@@ -348,7 +348,7 @@ void UALSXTPlayerViewportEffectsComponent::FadeOutBlindnessEffect()
 }
 
 // Concussion Effect
-void UALSXTPlayerViewportEffectsComponent::AddConcussionEffect(float Amount, float RecoveryDelay)
+void UAlsxtPlayerViewportEffectsComponent::AddConcussionEffect(float Amount, float RecoveryDelay)
 {
 	if (GeneralCameraEffectsSettings.bEnableConcussionEffect)
 	{
@@ -360,18 +360,18 @@ void UALSXTPlayerViewportEffectsComponent::AddConcussionEffect(float Amount, flo
 	}
 }
 
-void UALSXTPlayerViewportEffectsComponent::ResetConcussionEffect()
+void UAlsxtPlayerViewportEffectsComponent::ResetConcussionEffect()
 {
 	PostProcessComponent->Settings.WeightedBlendables.Array[ConcussionEffectBlendableIndex].Weight = 0.0f;
 }
 
-void UALSXTPlayerViewportEffectsComponent::BeginFadeOutConcussionEffect(float NewRecoveryScale, float NewRecoveryDelay)
+void UAlsxtPlayerViewportEffectsComponent::BeginFadeOutConcussionEffect(float NewRecoveryScale, float NewRecoveryDelay)
 {
 	ConcussionEffectRecoveryScale = NewRecoveryScale;
-	GetWorld()->GetTimerManager().SetTimer(ConcussionEffectFadeOutTimer, this, &UALSXTPlayerViewportEffectsComponent::FadeOutConcussionEffect, 0.01f, true, NewRecoveryDelay);
+	GetWorld()->GetTimerManager().SetTimer(ConcussionEffectFadeOutTimer, this, &UAlsxtPlayerViewportEffectsComponent::FadeOutConcussionEffect, 0.01f, true, NewRecoveryDelay);
 }
 
-void UALSXTPlayerViewportEffectsComponent::FadeOutConcussionEffect()
+void UAlsxtPlayerViewportEffectsComponent::FadeOutConcussionEffect()
 {
 	if (IsValid(PostProcessComponent))
 	{
@@ -385,7 +385,7 @@ void UALSXTPlayerViewportEffectsComponent::FadeOutConcussionEffect()
 }
 
 // Damage Effect
-void UALSXTPlayerViewportEffectsComponent::AddDamageEffect(float Amount, float RecoveryDelay)
+void UAlsxtPlayerViewportEffectsComponent::AddDamageEffect(float Amount, float RecoveryDelay)
 {
 	if (GeneralCameraEffectsSettings.bEnableDamageEffect)
 	{
@@ -397,18 +397,18 @@ void UALSXTPlayerViewportEffectsComponent::AddDamageEffect(float Amount, float R
 	}
 }
 
-void UALSXTPlayerViewportEffectsComponent::ResetDamageEffect()
+void UAlsxtPlayerViewportEffectsComponent::ResetDamageEffect()
 {
 	PostProcessComponent->Settings.WeightedBlendables.Array[DamageEffectBlendableIndex].Weight = 0.0f;
 }
 
-void UALSXTPlayerViewportEffectsComponent::BeginFadeOutDamageEffect(float NewRecoveryScale, float NewRecoveryDelay)
+void UAlsxtPlayerViewportEffectsComponent::BeginFadeOutDamageEffect(float NewRecoveryScale, float NewRecoveryDelay)
 {
 	DamageEffectRecoveryScale = NewRecoveryScale;
-	GetWorld()->GetTimerManager().SetTimer(DamageEffectFadeOutTimer, this, &UALSXTPlayerViewportEffectsComponent::FadeOutDamageEffect, 0.01f, true, NewRecoveryDelay);
+	GetWorld()->GetTimerManager().SetTimer(DamageEffectFadeOutTimer, this, &UAlsxtPlayerViewportEffectsComponent::FadeOutDamageEffect, 0.01f, true, NewRecoveryDelay);
 }
 
-void UALSXTPlayerViewportEffectsComponent::FadeOutDamageEffect()
+void UAlsxtPlayerViewportEffectsComponent::FadeOutDamageEffect()
 {
 	if (IsValid(PostProcessComponent))
 	{
@@ -422,7 +422,7 @@ void UALSXTPlayerViewportEffectsComponent::FadeOutDamageEffect()
 }
 
 // Death Effect
-void UALSXTPlayerViewportEffectsComponent::AddDeathEffect(float Amount)
+void UAlsxtPlayerViewportEffectsComponent::AddDeathEffect(float Amount)
 {
 	if (GeneralCameraEffectsSettings.bEnableDeathEffect)
 	{
@@ -433,7 +433,7 @@ void UALSXTPlayerViewportEffectsComponent::AddDeathEffect(float Amount)
 	}
 }
 
-void UALSXTPlayerViewportEffectsComponent::ResetDeathEffect()
+void UAlsxtPlayerViewportEffectsComponent::ResetDeathEffect()
 {
 	PostProcessComponent->Settings.WeightedBlendables.Array[DeathEffectBlendableIndex].Weight = 0.0f;
 }

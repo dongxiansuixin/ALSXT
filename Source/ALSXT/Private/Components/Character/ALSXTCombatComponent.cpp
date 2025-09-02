@@ -20,7 +20,7 @@
 #include "Interfaces/ALSXTCombatInterface.h"
 #include "Interfaces/ALSXTCharacterSoundComponentInterface.h"
 #include "Interfaces/ALSXTCharacterCustomizationComponentInterface.h"
-#include "ALSXTBlueprintFunctionLibrary.h"
+#include "AlsxtBlueprintFunctionLibrary.h"
 #include "Landscape.h"
 
 // Sets default values for this component's properties
@@ -610,8 +610,8 @@ void UALSXTCombatComponent::AttackCollisionTrace()
 				{
 					// Populate Origin Hit
 					CurrentHitResult.DoubleHitResult.OriginHitResult.HitResult = OriginHitResult;
-					UALSXTBlueprintFunctionLibrary::GetSideFromHit(CurrentHitResult.DoubleHitResult, CurrentHitResult.DoubleHitResult.HitResult.ImpactSide);
-					UALSXTBlueprintFunctionLibrary::GetStrengthFromHit(CurrentHitResult.DoubleHitResult, CurrentHitResult.Strength);
+					UAlsxtBlueprintFunctionLibrary::GetSideFromHit(CurrentHitResult.DoubleHitResult, CurrentHitResult.DoubleHitResult.HitResult.ImpactSide);
+					UAlsxtBlueprintFunctionLibrary::GetStrengthFromHit(CurrentHitResult.DoubleHitResult, CurrentHitResult.Strength);
 					CurrentHitResult.DoubleHitResult.HitResult.ImpactStrength = CurrentAttackTraceSettings.AttackStrength;
 					FString OriginHitActorname = OriginHitResult.GetActor()->GetName();
 

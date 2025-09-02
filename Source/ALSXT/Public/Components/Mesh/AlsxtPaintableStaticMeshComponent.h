@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/Mesh/ALSXTViewModelStaticMeshComponent.h"
+#include "Components/Mesh/AlsxtViewModelStaticMeshComponent.h"
 #include "NativeGameplayTags.h"
 #include "Utility/ALSXTGameplayTags.h"
 #include "Utility/ALSXTStructs.h"
@@ -14,7 +14,7 @@
 #include "PhysicalMaterials/PhysicalMaterialMask.h"
 #include "UObject/Script.h"
 #include "Engine/TextureRenderTarget2D.h"
-#include "ALSXTPaintableStaticMeshComponent.generated.h"
+#include "AlsxtPaintableStaticMeshComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeStaticMeshMaterialSignature, UMaterialInterface*, PreviousMaterial, UMaterialInterface*, NewMaterial);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeStaticMeshPaintingSettingsMapSignature, UALSXTMeshPaintingSettingsMap*, PreviousSettingsMap, UALSXTMeshPaintingSettingsMap*, NewSettingsMap);
@@ -24,12 +24,12 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeItemStaticMeshPaintCriteri
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeStaticMeshElementalConditionSignature, const FGameplayTag, PreviousCondition, const FGameplayTag, NewCondition);
 
 UCLASS(Blueprintable, ClassGroup=(Rendering, Common), hidecategories=Object, config=Engine, editinlinenew, meta =(BlueprintSpawnableComponent))
-class ALSXT_API UALSXTPaintableStaticMeshComponent : public UALSXTViewModelStaticMeshComponent
+class ALSXT_API UAlsxtPaintableStaticMeshComponent : public UAlsxtViewModelStaticMeshComponent
 {
 	GENERATED_BODY()
 
 public:
-	UALSXTPaintableStaticMeshComponent();
+	UAlsxtPaintableStaticMeshComponent();
 
 private:
 	UPROPERTY(EditAnywhere, Transient, Setter = SetMeshPaintingSettingsMap, BlueprintSetter = SetMeshPaintingSettingsMap, Getter = GetMeshPaintingSettingsMap, BlueprintGetter = GetMeshPaintingSettingsMap, Category = Mesh)

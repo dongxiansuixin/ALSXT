@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "Components/StaticMeshComponent.h"
-#include "ALSXTViewModelStaticMeshComponent.generated.h"
+#include "AlsxtViewModelStaticMeshComponent.generated.h"
 
 /**
  * 
  */
 UCLASS(Blueprintable, ClassGroup=(Rendering, Common), hidecategories=(Object,Activation,"Components|Activation"), ShowCategories=(Mobility), editinlinenew, meta=(BlueprintSpawnableComponent))
-class ALSXT_API UALSXTViewModelStaticMeshComponent : public UStaticMeshComponent
+class ALSXT_API UAlsxtViewModelStaticMeshComponent : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 public:
-	UALSXTViewModelStaticMeshComponent();
+	UAlsxtViewModelStaticMeshComponent();
 
 protected:
 	uint8 MaxOwnerAttempts = 10;

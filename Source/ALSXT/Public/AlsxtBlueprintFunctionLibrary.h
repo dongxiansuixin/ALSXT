@@ -5,13 +5,13 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Utility/ALSXTStructs.h"
-#include "ALSXTBlueprintFunctionLibrary.generated.h"
+#include "AlsxtBlueprintFunctionLibrary.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ALSXT_API UALSXTBlueprintFunctionLibrary : public UBlueprintFunctionLibrary
+class ALSXT_API UAlsxtBlueprintFunctionLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 

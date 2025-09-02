@@ -2,7 +2,7 @@
 
 
 #include "Components/Character/ALSXTCharacterEquipmentComponent.h"
-#include "Components/Mesh/ALSXTPaintableSkeletalMeshComponent.h"
+#include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
 
 // Sets default values for this component's properties
 UALSXTCharacterEquipmentComponent::UALSXTCharacterEquipmentComponent()
@@ -33,18 +33,18 @@ void UALSXTCharacterEquipmentComponent::TickComponent(float DeltaTime, ELevelTic
 	// ...
 }
 
-TArray<UALSXTPaintableSkeletalMeshComponent*> UALSXTCharacterEquipmentComponent::GetAllComponents()
+TArray<UAlsxtPaintableSkeletalMeshComponent*> UALSXTCharacterEquipmentComponent::GetAllComponents()
 {
-	TArray<UALSXTPaintableSkeletalMeshComponent*> AllComponents;
+	TArray<UAlsxtPaintableSkeletalMeshComponent*> AllComponents;
 	return AllComponents;
 }
 
-TArray<UALSXTPaintableSkeletalMeshComponent*> UALSXTCharacterEquipmentComponent::GetHighlightableComponents()
+TArray<UAlsxtPaintableSkeletalMeshComponent*> UALSXTCharacterEquipmentComponent::GetHighlightableComponents()
 {
-	TArray<UALSXTPaintableSkeletalMeshComponent*> AllComponents{ GetAllComponents() };
-	TArray<UALSXTPaintableSkeletalMeshComponent*> HighlightableComponents;
+	TArray<UAlsxtPaintableSkeletalMeshComponent*> AllComponents{ GetAllComponents() };
+	TArray<UAlsxtPaintableSkeletalMeshComponent*> HighlightableComponents;
 
-	for (UALSXTPaintableSkeletalMeshComponent* Component : AllComponents)
+	for (UAlsxtPaintableSkeletalMeshComponent* Component : AllComponents)
 	{
 		if (IsValid(Component))
 		{

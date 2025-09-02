@@ -1,18 +1,18 @@
 // MIT
 
 
-#include "Components/Mesh/ALSXTPaintableSkeletalMeshComponent.h"
+#include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
 #include "Interfaces/ALSXTMeshPaintingInterface.h"
 #include "Settings/ALSXTCharacterSettings.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/KismetRenderingLibrary.h"
 
-UALSXTPaintableSkeletalMeshComponent::UALSXTPaintableSkeletalMeshComponent()
+UAlsxtPaintableSkeletalMeshComponent::UAlsxtPaintableSkeletalMeshComponent()
 {
 	// Bind InitializeMaterials to When Materials Change
 }
 
-void UALSXTPaintableSkeletalMeshComponent::BeginPlay()
+void UAlsxtPaintableSkeletalMeshComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -33,7 +33,7 @@ void UALSXTPaintableSkeletalMeshComponent::BeginPlay()
 	}
 }
 
-void UALSXTPaintableSkeletalMeshComponent::SetSkeletalMesh(USkeletalMesh* NewMesh, bool bReinitPose)
+void UAlsxtPaintableSkeletalMeshComponent::SetSkeletalMesh(USkeletalMesh* NewMesh, bool bReinitPose)
 {
 	Super::SetSkeletalMesh(NewMesh, bReinitPose);
 
@@ -48,7 +48,7 @@ void UALSXTPaintableSkeletalMeshComponent::SetSkeletalMesh(USkeletalMesh* NewMes
 	}
 }
 
-bool UALSXTPaintableSkeletalMeshComponent::IsMeshPaintingConfigured() const
+bool UAlsxtPaintableSkeletalMeshComponent::IsMeshPaintingConfigured() const
 {
 	if (!GetSkeletalMeshAsset())
 	{
@@ -69,14 +69,14 @@ bool UALSXTPaintableSkeletalMeshComponent::IsMeshPaintingConfigured() const
 	return true;
 }
 
-bool UALSXTPaintableSkeletalMeshComponent::IsMeshPaintingEnabled() const
+bool UAlsxtPaintableSkeletalMeshComponent::IsMeshPaintingEnabled() const
 {
 	FALSXTServerMeshPaintingSettings ServerGeneralMeshPaintingSettings{ IALSXTMeshPaintingInterface::Execute_GetServerGeneralMeshPaintingSettings(GetOwner()) };
 	FALSXTGeneralMeshPaintingSettings UserGeneralMeshPaintingSettings{ IALSXTMeshPaintingInterface::Execute_GetUserGeneralMeshPaintingSettings(GetOwner()) };
 	return GlobalGeneralMeshPaintingSettings.GeneralSettings.bEnableMeshPainting && ServerGeneralMeshPaintingSettings.GeneralSettings.bEnableMeshPainting && UserGeneralMeshPaintingSettings.bEnableMeshPainting;
 }
 
-void UALSXTPaintableSkeletalMeshComponent::InitializeMaterials()
+void UAlsxtPaintableSkeletalMeshComponent::InitializeMaterials()
 {
 	FALSXTServerMeshPaintingSettings ServerGeneralMeshPaintingSettings{ IALSXTMeshPaintingInterface::Execute_GetServerGeneralMeshPaintingSettings(GetOwner()) };
 
@@ -171,28 +171,28 @@ void UALSXTPaintableSkeletalMeshComponent::InitializeMaterials()
 	}
 }
 
-void UALSXTPaintableSkeletalMeshComponent::SetSceneCaptureRenderTarget(UTextureRenderTarget2D* NewRenderTarget)
+void UAlsxtPaintableSkeletalMeshComponent::SetSceneCaptureRenderTarget(UTextureRenderTarget2D* NewRenderTarget)
 {
 	SceneCaptureComponent->TextureTarget = NewRenderTarget;
 }
 
-void UALSXTPaintableSkeletalMeshComponent::SetPhysicalMaterialMask(UPhysicalMaterialMask* NewPhysicalMaterialMask)
+void UAlsxtPaintableSkeletalMeshComponent::SetPhysicalMaterialMask(UPhysicalMaterialMask* NewPhysicalMaterialMask)
 {
 	PhysicalMaterialMask = NewPhysicalMaterialMask;
 }
 
-UALSXTMeshPaintingSettingsMap* UALSXTPaintableSkeletalMeshComponent::GetMeshPaintingSettingsMap() const
+UALSXTMeshPaintingSettingsMap* UAlsxtPaintableSkeletalMeshComponent::GetMeshPaintingSettingsMap() const
 {
 	return MeshPaintingSettingsMap;
 }
 
-void UALSXTPaintableSkeletalMeshComponent::SetMeshPaintingSettingsMap(UALSXTMeshPaintingSettingsMap* NewMeshPaintingSettingsMap)
+void UAlsxtPaintableSkeletalMeshComponent::SetMeshPaintingSettingsMap(UALSXTMeshPaintingSettingsMap* NewMeshPaintingSettingsMap)
 {
 	OnChangeMeshPaintingSettingsMap.Broadcast(MeshPaintingSettingsMap, NewMeshPaintingSettingsMap);
 	MeshPaintingSettingsMap = NewMeshPaintingSettingsMap;
 }
 
-UALSXTMeshPaintingSettings*& UALSXTPaintableSkeletalMeshComponent::GetMeshPaintingSettings(TEnumAsByte<EPhysicalSurface> SurfaceType)
+UALSXTMeshPaintingSettings*& UAlsxtPaintableSkeletalMeshComponent::GetMeshPaintingSettings(TEnumAsByte<EPhysicalSurface> SurfaceType)
 {
 	UALSXTMeshPaintingSettingsMap* FoundMeshPaintingSettingsMap = MeshPaintingSettingsMap;
 	TMap<TEnumAsByte<EPhysicalSurface>, UALSXTMeshPaintingSettings*> FoundSettings{ MeshPaintingSettingsMap->SettingsMap };
@@ -200,26 +200,26 @@ UALSXTMeshPaintingSettings*& UALSXTPaintableSkeletalMeshComponent::GetMeshPainti
 	return *&FoundMeshPaintingSettings;
 }
 
-void UALSXTPaintableSkeletalMeshComponent::SetMeshPaintingSettings(UALSXTMeshPaintingSettings* NewMeshPaintingSettings)
+void UAlsxtPaintableSkeletalMeshComponent::SetMeshPaintingSettings(UALSXTMeshPaintingSettings* NewMeshPaintingSettings)
 {
 	OnChangeMeshPaintingSettings.Broadcast(MeshPaintingSettings, NewMeshPaintingSettings);
 	MeshPaintingSettings = NewMeshPaintingSettings;
 }
 
-FALSXTMeshPaintCriteria UALSXTPaintableSkeletalMeshComponent::GetMeshPaintCriteriaEntry(TEnumAsByte<EPhysicalSurface> SurfaceType)
+FALSXTMeshPaintCriteria UAlsxtPaintableSkeletalMeshComponent::GetMeshPaintCriteriaEntry(TEnumAsByte<EPhysicalSurface> SurfaceType)
 {
 	TArray<FALSXTMeshPaintCriteria> NewMeshPaintCriteriaArray{ GetMeshPaintingSettings(SurfaceType)->MeshPaintCriteria };
 	FALSXTMeshPaintCriteria NewMeshPaintCriteria;
 	return NewMeshPaintCriteria;
 }
 
-FALSXTMeshPaintCriteria UALSXTPaintableSkeletalMeshComponent::GetItemMeshPaintCriteriaEntry(TEnumAsByte<EPhysicalSurface> SurfaceType)
+FALSXTMeshPaintCriteria UAlsxtPaintableSkeletalMeshComponent::GetItemMeshPaintCriteriaEntry(TEnumAsByte<EPhysicalSurface> SurfaceType)
 {
 	FALSXTMeshPaintCriteria NewMeshPaintCriteria;
 	return NewMeshPaintCriteria;
 }
 
-void UALSXTPaintableSkeletalMeshComponent::SetMeshPaintCriteria(TMap<TEnumAsByte<EPhysicalSurface>, FALSXTMeshPaintCriteria> NewMeshPaintCriteria)
+void UAlsxtPaintableSkeletalMeshComponent::SetMeshPaintCriteria(TMap<TEnumAsByte<EPhysicalSurface>, FALSXTMeshPaintCriteria> NewMeshPaintCriteria)
 {
 	FALSXTMeshPaintCriteriaMap PreviousMap;
 	PreviousMap.MeshPaintCriteriaMap = MeshPaintCriteria;
@@ -229,7 +229,7 @@ void UALSXTPaintableSkeletalMeshComponent::SetMeshPaintCriteria(TMap<TEnumAsByte
 	MeshPaintCriteria = NewMeshPaintCriteria;
 }
 
-void UALSXTPaintableSkeletalMeshComponent::SetItemMeshPaintCriteria(TMap<TEnumAsByte<EPhysicalSurface>, FALSXTMeshPaintCriteria> NewMeshPaintCriteria)
+void UAlsxtPaintableSkeletalMeshComponent::SetItemMeshPaintCriteria(TMap<TEnumAsByte<EPhysicalSurface>, FALSXTMeshPaintCriteria> NewMeshPaintCriteria)
 {
 	FALSXTMeshPaintCriteriaMap PreviousMap;
 	PreviousMap.MeshPaintCriteriaMap = ItemMeshPaintCriteria;
@@ -239,18 +239,18 @@ void UALSXTPaintableSkeletalMeshComponent::SetItemMeshPaintCriteria(TMap<TEnumAs
 	ItemMeshPaintCriteria = NewMeshPaintCriteria;
 }
 
-FGameplayTag UALSXTPaintableSkeletalMeshComponent::GetElementalCondition()
+FGameplayTag UAlsxtPaintableSkeletalMeshComponent::GetElementalCondition()
 {
 	return ElementalCondition;
 }
 
-void UALSXTPaintableSkeletalMeshComponent::SetElementalCondition(const FGameplayTag NewElementalCondition)
+void UAlsxtPaintableSkeletalMeshComponent::SetElementalCondition(const FGameplayTag NewElementalCondition)
 {
 	OnChangeElementalCondition.Broadcast(ElementalCondition, NewElementalCondition);
 	ElementalCondition = NewElementalCondition;
 }
 
-TEnumAsByte<EPhysicalSurface> UALSXTPaintableSkeletalMeshComponent::GetSurfaceAtLocation(FVector Location)
+TEnumAsByte<EPhysicalSurface> UAlsxtPaintableSkeletalMeshComponent::GetSurfaceAtLocation(FVector Location)
 {
 	TEnumAsByte<EPhysicalSurface> NewSurface;
 
@@ -277,7 +277,7 @@ TEnumAsByte<EPhysicalSurface> UALSXTPaintableSkeletalMeshComponent::GetSurfaceAt
 }
 
 // Check if a Paint Type is Enabled Globally (ALSXT Character Settings), on Server (Delegate Implementable), and in User Preferences (Delegate Implementable). Global, Server and User must be True to return True. Default: All True
-bool UALSXTPaintableSkeletalMeshComponent::CanBePainted(const FGameplayTag PaintType)
+bool UAlsxtPaintableSkeletalMeshComponent::CanBePainted(const FGameplayTag PaintType)
 {
 	// Ideally, User Settings should only apply for Single Player/Offline Play. The Server Browser/Match Making should not allow for Users with a setting disabled to connect to a Server with the same setting Enabled
 	FALSXTServerMeshPaintingSettings ServerGeneralMeshPaintingSettings{ IALSXTMeshPaintingInterface::Execute_GetServerGeneralMeshPaintingSettings(GetOwner()) };
@@ -310,7 +310,7 @@ bool UALSXTPaintableSkeletalMeshComponent::CanBePainted(const FGameplayTag Paint
 }
 
 // Check if a Surface Type can be painted by Paint Type of Element Surface Type. Performs a search for the provided Surface in the current Criteria Map, and Item Mesh Criteria (if it is set)
-bool UALSXTPaintableSkeletalMeshComponent::ShouldBePainted(TEnumAsByte<EPhysicalSurface> SurfaceType, TEnumAsByte<EPhysicalSurface> ElementSurfaceType, const FGameplayTag PaintType)
+bool UAlsxtPaintableSkeletalMeshComponent::ShouldBePainted(TEnumAsByte<EPhysicalSurface> SurfaceType, TEnumAsByte<EPhysicalSurface> ElementSurfaceType, const FGameplayTag PaintType)
 {
 	if (!ItemMeshPaintCriteria.IsEmpty())
 	{
@@ -341,7 +341,7 @@ bool UALSXTPaintableSkeletalMeshComponent::ShouldBePainted(TEnumAsByte<EPhysical
 	}
 }
 
-void UALSXTPaintableSkeletalMeshComponent::GetMaterialsForPaintType(const FGameplayTag PaintType, UMaterialInstanceDynamic*& MaterialInstance, UMaterialInstanceDynamic*& FadeMaterialInstance, UTextureRenderTarget2D*& CurrentRenderTarget, UTextureRenderTarget2D*& FadeRenderTarget, FName& ParamName)
+void UAlsxtPaintableSkeletalMeshComponent::GetMaterialsForPaintType(const FGameplayTag PaintType, UMaterialInstanceDynamic*& MaterialInstance, UMaterialInstanceDynamic*& FadeMaterialInstance, UTextureRenderTarget2D*& CurrentRenderTarget, UTextureRenderTarget2D*& FadeRenderTarget, FName& ParamName)
 {
 	if (PaintType == ALSXTMeshPaintTypeTags::BloodDamage)
 	{
@@ -385,7 +385,7 @@ void UALSXTPaintableSkeletalMeshComponent::GetMaterialsForPaintType(const FGamep
 	}
 }
 
-void UALSXTPaintableSkeletalMeshComponent::PaintMesh(TEnumAsByte<EPhysicalSurface> SurfaceType, const FGameplayTag PaintType, FVector Location, float Radius)
+void UAlsxtPaintableSkeletalMeshComponent::PaintMesh(TEnumAsByte<EPhysicalSurface> SurfaceType, const FGameplayTag PaintType, FVector Location, float Radius)
 {
 	if (CanBePainted(PaintType))
 	{
@@ -409,7 +409,7 @@ void UALSXTPaintableSkeletalMeshComponent::PaintMesh(TEnumAsByte<EPhysicalSurfac
 	}
 }
 
-void UALSXTPaintableSkeletalMeshComponent::VolumePaintMesh(TEnumAsByte<EPhysicalSurface> SurfaceType, const FGameplayTag PaintType, FVector Origin, FVector Extent)
+void UAlsxtPaintableSkeletalMeshComponent::VolumePaintMesh(TEnumAsByte<EPhysicalSurface> SurfaceType, const FGameplayTag PaintType, FVector Origin, FVector Extent)
 {
 	if (CanBePainted(PaintType))
 	{
@@ -423,12 +423,12 @@ void UALSXTPaintableSkeletalMeshComponent::VolumePaintMesh(TEnumAsByte<EPhysical
 	}
 }
 
-void UALSXTPaintableSkeletalMeshComponent::ResetChannel(const FGameplayTag PaintType)
+void UAlsxtPaintableSkeletalMeshComponent::ResetChannel(const FGameplayTag PaintType)
 {
 
 }
 
-void UALSXTPaintableSkeletalMeshComponent::ResetAllChannels()
+void UAlsxtPaintableSkeletalMeshComponent::ResetAllChannels()
 {
 
 }

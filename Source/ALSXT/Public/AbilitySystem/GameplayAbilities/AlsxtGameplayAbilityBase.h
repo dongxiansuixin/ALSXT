@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "EnhancedInputComponent.h"
 #include "Abilities/GameplayAbility.h"
+#include "GameplayTagContainer.h"
 #include "AlsxtGameplayAbilityBase.generated.h"
 
 class AGASDemoCharacterBase;
@@ -40,6 +41,10 @@ class ALSXT_API UAlsxtGameplayAbilityBase : public UGameplayAbility
 	AGASDemoCharacterBase* GetAvatarCharacter() const { return AvatarCharacter.Get(); }
 
 protected:
+
+	// Optional: A container for tags specific to this ability instance, not necessarily for activation
+	// UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability")
+	// FGameplayTagContainer AbilityTags; 
 
 	// Keep a pointer to "Avatar Character" so we don't have to cast to Character in instanced abilities owned by a Character derived class.
 	TObjectPtr<AGASDemoCharacterBase> AvatarCharacter = nullptr;

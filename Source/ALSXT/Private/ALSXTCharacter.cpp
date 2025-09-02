@@ -42,7 +42,7 @@
 #include "ALSXTCameraAnimationInstance.h"
 
 AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
-	Super(ObjectInitializer.SetDefaultSubobjectClass<UALSXTPaintableSkeletalMeshComponent>(AAlsCharacter::MeshComponentName).SetDefaultSubobjectClass<UALSXTCharacterMovementComponent>(AAlsCharacter::CharacterMovementComponentName))
+	Super(ObjectInitializer.SetDefaultSubobjectClass<UAlsxtPaintableSkeletalMeshComponent>(AAlsCharacter::MeshComponentName).SetDefaultSubobjectClass<UALSXTCharacterMovementComponent>(AAlsCharacter::CharacterMovementComponentName))
 {
 	// Setup Components
 	GetCapsuleComponent()->SetCapsuleRadius(25);
@@ -62,7 +62,10 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	Camera->SetupAttachment(GetMesh());
 	Camera->SetRelativeRotation_Direct({0.0f, 90.0f, 0.0f});
 
-	// TODO Move to Advanced or TV
+	//Setup Gameplay Camera Component
+	GameplayCamera = CreateDefaultSubobject<UGameplayCameraComponent>(TEXT("Gameplay Camera Component"));
+
+	// TODO Remove
 	KillerCameraSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Killer Camera Spring Arm"));
 	KillerCameraSpringArm->SetupAttachment(GetMesh());
 	KillerCameraSpringArm->SetRelativeRotation_Direct({ 10.0f, 300.0f, 0.0f });
@@ -75,7 +78,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 
 	// Body Mesh Components
 
-	Head = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Head"));
+	Head = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Head"));
 	Head->SetupAttachment(BodyParts);
 	Head->SetCollisionProfileName("CharacterMesh");
 	Head->bEnableUpdateRateOptimizations = false;
@@ -97,7 +100,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	HeadDummyShadow->SetLeaderPoseComponent(GetMesh());
 	HeadDummyShadow->bReceivesDecals = false;
 
-	Teeth = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Teeth"));
+	Teeth = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Teeth"));
 	Teeth->SetupAttachment(BodyParts);
 	Teeth->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	Teeth->bEnableUpdateRateOptimizations = false;
@@ -111,7 +114,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	Teeth->SetLeaderPoseComponent(GetMesh());
 	Teeth->bReceivesDecals = false;
 
-	Tongue = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Tongue"));
+	Tongue = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Tongue"));
 	Tongue->SetupAttachment(BodyParts);
 	Tongue->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	Tongue->bEnableUpdateRateOptimizations = false;
@@ -125,7 +128,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	Tongue->SetLeaderPoseComponent(GetMesh());
 	Tongue->bReceivesDecals = false;
 
-	Hair = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Hair"));
+	Hair = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Hair"));
 	Hair->SetupAttachment(BodyParts);
 	Hair->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	Hair->bEnableUpdateRateOptimizations = false;
@@ -147,7 +150,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	HairDummyShadow->SetLeaderPoseComponent(GetMesh());
 	HairDummyShadow->bReceivesDecals = false;
 
-	FacialHair = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Facial Hair"));
+	FacialHair = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Facial Hair"));
 	FacialHair->SetupAttachment(BodyParts);
 	FacialHair->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	FacialHair->bEnableUpdateRateOptimizations = false;
@@ -171,7 +174,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 
 	// Equipment Mesh Components
 
-	Headwear = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Headwear"));
+	Headwear = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Headwear"));
 	Headwear->SetupAttachment(ClothingSlots);
 	Headwear->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	Headwear->bEnableUpdateRateOptimizations = false;
@@ -193,7 +196,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	HeadwearDummyShadow->SetLeaderPoseComponent(GetMesh());
 	HeadwearDummyShadow->bReceivesDecals = false;
 
-	Facewear = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Facewear"));
+	Facewear = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Facewear"));
 	Facewear->SetupAttachment(ClothingSlots);
 	Facewear->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	Facewear->bEnableUpdateRateOptimizations = false;
@@ -215,7 +218,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	FacewearDummyShadow->SetLeaderPoseComponent(GetMesh());
 	FacewearDummyShadow->bReceivesDecals = false;
 	
-	Eyewear = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Eyewear"));
+	Eyewear = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Eyewear"));
 	Eyewear->SetupAttachment(ClothingSlots);
 	Eyewear->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	Eyewear->bEnableUpdateRateOptimizations = false;
@@ -237,7 +240,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	EyewearDummyShadow->SetLeaderPoseComponent(GetMesh());
 	EyewearDummyShadow->bReceivesDecals = false;
 	
-	Earwear = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Earwear"));
+	Earwear = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Earwear"));
 	Earwear->SetupAttachment(ClothingSlots);
 	Earwear->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	Earwear->bEnableUpdateRateOptimizations = false;
@@ -251,7 +254,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	Earwear->SetLeaderPoseComponent(GetMesh());
 	Earwear->bReceivesDecals = false;
 	
-	BottomUnderwear = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Bottom Underwear"));
+	BottomUnderwear = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Bottom Underwear"));
 	BottomUnderwear->SetupAttachment(ClothingSlots);
 	BottomUnderwear->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	BottomUnderwear->bEnableUpdateRateOptimizations = false;
@@ -265,7 +268,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	BottomUnderwear->SetLeaderPoseComponent(GetMesh());
 	BottomUnderwear->bReceivesDecals = false;
 	
-	TopUnderwear = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Top Underwear"));
+	TopUnderwear = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Top Underwear"));
 	TopUnderwear->SetupAttachment(ClothingSlots);
 	TopUnderwear->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	TopUnderwear->bEnableUpdateRateOptimizations = false;
@@ -279,7 +282,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	TopUnderwear->SetLeaderPoseComponent(GetMesh());
 	TopUnderwear->bReceivesDecals = false;
 	
-	Bottom = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Bottom"));
+	Bottom = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Bottom"));
 	Bottom->SetupAttachment(ClothingSlots);
 	Bottom->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	Bottom->bEnableUpdateRateOptimizations = false;
@@ -293,7 +296,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	Bottom->SetLeaderPoseComponent(GetMesh());
 	Bottom->bReceivesDecals = false;
 	
-	Top = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Top"));
+	Top = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Top"));
 	Top->SetupAttachment(ClothingSlots);
 	Top->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	Top->bEnableUpdateRateOptimizations = false;
@@ -307,7 +310,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	Top->SetLeaderPoseComponent(GetMesh());
 	Top->bReceivesDecals = false;
 	
-	TopJacket = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Top Jacket"));
+	TopJacket = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Top Jacket"));
 	TopJacket->SetupAttachment(ClothingSlots);
 	TopJacket->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	TopJacket->bEnableUpdateRateOptimizations = false;
@@ -321,7 +324,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	TopJacket->SetLeaderPoseComponent(GetMesh());
 	TopJacket->bReceivesDecals = false;
 	
-	TopVest = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Top Vest"));
+	TopVest = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Top Vest"));
 	TopVest->SetupAttachment(ClothingSlots);
 	TopVest->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	TopVest->bEnableUpdateRateOptimizations = false;
@@ -335,7 +338,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	TopVest->SetLeaderPoseComponent(GetMesh());
 	TopVest->bReceivesDecals = false;
 	
-	Gloves = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Gloves"));
+	Gloves = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Gloves"));
 	Gloves->SetupAttachment(ClothingSlots);
 	Gloves->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	Gloves->bEnableUpdateRateOptimizations = false;
@@ -349,7 +352,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	Gloves->SetLeaderPoseComponent(GetMesh());
 	Gloves->bReceivesDecals = false;
 	
-	Footwear = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Footwear"));
+	Footwear = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Footwear"));
 	Footwear->SetupAttachment(ClothingSlots);
 	Footwear->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	Footwear->bEnableUpdateRateOptimizations = false;
@@ -365,7 +368,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 
 	// Overlay Objects
 
-	OverlaySkeletalMesh = CreateDefaultSubobject<UALSXTPaintableSkeletalMeshComponent>(TEXT("Overlay Skeletal Mesh"));
+	OverlaySkeletalMesh = CreateDefaultSubobject<UAlsxtPaintableSkeletalMeshComponent>(TEXT("Overlay Skeletal Mesh"));
 	OverlaySkeletalMesh->SetupAttachment(GetMesh());
 	OverlaySkeletalMesh->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	OverlaySkeletalMesh->bEnableUpdateRateOptimizations = false;
@@ -378,7 +381,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	OverlaySkeletalMesh->PrimaryComponentTick.TickGroup = TG_PrePhysics;
 	OverlaySkeletalMesh->bReceivesDecals = false;
 
-	OverlayStaticMesh = CreateDefaultSubobject<UALSXTPaintableStaticMeshComponent>(TEXT("Overlay Static Mesh"));
+	OverlayStaticMesh = CreateDefaultSubobject<UAlsxtPaintableStaticMeshComponent>(TEXT("Overlay Static Mesh"));
 	OverlayStaticMesh->SetupAttachment(GetMesh());
 	OverlayStaticMesh->SetCollisionProfileName(UCollisionProfile::NoCollision_ProfileName);
 	OverlayStaticMesh->AlwaysLoadOnClient = true;
@@ -400,7 +403,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	MeshPaintingSceneCapture->CompositeMode = ESceneCaptureCompositeMode::SCCM_Additive;
 
 	ALSXTCharacterMovement = Cast<UALSXTCharacterMovementComponent>(GetCharacterMovement());
-	ALSXTMesh = Cast<UALSXTPaintableSkeletalMeshComponent>(GetMesh());
+	ALSXTMesh = Cast<UAlsxtPaintableSkeletalMeshComponent>(GetMesh());
 	ALSXTMesh->bReceivesDecals = false;
 
 	// Code Components
@@ -1339,61 +1342,61 @@ USceneCaptureComponent2D* AALSXTCharacter::GetSceneCaptureComponent_Implementati
 
 void AALSXTCharacter::GetElementalCondition_Implementation(UPrimitiveComponent* Component, FGameplayTag& ElementalCondition) const
 {
-	if (Cast<UALSXTPaintableSkeletalMeshComponent>(Component))
+	if (Cast<UAlsxtPaintableSkeletalMeshComponent>(Component))
 	{
-		ElementalCondition = Cast<UALSXTPaintableSkeletalMeshComponent>(Component)->GetElementalCondition();
+		ElementalCondition = Cast<UAlsxtPaintableSkeletalMeshComponent>(Component)->GetElementalCondition();
 	}
-	if (Cast<UALSXTPaintableStaticMeshComponent>(Component))
+	if (Cast<UAlsxtPaintableStaticMeshComponent>(Component))
 	{
-		ElementalCondition = Cast<UALSXTPaintableStaticMeshComponent>(Component)->GetElementalCondition();
+		ElementalCondition = Cast<UAlsxtPaintableStaticMeshComponent>(Component)->GetElementalCondition();
 	}
 }
 
 void AALSXTCharacter::PaintMesh_Implementation(UPrimitiveComponent* Component, EPhysicalSurface SurfaceType, const FGameplayTag PaintType, FVector Location, float Radius)
 {
-	if (Cast<UALSXTPaintableSkeletalMeshComponent>(Component))
+	if (Cast<UAlsxtPaintableSkeletalMeshComponent>(Component))
 	{
-		Cast<UALSXTPaintableSkeletalMeshComponent>(Component)->PaintMesh(SurfaceType, PaintType, Location, Radius);
+		Cast<UAlsxtPaintableSkeletalMeshComponent>(Component)->PaintMesh(SurfaceType, PaintType, Location, Radius);
 	}
-	if (Cast<UALSXTPaintableStaticMeshComponent>(Component))
+	if (Cast<UAlsxtPaintableStaticMeshComponent>(Component))
 	{
-		Cast<UALSXTPaintableStaticMeshComponent>(Component)->PaintMesh(SurfaceType, PaintType, Location, Radius);
+		Cast<UAlsxtPaintableStaticMeshComponent>(Component)->PaintMesh(SurfaceType, PaintType, Location, Radius);
 	}
 }
 
 void AALSXTCharacter::VolumePaintMesh_Implementation(UPrimitiveComponent* Component, EPhysicalSurface SurfaceType, const FGameplayTag PaintType, FVector Origin, FVector Extent)
 {
-	if (Cast<UALSXTPaintableSkeletalMeshComponent>(Component))
+	if (Cast<UAlsxtPaintableSkeletalMeshComponent>(Component))
 	{
-		Cast<UALSXTPaintableSkeletalMeshComponent>(Component)->VolumePaintMesh(SurfaceType, PaintType, Origin, Extent);
+		Cast<UAlsxtPaintableSkeletalMeshComponent>(Component)->VolumePaintMesh(SurfaceType, PaintType, Origin, Extent);
 	}
-	if (Cast<UALSXTPaintableStaticMeshComponent>(Component))
+	if (Cast<UAlsxtPaintableStaticMeshComponent>(Component))
 	{
-		Cast<UALSXTPaintableStaticMeshComponent>(Component)->VolumePaintMesh(SurfaceType, PaintType, Origin, Extent);
+		Cast<UAlsxtPaintableStaticMeshComponent>(Component)->VolumePaintMesh(SurfaceType, PaintType, Origin, Extent);
 	}
 }
 
 void AALSXTCharacter::ResetPaintTypeOnComponent_Implementation(UPrimitiveComponent* Component, const FGameplayTag PaintType)
 {
-	if (Cast<UALSXTPaintableSkeletalMeshComponent>(Component))
+	if (Cast<UAlsxtPaintableSkeletalMeshComponent>(Component))
 	{
-		Cast<UALSXTPaintableSkeletalMeshComponent>(Component)->ResetAllChannels();
+		Cast<UAlsxtPaintableSkeletalMeshComponent>(Component)->ResetAllChannels();
 	}
-	if (Cast<UALSXTPaintableStaticMeshComponent>(Component))
+	if (Cast<UAlsxtPaintableStaticMeshComponent>(Component))
 	{
-		Cast<UALSXTPaintableStaticMeshComponent>(Component)->ResetAllChannels();
+		Cast<UAlsxtPaintableStaticMeshComponent>(Component)->ResetAllChannels();
 	}
 }
 
 void AALSXTCharacter::ResetPaintOnComponent_Implementation(UPrimitiveComponent* Component)
 {
-	if (Cast<UALSXTPaintableSkeletalMeshComponent>(Component))
+	if (Cast<UAlsxtPaintableSkeletalMeshComponent>(Component))
 	{
-		Cast<UALSXTPaintableSkeletalMeshComponent>(Component)->ResetAllChannels();
+		Cast<UAlsxtPaintableSkeletalMeshComponent>(Component)->ResetAllChannels();
 	}
-	if (Cast<UALSXTPaintableStaticMeshComponent>(Component))
+	if (Cast<UAlsxtPaintableStaticMeshComponent>(Component))
 	{
-		Cast<UALSXTPaintableStaticMeshComponent>(Component)->ResetAllChannels();
+		Cast<UAlsxtPaintableStaticMeshComponent>(Component)->ResetAllChannels();
 	}
 }
 

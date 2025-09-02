@@ -12,6 +12,8 @@
 #include "ALSXTCharacter.h"
 #include "AlsxtPlayerState.generated.h"
 
+class UALSXTCharacterMovementComponent;
+
 /**
 * @file AlsxtPlayerState.h
 * @brief Base ALSXT Player State class. ASC and Gameplay Abilities/Effect are implemented here.
@@ -19,10 +21,6 @@
 * Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
 */
 
-class UALSXTCharacterMovementComponent;
-/**
- * 
- */
 UCLASS()
 class ALSXT_API AAlsxtPlayerState : public AModularPlayerState, public IAlsxtAbilitySystemInterface
 {
@@ -44,9 +42,8 @@ public:
 	// This event is fired after Ability System Component initialization is finished.
 	UFUNCTION(BlueprintNativeEvent)
 	void PostInitializeAbilitySystem();
-
-	UFUNCTION(BlueprintPure)
-	const FAbilitySystemInitializationData& GetAbilitySystemInitializationData() const
+	
+	virtual const FAbilitySystemInitializationData& GetAbilitySystemInitializationData() const override
 	{
 		return AbilitySystemInitializationData;
 	}

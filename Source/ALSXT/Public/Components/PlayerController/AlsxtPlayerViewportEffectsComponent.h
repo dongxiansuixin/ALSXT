@@ -7,17 +7,17 @@
 #include "ALSXTCharacter.h"
 #include "Components/PostProcessComponent.h"
 #include "Settings/ALSXTCameraEffectsSettings.h"
-#include "ALSXTPlayerViewportEffectsComponent.generated.h"
+#include "AlsxtPlayerViewportEffectsComponent.generated.h"
 
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ALSXT_API UALSXTPlayerViewportEffectsComponent : public UActorComponent
+class ALSXT_API UAlsxtPlayerViewportEffectsComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UALSXTPlayerViewportEffectsComponent();
+	UAlsxtPlayerViewportEffectsComponent();
 
 protected:
 	// Called when the game starts
