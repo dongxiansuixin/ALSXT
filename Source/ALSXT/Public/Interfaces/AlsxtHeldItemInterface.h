@@ -1,16 +1,16 @@
 #pragma once
 
 #include "Settings/ALSXTHeldItemSettings.h"
-#include "ALSXTHeldItemInterface.generated.h"
+#include "AlsxtHeldItemInterface.generated.h"
 
 
 
 UINTERFACE(Blueprintable)
-class UALSXTHeldItemInterface : public UInterface {
+class UAlsxtHeldItemInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTHeldItemInterface {
+class ALSXT_API IAlsxtHeldItemInterface {
 	GENERATED_BODY()
 
 public:

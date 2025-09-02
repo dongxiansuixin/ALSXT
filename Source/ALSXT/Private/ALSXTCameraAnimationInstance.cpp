@@ -57,14 +57,14 @@ void UALSXTCameraAnimationInstance::NativeUpdateAnimation(const float DeltaTime)
 	WeaponReadyPosition = ALSXTCharacter->GetDesiredWeaponReadyPosition();
 	CameraZoom = ALSXTCharacter->GetCameraZoom();
 
-	if (GetOwningActor()->Implements<UALSXTCharacterInterface>())
+	if (GetOwningActor()->Implements<UAlsxtCharacterInterface>())
 	{
-		bool NewIsIdleCameraRotationActive{ IALSXTIdleAnimationComponentInterface::Execute_IsIdleCameraRotationActive(GetOwningActor()) };
+		bool NewIsIdleCameraRotationActive{ IAlsxtIdleAnimationComponentInterface::Execute_IsIdleCameraRotationActive(GetOwningActor()) };
 		if (NewIsIdleCameraRotationActive != bIsIdleCameraRotationActive)
 		{
 			bIsIdleCameraRotationActive = NewIsIdleCameraRotationActive;
 
-			float NewIdleCameraRotation{ IALSXTIdleAnimationComponentInterface::Execute_GetIdleCameraRotation(GetOwningActor()) };
+			float NewIdleCameraRotation{ IAlsxtIdleAnimationComponentInterface::Execute_GetIdleCameraRotation(GetOwningActor()) };
 			if (NewIdleCameraRotation != IdleCameraRotation)
 			{
 				IdleCameraRotation = NewIdleCameraRotation;

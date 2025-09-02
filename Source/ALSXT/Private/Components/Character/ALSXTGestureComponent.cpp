@@ -1,10 +1,10 @@
 // MIT
 
-#include "Components/Character/ALSXTGestureComponent.h"
+#include "Components/Character/AlsxtGestureComponent.h"
 #include "Net/UnrealNetwork.h"
 
 // Sets default values for this component's properties
-UALSXTGestureComponent::UALSXTGestureComponent()
+UAlsxtGestureComponent::UAlsxtGestureComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -14,7 +14,7 @@ UALSXTGestureComponent::UALSXTGestureComponent()
 	// ...
 }
 
-void UALSXTGestureComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void UAlsxtGestureComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
@@ -26,18 +26,18 @@ void UALSXTGestureComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 }
 
 // Called when the game starts
-void UALSXTGestureComponent::BeginPlay()
+void UAlsxtGestureComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Character = IALSXTCharacterInterface::Execute_GetCharacter(GetOwner());
+	Character = IAlsxtCharacterInterface::Execute_GetCharacter(GetOwner());
 	AlsCharacter = Cast<AAlsCharacter>(GetOwner());
 	
 }
 
 
 // Called every frame
-void UALSXTGestureComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UAlsxtGestureComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
@@ -46,9 +46,9 @@ void UALSXTGestureComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 // Gesture
 
-void UALSXTGestureComponent::AddDesiredGesture(const FGameplayTag& Gesture, const FGameplayTag& GestureHand)
+void UAlsxtGestureComponent::AddDesiredGesture(const FGameplayTag& Gesture, const FGameplayTag& GestureHand)
 {
-	if (IALSXTCharacterInterface::Execute_CanGesture(GetOwner()))
+	if (IAlsxtCharacterInterface::Execute_CanGesture(GetOwner()))
 	{
 		if (Character->GetLocalRole() == ROLE_AutonomousProxy)
 		{
@@ -61,7 +61,7 @@ void UALSXTGestureComponent::AddDesiredGesture(const FGameplayTag& Gesture, cons
 	}
 }
 
-void UALSXTGestureComponent::ExitGesture(bool Immediate)
+void UAlsxtGestureComponent::ExitGesture(bool Immediate)
 {
 	if (Immediate)
 	{
@@ -73,14 +73,14 @@ void UALSXTGestureComponent::ExitGesture(bool Immediate)
 	}
 }
 
-void UALSXTGestureComponent::ServerAddDesiredGesture_Implementation(const FGameplayTag& Gesture, const FGameplayTag& GestureHand)
+void UAlsxtGestureComponent::ServerAddDesiredGesture_Implementation(const FGameplayTag& Gesture, const FGameplayTag& GestureHand)
 {
 	AddDesiredGesture(Gesture, GestureHand);
 }
 
-void UALSXTGestureComponent::AddGesture(const FGameplayTag& Gesture, const FGameplayTag& GestureHand)
+void UAlsxtGestureComponent::AddGesture(const FGameplayTag& Gesture, const FGameplayTag& GestureHand)
 {
-	if (IsValid(GestureSettings) && IALSXTCharacterInterface::Execute_CanGesture(GetOwner()))
+	if (IsValid(GestureSettings) && IAlsxtCharacterInterface::Execute_CanGesture(GetOwner()))
 	{
 		FALSXTGestureMontages* FoundMontages = GestureSettings->Gestures.Find(Gesture);
 		if (GestureHand == ALSXTHandTags::Left && IsValid(FoundMontages->LeftMontage))
@@ -96,4 +96,4 @@ void UALSXTGestureComponent::AddGesture(const FGameplayTag& Gesture, const FGame
 	}
 }
 
-void UALSXTGestureComponent::OnGesture_Implementation(const FGameplayTag& Gesture, const FGameplayTag& GestureHand) {}
+void UAlsxtGestureComponent::OnGesture_Implementation(const FGameplayTag& Gesture, const FGameplayTag& GestureHand) {}

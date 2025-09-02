@@ -5,7 +5,7 @@
 #include "AlsCharacter.h"
 #include "ALSXTAnimationInstance.h"
 #include "ALSXTCharacter.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTAnimNotify_ResponseVocalizationSound)
@@ -29,14 +29,14 @@ void UALSXTAnimNotify_ResponseVocalizationSound::Notify(USkeletalMeshComponent* 
 	const auto* World{ Mesh->GetWorld() };
 	const auto* Character{ Cast<AAlsCharacter>(Mesh->GetOwner()) };
 	AALSXTCharacter* ALSXTCharacter{ Cast<AALSXTCharacter>(Mesh->GetOwner()) };
-	FGameplayTag Status{ IALSXTCharacterInterface::Execute_GetCharacterStatus(Mesh->GetOwner()) };
+	FGameplayTag Status{ IAlsxtCharacterInterface::Execute_GetCharacterStatus(Mesh->GetOwner()) };
 
 	if (Status == ALSXTStatusTags::Dead)
 	{
 		return;
 	}
 
-	if (IsValid(ALSXTCharacter) && IALSXTCharacterInterface::Execute_GetCharacterLocomotionMode(Mesh->GetOwner()) == AlsLocomotionModeTags::InAir)
+	if (IsValid(ALSXTCharacter) && IAlsxtCharacterInterface::Execute_GetCharacterLocomotionMode(Mesh->GetOwner()) == AlsLocomotionModeTags::InAir)
 	{
 		return;
 	}

@@ -9,7 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Settings/ALSXTCombatSettings.h"
 #include "Utility/AlsMacros.h"
-#include "Interfaces/ALSXTCombatInterface.h"
+#include "Interfaces/AlsxtCombatInterface.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTRootMotionSource_CombatAttack)
@@ -43,9 +43,9 @@ void FALSXTRootMotionSource_CombatAttack::PrepareRootMotion(const float Simulati
 	const AALSXTCharacter& ALSXTCharacter = dynamic_cast<const AALSXTCharacter&>(Character);
 	AALSXTCharacter* ALSXTCharacterObject = Cast<AALSXTCharacter>(Character._getUObject());
 
-	if (UKismetSystemLibrary::DoesImplementInterface(ALSXTCharacterObject, UALSXTCombatInterface::StaticClass()))
+	if (UKismetSystemLibrary::DoesImplementInterface(ALSXTCharacterObject, UAlsxtCombatInterface::StaticClass()))
 	{
-		CombatState = IALSXTCombatInterface::Execute_GetCombatState(ALSXTCharacterObject);
+		CombatState = IAlsxtCombatInterface::Execute_GetCombatState(ALSXTCharacterObject);
 	}
 	
 	SetTime(GetTime() + SimulationDeltaTime);

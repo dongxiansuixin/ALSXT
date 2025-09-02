@@ -1,14 +1,14 @@
 #pragma once
 
 #include "NativeGameplayTags.h"
-#include "ALSXTAIInterface.generated.h"
+#include "AlsxtAIInterface.generated.h"
 
 UINTERFACE(Blueprintable)
-class UALSXTAIInterface : public UInterface {
+class UAlsxtAIInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTAIInterface {
+class ALSXT_API IAlsxtAIInterface {
 	GENERATED_BODY()
 
 public:

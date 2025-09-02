@@ -6,17 +6,17 @@
 #include "Components/ActorComponent.h"
 #include "Settings/ALSXTIdleAnimationSettings.h"
 #include "State/ALSXTStatusState.h"
-#include "ALSXTIdleAnimationComponent.generated.h"
+#include "AlsxtIdleAnimationComponent.generated.h"
 
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ALSXT_API UALSXTIdleAnimationComponent : public UActorComponent
+class ALSXT_API UAlsxtIdleAnimationComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UALSXTIdleAnimationComponent();
+	UAlsxtIdleAnimationComponent();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
@@ -170,7 +170,7 @@ public:
 	void StopIdle();
 };
 
-inline const FALSXTIdleState& UALSXTIdleAnimationComponent::GetIdleState() const
+inline const FALSXTIdleState& UAlsxtIdleAnimationComponent::GetIdleState() const
 {
 	return IdleState;
 }

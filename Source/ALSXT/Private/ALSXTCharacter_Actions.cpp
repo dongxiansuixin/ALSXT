@@ -764,14 +764,14 @@ FVaultAnimation AALSXTCharacter::SelectVaultingMontage_Implementation(const FGam
 
 void AALSXTCharacter::OnVaultingStarted_Implementation(const FALSXTVaultingParameters& Parameters) 
 {
-	FALSXTCharacterVoiceParameters CharacterVoiceParams = IALSXTCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this);
+	FALSXTCharacterVoiceParameters CharacterVoiceParams = IAlsxtCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this);
 
 	if (Parameters.VaultingType == ALSXTVaultTypeTags::Low)
 	{
 		ClearOverlayObject();
 	}
 
-	CharacterSound->PlayActionSound(true, true, true, ALSXTCharacterMovementSoundTags::Vaulting, CharacterVoiceParams.Sex, CharacterVoiceParams.Variant, IALSXTCharacterInterface::Execute_GetCharacterOverlayMode(this), ALSXTActionStrengthTags::Medium, IALSXTCharacterInterface::Execute_GetStamina(this));
+	CharacterSound->PlayActionSound(true, true, true, ALSXTCharacterMovementSoundTags::Vaulting, CharacterVoiceParams.Sex, CharacterVoiceParams.Variant, IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(this), ALSXTActionStrengthTags::Medium, IAlsxtCharacterInterface::Execute_GetStamina(this));
 }
 
 void AALSXTCharacter::RefreshVaulting()

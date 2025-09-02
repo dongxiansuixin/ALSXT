@@ -6,7 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "ALSXTCharacter.h"
 #include "Settings/ALSXTAcrobaticActionSettings.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
 #include "ALSXTAcrobaticActionComponent.generated.h"
 
 

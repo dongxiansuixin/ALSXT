@@ -16,7 +16,7 @@
 #include "ALSXTCharacter.h"
 #include "Utility/ALSXTGameplayTags.h"
 #include "Utility/ALSXTFirearmGameplayTags.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
 #include "Settings/ALSXTAnimationInstanceSettings.h"
 #include "Settings/ALSXTCharacterBreathEffectsSettings.h"
 #include "ALSXTAnimationInstance.generated.h"

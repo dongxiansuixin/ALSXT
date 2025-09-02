@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Settings/ALSXTIdleAnimationSettings.h"
-#include "ALSXTIdleAnimationComponentInterface.generated.h"
+#include "AlsxtIdleAnimationComponentInterface.generated.h"
 
 UINTERFACE(Blueprintable)
-class UALSXTIdleAnimationComponentInterface : public UInterface {
+class UAlsxtIdleAnimationComponentInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTIdleAnimationComponentInterface {
+class ALSXT_API IAlsxtIdleAnimationComponentInterface {
 	GENERATED_BODY()
 
 public:

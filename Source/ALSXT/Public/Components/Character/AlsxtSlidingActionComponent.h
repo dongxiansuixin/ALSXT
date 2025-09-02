@@ -7,16 +7,16 @@
 #include "ALSXTCharacter.h"
 #include "Settings/ALSXTSlidingSettings.h"
 #include "State/ALSXTSlidingState.h"
-#include "ALSXTSlidingActionComponent.generated.h"
+#include "AlsxtSlidingActionComponent.generated.h"
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ALSXT_API UALSXTSlidingActionComponent : public UActorComponent
+class ALSXT_API UAlsxtSlidingActionComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UALSXTSlidingActionComponent();
+	UAlsxtSlidingActionComponent();
 
 	UFUNCTION()
 	virtual void SetupInputComponent(class UEnhancedInputComponent* PlayerInputComponent);

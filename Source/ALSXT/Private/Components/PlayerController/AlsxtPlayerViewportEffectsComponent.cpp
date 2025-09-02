@@ -2,8 +2,8 @@
 
 
 #include "Components/PlayerController/AlsxtPlayerViewportEffectsComponent.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
-#include "Interfaces/ALSXTControllerVFXInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
+#include "Interfaces/AlsxtControllerVFXInterface.h"
 #include "Engine/Scene.h"
 #include "Math/UnrealMathUtility.h"
 #include "Kismet/KismetSystemLibrary.h"
@@ -38,10 +38,10 @@ void UAlsxtPlayerViewportEffectsComponent::BeginPlay()
 			CameraManager = PlayerController->PlayerCameraManager;
 		}
 		
-		Character = IALSXTCharacterInterface::Execute_GetCharacter(GetOwner());
+		Character = IAlsxtCharacterInterface::Execute_GetCharacter(GetOwner());
 		if (IsValid(Character))
 		{
-			Camera = IALSXTControllerVFXInterface::Execute_GetCamera(GetOwner());
+			Camera = IAlsxtControllerVFXInterface::Execute_GetCamera(GetOwner());
 			// CameraManager = IALSXTControllerVFXInterface::Execute_GetPlayerCameraManager(GetOwner());
 			FString PostProcessComponentName = "PostProcess Component";
 			PostProcessComponent = NewObject<UPostProcessComponent>(this, UPostProcessComponent::StaticClass(), *PostProcessComponentName);
@@ -146,8 +146,8 @@ void UAlsxtPlayerViewportEffectsComponent::DepthOfFieldTrace()
 		return;
 	}
 
-	FVector CameraLocation = IALSXTControllerVFXInterface::Execute_GetCameraLocation(Character);
-	FRotator CameraRotation = IALSXTControllerVFXInterface::Execute_GetCameraRotation(Character);
+	FVector CameraLocation = IAlsxtControllerVFXInterface::Execute_GetCameraLocation(Character);
+	FRotator CameraRotation = IAlsxtControllerVFXInterface::Execute_GetCameraRotation(Character);
 	FGameplayTag ViewMode = Character->GetViewMode();
 	FGameplayTag CombatStance = Character->GetDesiredCombatStance();
 	FVector ThirdPersonTraceStartPoint = Character->GetMesh()->GetSocketLocation("head");
@@ -160,9 +160,9 @@ void UAlsxtPlayerViewportEffectsComponent::DepthOfFieldTrace()
 
 	float HitDistance;
 
-	if (GeneralCameraEffectsSettings.bFocusOnCombatTarget && IsValid(IALSXTCombatInterface::Execute_GetCurrentTarget(Character)))
+	if (GeneralCameraEffectsSettings.bFocusOnCombatTarget && IsValid(IAlsxtCombatInterface::Execute_GetCurrentTarget(Character)))
 	{
-		AActor* CurrentTarget = IALSXTCombatInterface::Execute_GetCurrentTarget(Character);
+		AActor* CurrentTarget = IAlsxtCombatInterface::Execute_GetCurrentTarget(Character);
 		HitDistance = FVector::Dist(Character->GetActorLocation(), CurrentTarget->GetActorLocation());
 	}
 	else

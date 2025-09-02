@@ -6,17 +6,17 @@
 #include "Components/ActorComponent.h"
 #include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
 #include "Settings/ALSXTClothingSettings.h"
-#include "ALSXTCharacterEquipmentComponent.generated.h"
+#include "AlsxtCharacterEquipmentComponent.generated.h"
 
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ALSXT_API UALSXTCharacterEquipmentComponent : public UActorComponent
+class ALSXT_API UAlsxtCharacterEquipmentComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UALSXTCharacterEquipmentComponent();
+	UAlsxtCharacterEquipmentComponent();
 
 protected:
 	// Called when the game starts

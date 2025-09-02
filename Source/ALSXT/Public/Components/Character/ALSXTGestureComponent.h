@@ -8,17 +8,17 @@
 #include "ALSXTCharacter.h"
 #include "NativeGameplayTags.h"
 #include "Settings/ALSXTGestureSettings.h"
-#include "ALSXTGestureComponent.generated.h"
+#include "AlsxtGestureComponent.generated.h"
 
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ALSXT_API UALSXTGestureComponent : public UActorComponent
+class ALSXT_API UAlsxtGestureComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UALSXTGestureComponent();
+	UAlsxtGestureComponent();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 

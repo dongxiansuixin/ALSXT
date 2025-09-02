@@ -9,7 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Settings/ALSXTImpactReactionSettings.h"
 #include "Utility/AlsMacros.h"
-#include "Interfaces/ALSXTCollisionInterface.h"
+#include "Interfaces/AlsxtCollisionInterface.h"
 
 FALSXTRootMotionSource_ImpactReaction::FALSXTRootMotionSource_ImpactReaction()
 {
@@ -40,9 +40,9 @@ void FALSXTRootMotionSource_ImpactReaction::PrepareRootMotion(const float Simula
 	const AALSXTCharacter& ALSXTCharacter = dynamic_cast<const AALSXTCharacter&>(Character);
 	AALSXTCharacter* ALSXTCharacterObject = Cast<AALSXTCharacter>(Character._getUObject());
 
-	if (UKismetSystemLibrary::DoesImplementInterface(ALSXTCharacterObject, UALSXTCollisionInterface::StaticClass()))
+	if (UKismetSystemLibrary::DoesImplementInterface(ALSXTCharacterObject, UAlsxtCollisionInterface::StaticClass()))
 	{
-		ImpactReactionState = IALSXTCollisionInterface::Execute_GetImpactReactionState(ALSXTCharacterObject);
+		ImpactReactionState = IAlsxtCollisionInterface::Execute_GetImpactReactionState(ALSXTCharacterObject);
 	}
 	
 	SetTime(GetTime() + SimulationDeltaTime);

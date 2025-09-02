@@ -2,7 +2,7 @@
 
 
 #include "Components/Mesh/AlsxtPaintableStaticMeshComponent.h"
-#include "Interfaces/ALSXTMeshPaintingInterface.h"
+#include "Interfaces/AlsxtMeshPaintingInterface.h"
 #include "Settings/ALSXTCharacterSettings.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/KismetRenderingLibrary.h"
@@ -18,8 +18,8 @@ void UAlsxtPaintableStaticMeshComponent::BeginPlay()
 
 	if (IsMeshPaintingConfigured())
 	{
-		SceneCaptureComponent = IALSXTMeshPaintingInterface::Execute_GetSceneCaptureComponent(GetOwner());
-		GlobalGeneralMeshPaintingSettings = IALSXTMeshPaintingInterface::Execute_GetGlobalGeneralMeshPaintingSettings(GetOwner());
+		SceneCaptureComponent = IAlsxtMeshPaintingInterface::Execute_GetSceneCaptureComponent(GetOwner());
+		GlobalGeneralMeshPaintingSettings = IAlsxtMeshPaintingInterface::Execute_GetGlobalGeneralMeshPaintingSettings(GetOwner());
 		if (IsMeshPaintingEnabled())
 		{
 			// InitializeMaterials();
@@ -33,8 +33,8 @@ bool UAlsxtPaintableStaticMeshComponent::SetStaticMesh(UStaticMesh* NewMesh)
 
 	if (GetMaterial(0))
 	{
-		FALSXTServerMeshPaintingSettings ServerGeneralMeshPaintingSettings{ IALSXTMeshPaintingInterface::Execute_GetServerGeneralMeshPaintingSettings(GetOwner()) };
-		FALSXTGeneralMeshPaintingSettings UserGeneralMeshPaintingSettings{ IALSXTMeshPaintingInterface::Execute_GetUserGeneralMeshPaintingSettings(GetOwner()) };
+		FALSXTServerMeshPaintingSettings ServerGeneralMeshPaintingSettings{ IAlsxtMeshPaintingInterface::Execute_GetServerGeneralMeshPaintingSettings(GetOwner()) };
+		FALSXTGeneralMeshPaintingSettings UserGeneralMeshPaintingSettings{ IAlsxtMeshPaintingInterface::Execute_GetUserGeneralMeshPaintingSettings(GetOwner()) };
 		if (GlobalGeneralMeshPaintingSettings.GeneralSettings.bEnableMeshPainting && ServerGeneralMeshPaintingSettings.GeneralSettings.bEnableMeshPainting && UserGeneralMeshPaintingSettings.bEnableMeshPainting)
 		{
 			// InitializeMaterials();
@@ -54,11 +54,11 @@ bool UAlsxtPaintableStaticMeshComponent::IsMeshPaintingConfigured() const
 	{
 		return false;
 	}
-	if (!GetOwner()->GetClass()->ImplementsInterface(UALSXTMeshPaintingInterface::StaticClass()))
+	if (!GetOwner()->GetClass()->ImplementsInterface(UAlsxtMeshPaintingInterface::StaticClass()))
 	{
 		return false;
 	}
-	if (!IALSXTMeshPaintingInterface::Execute_GetSceneCaptureComponent(GetOwner()))
+	if (!IAlsxtMeshPaintingInterface::Execute_GetSceneCaptureComponent(GetOwner()))
 	{
 		return false;
 	}
@@ -67,14 +67,14 @@ bool UAlsxtPaintableStaticMeshComponent::IsMeshPaintingConfigured() const
 
 bool UAlsxtPaintableStaticMeshComponent::IsMeshPaintingEnabled() const
 {
-	FALSXTServerMeshPaintingSettings ServerGeneralMeshPaintingSettings{ IALSXTMeshPaintingInterface::Execute_GetServerGeneralMeshPaintingSettings(GetOwner()) };
-	FALSXTGeneralMeshPaintingSettings UserGeneralMeshPaintingSettings{ IALSXTMeshPaintingInterface::Execute_GetUserGeneralMeshPaintingSettings(GetOwner()) };
+	FALSXTServerMeshPaintingSettings ServerGeneralMeshPaintingSettings{ IAlsxtMeshPaintingInterface::Execute_GetServerGeneralMeshPaintingSettings(GetOwner()) };
+	FALSXTGeneralMeshPaintingSettings UserGeneralMeshPaintingSettings{ IAlsxtMeshPaintingInterface::Execute_GetUserGeneralMeshPaintingSettings(GetOwner()) };
 	return GlobalGeneralMeshPaintingSettings.GeneralSettings.bEnableMeshPainting && ServerGeneralMeshPaintingSettings.GeneralSettings.bEnableMeshPainting && UserGeneralMeshPaintingSettings.bEnableMeshPainting;
 }
 
 void UAlsxtPaintableStaticMeshComponent::InitializeMaterials()
 {
-	FALSXTServerMeshPaintingSettings ServerGeneralMeshPaintingSettings{ IALSXTMeshPaintingInterface::Execute_GetServerGeneralMeshPaintingSettings(GetOwner()) };
+	FALSXTServerMeshPaintingSettings ServerGeneralMeshPaintingSettings{ IAlsxtMeshPaintingInterface::Execute_GetServerGeneralMeshPaintingSettings(GetOwner()) };
 	// PhysicalMaterialMapTexture = GetMaterial(0)->GetPhysicalMaterialMask()->MaskTexture;
 	PhysicalMaterialMask = GetMaterial(0)->GetPhysicalMaterialMask();
 
@@ -271,8 +271,8 @@ TEnumAsByte<EPhysicalSurface> UAlsxtPaintableStaticMeshComponent::GetSurfaceAtLo
 bool UAlsxtPaintableStaticMeshComponent::CanBePainted(const FGameplayTag PaintType)
 {
 	// Ideally, User Settings should only apply for Single Player/Offline Play. The Server Browser/Match Making should not allow for Users with a setting disabled to connect to a Server with the same setting Enabled
-	FALSXTServerMeshPaintingSettings ServerGeneralMeshPaintingSettings{ IALSXTMeshPaintingInterface::Execute_GetServerGeneralMeshPaintingSettings(GetOwner()) };
-	FALSXTGeneralMeshPaintingSettings UserGeneralMeshPaintingSettings{ IALSXTMeshPaintingInterface::Execute_GetUserGeneralMeshPaintingSettings(GetOwner()) };
+	FALSXTServerMeshPaintingSettings ServerGeneralMeshPaintingSettings{ IAlsxtMeshPaintingInterface::Execute_GetServerGeneralMeshPaintingSettings(GetOwner()) };
+	FALSXTGeneralMeshPaintingSettings UserGeneralMeshPaintingSettings{ IAlsxtMeshPaintingInterface::Execute_GetUserGeneralMeshPaintingSettings(GetOwner()) };
 
 	if (PaintType == ALSXTMeshPaintTypeTags::BloodDamage)
 	{

@@ -18,7 +18,7 @@
 #include "Settings/ALSXTStatusSettings.h"
 #include "State/ALSXTClothingState.h"
 #include "State/ALSXTStatusState.h"
-#include "ALSXTCharacterInterface.generated.h"
+#include "AlsxtCharacterInterface.generated.h"
 
 class UALSXTCameraAnimationInstance;
 class UAlsCameraComponent;
@@ -51,11 +51,11 @@ struct ALSXT_API FALSXTJigglePhysicsSettings
 };
 
 UINTERFACE(Blueprintable)
-class UALSXTCharacterInterface : public UInterface {
+class UAlsxtCharacterInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTCharacterInterface {
+class ALSXT_API IAlsxtCharacterInterface {
 	GENERATED_BODY()
 
 public:

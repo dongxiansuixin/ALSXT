@@ -11,11 +11,48 @@ public class ALSXT : ModuleRules
 		CppCompileWarningSettings.NonInlinedGenCppWarningLevel = WarningLevel.Warning;
 
 		PublicDependencyModuleNames.AddRange([
-			"Core",	"Landscape", "CoreUObject", "Engine", "AudioExtensions", "UMG", "GameplayTags", "GameplayCameras", "CinematicCamera", "AIModule", "AnimGraphRuntime", "RigVM", "ControlRig", "EnhancedInput", "ALS", "ALSCamera", "Niagara", "NetCore", "StructUtils", "NetCommon", "Networking", "GameFeatures", "ModularGameplay", "ModularGameplayActors", "AbilitySystemGameFeatureActions", "GameplayTasks", "Chooser", "ContextualAnimation", "DataRegistry"
+			"Core",
+			"Landscape",
+			"CoreUObject",
+			"Engine",
+			"AudioExtensions",
+			"UMG",
+			"GameplayTags",
+			"GameplayCameras",
+			"CinematicCamera",
+			"AIModule",
+			"AnimGraphRuntime",
+			"RigVM",
+			"ControlRig",
+			"EnhancedInput",
+			"ALS",
+			"ALSCamera",
+			"Niagara",
+			"NetCore",
+			"NetCommon",
+			"Networking",
+			"GameFeatures",
+			"ModularGameplay",
+			"ModularGameplayActors",
+			"AbilitySystemGameFeatureActions",
+			"GameplayTasks",
+			"Chooser",
+			"ContextualAnimation",
+			"DataRegistry",
+#if UE_5_5_OR_LATER
+			// pass
+#else
+			"StructUtils",
+#endif // UE_5_5_OR_LATER
 		]);			
 		
 		PrivateDependencyModuleNames.AddRange([
-			"EngineSettings", "PhysicsCore", "Slate", "SlateCore", "GameplayAbilities", "TargetingSystem"
+			"EngineSettings",
+			"PhysicsCore",
+			"Slate",
+			"SlateCore",
+			"GameplayAbilities",
+			"TargetingSystem"
 		]);
 
 		if (Target.Type == TargetRules.TargetType.Editor)

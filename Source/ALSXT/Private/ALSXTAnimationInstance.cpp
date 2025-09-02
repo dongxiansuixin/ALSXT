@@ -4,13 +4,13 @@
 #include "ALSXTAnimationInstanceProxy.h"
 #include "ALSXTCharacter.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
-#include "Interfaces/ALSXTHeldItemInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
+#include "Interfaces/AlsxtHeldItemInterface.h"
 #include "Utility/ALSXTConstants.h"
 #include "ALS/Public/Utility/AlsMacros.h"
 #include "Math/UnrealMathUtility.h"
 #include "Stats/Stats.h"
-#include "Interfaces/ALSXTFirearmInterface.h"
+#include "Interfaces/AlsxtFirearmInterface.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTAnimationInstance)
 
@@ -41,10 +41,10 @@ void UALSXTAnimationInstance::NativeBeginPlay()
 
 	ALS_ENSURE(IsValid(ALSXTSettings));
 	ALS_ENSURE(IsValid(ALSXTCharacter));
-	if (GetOwningActor()->Implements<UALSXTCharacterInterface>())
+	if (GetOwningActor()->Implements<UAlsxtCharacterInterface>())
 	{
-		StaminaThresholdSettings = IALSXTCharacterInterface::Execute_GetCharacterSettings(GetOwningActor())->StatusSettings.StaminaThresholdSettings;
-		CharacterBreathEffectsSettings = IALSXTCharacterInterface::Execute_GetCharacterSettings(GetOwningActor())->BreathEffects;
+		StaminaThresholdSettings = IAlsxtCharacterInterface::Execute_GetCharacterSettings(GetOwningActor())->StatusSettings.StaminaThresholdSettings;
+		CharacterBreathEffectsSettings = IAlsxtCharacterInterface::Execute_GetCharacterSettings(GetOwningActor())->BreathEffects;
 	}
 }
 
@@ -58,73 +58,73 @@ void UALSXTAnimationInstance::NativeUpdateAnimation(const float DeltaTime)
 		return;
 	}
 
-	if (!GetOwningActor()->Implements<UALSXTCharacterInterface>())
+	if (!GetOwningActor()->Implements<UAlsxtCharacterInterface>())
 	{
 		return;
 	}
 
 	RefreshALSXTPose();
 	
-	if (GetOwningActor()->Implements<UALSXTCharacterInterface>())
+	if (GetOwningActor()->Implements<UAlsxtCharacterInterface>())
 	{
-		JigglePhysicsSettings = IALSXTCharacterInterface::Execute_GetCharacterJigglePhysicsSettings(GetOwningActor());
-		Freelooking = IALSXTCharacterInterface::Execute_GetCharacterFreelooking(GetOwningActor());
-		Sex = IALSXTCharacterInterface::Execute_GetCharacterSex(GetOwningActor());
-		DefensiveMode = IALSXTCharacterInterface::Execute_GetCharacterDefensiveMode(GetOwningActor());
-		Lean = IALSXTCharacterInterface::Execute_GetCharacterLean(GetOwningActor());
-		LocomotionVariant = IALSXTCharacterInterface::Execute_GetCharacterLocomotionVariant(GetOwningActor());
-		Injury = IALSXTCharacterInterface::Execute_GetCharacterInjury(GetOwningActor());
-		CombatStance = IALSXTCharacterInterface::Execute_GetCharacterCombatStance(GetOwningActor());
-		WeaponFirearmStance = IALSXTCharacterInterface::Execute_GetCharacterWeaponFirearmStance(GetOwningActor());
-		WeaponReadyPosition = IALSXTCharacterInterface::Execute_GetCharacterWeaponReadyPosition(GetOwningActor());
-		StationaryMode = IALSXTCharacterInterface::Execute_GetCharacterStationaryMode(GetOwningActor());
-		HoldingBreath = IALSXTCharacterInterface::Execute_GetCharacterHoldingBreath(GetOwningActor());
-		IALSXTCharacterInterface::Execute_GetCharacterGesture(GetOwningActor(), Gesture, GestureHand);
-		ForegripPosition = IALSXTCharacterInterface::Execute_GetCharacterForegripPosition(GetOwningActor());
-		FirearmFingerAction = IALSXTCharacterInterface::Execute_GetCharacterFirearmFingerAction(GetOwningActor());
-		FirearmFingerActionHand = IALSXTCharacterInterface::Execute_GetCharacterFirearmFingerActionHand(GetOwningActor());
-		WeaponCarryPosition = IALSXTCharacterInterface::Execute_GetCharacterWeaponCarryPosition(GetOwningActor());
-		FirearmSightLocation = IALSXTCharacterInterface::Execute_GetCharacterFirearmSightLocation(GetOwningActor());
-		ForegripTransform = IALSXTCharacterInterface::Execute_GetCharacterCurrentForegripTransform(GetOwningActor());
-		VaultType = IALSXTCharacterInterface::Execute_GetCharacterVaultType(GetOwningActor());		
-		AimState = IALSXTCharacterInterface::Execute_GetCharacterAimState(GetOwningActor());
-		FreelookState = IALSXTCharacterInterface::Execute_GetCharacterFreelookState(GetOwningActor());
-		HeadLookAtState = IALSXTCharacterInterface::Execute_GetCharacterHeadLookAtState(GetOwningActor());
-		StatusState = IALSXTCharacterInterface::Execute_GetStatusState(GetOwningActor());
-		DefensiveModeState = IALSXTCharacterInterface::Execute_GetCharacterDefensiveModeState(GetOwningActor());
-		DefensiveModeAnimations = IALSXTCharacterInterface::Execute_GetCharacterDefensiveModeAnimations(GetOwningActor());
-		StationaryModeState = IALSXTCharacterInterface::Execute_GetCharacterStationaryModeState(GetOwningActor());
-		WeaponObstruction = IALSXTCharacterInterface::Execute_GetCharacterWeaponObstruction(GetOwningActor());
-		BreathState = IALSXTCharacterInterface::Execute_GetCharacterBreathState(GetOwningActor());
+		JigglePhysicsSettings = IAlsxtCharacterInterface::Execute_GetCharacterJigglePhysicsSettings(GetOwningActor());
+		Freelooking = IAlsxtCharacterInterface::Execute_GetCharacterFreelooking(GetOwningActor());
+		Sex = IAlsxtCharacterInterface::Execute_GetCharacterSex(GetOwningActor());
+		DefensiveMode = IAlsxtCharacterInterface::Execute_GetCharacterDefensiveMode(GetOwningActor());
+		Lean = IAlsxtCharacterInterface::Execute_GetCharacterLean(GetOwningActor());
+		LocomotionVariant = IAlsxtCharacterInterface::Execute_GetCharacterLocomotionVariant(GetOwningActor());
+		Injury = IAlsxtCharacterInterface::Execute_GetCharacterInjury(GetOwningActor());
+		CombatStance = IAlsxtCharacterInterface::Execute_GetCharacterCombatStance(GetOwningActor());
+		WeaponFirearmStance = IAlsxtCharacterInterface::Execute_GetCharacterWeaponFirearmStance(GetOwningActor());
+		WeaponReadyPosition = IAlsxtCharacterInterface::Execute_GetCharacterWeaponReadyPosition(GetOwningActor());
+		StationaryMode = IAlsxtCharacterInterface::Execute_GetCharacterStationaryMode(GetOwningActor());
+		HoldingBreath = IAlsxtCharacterInterface::Execute_GetCharacterHoldingBreath(GetOwningActor());
+		IAlsxtCharacterInterface::Execute_GetCharacterGesture(GetOwningActor(), Gesture, GestureHand);
+		ForegripPosition = IAlsxtCharacterInterface::Execute_GetCharacterForegripPosition(GetOwningActor());
+		FirearmFingerAction = IAlsxtCharacterInterface::Execute_GetCharacterFirearmFingerAction(GetOwningActor());
+		FirearmFingerActionHand = IAlsxtCharacterInterface::Execute_GetCharacterFirearmFingerActionHand(GetOwningActor());
+		WeaponCarryPosition = IAlsxtCharacterInterface::Execute_GetCharacterWeaponCarryPosition(GetOwningActor());
+		FirearmSightLocation = IAlsxtCharacterInterface::Execute_GetCharacterFirearmSightLocation(GetOwningActor());
+		ForegripTransform = IAlsxtCharacterInterface::Execute_GetCharacterCurrentForegripTransform(GetOwningActor());
+		VaultType = IAlsxtCharacterInterface::Execute_GetCharacterVaultType(GetOwningActor());		
+		AimState = IAlsxtCharacterInterface::Execute_GetCharacterAimState(GetOwningActor());
+		FreelookState = IAlsxtCharacterInterface::Execute_GetCharacterFreelookState(GetOwningActor());
+		HeadLookAtState = IAlsxtCharacterInterface::Execute_GetCharacterHeadLookAtState(GetOwningActor());
+		StatusState = IAlsxtCharacterInterface::Execute_GetStatusState(GetOwningActor());
+		DefensiveModeState = IAlsxtCharacterInterface::Execute_GetCharacterDefensiveModeState(GetOwningActor());
+		DefensiveModeAnimations = IAlsxtCharacterInterface::Execute_GetCharacterDefensiveModeAnimations(GetOwningActor());
+		StationaryModeState = IAlsxtCharacterInterface::Execute_GetCharacterStationaryModeState(GetOwningActor());
+		WeaponObstruction = IAlsxtCharacterInterface::Execute_GetCharacterWeaponObstruction(GetOwningActor());
+		BreathState = IAlsxtCharacterInterface::Execute_GetCharacterBreathState(GetOwningActor());
 		// ReloadingType = IALSXTCharacterInterface::Execute_GetCharacterReloadingType(GetOwningActor());
 		
 	}
 
-	if (GetOwningActor()->Implements<UALSXTCollisionInterface>())
+	if (GetOwningActor()->Implements<UAlsxtCollisionInterface>())
 	{
-		PhysicalAnimationMode = IALSXTCollisionInterface::Execute_GetCharacterPhysicalAnimationMode(GetOwningActor());
-		CrowdNavigationPoseState = IALSXTCollisionInterface::Execute_GetCrowdNavigationPoseState(GetOwningActor());
-		BumpPoseState = IALSXTCollisionInterface::Execute_GetBumpPoseState(GetOwningActor());
+		PhysicalAnimationMode = IAlsxtCollisionInterface::Execute_GetCharacterPhysicalAnimationMode(GetOwningActor());
+		CrowdNavigationPoseState = IAlsxtCollisionInterface::Execute_GetCrowdNavigationPoseState(GetOwningActor());
+		BumpPoseState = IAlsxtCollisionInterface::Execute_GetBumpPoseState(GetOwningActor());
 	}
 
-	if (GetOwningActor()->Implements<UALSXTHeldItemInterface>())
+	if (GetOwningActor()->Implements<UAlsxtHeldItemInterface>())
 	{
-		HeldItemSettings = IALSXTHeldItemInterface::Execute_GetHeldItemSettings(GetOwningActor());
-		HeldItemState = IALSXTHeldItemInterface::Execute_GetCharacterHeldItemState(GetOwningActor());
-		DoesOverlayObjectUseLeftHandIK = IALSXTHeldItemInterface::Execute_GetHeldItemSettings(GetOwningActor()).UsesLeftHandIK;
+		HeldItemSettings = IAlsxtHeldItemInterface::Execute_GetHeldItemSettings(GetOwningActor());
+		HeldItemState = IAlsxtHeldItemInterface::Execute_GetCharacterHeldItemState(GetOwningActor());
+		DoesOverlayObjectUseLeftHandIK = IAlsxtHeldItemInterface::Execute_GetHeldItemSettings(GetOwningActor()).UsesLeftHandIK;
 	}
 
-	if (GetOwningActor()->Implements<UALSXTFirearmInterface>())
+	if (GetOwningActor()->Implements<UAlsxtFirearmInterface>())
 	{
-		if (IsValid(IALSXTFirearmInterface::Execute_GetFirearmDischargeEffectsState(GetOwningActor()).RecoilAsset))
+		if (IsValid(IAlsxtFirearmInterface::Execute_GetFirearmDischargeEffectsState(GetOwningActor()).RecoilAsset))
 		{
-			RecoilState = IALSXTFirearmInterface::Execute_GetRecoilState(GetOwningActor());
+			RecoilState = IAlsxtFirearmInterface::Execute_GetRecoilState(GetOwningActor());
 		}
 
 
 	}
 
-	if (IALSXTCharacterInterface::Execute_GetCharacterStationaryModeState(GetOwningActor()).Mode != StationaryModeState.Mode && (IALSXTCharacterInterface::Execute_GetCharacterStance(GetOwningActor()) != Stance || IALSXTCharacterInterface::Execute_GetCharacterCombatStance(GetOwningActor()) != CombatStance))
+	if (IAlsxtCharacterInterface::Execute_GetCharacterStationaryModeState(GetOwningActor()).Mode != StationaryModeState.Mode && (IAlsxtCharacterInterface::Execute_GetCharacterStance(GetOwningActor()) != Stance || IAlsxtCharacterInterface::Execute_GetCharacterCombatStance(GetOwningActor()) != CombatStance))
 	{
 
 	}
@@ -173,9 +173,9 @@ FAnimInstanceProxy* UALSXTAnimationInstance::CreateAnimInstanceProxy()
 
 bool UALSXTAnimationInstance::IsSpineRotationAllowed()
 {
-	if (GetOwningActor()->Implements<UALSXTCharacterInterface>())
+	if (GetOwningActor()->Implements<UAlsxtCharacterInterface>())
 	{
-		return Super::IsSpineRotationAllowed() && IALSXTCharacterInterface::Execute_GetCharacterFreelooking(GetOwningActor()) != ALSXTFreelookingTags::True;
+		return Super::IsSpineRotationAllowed() && IAlsxtCharacterInterface::Execute_GetCharacterFreelooking(GetOwningActor()) != ALSXTFreelookingTags::True;
 		//return ALSXTCharacter->GetRotationMode() == AlsRotationModeTags::Aiming && ALSXTCharacter->GetLocomotionState().bRotationLocked == false;
 	}
 	else
@@ -186,9 +186,9 @@ bool UALSXTAnimationInstance::IsSpineRotationAllowed()
 
 bool UALSXTAnimationInstance::IsRotateInPlaceAllowed()
 {
-	if (GetOwningActor()->Implements<UALSXTCharacterInterface>())
+	if (GetOwningActor()->Implements<UAlsxtCharacterInterface>())
 	{
-		return Super::IsRotateInPlaceAllowed() && IALSXTCharacterInterface::Execute_GetCharacterFreelooking(GetOwningActor()) != ALSXTFreelookingTags::True;
+		return Super::IsRotateInPlaceAllowed() && IAlsxtCharacterInterface::Execute_GetCharacterFreelooking(GetOwningActor()) != ALSXTFreelookingTags::True;
 	}
 	else
 	{
@@ -198,9 +198,9 @@ bool UALSXTAnimationInstance::IsRotateInPlaceAllowed()
 
 bool UALSXTAnimationInstance::IsTurnInPlaceAllowed()
 {
-	if (GetOwningActor()->Implements<UALSXTCharacterInterface>())
+	if (GetOwningActor()->Implements<UAlsxtCharacterInterface>())
 	{
-		return Super::IsTurnInPlaceAllowed() && IALSXTCharacterInterface::Execute_GetCharacterFreelooking(GetOwningActor()) != ALSXTFreelookingTags::True;
+		return Super::IsTurnInPlaceAllowed() && IAlsxtCharacterInterface::Execute_GetCharacterFreelooking(GetOwningActor()) != ALSXTFreelookingTags::True;
 	}
 	else
 	{
@@ -221,9 +221,9 @@ void UALSXTAnimationInstance::RefreshALSXTPose()
 		}
 	};
 
-	if (GetOwningActor()->Implements<UALSXTCharacterInterface>())
+	if (GetOwningActor()->Implements<UAlsxtCharacterInterface>())
 	{
-		ALSXTPoseState.LeanDirection = IALSXTCharacterInterface::Execute_GetCharacterPoseState(GetOwningActor()).LeanDirection;
+		ALSXTPoseState.LeanDirection = IAlsxtCharacterInterface::Execute_GetCharacterPoseState(GetOwningActor()).LeanDirection;
 	}
 
 	ALSXTPoseState.LeanLeftAmount = GetCurveValue(Curves, UALSXTConstants::PoseLeanLeftCurveName());
@@ -254,9 +254,9 @@ void UALSXTAnimationInstance::RefreshALSXTPose()
 
 void UALSXTAnimationInstance::UpdateStatusState()
 {
-	if (GetOwningActor()->Implements<UALSXTCharacterInterface>())
+	if (GetOwningActor()->Implements<UAlsxtCharacterInterface>())
 	{
-		FALSXTStatusState NewStatusState{ IALSXTCharacterInterface::Execute_GetStatusState(GetOwningActor()) };
+		FALSXTStatusState NewStatusState{ IAlsxtCharacterInterface::Execute_GetStatusState(GetOwningActor()) };
 
 		if (NewStatusState != StatusState)
 		{

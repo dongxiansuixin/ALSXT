@@ -3,14 +3,14 @@
 #include "State/ALSXTCombatState.h"
 #include "Settings/ALSXTCombatSettings.h"
 #include "GameplayTagContainer.h"
-#include "ALSXTCombatInterface.generated.h"
+#include "AlsxtCombatInterface.generated.h"
 
 UINTERFACE(Blueprintable)
-class UALSXTCombatInterface : public UInterface {
+class UAlsxtCombatInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTCombatInterface {
+class ALSXT_API IAlsxtCombatInterface {
 	GENERATED_BODY()
 
 public:

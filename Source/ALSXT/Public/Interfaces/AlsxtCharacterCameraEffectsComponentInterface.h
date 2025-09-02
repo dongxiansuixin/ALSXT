@@ -3,14 +3,14 @@
 #include "AlsCameraComponent.h"
 #include "Components/Character/ALSXTCharacterCameraEffectsComponent.h"
 #include "Settings/ALSXTCameraEffectsSettings.h"
-#include "ALSXTCharacterCameraEffectsComponentInterface.generated.h"
+#include "AlsxtCharacterCameraEffectsComponentInterface.generated.h"
 
 UINTERFACE()
-class UALSXTCharacterCameraEffectsComponentInterface : public UInterface {
+class UAlsxtCharacterCameraEffectsComponentInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTCharacterCameraEffectsComponentInterface {
+class ALSXT_API IAlsxtCharacterCameraEffectsComponentInterface {
 	GENERATED_BODY()
 
 public:

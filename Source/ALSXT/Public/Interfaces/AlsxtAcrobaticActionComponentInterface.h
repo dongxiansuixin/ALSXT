@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Settings/ALSXTAcrobaticActionSettings.h"
-#include "ALSXTAcrobaticActionComponentInterface.generated.h"
+#include "AlsxtAcrobaticActionComponentInterface.generated.h"
 
 UINTERFACE(Blueprintable)
-class UALSXTAcrobaticActionComponentInterface : public UInterface {
+class UAlsxtAcrobaticActionComponentInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTAcrobaticActionComponentInterface {
+class ALSXT_API IAlsxtAcrobaticActionComponentInterface {
 	GENERATED_BODY()
 
 public:

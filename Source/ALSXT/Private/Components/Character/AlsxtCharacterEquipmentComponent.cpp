@@ -1,11 +1,11 @@
 // MIT
 
 
-#include "Components/Character/ALSXTCharacterEquipmentComponent.h"
+#include "Components/Character/AlsxtCharacterEquipmentComponent.h"
 #include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
 
 // Sets default values for this component's properties
-UALSXTCharacterEquipmentComponent::UALSXTCharacterEquipmentComponent()
+UAlsxtCharacterEquipmentComponent::UAlsxtCharacterEquipmentComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -16,7 +16,7 @@ UALSXTCharacterEquipmentComponent::UALSXTCharacterEquipmentComponent()
 
 
 // Called when the game starts
-void UALSXTCharacterEquipmentComponent::BeginPlay()
+void UAlsxtCharacterEquipmentComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -26,20 +26,20 @@ void UALSXTCharacterEquipmentComponent::BeginPlay()
 
 
 // Called every frame
-void UALSXTCharacterEquipmentComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UAlsxtCharacterEquipmentComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
 }
 
-TArray<UAlsxtPaintableSkeletalMeshComponent*> UALSXTCharacterEquipmentComponent::GetAllComponents()
+TArray<UAlsxtPaintableSkeletalMeshComponent*> UAlsxtCharacterEquipmentComponent::GetAllComponents()
 {
 	TArray<UAlsxtPaintableSkeletalMeshComponent*> AllComponents;
 	return AllComponents;
 }
 
-TArray<UAlsxtPaintableSkeletalMeshComponent*> UALSXTCharacterEquipmentComponent::GetHighlightableComponents()
+TArray<UAlsxtPaintableSkeletalMeshComponent*> UAlsxtCharacterEquipmentComponent::GetHighlightableComponents()
 {
 	TArray<UAlsxtPaintableSkeletalMeshComponent*> AllComponents{ GetAllComponents() };
 	TArray<UAlsxtPaintableSkeletalMeshComponent*> HighlightableComponents;

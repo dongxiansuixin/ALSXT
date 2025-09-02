@@ -1,7 +1,7 @@
 // MIT
 
 
-#include "Components/Character/ALSXTSlidingActionComponent.h"
+#include "Components/Character/AlsxtSlidingActionComponent.h"
 #include "AlsCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -10,7 +10,7 @@
 #include "Utility/AlsRotation.h"
 
 // Sets default values for this component's properties
-UALSXTSlidingActionComponent::UALSXTSlidingActionComponent()
+UAlsxtSlidingActionComponent::UAlsxtSlidingActionComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -20,7 +20,7 @@ UALSXTSlidingActionComponent::UALSXTSlidingActionComponent()
 
 
 // Called when the game starts
-void UALSXTSlidingActionComponent::BeginPlay()
+void UAlsxtSlidingActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -37,7 +37,7 @@ void UALSXTSlidingActionComponent::BeginPlay()
 
 
 // Called every frame
-void UALSXTSlidingActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UAlsxtSlidingActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
@@ -48,9 +48,9 @@ void UALSXTSlidingActionComponent::TickComponent(float DeltaTime, ELevelTick Tic
 	// IALSXTCharacterInterface::Execute_GetCharacterMovement(GetOwner())->CurrentFloor.HitResult.ImpactNormal.ZAxisVector;
 }
 
-void UALSXTSlidingActionComponent::TryStartSliding(const float PlayRate)
+void UAlsxtSlidingActionComponent::TryStartSliding(const float PlayRate)
 {
-	if (IALSXTCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) == AlsLocomotionModeTags::Grounded)
+	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) == AlsLocomotionModeTags::Grounded)
 	{
 		StartSliding(PlayRate, Character->ALSXTSettings->Sliding.bRotateToInputOnStart && Character->GetLocomotionState().bHasInput
 			? Character->GetLocomotionState().InputYawAngle
@@ -58,15 +58,15 @@ void UALSXTSlidingActionComponent::TryStartSliding(const float PlayRate)
 	}
 }
 
-void UALSXTSlidingActionComponent::SetupInputComponent(UEnhancedInputComponent* PlayerInputComponent)
+void UAlsxtSlidingActionComponent::SetupInputComponent(UEnhancedInputComponent* PlayerInputComponent)
 {
 	if (CrouchAction)
 	{
-		PlayerInputComponent->BindAction(CrouchAction, ETriggerEvent::Triggered, this, &UALSXTSlidingActionComponent::InputCrouch);
+		PlayerInputComponent->BindAction(CrouchAction, ETriggerEvent::Triggered, this, &UAlsxtSlidingActionComponent::InputCrouch);
 	}
 }
 
-void UALSXTSlidingActionComponent::InputCrouch()
+void UAlsxtSlidingActionComponent::InputCrouch()
 {
 	if (Character->GetDesiredStance() == AlsStanceTags::Standing)
 	{
@@ -85,7 +85,7 @@ void UALSXTSlidingActionComponent::InputCrouch()
 	}
 }
 
-bool UALSXTSlidingActionComponent::IsSlidingAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtSlidingActionComponent::IsSlidingAllowedToStart(const UAnimMontage* Montage) const
 {
 	return !Character->GetLocomotionAction().IsValid() ||
 		// ReSharper disable once CppRedundantParentheses
@@ -93,7 +93,7 @@ bool UALSXTSlidingActionComponent::IsSlidingAllowedToStart(const UAnimMontage* M
 			!Character->GetMesh()->GetAnimInstance()->Montage_IsPlaying(Montage));
 }
 
-void UALSXTSlidingActionComponent::StartSliding(const float PlayRate, const float TargetYawAngle)
+void UAlsxtSlidingActionComponent::StartSliding(const float PlayRate, const float TargetYawAngle)
 {
 	if (Character->GetLocalRole() <= ROLE_SimulatedProxy)
 	{
@@ -115,7 +115,7 @@ void UALSXTSlidingActionComponent::StartSliding(const float PlayRate, const floa
 	}
 	else
 	{
-		IALSXTCharacterInterface::Execute_GetCharacterMovementComponent(GetOwner())->FlushServerMoves();
+		IAlsxtCharacterInterface::Execute_GetCharacterMovementComponent(GetOwner())->FlushServerMoves();
 
 		StartSlidingImplementation(Montage, PlayRate, StartYawAngle, TargetYawAngle);
 		ServerStartSliding(Montage, PlayRate, StartYawAngle, TargetYawAngle);
@@ -123,17 +123,17 @@ void UALSXTSlidingActionComponent::StartSliding(const float PlayRate, const floa
 	}
 }
 
-UALSXTSlidingSettings* UALSXTSlidingActionComponent::SelectSlidingSettings_Implementation()
+UALSXTSlidingSettings* UAlsxtSlidingActionComponent::SelectSlidingSettings_Implementation()
 {
 	return nullptr;
 }
 
-UAnimMontage* UALSXTSlidingActionComponent::SelectSlidingMontage_Implementation()
+UAnimMontage* UAlsxtSlidingActionComponent::SelectSlidingMontage_Implementation()
 {
 	return Character->ALSXTSettings->Sliding.Montage;
 }
 
-void UALSXTSlidingActionComponent::ServerStartSliding_Implementation(UAnimMontage* Montage, const float PlayRate,
+void UAlsxtSlidingActionComponent::ServerStartSliding_Implementation(UAnimMontage* Montage, const float PlayRate,
 	const float StartYawAngle, const float TargetYawAngle)
 {
 	if (IsSlidingAllowedToStart(Montage))
@@ -143,13 +143,13 @@ void UALSXTSlidingActionComponent::ServerStartSliding_Implementation(UAnimMontag
 	}
 }
 
-void UALSXTSlidingActionComponent::MulticastStartSliding_Implementation(UAnimMontage* Montage, const float PlayRate,
+void UAlsxtSlidingActionComponent::MulticastStartSliding_Implementation(UAnimMontage* Montage, const float PlayRate,
 	const float StartYawAngle, const float TargetYawAngle)
 {
 	StartSlidingImplementation(Montage, PlayRate, StartYawAngle, TargetYawAngle);
 }
 
-void UALSXTSlidingActionComponent::StartSlidingImplementation(UAnimMontage* Montage, const float PlayRate,
+void UAlsxtSlidingActionComponent::StartSlidingImplementation(UAnimMontage* Montage, const float PlayRate,
 	const float StartYawAngle, const float TargetYawAngle)
 {
 	if (IsSlidingAllowedToStart(Montage) && Character->GetMesh()->GetAnimInstance()->Montage_Play(Montage, PlayRate))
@@ -163,7 +163,7 @@ void UALSXTSlidingActionComponent::StartSlidingImplementation(UAnimMontage* Mont
 	}
 }
 
-void UALSXTSlidingActionComponent::RefreshSliding(const float DeltaTime)
+void UAlsxtSlidingActionComponent::RefreshSliding(const float DeltaTime)
 {
 	if (Character->GetLocalRole() <= ROLE_SimulatedProxy ||
 		Character->GetMesh()->GetAnimInstance()->RootMotionMode <= ERootMotionMode::IgnoreRootMotion)
@@ -175,20 +175,20 @@ void UALSXTSlidingActionComponent::RefreshSliding(const float DeltaTime)
 	}
 }
 
-void UALSXTSlidingActionComponent::RefreshSlidingPhysics(const float DeltaTime)
+void UAlsxtSlidingActionComponent::RefreshSlidingPhysics(const float DeltaTime)
 {
 	if (Character->GetLocomotionAction() != AlsLocomotionActionTags::Sliding)
 	{
 		return;
 	}
 
-	auto TargetRotation{ IALSXTCharacterInterface::Execute_GetCharacterMovementComponent(GetOwner())->UpdatedComponent->GetComponentRotation() };
+	auto TargetRotation{ IAlsxtCharacterInterface::Execute_GetCharacterMovementComponent(GetOwner())->UpdatedComponent->GetComponentRotation() };
 
 	if (Character->ALSXTSettings->Sliding.RotationInterpolationSpeed <= 0.0f)
 	{
 		TargetRotation.Yaw = SlidingState.TargetYawAngle;
 
-		IALSXTCharacterInterface::Execute_GetCharacterMovementComponent(GetOwner())->MoveUpdatedComponent(FVector::ZeroVector, TargetRotation, false, nullptr, ETeleportType::TeleportPhysics);
+		IAlsxtCharacterInterface::Execute_GetCharacterMovementComponent(GetOwner())->MoveUpdatedComponent(FVector::ZeroVector, TargetRotation, false, nullptr, ETeleportType::TeleportPhysics);
 	}
 	else
 	{
@@ -196,6 +196,6 @@ void UALSXTSlidingActionComponent::RefreshSlidingPhysics(const float DeltaTime)
 			SlidingState.TargetYawAngle, DeltaTime,
 			Character->ALSXTSettings->Sliding.RotationInterpolationSpeed);
 
-		IALSXTCharacterInterface::Execute_GetCharacterMovementComponent(GetOwner())->MoveUpdatedComponent(FVector::ZeroVector, TargetRotation, false);
+		IAlsxtCharacterInterface::Execute_GetCharacterMovementComponent(GetOwner())->MoveUpdatedComponent(FVector::ZeroVector, TargetRotation, false);
 	}
 }

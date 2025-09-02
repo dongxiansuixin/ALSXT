@@ -20,7 +20,7 @@
 #include "Utility/AlsUtility.h"
 #include "State/ALSXTFootstepState.h"
 #include "Engine/GameEngine.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
 #include "Math/UnrealMathUtility.h"
 #include "Utility/AlsDebugUtility.h"
 
@@ -58,22 +58,22 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 		return;
 	}
 
-	if (!Mesh->GetOwner()->Implements<UALSXTCharacterInterface>())
+	if (!Mesh->GetOwner()->Implements<UAlsxtCharacterInterface>())
 	{
 		return;
 	}
 
 	const auto* Character{Cast<AAlsCharacter>(Mesh->GetOwner())};
-	AALSXTCharacter* ALSXTCharacter{ IALSXTCharacterInterface::Execute_GetCharacter(Mesh->GetOwner()) };
+	AALSXTCharacter* ALSXTCharacter{ IAlsxtCharacterInterface::Execute_GetCharacter(Mesh->GetOwner()) };
 
-	if (bSkipEffectsWhenInAir && IsValid(ALSXTCharacter) && IALSXTCharacterInterface::Execute_GetCharacterLocomotionMode(Mesh->GetOwner()) == AlsLocomotionModeTags::InAir)
+	if (bSkipEffectsWhenInAir && IsValid(ALSXTCharacter) && IAlsxtCharacterInterface::Execute_GetCharacterLocomotionMode(Mesh->GetOwner()) == AlsLocomotionModeTags::InAir)
 	{
 		return;
 	}
 
-	const auto CapsuleScale{IsValid(ALSXTCharacter) ? IALSXTCharacterInterface::Execute_GetCharacterCapsuleComponent(Mesh->GetOwner())->GetComponentScale().Z : 1.0f};	
+	const auto CapsuleScale{IsValid(ALSXTCharacter) ? IAlsxtCharacterInterface::Execute_GetCharacterCapsuleComponent(Mesh->GetOwner())->GetComponentScale().Z : 1.0f};	
 	const auto* AnimationInstance{Mesh->GetAnimInstance()};
-	const auto* ALSXTAnimationInstance{ IALSXTCharacterInterface::Execute_GetCharacterAnimInstance(Mesh->GetOwner()) };
+	const auto* ALSXTAnimationInstance{ IAlsxtCharacterInterface::Execute_GetCharacterAnimInstance(Mesh->GetOwner()) };
 	// IALSXTCharacterInterface::Execute_GetCharacterAnimationInstance(Mesh->GetOwner());
 
 	const auto FootBoneName{FootBone == EAlsFootBone::Left ? UAlsConstants::FootLeftBoneName() : UAlsConstants::FootRightBoneName()};
@@ -157,11 +157,11 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 		}
 	}
 
-	FGameplayTag CharacterGait = IALSXTCharacterInterface::Execute_GetCharacterGait(Mesh->GetOwner());
-	FGameplayTag CharacterStance = IALSXTCharacterInterface::Execute_GetCharacterStance(Mesh->GetOwner());
+	FGameplayTag CharacterGait = IAlsxtCharacterInterface::Execute_GetCharacterGait(Mesh->GetOwner());
+	FGameplayTag CharacterStance = IAlsxtCharacterInterface::Execute_GetCharacterStance(Mesh->GetOwner());
 	const auto SurfaceType{ HitResult.PhysMaterial.IsValid() ? HitResult.PhysMaterial->SurfaceType.GetValue() : SurfaceType_Default };
 	const auto* EffectSettings{ FootstepEffectsSettings->Effects.Find(SurfaceType) };
-	FALSXTFootwearDetails FootwearDetails = IALSXTCharacterInterface::Execute_GetCharacterFootwearDetails(Mesh->GetOwner());
+	FALSXTFootwearDetails FootwearDetails = IAlsxtCharacterInterface::Execute_GetCharacterFootwearDetails(Mesh->GetOwner());
 	FGameplayTag CharacterFootwearType = FootwearDetails.FootwearType;
 	UTexture2D* SoleTexture = FootwearDetails.FootwearSoleTexture;
 	UTexture2D* SoleNormalTexture = FootwearDetails.FootwearSoleNormalTexture;
@@ -336,7 +336,7 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 		{
 			if (IsValid(ALSXTCharacter)) {
 
-				CurrentFootprintsState = IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter);
+				CurrentFootprintsState = IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter);
 
 				// Declare local variables
 				UMaterialInstanceDynamic* MI;
@@ -353,14 +353,14 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 				if (FootBone == EAlsFootBone::Left)
 				{
 					ActiveFootState = CurrentFootprintsState.Left;
-					CharacterFootState = IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left;
+					CharacterFootState = IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left;
 					ActiveFootState.Previous = CharacterFootState.Current;
 				}
 				
 				if (FootBone == EAlsFootBone::Right)
 				{
 					ActiveFootState = CurrentFootprintsState.Right;
-					CharacterFootState = IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right;
+					CharacterFootState = IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right;
 					ActiveFootState.Previous = CharacterFootState.Current;
 				}
 
@@ -380,7 +380,7 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 					if (NewSurface) {
 
 						//Set Current as Previous
-						CurrentFootprintsState.Left.Previous = IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current;
+						CurrentFootprintsState.Left.Previous = IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current;
 
 						//Set New Current
 						CurrentFootprintsState.Left.Current.SurfaceType = UGameplayStatics::GetSurfaceType(Hit);
@@ -415,37 +415,37 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 					MI = UMaterialInstanceDynamic::Create(Decal->GetMaterial(0), this);
 					Decal->SetMaterial(0, MI);
 
-					MI->SetTextureParameterValue(FName("SoleTexture"), IALSXTCharacterInterface::Execute_GetCharacterFootwearDetails(ALSXTCharacter).FootwearSoleTexture);
-					MI->SetTextureParameterValue(FName("SoleNormal"), IALSXTCharacterInterface::Execute_GetCharacterFootwearDetails(ALSXTCharacter).FootwearSoleNormalTexture);
-					MI->SetTextureParameterValue(FName("SoleDetail"), IALSXTCharacterInterface::Execute_GetCharacterFootwearDetails(ALSXTCharacter).FootwearSoleDetailTexture);
+					MI->SetTextureParameterValue(FName("SoleTexture"), IAlsxtCharacterInterface::Execute_GetCharacterFootwearDetails(ALSXTCharacter).FootwearSoleTexture);
+					MI->SetTextureParameterValue(FName("SoleNormal"), IAlsxtCharacterInterface::Execute_GetCharacterFootwearDetails(ALSXTCharacter).FootwearSoleNormalTexture);
+					MI->SetTextureParameterValue(FName("SoleDetail"), IAlsxtCharacterInterface::Execute_GetCharacterFootwearDetails(ALSXTCharacter).FootwearSoleDetailTexture);
 					MI->SetScalarParameterValue(FName("SoleNormalScale"), CalculatedSoleNormalScale);
-					MI->SetTextureParameterValue(FName("TransferDetailTexture"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferDetailTexture);
-					MI->SetTextureParameterValue(FName("TransferDetailNormal"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferDetailNormal);
-					MI->SetScalarParameterValue(FName("TransferNormalScale"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferNormalScale * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("TransferDetailScale"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferDetailScale);
+					MI->SetTextureParameterValue(FName("TransferDetailTexture"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferDetailTexture);
+					MI->SetTextureParameterValue(FName("TransferDetailNormal"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferDetailNormal);
+					MI->SetScalarParameterValue(FName("TransferNormalScale"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferNormalScale * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("TransferDetailScale"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferDetailScale);
 					MI->SetScalarParameterValue(FName("Opacity"), EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetVectorParameterValue(FName("PrimaryColor"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferPrimaryColor);
-					MI->SetVectorParameterValue(FName("SecondaryColor"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferSecondaryColor);
-					MI->SetScalarParameterValue(FName("GrainSize"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferGrainSize);
-					MI->SetScalarParameterValue(FName("Wetness"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferWetness * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("EmissiveAmount"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferEmissiveAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetTextureParameterValue(FName("TransferDetailTexturePrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferDetailTexture);
-					MI->SetTextureParameterValue(FName("TransferDetailNormalPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferDetailNormal);
-					MI->SetScalarParameterValue(FName("TransferNormalScalePrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferNormalScale* EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("TransferDetailScalePrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferDetailScale);
-					MI->SetVectorParameterValue(FName("PrimaryColorPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferPrimaryColor);
-					MI->SetVectorParameterValue(FName("SecondaryColorPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferSecondaryColor);
-					MI->SetScalarParameterValue(FName("GrainSizePrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferGrainSize);
-					MI->SetScalarParameterValue(FName("WetnessPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferWetness * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("EmissiveAmountPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferEmissiveAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("PhaseAlpha"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.FootSurfaceAlpha);
-					MI->SetScalarParameterValue(FName("TransferAmount"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("SurfaceTransferAmount"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.SurfaceTransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("TransferAmountPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("SurfaceTransferAmountPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.SurfaceTransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetVectorParameterValue(FName("PrimaryColor"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferPrimaryColor);
+					MI->SetVectorParameterValue(FName("SecondaryColor"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferSecondaryColor);
+					MI->SetScalarParameterValue(FName("GrainSize"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferGrainSize);
+					MI->SetScalarParameterValue(FName("Wetness"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferWetness * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("EmissiveAmount"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferEmissiveAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetTextureParameterValue(FName("TransferDetailTexturePrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferDetailTexture);
+					MI->SetTextureParameterValue(FName("TransferDetailNormalPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferDetailNormal);
+					MI->SetScalarParameterValue(FName("TransferNormalScalePrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferNormalScale* EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("TransferDetailScalePrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferDetailScale);
+					MI->SetVectorParameterValue(FName("PrimaryColorPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferPrimaryColor);
+					MI->SetVectorParameterValue(FName("SecondaryColorPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferSecondaryColor);
+					MI->SetScalarParameterValue(FName("GrainSizePrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferGrainSize);
+					MI->SetScalarParameterValue(FName("WetnessPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferWetness * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("EmissiveAmountPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferEmissiveAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("PhaseAlpha"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.FootSurfaceAlpha);
+					MI->SetScalarParameterValue(FName("TransferAmount"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("SurfaceTransferAmount"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.SurfaceTransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("TransferAmountPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.TransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("SurfaceTransferAmountPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Previous.SurfaceTransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
 
 					//Calculate Duration based on Materials. Wetter materials stay longer
-					DurationAverage = IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferWetness + EffectSettings->SurfaceTransferAmount / 2;
+					DurationAverage = IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Left.Current.TransferWetness + EffectSettings->SurfaceTransferAmount / 2;
 					InputRange = { 0, 1 };
 					OutputRange = { EffectSettings->DecalDurationModifierMin, EffectSettings->DecalDurationModifierMax };
 					DurationModifier = FMath::GetMappedRangeValueClamped(InputRange, OutputRange, DurationAverage);
@@ -459,7 +459,7 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 
 						//Set Current as Previous
 
-						CurrentFootprintsState.Right.Previous = IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current;
+						CurrentFootprintsState.Right.Previous = IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current;
 
 						// CurrentFootprintsState.Right.Previous.TransferSaturationRate = IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferSaturationRate;
 
@@ -496,37 +496,37 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 					MI = UMaterialInstanceDynamic::Create(Decal->GetMaterial(0), this);
 					Decal->SetMaterial(0, MI);
 
-					MI->SetTextureParameterValue(FName("SoleTexture"), IALSXTCharacterInterface::Execute_GetCharacterFootwearDetails(ALSXTCharacter).FootwearSoleTexture);
-					MI->SetTextureParameterValue(FName("SoleNormal"), IALSXTCharacterInterface::Execute_GetCharacterFootwearDetails(ALSXTCharacter).FootwearSoleNormalTexture);
-					MI->SetTextureParameterValue(FName("SoleDetail"), IALSXTCharacterInterface::Execute_GetCharacterFootwearDetails(ALSXTCharacter).FootwearSoleDetailTexture);
+					MI->SetTextureParameterValue(FName("SoleTexture"), IAlsxtCharacterInterface::Execute_GetCharacterFootwearDetails(ALSXTCharacter).FootwearSoleTexture);
+					MI->SetTextureParameterValue(FName("SoleNormal"), IAlsxtCharacterInterface::Execute_GetCharacterFootwearDetails(ALSXTCharacter).FootwearSoleNormalTexture);
+					MI->SetTextureParameterValue(FName("SoleDetail"), IAlsxtCharacterInterface::Execute_GetCharacterFootwearDetails(ALSXTCharacter).FootwearSoleDetailTexture);
 					MI->SetScalarParameterValue(FName("SoleNormalScale"), CalculatedSoleNormalScale);
-					MI->SetTextureParameterValue(FName("TransferDetailTexture"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferDetailTexture);
-					MI->SetTextureParameterValue(FName("TransferDetailNormal"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferDetailNormal);
-					MI->SetScalarParameterValue(FName("TransferNormalScale"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferNormalScale * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("TransferDetailScale"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferDetailScale);
+					MI->SetTextureParameterValue(FName("TransferDetailTexture"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferDetailTexture);
+					MI->SetTextureParameterValue(FName("TransferDetailNormal"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferDetailNormal);
+					MI->SetScalarParameterValue(FName("TransferNormalScale"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferNormalScale * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("TransferDetailScale"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferDetailScale);
 					MI->SetScalarParameterValue(FName("Opacity"), EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetVectorParameterValue(FName("PrimaryColor"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferPrimaryColor);
-					MI->SetVectorParameterValue(FName("SecondaryColor"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferSecondaryColor);
-					MI->SetScalarParameterValue(FName("GrainSize"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferGrainSize);
-					MI->SetScalarParameterValue(FName("Wetness"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferWetness * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("EmissiveAmount"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferEmissiveAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetTextureParameterValue(FName("TransferDetailTexturePrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferDetailTexture);
-					MI->SetTextureParameterValue(FName("TransferDetailNormalPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferDetailNormal);
-					MI->SetScalarParameterValue(FName("TransferNormalScalePrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferNormalScale);
-					MI->SetScalarParameterValue(FName("TransferDetailScalePrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferDetailScale);
-					MI->SetVectorParameterValue(FName("PrimaryColorPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferPrimaryColor);
-					MI->SetVectorParameterValue(FName("SecondaryColorPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferSecondaryColor);
-					MI->SetScalarParameterValue(FName("GrainSizePrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferGrainSize);
-					MI->SetScalarParameterValue(FName("WetnessPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferWetness * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("EmissiveAmountPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferEmissiveAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("PhaseAlpha"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.FootSurfaceAlpha);
-					MI->SetScalarParameterValue(FName("TransferAmount"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("SurfaceTransferAmount"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.SurfaceTransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("TransferAmountPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
-					MI->SetScalarParameterValue(FName("SurfaceTransferAmountPrevious"), IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.SurfaceTransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetVectorParameterValue(FName("PrimaryColor"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferPrimaryColor);
+					MI->SetVectorParameterValue(FName("SecondaryColor"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferSecondaryColor);
+					MI->SetScalarParameterValue(FName("GrainSize"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferGrainSize);
+					MI->SetScalarParameterValue(FName("Wetness"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferWetness * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("EmissiveAmount"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferEmissiveAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetTextureParameterValue(FName("TransferDetailTexturePrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferDetailTexture);
+					MI->SetTextureParameterValue(FName("TransferDetailNormalPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferDetailNormal);
+					MI->SetScalarParameterValue(FName("TransferNormalScalePrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferNormalScale);
+					MI->SetScalarParameterValue(FName("TransferDetailScalePrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferDetailScale);
+					MI->SetVectorParameterValue(FName("PrimaryColorPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferPrimaryColor);
+					MI->SetVectorParameterValue(FName("SecondaryColorPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferSecondaryColor);
+					MI->SetScalarParameterValue(FName("GrainSizePrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferGrainSize);
+					MI->SetScalarParameterValue(FName("WetnessPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferWetness * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("EmissiveAmountPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferEmissiveAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("PhaseAlpha"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.FootSurfaceAlpha);
+					MI->SetScalarParameterValue(FName("TransferAmount"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("SurfaceTransferAmount"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.SurfaceTransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("TransferAmountPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.TransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
+					MI->SetScalarParameterValue(FName("SurfaceTransferAmountPrevious"), IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Previous.SurfaceTransferAmount * EffectSettings->SurfaceTransferAcceptanceAmount);
 
 					//Calculate Duration based on Materials. Wetter materials stay longer
-					DurationAverage = IALSXTCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferWetness + EffectSettings->SurfaceTransferAmount / 2;
+					DurationAverage = IAlsxtCharacterInterface::Execute_GetCharacterFootprintsState(ALSXTCharacter).Right.Current.TransferWetness + EffectSettings->SurfaceTransferAmount / 2;
 					InputRange = { 0, 1 };
 					OutputRange = { EffectSettings->DecalDurationModifierMin, EffectSettings->DecalDurationModifierMax };
 					DurationModifier = FMath::GetMappedRangeValueClamped(InputRange, OutputRange, DurationAverage);
@@ -547,11 +547,11 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 	{
 		UNiagaraSystem* GaitParticleSystem;
 		if (IsValid(ALSXTCharacter)) {
-			if (IALSXTCharacterInterface::Execute_GetCharacterGait(ALSXTCharacter) == AlsGaitTags::Walking)
+			if (IAlsxtCharacterInterface::Execute_GetCharacterGait(ALSXTCharacter) == AlsGaitTags::Walking)
 			{
 				GaitParticleSystem = EffectSettings->FootstepParticles.WalkParticleSystem.Get();
 			}
-			else if (IALSXTCharacterInterface::Execute_GetCharacterGait(ALSXTCharacter) == AlsGaitTags::Running || IALSXTCharacterInterface::Execute_GetCharacterGait(ALSXTCharacter) == AlsGaitTags::Sprinting)
+			else if (IAlsxtCharacterInterface::Execute_GetCharacterGait(ALSXTCharacter) == AlsGaitTags::Running || IAlsxtCharacterInterface::Execute_GetCharacterGait(ALSXTCharacter) == AlsGaitTags::Sprinting)
 			{
 				GaitParticleSystem = EffectSettings->FootstepParticles.RunParticleSystem.Get();
 			}

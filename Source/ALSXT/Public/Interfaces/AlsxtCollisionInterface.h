@@ -7,14 +7,14 @@
 #include "State/ALSXTBumpPoseState.h"
 #include "State/ALSXTDefensiveModeState.h"
 #include "Settings/ALSXTElementalInteractionSettings.h"
-#include "ALSXTCollisionInterface.generated.h"
+#include "AlsxtCollisionInterface.generated.h"
 
 UINTERFACE(Blueprintable)
-class UALSXTCollisionInterface : public UInterface {
+class UAlsxtCollisionInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTCollisionInterface {
+class ALSXT_API IAlsxtCollisionInterface {
 	GENERATED_BODY()
 
 public:

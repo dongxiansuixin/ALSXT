@@ -7,8 +7,8 @@
 #include "Utility/ALSXTGameplayTags.h"
 #include "Settings/ALSXTCameraAnimationInstanceSettings.h"
 #include "ALSXTCharacter.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
-#include "Interfaces/ALSXTIdleAnimationComponentInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
+#include "Interfaces/AlsxtIdleAnimationComponentInterface.h"
 #include "ALSXTCameraAnimationInstance.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnFirstPersonOverrideChanged, float, FirstPersonOverride);

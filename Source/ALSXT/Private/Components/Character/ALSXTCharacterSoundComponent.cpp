@@ -4,9 +4,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "Utility/ALSXTStructs.h"
 #include "Settings/ALSXTCharacterSoundSettings.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
-#include "Interfaces/ALSXTCharacterSoundComponentInterface.h"
-#include "Interfaces/ALSXTCharacterCustomizationComponentInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
+#include "Interfaces/AlsxtCharacterSoundComponentInterface.h"
+#include "Interfaces/AlsxtCharacterCustomizationComponentInterface.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 #include "Net/UnrealNetwork.h"
@@ -40,15 +40,15 @@ void UALSXTCharacterSoundComponent::GetLifetimeReplicatedProps(TArray<FLifetimeP
 void UALSXTCharacterSoundComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	IALSXTCharacterInterface::Execute_GetStaminaThresholds(GetOuter(), StaminaOptimalThreshold, StaminaLowThreshold);
-	BreathParticleSettings = IALSXTCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(GetOwner());
-	UALSXTCharacterSoundSettings* Settings = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
-	CurrentBreathType = IALSXTCharacterInterface::Execute_GetBreathType(GetOwner());
+	IAlsxtCharacterInterface::Execute_GetStaminaThresholds(GetOuter(), StaminaOptimalThreshold, StaminaLowThreshold);
+	BreathParticleSettings = IAlsxtCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(GetOwner());
+	UALSXTCharacterSoundSettings* Settings = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
+	CurrentBreathType = IAlsxtCharacterInterface::Execute_GetBreathType(GetOwner());
 
 	if (IsValid(Settings))
 	{
 			
-		MulticastSpawnAudioComponent(VocalizationMixerAudioComponent, Settings->VocalizationMixer, IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner()), IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(GeneralCharacterSoundSettings.VoiceSocketName), IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(GeneralCharacterSoundSettings.VoiceSocketName), 1.0f, GeneralCharacterSoundSettings.VoiceSocketName);
+		MulticastSpawnAudioComponent(VocalizationMixerAudioComponent, Settings->VocalizationMixer, IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner()), IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(GeneralCharacterSoundSettings.VoiceSocketName), IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(GeneralCharacterSoundSettings.VoiceSocketName), 1.0f, GeneralCharacterSoundSettings.VoiceSocketName);
 
 		// SpawnAudioComponent(VocalizationMixerAudioComponent, Settings->VocalizationMixer, IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner()), IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(GeneralCharacterSoundSettings.VoiceSocketName), IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(GeneralCharacterSoundSettings.VoiceSocketName), 1.0f, GeneralCharacterSoundSettings.VoiceSocketName);
 
@@ -75,7 +75,7 @@ void UALSXTCharacterSoundComponent::BeginPlay()
 void UALSXTCharacterSoundComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	CurrentBreathType = IALSXTCharacterInterface::Execute_GetBreathType(GetOwner());
+	CurrentBreathType = IAlsxtCharacterInterface::Execute_GetBreathType(GetOwner());
 
 }
 
@@ -83,18 +83,18 @@ void UALSXTCharacterSoundComponent::UpdateStaminaThresholds()
 {
 	float NewStaminaOptimalThreshold;
 	float NewStaminaLowThreshold;
-	IALSXTCharacterInterface::Execute_GetStaminaThresholds(GetOwner(), NewStaminaOptimalThreshold, NewStaminaLowThreshold);
+	IAlsxtCharacterInterface::Execute_GetStaminaThresholds(GetOwner(), NewStaminaOptimalThreshold, NewStaminaLowThreshold);
 	(NewStaminaOptimalThreshold != StaminaOptimalThreshold) ? StaminaOptimalThreshold = NewStaminaOptimalThreshold : StaminaOptimalThreshold;
 	(NewStaminaLowThreshold != StaminaLowThreshold) ? StaminaLowThreshold = NewStaminaLowThreshold : StaminaLowThreshold;
 }
 
 void UALSXTCharacterSoundComponent::UpdateStamina(bool& StaminaTagChanged)
 {
-	float NewStamina = IALSXTCharacterInterface::Execute_GetStamina(GetOwner());
+	float NewStamina = IAlsxtCharacterInterface::Execute_GetStamina(GetOwner());
 	if ((CurrentStamina != NewStamina) && IsValid(VocalizationMixerAudioComponent))
 	{
 		CurrentStamina = NewStamina;
-		FGameplayTag NewStaminaTag{ ConvertStaminaToStaminaTag(IALSXTCharacterInterface::Execute_GetStamina(GetOwner())) };
+		FGameplayTag NewStaminaTag{ ConvertStaminaToStaminaTag(IAlsxtCharacterInterface::Execute_GetStamina(GetOwner())) };
 		CurrentStaminaTag = NewStaminaTag;
 		VocalizationMixerAudioComponent->SetFloatParameter("Stamina", CurrentStamina);
 	}
@@ -112,12 +112,12 @@ void UALSXTCharacterSoundComponent::UpdateStamina(bool& StaminaTagChanged)
 
 void UALSXTCharacterSoundComponent::UpdateVoiceSocketLocation()
 {
-	VoiceSocketLocation = IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(GeneralCharacterSoundSettings.VoiceSocketName);
+	VoiceSocketLocation = IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(GeneralCharacterSoundSettings.VoiceSocketName);
 }
 
 void UALSXTCharacterSoundComponent::UpdateVoiceSocketRotation()
 {
-	VoiceSocketRotation = IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(GeneralCharacterSoundSettings.VoiceSocketName);
+	VoiceSocketRotation = IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(GeneralCharacterSoundSettings.VoiceSocketName);
 }
 
 void UALSXTCharacterSoundComponent::DetermineNewSound(TArray<FSound> Sounds, TArray<UObject*> PreviousAssetsReferences, FSound& ResultSound)
@@ -208,7 +208,7 @@ void UALSXTCharacterSoundComponent::MulticastPlayCharacterBreathEffects_Implemen
 
 void UALSXTCharacterSoundComponent::PlayCharacterBreathEffectsImplementation(const FGameplayTag& StaminaOverride)
 {
-	if (IALSXTCharacterSoundComponentInterface::Execute_CanPlayBreathSound(GetOwner()) && ShouldPlayBreathSound())
+	if (IAlsxtCharacterSoundComponentInterface::Execute_CanPlayBreathSound(GetOwner()) && ShouldPlayBreathSound())
 	{
 		UpdateStaminaThresholds();
 		bool StaminaTagChanged;
@@ -221,8 +221,8 @@ void UALSXTCharacterSoundComponent::PlayCharacterBreathEffectsImplementation(con
 		if (StaminaTagChanged || StaminaToUse != CurrentStaminaTag || CurrentBreathSounds.IsEmpty())
 		{
 			// Get and Set New Sounds
-			UALSXTCharacterSoundSettings* Settings = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
-			CurrentBreathSounds = SelectBreathSoundsNew(Settings, IALSXTCharacterInterface::Execute_GetCharacterSex(GetOwner()), IALSXTCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(GetOwner()).Variant, IALSXTCharacterInterface::Execute_GetCharacterBreathState(GetOwner()).BreathType, StaminaToUse);
+			UALSXTCharacterSoundSettings* Settings = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
+			CurrentBreathSounds = SelectBreathSoundsNew(Settings, IAlsxtCharacterInterface::Execute_GetCharacterSex(GetOwner()), IAlsxtCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(GetOwner()).Variant, IAlsxtCharacterInterface::Execute_GetCharacterBreathState(GetOwner()).BreathType, StaminaToUse);
 			TArray<FSound> Sounds;
 
 			for (FALSXTBreathSound BS : CurrentBreathSounds)
@@ -275,7 +275,7 @@ void UALSXTCharacterSoundComponent::PlayCharacterBreathEffectsImplementation(con
 
 void UALSXTCharacterSoundComponent::ServerPlayBreathParticle_Implementation(UNiagaraSystem* NiagaraSystem)
 {
-	UNiagaraComponent* NiagaraComp = UNiagaraFunctionLibrary::SpawnSystemAttached(NiagaraSystem, IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner()), GeneralCharacterSoundSettings.VoiceSocketName, IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(GeneralCharacterSoundSettings.VoiceSocketName), IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(GeneralCharacterSoundSettings.VoiceSocketName), EAttachLocation::KeepWorldPosition, true, true, ENCPoolMethod::None, true);
+	UNiagaraComponent* NiagaraComp = UNiagaraFunctionLibrary::SpawnSystemAttached(NiagaraSystem, IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner()), GeneralCharacterSoundSettings.VoiceSocketName, IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(GeneralCharacterSoundSettings.VoiceSocketName), IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(GeneralCharacterSoundSettings.VoiceSocketName), EAttachLocation::KeepWorldPosition, true, true, ENCPoolMethod::None, true);
 }
 
 void UALSXTCharacterSoundComponent::StartTimeSinceLastCharacterMovementSoundTimer(const float Delay)
@@ -505,7 +505,7 @@ TArray<FALSXTBreathSound> UALSXTCharacterSoundComponent::SelectBreathSoundsNew(U
 TArray<UNiagaraSystem*> UALSXTCharacterSoundComponent::SelectBreathParticles(const FGameplayTag& BreathType, const FGameplayTag& Stamina)
 {
 	FGameplayTagContainer TagsContainer;
-	TArray<FALSXTBreathParticle> BreathParticles = IALSXTCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(GetOwner()).BreathParticles;
+	TArray<FALSXTBreathParticle> BreathParticles = IAlsxtCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(GetOwner()).BreathParticles;
 	TArray<UNiagaraSystem*> FilteredBreathParticles;
 	TagsContainer.AddTag(BreathType);
 	TagsContainer.AddTag(Stamina);
@@ -632,9 +632,9 @@ TArray<FALSXTBreathSound> UALSXTCharacterSoundComponent::SelectBreathSounds(UALS
 
 TArray<FALSXTCharacterMovementSound> UALSXTCharacterSoundComponent::SelectCharacterMovementSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Type, const FGameplayTag& Weight)
 {
-	TMap<TEnumAsByte<EPhysicalSurface>, FALSXTCharacterMovementSounds> MovementSoundsMap = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner())->MovementSounds;
+	TMap<TEnumAsByte<EPhysicalSurface>, FALSXTCharacterMovementSounds> MovementSoundsMap = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner())->MovementSounds;
 	TEnumAsByte<EPhysicalSurface> FoundSurface;
-	IALSXTCharacterInterface::Execute_GetClothingSurfaceForMovement(GetOwner(), FoundSurface, Type);
+	IAlsxtCharacterInterface::Execute_GetClothingSurfaceForMovement(GetOwner(), FoundSurface, Type);
 	TArray<FALSXTCharacterMovementSound> Sounds = MovementSoundsMap.FindRef(FoundSurface).Sounds;
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, UKismetSystemLibrary::GetDisplayName(Sounds[0].Sound.Sound.Sound));
 	FGameplayTagContainer TagsContainer;
@@ -674,9 +674,9 @@ TArray<FALSXTCharacterMovementSound> UALSXTCharacterSoundComponent::SelectCharac
 
 TArray<FALSXTCharacterMovementSound> UALSXTCharacterSoundComponent::SelectCharacterMovementAccentSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Type, const FGameplayTag& Weight)
 {
-	TMap<TEnumAsByte<EPhysicalSurface>, FALSXTCharacterMovementSounds> MovementAccentSoundsMap = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner())->MovementAccentSounds;
+	TMap<TEnumAsByte<EPhysicalSurface>, FALSXTCharacterMovementSounds> MovementAccentSoundsMap = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner())->MovementAccentSounds;
 	TEnumAsByte<EPhysicalSurface> AccentSurface;
-	IALSXTCharacterInterface::Execute_GetAccentSurfaceForMovement(GetOwner(), AccentSurface, Type);
+	IAlsxtCharacterInterface::Execute_GetAccentSurfaceForMovement(GetOwner(), AccentSurface, Type);
 	TArray<FALSXTCharacterMovementSound> Sounds = MovementAccentSoundsMap.FindRef(AccentSurface).Sounds;
 	FGameplayTagContainer TagsContainer;
 	TagsContainer.AddTag(Type);
@@ -714,7 +714,7 @@ TArray<FALSXTCharacterMovementSound> UALSXTCharacterSoundComponent::SelectCharac
 
 TArray<FALSXTWeaponMovementSound> UALSXTCharacterSoundComponent::SelectWeaponMovementSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Weapon, const FGameplayTag& Type)
 {
-	TArray<FALSXTWeaponMovementSound> Sounds = IALSXTCharacterSoundComponentInterface::Execute_SelectWeaponSoundSettings(GetOwner())->WeaponMovementSounds;
+	TArray<FALSXTWeaponMovementSound> Sounds = IAlsxtCharacterSoundComponentInterface::Execute_SelectWeaponSoundSettings(GetOwner())->WeaponMovementSounds;
 	TArray<FALSXTWeaponMovementSound> FilteredSounds;
 	FGameplayTagContainer TagsContainer;
 	TagsContainer.AddTag(Weapon);
@@ -758,7 +758,7 @@ TArray<FALSXTWeaponMovementSound> UALSXTCharacterSoundComponent::SelectWeaponMov
 
 FALSXTWeaponActionSound UALSXTCharacterSoundComponent::SelectWeaponActionSound(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Type)
 {
-	TArray<FALSXTWeaponActionSound> Sounds = IALSXTCharacterSoundComponentInterface::Execute_SelectWeaponSoundSettings(GetOwner())->WeaponActionSounds;
+	TArray<FALSXTWeaponActionSound> Sounds = IAlsxtCharacterSoundComponentInterface::Execute_SelectWeaponSoundSettings(GetOwner())->WeaponActionSounds;
 	TArray<FALSXTWeaponActionSound> FilteredSounds;
 	FGameplayTagContainer TagsContainer;
 	TagsContainer.AddTag(Type);
@@ -824,7 +824,7 @@ FALSXTWeaponActionSound UALSXTCharacterSoundComponent::SelectWeaponActionSound(U
 TArray<FALSXTHoldingBreathSound> UALSXTCharacterSoundComponent::SelectHoldingBreathSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& HoldingBreathType)
 {
 	FGameplayTagContainer TagsContainer;
-	TArray<FALSXTHoldingBreathSound> HoldingBreathSounds = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner())->HoldingBreathSounds;
+	TArray<FALSXTHoldingBreathSound> HoldingBreathSounds = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner())->HoldingBreathSounds;
 	TArray<FALSXTHoldingBreathSound> FilteredHoldingBreathSounds;
 	TagsContainer.AddTag(Sex);
 	TagsContainer.AddTag(Variant);
@@ -870,7 +870,7 @@ TArray<FALSXTHoldingBreathSound> UALSXTCharacterSoundComponent::SelectHoldingBre
 TArray<FALSXTCharacterActionSound> UALSXTCharacterSoundComponent::SelectActionSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Overlay, const FGameplayTag& Strength, const float Stamina)
 {
 	FGameplayTagContainer TagsContainer;
-	TArray<FALSXTCharacterActionSound> ActionSounds = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner())->ActionSounds;
+	TArray<FALSXTCharacterActionSound> ActionSounds = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner())->ActionSounds;
 	TArray<FALSXTCharacterActionSound> FilteredActionSounds;
 	FGameplayTag StaminaTag = ConvertStaminaToStaminaTag(Stamina);
 	TagsContainer.AddTag(Sex);
@@ -966,7 +966,7 @@ TArray<FALSXTCharacterDamageSound> UALSXTCharacterSoundComponent::SelectDamageSo
 {
 	FGameplayTagContainer TagsContainer;
 	// TArray<FALSXTCharacterDamageSound> DamageSounds = Settings->DamageSounds;
-	TArray<FALSXTCharacterDamageSound> DamageSounds = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner())->DamageSounds;
+	TArray<FALSXTCharacterDamageSound> DamageSounds = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner())->DamageSounds;
 	TArray<FALSXTCharacterDamageSound> FilteredDamageSounds;
 	TArray<FSound> FilteredFSounds;
 	TagsContainer.AddTagFast(Sex);
@@ -1109,7 +1109,7 @@ TArray<FALSXTCharacterDamageSound> UALSXTCharacterSoundComponent::SelectDeathSou
 
 bool UALSXTCharacterSoundComponent::ShouldPlayBreathSound()
 {
-	return IALSXTCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(GetOwner()).AudibleBreathStaminaLevels.HasTag(IALSXTCharacterInterface::Execute_GetStaminaTag(GetOwner()));	
+	return IAlsxtCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(GetOwner()).AudibleBreathStaminaLevels.HasTag(IAlsxtCharacterInterface::Execute_GetStaminaTag(GetOwner()));	
 	// 	bool IsPaused = VocalizationMixerAudioComponent->bIsPaused;
 
 }
@@ -1173,11 +1173,11 @@ void UALSXTCharacterSoundComponent::PlayCharacterMovementSoundImplementation(boo
 	FMotionSounds MotionSounds;
 	float Delay = FMath::RandRange(GeneralCharacterSoundSettings.CharacterMovementSoundDelay.X, GeneralCharacterSoundSettings.CharacterMovementSoundDelay.Y);
 	StartTimeSinceLastActionSoundTimer(Delay);
-	UALSXTCharacterSoundSettings* Settings = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
+	UALSXTCharacterSoundSettings* Settings = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
 	FGameplayTag MovementStrength = ConvertWeightTagToStrengthTag(Weight);
 
 	// MOVEMENT
-	if (IALSXTCharacterSoundComponentInterface::Execute_CanPlayCharacterMovementSound(GetOwner()))
+	if (IAlsxtCharacterSoundComponentInterface::Execute_CanPlayCharacterMovementSound(GetOwner()))
 	{
 		TArray<FALSXTCharacterMovementSound> CharacterMovementSounds = SelectCharacterMovementSounds(Settings, Type, Weight);
 		TArray<FSound> Sounds;
@@ -1194,7 +1194,7 @@ void UALSXTCharacterSoundComponent::PlayCharacterMovementSoundImplementation(boo
 	}
 
 	// ACCENT
-	if (IALSXTCharacterSoundComponentInterface::Execute_ShouldPlayMovementAccentSound(GetOwner(), Type, MovementStrength) && AccentSound)
+	if (IAlsxtCharacterSoundComponentInterface::Execute_ShouldPlayMovementAccentSound(GetOwner(), Type, MovementStrength) && AccentSound)
 	{
 		TArray<FALSXTCharacterMovementSound> CharacterMovementAccentSounds = SelectCharacterMovementAccentSounds(Settings, Type, Weight);
 		TArray<FSound> Sounds;
@@ -1211,7 +1211,7 @@ void UALSXTCharacterSoundComponent::PlayCharacterMovementSoundImplementation(boo
 	}
 
 	//WEAPON
-	if (IALSXTCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, MovementStrength) && WeaponSound)
+	if (IAlsxtCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, MovementStrength) && WeaponSound)
 	{
 		TArray<FALSXTWeaponMovementSound> WeaponMovementSounds = SelectWeaponMovementSounds(Settings, ALSXTWeaponTags::M4, Type);
 		FName WeaponMovementSoundSocket = GetSocketForMovement(Type);
@@ -1255,13 +1255,13 @@ void UALSXTCharacterSoundComponent::PlayCharacterMovementSoundImplementation(boo
 
 void UALSXTCharacterSoundComponent::PlayWeaponMovementSound(const FGameplayTag& Weapon, const FGameplayTag& Type)
 {
-	FGameplayTag Weight = IALSXTCharacterInterface::Execute_GetWeightTag(GetOwner());
+	FGameplayTag Weight = IAlsxtCharacterInterface::Execute_GetWeightTag(GetOwner());
 	FGameplayTag Strength = ConvertWeightTagToStrengthTag(Weight);
 	if (GetOwner()->GetLocalRole() <= ROLE_SimulatedProxy)
 	{
 		return;
 	}
-	if (!IALSXTCharacterSoundComponentInterface::Execute_CanPlayWeaponMovementSound(GetOwner()))
+	if (!IAlsxtCharacterSoundComponentInterface::Execute_CanPlayWeaponMovementSound(GetOwner()))
 	{
 		return;
 	}
@@ -1271,7 +1271,7 @@ void UALSXTCharacterSoundComponent::PlayWeaponMovementSound(const FGameplayTag& 
 	FMotionSounds MotionSounds;
 
 	//WEAPON
-	if (IALSXTCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, Strength))
+	if (IAlsxtCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, Strength))
 	{
 		TArray<FALSXTWeaponMovementSound> WeaponMovementSounds = SelectWeaponMovementSounds(Settings, ALSXTWeaponTags::M4, Type);
 		FName WeaponMovementSoundSocket = GetSocketForMovement(Type);
@@ -1308,13 +1308,13 @@ void UALSXTCharacterSoundComponent::MulticastPlayWeaponMovementSound_Implementat
 
 void UALSXTCharacterSoundComponent::PlayWeaponMovementSoundImplementation(const FGameplayTag& Weapon, const FGameplayTag& Type)
 {
-	FGameplayTag Weight = IALSXTCharacterInterface::Execute_GetWeightTag(GetOwner());
+	FGameplayTag Weight = IAlsxtCharacterInterface::Execute_GetWeightTag(GetOwner());
 	FGameplayTag Strength = ConvertWeightTagToStrengthTag(Weight);
 	if (GetOwner()->GetLocalRole() <= ROLE_SimulatedProxy)
 	{
 		return;
 	}
-	if (!IALSXTCharacterSoundComponentInterface::Execute_CanPlayWeaponMovementSound(GetOwner()))
+	if (!IAlsxtCharacterSoundComponentInterface::Execute_CanPlayWeaponMovementSound(GetOwner()))
 	{
 		return;
 	}
@@ -1324,7 +1324,7 @@ void UALSXTCharacterSoundComponent::PlayWeaponMovementSoundImplementation(const 
 	FMotionSounds MotionSounds;
 
 	//WEAPON
-	if (IALSXTCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, Strength))
+	if (IAlsxtCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, Strength))
 	{
 		TArray<FALSXTWeaponMovementSound> WeaponMovementSounds = SelectWeaponMovementSounds(Settings, ALSXTWeaponTags::M4, Type);
 		FName WeaponMovementSoundSocket = GetSocketForMovement(Type);
@@ -1427,12 +1427,12 @@ void UALSXTCharacterSoundComponent::MulticastPlayHoldingBreathSound_Implementati
 void UALSXTCharacterSoundComponent::PlayHoldingBreathSoundImplementation(const FGameplayTag& HoldingBreathType, const FGameplayTag& Sex, const FGameplayTag& Variant, const float Stamina)
 {
 	FMotionSounds MotionSounds;
-	UALSXTCharacterSoundSettings* Settings = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
+	UALSXTCharacterSoundSettings* Settings = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
 
 	//ACTION
 	if (ShouldPlayHoldingBreathSoundDelegate(HoldingBreathType, Stamina))
 	{
-		TArray<FALSXTHoldingBreathSound> HoldingBreathSounds = SelectHoldingBreathSounds(Settings, IALSXTCharacterInterface::Execute_GetCharacterSex(GetOwner()), Variant, HoldingBreathType);
+		TArray<FALSXTHoldingBreathSound> HoldingBreathSounds = SelectHoldingBreathSounds(Settings, IAlsxtCharacterInterface::Execute_GetCharacterSex(GetOwner()), Variant, HoldingBreathType);
 		TArray<FSound> Sounds;
 
 		for (FALSXTHoldingBreathSound HoldingBreathSound : HoldingBreathSounds)
@@ -1491,15 +1491,15 @@ void UALSXTCharacterSoundComponent::ClientPlayActionSound_Implementation(bool Mo
 
 void UALSXTCharacterSoundComponent::PlayActionSoundImplementation(bool MovementSound, bool AccentSound, bool WeaponSound, const FGameplayTag& Type, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Overlay, const FGameplayTag& Strength, const float Stamina)
 {
-	FGameplayTag Weight = IALSXTCharacterInterface::Execute_GetWeightTag(GetOwner());
+	FGameplayTag Weight = IAlsxtCharacterInterface::Execute_GetWeightTag(GetOwner());
 	FMotionSounds MotionSounds;
 	float Delay = FMath::RandRange(GeneralCharacterSoundSettings.ActionSoundDelay.X, GeneralCharacterSoundSettings.ActionSoundDelay.Y);
 	StartTimeSinceLastActionSoundTimer(Delay);
-	UALSXTCharacterSoundSettings* Settings = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
+	UALSXTCharacterSoundSettings* Settings = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
 	FGameplayTag MovementStrength = ConvertWeightTagToStrengthTag(Weight);
 
 	// MOVEMENT
-	if (IALSXTCharacterSoundComponentInterface::Execute_CanPlayCharacterMovementSound(GetOwner()) && MovementSound)
+	if (IAlsxtCharacterSoundComponentInterface::Execute_CanPlayCharacterMovementSound(GetOwner()) && MovementSound)
 	{
 		TArray<FALSXTCharacterMovementSound> CharacterMovementSounds = SelectCharacterMovementSounds(Settings, Type, Weight);
 		TArray<FSound> Sounds;
@@ -1516,7 +1516,7 @@ void UALSXTCharacterSoundComponent::PlayActionSoundImplementation(bool MovementS
 	}
 
 	// ACCENT
-	if (IALSXTCharacterSoundComponentInterface::Execute_ShouldPlayMovementAccentSound(GetOwner(), Type, MovementStrength) && AccentSound)
+	if (IAlsxtCharacterSoundComponentInterface::Execute_ShouldPlayMovementAccentSound(GetOwner(), Type, MovementStrength) && AccentSound)
 	{
 		TArray<FALSXTCharacterMovementSound> CharacterMovementAccentSounds = SelectCharacterMovementAccentSounds(Settings, Type, Weight);
 		TArray<FSound> Sounds;
@@ -1535,7 +1535,7 @@ void UALSXTCharacterSoundComponent::PlayActionSoundImplementation(bool MovementS
 	//ACTION
 	if (ShouldPlayActionSound(MovementStrength, Stamina))
 	{
-		TArray<FALSXTCharacterActionSound> ActionSounds = SelectActionSounds(Settings, IALSXTCharacterInterface::Execute_GetCharacterSex(GetOwner()), Variant, IALSXTCharacterInterface::Execute_GetCharacterOverlayMode(GetOwner()), MovementStrength, Stamina);
+		TArray<FALSXTCharacterActionSound> ActionSounds = SelectActionSounds(Settings, IAlsxtCharacterInterface::Execute_GetCharacterSex(GetOwner()), Variant, IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(GetOwner()), MovementStrength, Stamina);
 		TArray<FSound> Sounds;
 
 		for (FALSXTCharacterActionSound AC : ActionSounds)
@@ -1550,7 +1550,7 @@ void UALSXTCharacterSoundComponent::PlayActionSoundImplementation(bool MovementS
 	}
 
 	//WEAPON
-	if (IALSXTCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, MovementStrength) && WeaponSound)
+	if (IAlsxtCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, MovementStrength) && WeaponSound)
 	{
 		TArray<FALSXTWeaponMovementSound> WeaponMovementSounds = SelectWeaponMovementSounds(Settings, ALSXTWeaponTags::M4, Type);
 		FName WeaponMovementSoundSocket = GetSocketForMovement(Type);
@@ -1596,15 +1596,15 @@ void UALSXTCharacterSoundComponent::PlayAttackSound(bool MovementSound, bool Acc
 	{
 		return;
 	}
-	FGameplayTag Weight = IALSXTCharacterInterface::Execute_GetWeightTag(GetOwner());
+	FGameplayTag Weight = IAlsxtCharacterInterface::Execute_GetWeightTag(GetOwner());
 	FGameplayTag Type = ALSXTCharacterMovementSoundTags::Jumping;
 	FMotionSounds MotionSounds;
 	float Delay = FMath::RandRange(GeneralCharacterSoundSettings.ActionSoundDelay.X, GeneralCharacterSoundSettings.ActionSoundDelay.Y);
 	StartTimeSinceLastActionSoundTimer(Delay);
-	UALSXTCharacterSoundSettings* Settings = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
+	UALSXTCharacterSoundSettings* Settings = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
 
 	// MOVEMENT
-	if (IALSXTCharacterSoundComponentInterface::Execute_CanPlayCharacterMovementSound(GetOwner()) && MovementSound)
+	if (IAlsxtCharacterSoundComponentInterface::Execute_CanPlayCharacterMovementSound(GetOwner()) && MovementSound)
 	{
 		TArray<FALSXTCharacterMovementSound> CharacterMovementSounds = SelectCharacterMovementSounds(Settings, Type, Weight);
 		TArray<FSound> Sounds;
@@ -1621,7 +1621,7 @@ void UALSXTCharacterSoundComponent::PlayAttackSound(bool MovementSound, bool Acc
 	}
 
 	// ACCENT
-	if (IALSXTCharacterSoundComponentInterface::Execute_ShouldPlayMovementAccentSound(GetOwner(), Type, Strength) && AccentSound)
+	if (IAlsxtCharacterSoundComponentInterface::Execute_ShouldPlayMovementAccentSound(GetOwner(), Type, Strength) && AccentSound)
 	{
 		TArray<FALSXTCharacterMovementSound> CharacterMovementAccentSounds = SelectCharacterMovementAccentSounds(Settings, Type, Weight);
 		TArray<FSound> Sounds;
@@ -1655,7 +1655,7 @@ void UALSXTCharacterSoundComponent::PlayAttackSound(bool MovementSound, bool Acc
 	}
 
 	//WEAPON
-	if (IALSXTCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, Strength) && WeaponSound)
+	if (IAlsxtCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, Strength) && WeaponSound)
 	{
 		TArray<FALSXTWeaponMovementSound> WeaponMovementSounds = SelectWeaponMovementSounds(Settings, ALSXTWeaponTags::M4, Type);
 		FName WeaponMovementSoundSocket = GetSocketForMovement(Type);
@@ -1715,13 +1715,13 @@ void UALSXTCharacterSoundComponent::MulticastPlayDamageSound_Implementation(bool
 
 void UALSXTCharacterSoundComponent::PlayDamageSoundImplementation(bool MovementSound, bool AccentSound, bool WeaponSound, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Overlay, const FGameplayTag& AttackMethod, const FGameplayTag& Strength, const FGameplayTag& AttackForm, const float Damage)
 {
-	UALSXTCharacterSoundSettings* Settings = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
-	FGameplayTag Weight = IALSXTCharacterInterface::Execute_GetWeightTag(GetOwner());
+	UALSXTCharacterSoundSettings* Settings = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
+	FGameplayTag Weight = IAlsxtCharacterInterface::Execute_GetWeightTag(GetOwner());
 	FGameplayTag Type = ALSXTCharacterMovementSoundTags::Impact;
 	FMotionSounds MotionSounds;
 
 	// MOVEMENT
-	if (IALSXTCharacterSoundComponentInterface::Execute_CanPlayCharacterMovementSound(GetOwner()) && MovementSound)
+	if (IAlsxtCharacterSoundComponentInterface::Execute_CanPlayCharacterMovementSound(GetOwner()) && MovementSound)
 	{
 		TArray<FALSXTCharacterMovementSound> CharacterMovementSounds = SelectCharacterMovementSounds(Settings, Type, Weight);
 		TArray<FSound> Sounds;
@@ -1738,7 +1738,7 @@ void UALSXTCharacterSoundComponent::PlayDamageSoundImplementation(bool MovementS
 	}
 
 	// ACCENT
-	if (IALSXTCharacterSoundComponentInterface::Execute_ShouldPlayMovementAccentSound(GetOwner(), Type, Strength) && AccentSound)
+	if (IAlsxtCharacterSoundComponentInterface::Execute_ShouldPlayMovementAccentSound(GetOwner(), Type, Strength) && AccentSound)
 	{
 		TArray<FALSXTCharacterMovementSound> CharacterMovementAccentSounds = SelectCharacterMovementAccentSounds(Settings, Type, Weight);
 		TArray<FSound> Sounds;
@@ -1772,7 +1772,7 @@ void UALSXTCharacterSoundComponent::PlayDamageSoundImplementation(bool MovementS
 	}
 
 	//WEAPON
-	if (IALSXTCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, Strength) && WeaponSound)
+	if (IAlsxtCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, Strength) && WeaponSound)
 	{
 		TArray<FALSXTWeaponMovementSound> WeaponMovementSounds = SelectWeaponMovementSounds(Settings, ALSXTWeaponTags::M4, Type);
 		FName WeaponMovementSoundSocket = GetSocketForMovement(Type);
@@ -1829,13 +1829,13 @@ void UALSXTCharacterSoundComponent::PlayDamageSoundImplementation(bool MovementS
 
 void UALSXTCharacterSoundComponent::PlayDeathSound(const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Overlay, const FGameplayTag& AttackMethod, const FGameplayTag& Strength, const FGameplayTag& AttackForm, const float Damage)
 {
-	FGameplayTag Weight = IALSXTCharacterInterface::Execute_GetWeightTag(GetOwner());
+	FGameplayTag Weight = IAlsxtCharacterInterface::Execute_GetWeightTag(GetOwner());
 	FGameplayTag Type = ALSXTCharacterMovementSoundTags::Impact;
-	UALSXTCharacterSoundSettings* Settings = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
+	UALSXTCharacterSoundSettings* Settings = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
 	FMotionSounds MotionSounds;
 
 	// MOVEMENT
-	if (IALSXTCharacterSoundComponentInterface::Execute_CanPlayCharacterMovementSound(GetOwner()))
+	if (IAlsxtCharacterSoundComponentInterface::Execute_CanPlayCharacterMovementSound(GetOwner()))
 	{
 		TArray<FALSXTCharacterMovementSound> CharacterMovementSounds = SelectCharacterMovementSounds(Settings, Type, Weight);
 		TArray<FSound> Sounds;
@@ -1852,7 +1852,7 @@ void UALSXTCharacterSoundComponent::PlayDeathSound(const FGameplayTag& Sex, cons
 	}
 
 	// ACCENT
-	if (IALSXTCharacterSoundComponentInterface::Execute_ShouldPlayMovementAccentSound(GetOwner(), Type, Strength))
+	if (IAlsxtCharacterSoundComponentInterface::Execute_ShouldPlayMovementAccentSound(GetOwner(), Type, Strength))
 	{
 		TArray<FALSXTCharacterMovementSound> CharacterMovementAccentSounds = SelectCharacterMovementAccentSounds(Settings, Type, Weight);
 		TArray<FSound> Sounds;
@@ -1887,7 +1887,7 @@ void UALSXTCharacterSoundComponent::PlayDeathSound(const FGameplayTag& Sex, cons
 	}
 
 	//WEAPON
-	if (IALSXTCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, Strength))
+	if (IAlsxtCharacterSoundComponentInterface::Execute_ShouldPlayWeaponMovementSound(GetOwner(), Type, Strength))
 	{
 		TArray<FALSXTWeaponMovementSound> WeaponMovementSounds = SelectWeaponMovementSounds(Settings, ALSXTWeaponTags::M4, Type);
 		FName WeaponMovementSoundSocket = GetSocketForMovement(Type);
@@ -1920,7 +1920,7 @@ void UALSXTCharacterSoundComponent::PlayDeathSound(const FGameplayTag& Sex, cons
 
 void UALSXTCharacterSoundComponent::PlaySound(FMotionSounds MotionSounds)
 {
-	UALSXTCharacterSoundSettings* Settings = IALSXTCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
+	UALSXTCharacterSoundSettings* Settings = IAlsxtCharacterSoundComponentInterface::Execute_SelectCharacterSoundSettings(GetOwner());
 	
 	if (GetWorld()->WorldType == EWorldType::EditorPreview)
 	{
@@ -1938,8 +1938,8 @@ void UALSXTCharacterSoundComponent::PlaySound(FMotionSounds MotionSounds)
 		//CHARACTER MOVEMENT
 		if (CharacterMovementSound || CharacterMovementAccentSound)
 		{
-			FVector CharacterMovementSocketLocation = IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(MotionSounds.CharacterMovementSocketName);
-			FRotator CharacterMovementSocketRotation = IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(MotionSounds.CharacterMovementSocketName);
+			FVector CharacterMovementSocketLocation = IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(MotionSounds.CharacterMovementSocketName);
+			FRotator CharacterMovementSocketRotation = IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(MotionSounds.CharacterMovementSocketName);
 			CharacterMovementSoundMixer = UGameplayStatics::SpawnSoundAtLocation(GetOwner()->GetWorld(), Settings->CharacterMovementSoundMixer, CharacterMovementSocketLocation, CharacterMovementSocketRotation, 1.0f, 1.0f);
 
 			if (IsValid(CharacterMovementSoundMixer))
@@ -1974,8 +1974,8 @@ void UALSXTCharacterSoundComponent::PlaySound(FMotionSounds MotionSounds)
 		if (WeaponMovementSound)
 		{
 			// WEAPON SOUND
-			FVector WeaponMovementSocketLocation = IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(MotionSounds.WeaponMovementSocketName);
-			FRotator WeaponMovementSocketRotation = IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(MotionSounds.WeaponMovementSocketName);
+			FVector WeaponMovementSocketLocation = IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(MotionSounds.WeaponMovementSocketName);
+			FRotator WeaponMovementSocketRotation = IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(MotionSounds.WeaponMovementSocketName);
 			WeaponMovementAudioComponent = UGameplayStatics::SpawnSoundAtLocation(GetOwner()->GetWorld(), Settings->WeaponMovementMixer, WeaponMovementSocketLocation, WeaponMovementSocketRotation, 10.0f, MotionSounds.WeaponMovementSoundsPitch);
 			if (IsValid(WeaponMovementAudioComponent))
 			{
@@ -1999,15 +1999,15 @@ void UALSXTCharacterSoundComponent::PlaySound(FMotionSounds MotionSounds)
 		// Breath
 		if (IsValid(VocalizationMixerAudioComponent) && (BreathSound) && (!CharacterVocalSound))
 		{
-			if (IALSXTCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(GetOwner()).AudibleBreathStaminaLevels.HasTag(IALSXTCharacterInterface::Execute_GetStaminaTag(GetOwner())))
+			if (IAlsxtCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(GetOwner()).AudibleBreathStaminaLevels.HasTag(IAlsxtCharacterInterface::Execute_GetStaminaTag(GetOwner())))
 			{
 				FSound NewBreathSound;
 				DetermineNewSound(MotionSounds.BreathSounds, PreviousBreathsAssets, NewBreathSound);
 				float Pitch = FMath::RandRange(NewBreathSound.PitchRange.X, NewBreathSound.PitchRange.Y);
 				CurrentBreathSound = NewBreathSound;
 				SetNewSound(NewBreathSound.Sound, PreviousBreathsAssets, GeneralCharacterSoundSettings.BreathNoRepeats);
-				FVector NewVoiceSocketLocation = IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(GeneralCharacterSoundSettings.VoiceSocketName);
-				FRotator NewVoiceSocketRotation = IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(GeneralCharacterSoundSettings.VoiceSocketName);
+				FVector NewVoiceSocketLocation = IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(GeneralCharacterSoundSettings.VoiceSocketName);
+				FRotator NewVoiceSocketRotation = IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(GeneralCharacterSoundSettings.VoiceSocketName);
 				FSound EmptySound;
 				CurrentVocalizationSound = EmptySound;
 				VocalizationMixerAudioComponent->SetObjectParameter("VocalizationSound", nullptr);
@@ -2025,10 +2025,10 @@ void UALSXTCharacterSoundComponent::PlaySound(FMotionSounds MotionSounds)
 				OnVocalization.Broadcast(NewBreathSound);
 			}
 			
-			if (IALSXTCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(GetOwner()).VisibleBreathTypes.HasTag(IALSXTCharacterInterface::Execute_GetBreathType(GetOwner())))
+			if (IAlsxtCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(GetOwner()).VisibleBreathTypes.HasTag(IAlsxtCharacterInterface::Execute_GetBreathType(GetOwner())))
 			{
 				// UE_LOG(LogTemp, Warning, TEXT("SelectNewBreathParticles"));
-				CurrentBreathParticles = SelectBreathParticles(IALSXTCharacterInterface::Execute_GetBreathType(GetOwner()), CurrentStaminaTag);
+				CurrentBreathParticles = SelectBreathParticles(IAlsxtCharacterInterface::Execute_GetBreathType(GetOwner()), CurrentStaminaTag);
 				if (CurrentBreathParticles.IsValidIndex(0))
 				{
 					// UpdateVoiceSocketRotation();
@@ -2048,7 +2048,7 @@ void UALSXTCharacterSoundComponent::PlaySound(FMotionSounds MotionSounds)
 			float Pitch = FMath::RandRange(NewVocalizationSound.PitchRange.X, NewVocalizationSound.PitchRange.Y);
 			CurrentVocalizationSound = NewVocalizationSound;
 			SetNewSound(NewVocalizationSound.Sound, PreviousVocalizationsAssets, GeneralCharacterSoundSettings.VocalizationNoRepeats);
-			FVector NewVoiceSocketLocation = IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(GeneralCharacterSoundSettings.VoiceSocketName);
+			FVector NewVoiceSocketLocation = IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(GeneralCharacterSoundSettings.VoiceSocketName);
 			VocalizationMixerAudioComponent->SetObjectParameter("VocalizationSound", NewVocalizationSound.Sound);
 			FString SoundName = NewVocalizationSound.Sound->GetName();
 			VocalizationMixerAudioComponent->SetFloatParameter("Pitch", Pitch);
@@ -2063,17 +2063,17 @@ void UALSXTCharacterSoundComponent::PlaySound(FMotionSounds MotionSounds)
 			// OnVocalization(NewVocalizationSound);
 			OnVocalization.Broadcast(NewVocalizationSound);
 
-			if (IALSXTCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(GetOwner()).VisibleBreathTypes.HasTag(IALSXTCharacterInterface::Execute_GetBreathType(GetOwner())))
+			if (IAlsxtCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(GetOwner()).VisibleBreathTypes.HasTag(IAlsxtCharacterInterface::Execute_GetBreathType(GetOwner())))
 			{
 				// UE_LOG(LogTemp, Warning, TEXT("SelectNewBreathParticles"));
 				FGameplayTag NewStaminaTag{ ConvertStaminaToStaminaTag(CurrentStamina) };
-				CurrentBreathParticles = SelectBreathParticles(IALSXTCharacterInterface::Execute_GetBreathType(GetOwner()), NewStaminaTag);
+				CurrentBreathParticles = SelectBreathParticles(IAlsxtCharacterInterface::Execute_GetBreathType(GetOwner()), NewStaminaTag);
 				if (CurrentBreathParticles.IsValidIndex(0))
 				{
 					// UpdateVoiceSocketRotation();
 					// UNiagaraSystem* NiagaraSystem{ (CurrentBreathParticles.Num() > 1) ? DetermineNewBreathParticle() : CurrentBreathParticles[0] };
 					UNiagaraSystem* NiagaraSystem{ CurrentBreathParticles[0] };
-					UNiagaraComponent* NiagaraComp = UNiagaraFunctionLibrary::SpawnSystemAttached(NiagaraSystem, IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner()), GeneralCharacterSoundSettings.VoiceSocketName, IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(GeneralCharacterSoundSettings.VoiceSocketName), IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(GeneralCharacterSoundSettings.VoiceSocketName), EAttachLocation::KeepWorldPosition, true, true, ENCPoolMethod::None, true);
+					UNiagaraComponent* NiagaraComp = UNiagaraFunctionLibrary::SpawnSystemAttached(NiagaraSystem, IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner()), GeneralCharacterSoundSettings.VoiceSocketName, IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketLocation(GeneralCharacterSoundSettings.VoiceSocketName), IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetSocketRotation(GeneralCharacterSoundSettings.VoiceSocketName), EAttachLocation::KeepWorldPosition, true, true, ENCPoolMethod::None, true);
 					// ServerPlayBreathParticle(NiagaraSystem);
 				}
 			}

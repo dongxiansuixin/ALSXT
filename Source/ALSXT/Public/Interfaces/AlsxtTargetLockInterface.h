@@ -1,13 +1,13 @@
 #pragma once
 
-#include "ALSXTTargetLockInterface.generated.h"
+#include "AlsxtTargetLockInterface.generated.h"
 
 UINTERFACE(Blueprintable)
-class UALSXTTargetLockInterface : public UInterface {
+class UAlsxtTargetLockInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTTargetLockInterface {
+class ALSXT_API IAlsxtTargetLockInterface {
 	GENERATED_BODY()
 
 public:

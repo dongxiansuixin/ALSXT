@@ -4,14 +4,14 @@
 #include "Engine/EngineTypes.h"
 #include "Utility/ALSXTStructs.h"
 #include "State/ALSXTHeadLookAtState.h"
-#include "ALSXTHeadLookAtInterface.generated.h"
+#include "AlsxtHeadLookAtInterface.generated.h"
 
 UINTERFACE(Blueprintable)
-class UALSXTHeadLookAtInterface : public UInterface {
+class UAlsxtHeadLookAtInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTHeadLookAtInterface {
+class ALSXT_API IAlsxtHeadLookAtInterface {
 	GENERATED_BODY()
 
 public:

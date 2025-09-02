@@ -3,7 +3,7 @@
 
 #include "AlsxtBlueprintFunctionLibrary.h"
 #include "GameFramework/PlayerController.h"
-#include "Interfaces/ALSXTControllerRenderInterface.h"
+#include "Interfaces/AlsxtControllerRenderInterface.h"
 #include "Utility/ALSXTGameplayTags.h"
 
 FQuat UAlsxtBlueprintFunctionLibrary::ConvertEulerToQuaternion(FRotator CurrentRotation)
@@ -33,9 +33,9 @@ bool UAlsxtBlueprintFunctionLibrary::GetAdjustedRenderMatrix(const UMeshComponen
 {
 	if (Component && PlayerController && PlayerController->PlayerCameraManager)
 	{
-		if (PlayerController->GetClass()->ImplementsInterface(UALSXTControllerRenderInterface::StaticClass()))
+		if (PlayerController->GetClass()->ImplementsInterface(UAlsxtControllerRenderInterface::StaticClass()))
 		{
-			if (IALSXTControllerRenderInterface::Execute_IsSeparateFirstPersonFOVEnabled(PlayerController))
+			if (IAlsxtControllerRenderInterface::Execute_IsSeparateFirstPersonFOVEnabled(PlayerController))
 			{
 				const float WorldFOV = PlayerController->PlayerCameraManager->GetFOVAngle();
 				const float ViewmodelFOV = DesiredFOV;

@@ -3,14 +3,14 @@
 #include "NativeGameplayTags.h"
 #include "Settings/ALSXTCharacterSoundSettings.h"
 #include "Utility/ALSXTStructs.h"
-#include "ALSXTCharacterCustomizationComponentInterface.generated.h"
+#include "AlsxtCharacterCustomizationComponentInterface.generated.h"
 
 UINTERFACE(Blueprintable)
-class UALSXTCharacterCustomizationComponentInterface : public UInterface {
+class UAlsxtCharacterCustomizationComponentInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTCharacterCustomizationComponentInterface {
+class ALSXT_API IAlsxtCharacterCustomizationComponentInterface {
 	GENERATED_BODY()
 
 public:

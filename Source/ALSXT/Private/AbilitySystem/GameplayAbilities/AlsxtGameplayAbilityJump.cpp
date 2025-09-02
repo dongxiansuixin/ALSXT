@@ -7,7 +7,7 @@ UAlsxtGameplayAbilityJump::UAlsxtGameplayAbilityJump()
 {
 	// InstancingPolicy = EGameplayAbilityInstancingPolicy::NonInstanced;
 	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
-	AbilityTags.AddTag(FGameplayTag::RequestGameplayTag(FName("Gameplay.Ability.Jump")));
+	// AbilityTags.AddTag(FGameplayTag::RequestGameplayTag(FName("Gameplay.Ability.Jump"))); 
 	const FGameplayTagContainer InitialTags {FGameplayTag::RequestGameplayTag(FName("Gameplay.Ability.Jump"))};
 	SetAssetTags(InitialTags);
 

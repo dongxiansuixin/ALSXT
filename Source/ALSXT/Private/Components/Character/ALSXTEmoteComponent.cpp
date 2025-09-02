@@ -52,7 +52,7 @@ FGameplayTag UALSXTEmoteComponent::GetEmote() const
 
 void UALSXTEmoteComponent::AddDesiredEmote(const FGameplayTag& NewEmote)
 {
-	if (IALSXTCharacterInterface::Execute_CanEmote(GetOwner()))
+	if (IAlsxtCharacterInterface::Execute_CanEmote(GetOwner()))
 	{
 		if (EmoteSettings->bDebugMode)
 		{
@@ -134,7 +134,7 @@ void UALSXTEmoteComponent::MulticastAddDesiredEmote_Implementation(const FGamepl
 void UALSXTEmoteComponent::AddEmote(const FGameplayTag& NewEmote)
 {
 
-	if (IsValid(EmoteSettings) && IALSXTCharacterInterface::Execute_CanEmote(GetOwner()))
+	if (IsValid(EmoteSettings) && IAlsxtCharacterInterface::Execute_CanEmote(GetOwner()))
 	{
 		// for (Emote : EmoteSettings->Emotes)
 		
@@ -144,7 +144,7 @@ void UALSXTEmoteComponent::AddEmote(const FGameplayTag& NewEmote)
 			{
 				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FoundMontage->GetName());
 			}
-			IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetAnimInstance()->Montage_Play(FoundMontage);
+			IAlsxtCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetAnimInstance()->Montage_Play(FoundMontage);
 			OnEmote(Emote);
 		}
 	}

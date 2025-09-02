@@ -2,14 +2,14 @@
 
 #include "NativeGameplayTags.h"
 #include "Utility/ALSXTStructs.h"
-#include "ALSXTCharacterEquipmentComponentInterface.generated.h"
+#include "AlsxtCharacterEquipmentComponentInterface.generated.h"
 
 UINTERFACE(Blueprintable)
-class UALSXTCharacterEquipmentComponentInterface : public UInterface {
+class UAlsxtCharacterEquipmentComponentInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTCharacterEquipmentComponentInterface {
+class ALSXT_API IAlsxtCharacterEquipmentComponentInterface {
 	GENERATED_BODY()
 
 public:

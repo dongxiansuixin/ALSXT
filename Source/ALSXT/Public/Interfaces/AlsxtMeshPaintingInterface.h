@@ -3,14 +3,14 @@
 #include "GameplayTagContainer.h"
 #include "Runtime/PhysicsCore/Public/Chaos/ChaosEngineInterface.h"
 #include "Settings/ALSXTMeshPaintingSettings.h"
-#include "ALSXTMeshPaintingInterface.generated.h"
+#include "AlsxtMeshPaintingInterface.generated.h"
 
 UINTERFACE(MinimalAPI, Blueprintable)
-class UALSXTMeshPaintingInterface : public UInterface {
+class UAlsxtMeshPaintingInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTMeshPaintingInterface {
+class ALSXT_API IAlsxtMeshPaintingInterface {
 	GENERATED_BODY()
 
 public:

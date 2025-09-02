@@ -5,11 +5,11 @@
 #include "CoreMinimal.h"
 #include "Settings/ALSXTCharacterAdvancedSettings.h"
 #include "ALSXTCharacter.h"
-#include "Interfaces/ALSXTCharacterCameraEffectsComponentInterface.h"
-#include "Interfaces/ALSXTHeadLookAtInterface.h"
-#include "Interfaces/ALSXTAcrobaticActionComponentInterface.h"
-#include "Interfaces/ALSXTCombatInterface.h"
-#include "Interfaces/ALSXTFirearmInterface.h"
+#include "Interfaces/AlsxtCharacterCameraEffectsComponentInterface.h"
+#include "Interfaces/AlsxtHeadLookAtInterface.h"
+#include "Interfaces/AlsxtAcrobaticActionComponentInterface.h"
+#include "Interfaces/AlsxtCombatInterface.h"
+#include "Interfaces/AlsxtFirearmInterface.h"
 #include "AlsCameraComponent.h"
 #include "CineCameraComponent.h"
 #include "Components/Character/ALSXTCharacterCameraEffectsComponent.h"
@@ -22,7 +22,7 @@
 class UALSXTCharacterAdvancedSettings;
 
 UCLASS()
-class ALSXT_API AALSXTCharacterAdvanced : public AALSXTCharacter, public IALSXTCharacterCameraEffectsComponentInterface, public IALSXTAcrobaticActionComponentInterface, public IALSXTCombatInterface, public IALSXTFirearmInterface
+class ALSXT_API AALSXTCharacterAdvanced : public AALSXTCharacter, public IAlsxtCharacterCameraEffectsComponentInterface, public IAlsxtAcrobaticActionComponentInterface, public IAlsxtCombatInterface, public IAlsxtFirearmInterface
 {
 	GENERATED_BODY()
 

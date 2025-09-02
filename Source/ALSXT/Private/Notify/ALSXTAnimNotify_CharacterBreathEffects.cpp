@@ -6,8 +6,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "ALSXTAnimationInstance.h"
 #include "ALSXTCharacter.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
-#include "Interfaces/ALSXTCharacterSoundComponentInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
+#include "Interfaces/AlsxtCharacterSoundComponentInterface.h"
 #include "NiagaraFunctionLibrary.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
@@ -33,12 +33,12 @@ void UALSXTAnimNotify_CharacterBreathEffects::Notify(USkeletalMeshComponent* Mes
 	const auto* World{ Mesh->GetWorld() };
 	if (World->WorldType != EWorldType::EditorPreview)
 	{
-		FGameplayTag Status{ IALSXTCharacterInterface::Execute_GetCharacterStatus(Mesh->GetOwner()) };
+		FGameplayTag Status{ IAlsxtCharacterInterface::Execute_GetCharacterStatus(Mesh->GetOwner()) };
 		if (Status == ALSXTStatusTags::Dead)
 		{
 			return;
 		}
-		IALSXTCharacterSoundComponentInterface::Execute_PlayBreathEffects(Mesh->GetOwner(), StaminaOverride);
+		IAlsxtCharacterSoundComponentInterface::Execute_PlayBreathEffects(Mesh->GetOwner(), StaminaOverride);
 	}
 	else
 	{

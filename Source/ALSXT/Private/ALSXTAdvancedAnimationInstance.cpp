@@ -4,7 +4,7 @@
 #include "ALSXTAdvancedAnimationInstance.h"
 #include "ALS/Public/Utility/AlsMacros.h"
 #include "ALSXTAdvancedAnimationInstanceProxy.h"
-#include "Interfaces/ALSXTFirearmInterface.h"
+#include "Interfaces/AlsxtFirearmInterface.h"
 
 UALSXTAdvancedAnimationInstance::UALSXTAdvancedAnimationInstance()
 {
@@ -44,7 +44,7 @@ void UALSXTAdvancedAnimationInstance::NativeUpdateAnimation(const float DeltaTim
 
 	Super::NativeUpdateAnimation(DeltaTime);
 
-	if (!GetOwningActor()->Implements<UALSXTCharacterInterface>())
+	if (!GetOwningActor()->Implements<UAlsxtCharacterInterface>())
 	{
 		return;
 	}
@@ -52,14 +52,14 @@ void UALSXTAdvancedAnimationInstance::NativeUpdateAnimation(const float DeltaTim
 	RefreshALSXTPose();
 
 
-	if (GetOwningActor()->Implements<UALSXTCharacterInterface>())
+	if (GetOwningActor()->Implements<UAlsxtCharacterInterface>())
 	{
 
 	}
 
-	if (GetOwningActor()->Implements<UALSXTFirearmInterface>())
+	if (GetOwningActor()->Implements<UAlsxtFirearmInterface>())
 	{
-		FirearmAimState = IALSXTFirearmInterface::Execute_GetFirearmAimState(GetOwningActor());		
+		FirearmAimState = IAlsxtFirearmInterface::Execute_GetFirearmAimState(GetOwningActor());		
 	}
 }
 

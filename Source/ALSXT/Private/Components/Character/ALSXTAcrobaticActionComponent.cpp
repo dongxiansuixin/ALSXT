@@ -1,7 +1,7 @@
 // MIT
 
 #include "Components/Character/ALSXTAcrobaticActionComponent.h"
-#include "Interfaces/ALSXTAcrobaticActionComponentInterface.h"
+#include "Interfaces/AlsxtAcrobaticActionComponentInterface.h"
 #include "Components/CapsuleComponent.h"
 #include "Utility/ALSXTGameplayTags.h"
 #include "ALSXTAnimationInstance.h"
@@ -35,7 +35,7 @@ void UALSXTAcrobaticActionComponent::TickComponent(float DeltaTime, ELevelTick T
 
 void UALSXTAcrobaticActionComponent::TryAcrobaticAction()
 {
-	if (!GeneralAcrobaticActionSettings.bAcrobaticActions || !Settings->bAcrobaticActions || IALSXTCharacterInterface::Execute_GetCharacterLocomotionMode(GetOwner()) == AlsLocomotionModeTags::Grounded || IALSXTCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) == AlsLocomotionActionTags::Acrobatic)
+	if (!GeneralAcrobaticActionSettings.bAcrobaticActions || !Settings->bAcrobaticActions || IAlsxtCharacterInterface::Execute_GetCharacterLocomotionMode(GetOwner()) == AlsLocomotionModeTags::Grounded || IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) == AlsLocomotionActionTags::Acrobatic)
 	{
 		return;
 	}
@@ -63,11 +63,11 @@ void UALSXTAcrobaticActionComponent::TryAcrobaticAction()
 
 void UALSXTAcrobaticActionComponent::DetermineAcrobaticActionType(FGameplayTag& AcrobaticActionType)
 {
-	if (IALSXTCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != FGameplayTag::EmptyTag)
+	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != FGameplayTag::EmptyTag)
 	{
 		return;
 	}
-	const auto* Capsule{ IALSXTCharacterInterface::Execute_GetCharacterCapsuleComponent(GetOwner()) };
+	const auto* Capsule{ IAlsxtCharacterInterface::Execute_GetCharacterCapsuleComponent(GetOwner()) };
 	FVector ActorLocation = GetOwner()->GetActorLocation();
 	float CapsuleRadius = Capsule->GetScaledCapsuleRadius();
 	float CapsuleHalfHeight = Capsule->GetScaledCapsuleHalfHeight();
@@ -76,14 +76,14 @@ void UALSXTAcrobaticActionComponent::DetermineAcrobaticActionType(FGameplayTag& 
 
 	FVector ForwardTraceHalfSize {CapsuleRadius, (CapsuleRadius*1.25), CapsuleHalfHeight};
 	FVector LateralTraceHalfSize{ (CapsuleRadius * 1.25), CapsuleRadius, CapsuleHalfHeight };
-	FVector ForwardVector = IALSXTCharacterInterface::Execute_GetCharacterCapsuleComponent(GetOwner())->GetForwardVector();
+	FVector ForwardVector = IAlsxtCharacterInterface::Execute_GetCharacterCapsuleComponent(GetOwner())->GetForwardVector();
 	FVector UpVector = GetOwner()->GetActorUpVector();
 	FVector DownTraceStartPoint = ActorLocation + (UpVector * -CapsuleHalfHeight * 2.0f);
 	FVector DownTraceEndPoint = DownTraceStartPoint + (UpVector * -GeneralAcrobaticActionSettings.DownTraceDistance);
 	FVector ForwardTraceStartLocation = ActorLocation + (ForwardVector * 50.0f);
 	FVector ForwardTraceEndLocation = ForwardTraceStartLocation + (ForwardVector * GeneralAcrobaticActionSettings.ForwardTraceDistance);
 
-	FVector RightVector = IALSXTCharacterInterface::Execute_GetCharacterCapsuleComponent(GetOwner())->GetRightVector();
+	FVector RightVector = IAlsxtCharacterInterface::Execute_GetCharacterCapsuleComponent(GetOwner())->GetRightVector();
 
 	FVector RightTraceStartLocation = ActorLocation + (RightVector * 50.0f) + (ForwardVector * -25.0f);
 	FVector RightTraceEndLocation = RightTraceStartLocation + (RightVector * GeneralAcrobaticActionSettings.LateralTraceDistance);
@@ -121,7 +121,7 @@ void UALSXTAcrobaticActionComponent::DetermineAcrobaticActionType(FGameplayTag& 
 		return;
 	}
 	
-	if ((ForwardHit & (!RightHit && !LeftHit)) && (Velocity > GeneralAcrobaticActionSettings.MinimumSpeedForWallJump) && IALSXTAcrobaticActionComponentInterface::Execute_CanWallJump(GetOwner()))
+	if ((ForwardHit & (!RightHit && !LeftHit)) && (Velocity > GeneralAcrobaticActionSettings.MinimumSpeedForWallJump) && IAlsxtAcrobaticActionComponentInterface::Execute_CanWallJump(GetOwner()))
 	{
 		AcrobaticActionType = ALSXTAcrobaticActionTypeTags::WallJump;
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, "Wall Jump");
@@ -129,13 +129,13 @@ void UALSXTAcrobaticActionComponent::DetermineAcrobaticActionType(FGameplayTag& 
 
 	}
 	
-	if ((LeftHit || (LeftHit && ForwardHit)) && (Velocity > GeneralAcrobaticActionSettings.MinimumSpeedForWallRun) && IALSXTAcrobaticActionComponentInterface::Execute_CanWallRun(GetOwner()))
+	if ((LeftHit || (LeftHit && ForwardHit)) && (Velocity > GeneralAcrobaticActionSettings.MinimumSpeedForWallRun) && IAlsxtAcrobaticActionComponentInterface::Execute_CanWallRun(GetOwner()))
 	{
 		AcrobaticActionType = ALSXTAcrobaticActionTypeTags::WallRunLeft;
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, "Wall Run Left");
 	}
 
-	if ((RightHit || (RightHit && ForwardHit)) && (Velocity > GeneralAcrobaticActionSettings.MinimumSpeedForWallRun) && IALSXTAcrobaticActionComponentInterface::Execute_CanWallRun(GetOwner()))
+	if ((RightHit || (RightHit && ForwardHit)) && (Velocity > GeneralAcrobaticActionSettings.MinimumSpeedForWallRun) && IAlsxtAcrobaticActionComponentInterface::Execute_CanWallRun(GetOwner()))
 	{
 		AcrobaticActionType = ALSXTAcrobaticActionTypeTags::WallRunRight;
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, "Wall Run Right");
@@ -175,17 +175,17 @@ void UALSXTAcrobaticActionComponent::MulticastBeginFlip_Implementation()
 		if (Direction < 0.0)
 		{
 			// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Back"));
-			IALSXTCharacterInterface::Execute_GetCharacterAnimInstance(GetOwner())->Montage_Play(Settings->BackflipMontage, 1.0, EMontagePlayReturnType::MontageLength, 0.0f, false);
+			IAlsxtCharacterInterface::Execute_GetCharacterAnimInstance(GetOwner())->Montage_Play(Settings->BackflipMontage, 1.0, EMontagePlayReturnType::MontageLength, 0.0f, false);
 		}
 		else if (Velocity < GeneralAcrobaticActionSettings.MaximumVelocityForBackflip)
 		{
 			// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Back"));
-			IALSXTCharacterInterface::Execute_GetCharacterAnimInstance(GetOwner())->Montage_Play(Settings->BackflipMontage, 1.0, EMontagePlayReturnType::MontageLength, 0.0f, false);
+			IAlsxtCharacterInterface::Execute_GetCharacterAnimInstance(GetOwner())->Montage_Play(Settings->BackflipMontage, 1.0, EMontagePlayReturnType::MontageLength, 0.0f, false);
 		}
 		else
 		{
 			// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Front"));
-			IALSXTCharacterInterface::Execute_GetCharacterAnimInstance(GetOwner())->Montage_Play(Settings->FlipMontage, 1.0, EMontagePlayReturnType::MontageLength, 0.0f, false);
+			IAlsxtCharacterInterface::Execute_GetCharacterAnimInstance(GetOwner())->Montage_Play(Settings->FlipMontage, 1.0, EMontagePlayReturnType::MontageLength, 0.0f, false);
 		}
 	}
 }

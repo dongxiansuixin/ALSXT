@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Settings/ALSXTMeshRenderSettings.h"
-#include "ALSXTControllerRenderInterface.generated.h"
+#include "AlsxtControllerRenderInterface.generated.h"
 
 UINTERFACE(Blueprintable)
-class UALSXTControllerRenderInterface : public UInterface {
+class UAlsxtControllerRenderInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTControllerRenderInterface {
+class ALSXT_API IAlsxtControllerRenderInterface {
 	GENERATED_BODY()
 
 public:

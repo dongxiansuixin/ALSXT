@@ -4,8 +4,8 @@
 #include "Notify/ALSXTAnimNotifyState_HITrace.h"
 
 #include "Utility/ALSXTGameplayTags.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
-#include "Interfaces/ALSXTCombatInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
+#include "Interfaces/AlsxtCombatInterface.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Utility/AlsUtility.h"
 
@@ -26,20 +26,20 @@ void UALSXTAnimNotifyState_HITrace::NotifyBegin(USkeletalMeshComponent* Mesh, UA
 {
 	Super::NotifyBegin(Mesh, Animation, Duration, EventReference);
 
-	if (IsValid(Mesh->GetOwner()) && Mesh->GetOwner()->GetClass()->ImplementsInterface(UALSXTCharacterInterface::StaticClass()) && Mesh->GetOwner()->GetClass()->ImplementsInterface(UALSXTCombatInterface::StaticClass()))
+	if (IsValid(Mesh->GetOwner()) && Mesh->GetOwner()->GetClass()->ImplementsInterface(UAlsxtCharacterInterface::StaticClass()) && Mesh->GetOwner()->GetClass()->ImplementsInterface(UAlsxtCombatInterface::StaticClass()))
 	{
 		FALSXTCombatAttackTraceSettings TraceSettings;
-		TraceSettings.Overlay = IALSXTCharacterInterface::Execute_GetCharacterOverlayMode(Mesh->GetOwner());
+		TraceSettings.Overlay = IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(Mesh->GetOwner());
 		TraceSettings.ImpactType = ALSXTImpactTypeTags::Hit;
 		TraceSettings.AttackType = ALSXTAttackMethodTags::Regular;
 		TraceSettings.ImpactForm = ALSXTImpactFormTags::Blunt;
 		TraceSettings.AttackStrength = AttackStrength;
 		bool Found {false};
 
-		IALSXTCombatInterface::Execute_GetCombatHeldItemTraceLocations(Mesh->GetOwner(), Found, TraceSettings.Start, TraceSettings.End, TraceSettings.Radius);
+		IAlsxtCombatInterface::Execute_GetCombatHeldItemTraceLocations(Mesh->GetOwner(), Found, TraceSettings.Start, TraceSettings.End, TraceSettings.Radius);
 		if (Found)
 		{
-			IALSXTCombatInterface::Execute_BeginCombatAttackCollisionTrace(Mesh->GetOwner(), TraceSettings);
+			IAlsxtCombatInterface::Execute_BeginCombatAttackCollisionTrace(Mesh->GetOwner(), TraceSettings);
 		}
 	}
 }
@@ -49,8 +49,8 @@ void UALSXTAnimNotifyState_HITrace::NotifyEnd(USkeletalMeshComponent* Mesh, UAni
 {
 	Super::NotifyEnd(Mesh, Animation, EventReference);
 
-	if (IsValid(Mesh->GetOwner()) && Mesh->GetOwner()->GetClass()->ImplementsInterface(UALSXTCharacterInterface::StaticClass()) && Mesh->GetOwner()->GetClass()->ImplementsInterface(UALSXTCombatInterface::StaticClass()))
+	if (IsValid(Mesh->GetOwner()) && Mesh->GetOwner()->GetClass()->ImplementsInterface(UAlsxtCharacterInterface::StaticClass()) && Mesh->GetOwner()->GetClass()->ImplementsInterface(UAlsxtCombatInterface::StaticClass()))
 	{
-		IALSXTCombatInterface::Execute_EndCombatAttackCollisionTrace(Mesh->GetOwner());
+		IAlsxtCombatInterface::Execute_EndCombatAttackCollisionTrace(Mesh->GetOwner());
 	}
 }

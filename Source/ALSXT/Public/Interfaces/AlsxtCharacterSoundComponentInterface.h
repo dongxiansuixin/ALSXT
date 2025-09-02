@@ -4,14 +4,14 @@
 #include "Settings/ALSXTCharacterSoundSettings.h"
 #include "Utility/ALSXTStructs.h"
 #include "Settings/ALSXTCharacterBreathEffectsSettings.h"
-#include "ALSXTCharacterSoundComponentInterface.generated.h"
+#include "AlsxtCharacterSoundComponentInterface.generated.h"
 
 UINTERFACE(MinimalAPI, Blueprintable)
-class UALSXTCharacterSoundComponentInterface : public UInterface {
+class UAlsxtCharacterSoundComponentInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTCharacterSoundComponentInterface {
+class ALSXT_API IAlsxtCharacterSoundComponentInterface {
 	GENERATED_BODY()
 
 public:

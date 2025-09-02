@@ -5,8 +5,8 @@
 #include "AlsCharacter.h"
 #include "ALSXTAnimationInstance.h"
 #include "ALSXTCharacter.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
-#include "Interfaces/ALSXTCharacterSoundComponentInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
+#include "Interfaces/AlsxtCharacterSoundComponentInterface.h"
 
 // ReSharper disable once CppUnusedIncludeDirective
 #include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTAnimNotify_CharacterMovementSound)
@@ -31,7 +31,7 @@ void UALSXTAnimNotify_CharacterMovementSound::Notify(USkeletalMeshComponent* Mes
 
 	if (World->WorldType != EWorldType::EditorPreview)
 	{
-		FGameplayTag WeightTag = IALSXTCharacterInterface::Execute_GetWeightTag(Mesh->GetOwner());
-		IALSXTCharacterSoundComponentInterface::Execute_PlayCharacterMovementSound(Mesh->GetOwner(), EnableCharacterMovementAccentSound, EnableWeaponMovementSound, MovementType, WeightTag);
+		FGameplayTag WeightTag = IAlsxtCharacterInterface::Execute_GetWeightTag(Mesh->GetOwner());
+		IAlsxtCharacterSoundComponentInterface::Execute_PlayCharacterMovementSound(Mesh->GetOwner(), EnableCharacterMovementAccentSound, EnableWeaponMovementSound, MovementType, WeightTag);
 	}
 }

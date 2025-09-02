@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Settings/ALSXTFirearmSettings.h"
-#include "ALSXTFirearmInterface.generated.h"
+#include "AlsxtFirearmInterface.generated.h"
 
 UINTERFACE(Blueprintable)
-class UALSXTFirearmInterface : public UInterface {
+class UAlsxtFirearmInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTFirearmInterface {
+class ALSXT_API IAlsxtFirearmInterface {
 	GENERATED_BODY()
 
 public:

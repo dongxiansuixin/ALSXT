@@ -1,14 +1,14 @@
 #pragma once
 #include "UObject/Interface.h"
 
-#include "ALSXTControllerInterface.generated.h"
+#include "AlsxtControllerInterface.generated.h"
 
 UINTERFACE(Blueprintable)
-class UALSXTControllerInterface : public UInterface {
+class UAlsxtControllerInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTControllerInterface {
+class ALSXT_API IAlsxtControllerInterface {
 	GENERATED_BODY()
 
 public:

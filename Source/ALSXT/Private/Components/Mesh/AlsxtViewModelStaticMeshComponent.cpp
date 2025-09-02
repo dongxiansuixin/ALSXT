@@ -3,7 +3,7 @@
 
 #include "Components/Mesh/AlsxtViewModelStaticMeshComponent.h"
 #include "AlsxtBlueprintFunctionLibrary.h"
-#include "Interfaces/ALSXTControllerRenderInterface.h"
+#include "Interfaces/AlsxtControllerRenderInterface.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 #include "GameFramework/Pawn.h"
@@ -28,13 +28,13 @@ FMatrix UAlsxtViewModelStaticMeshComponent::GetRenderMatrix() const
 		return Matrix;
 	}
 
-	if (!PlayerController->GetClass()->ImplementsInterface(UALSXTControllerRenderInterface::StaticClass()))
+	if (!PlayerController->GetClass()->ImplementsInterface(UAlsxtControllerRenderInterface::StaticClass()))
 	{
 		return Matrix;
 	}
 
 	APlayerController* PlayerControllerObject = PlayerController.Get();
-	if (!IALSXTControllerRenderInterface::Execute_IsSeparateFirstPersonFOVEnabled(PlayerControllerObject) || !IALSXTControllerRenderInterface::Execute_IsViewModelOnStaticMeshEnabled(PlayerControllerObject))
+	if (!IAlsxtControllerRenderInterface::Execute_IsSeparateFirstPersonFOVEnabled(PlayerControllerObject) || !IAlsxtControllerRenderInterface::Execute_IsViewModelOnStaticMeshEnabled(PlayerControllerObject))
 	{
 		return Matrix;
 	}

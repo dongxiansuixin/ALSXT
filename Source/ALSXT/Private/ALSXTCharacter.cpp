@@ -16,16 +16,16 @@
 #include "Net/Core/PushModel/PushModel.h"
 #include "Components/SceneComponent.h"
 #include "PhysicsEngine/PhysicalAnimationComponent.h"
-#include "Components/Character/ALSXTIdleAnimationComponent.h"
+#include "Components/Character/AlsxtIdleAnimationComponent.h"
 #include "Components/Character/ALSXTEmoteComponent.h"
-#include "Components/Character/ALSXTGestureComponent.h"
+#include "Components/Character/AlsxtGestureComponent.h"
 #include "Settings/ALSXTCharacterSettings.h"
 #include "Settings/ALSXTLocomotionActionSettings.h"
 #include "Settings/ALSXTVaultingSettings.h"
 #include "Settings/ALSXTCombatSettings.h"
-#include "Interfaces/ALSXTCollisionInterface.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
-#include "Interfaces/ALSXTHeldItemInterface.h"
+#include "Interfaces/AlsxtCollisionInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
+#include "Interfaces/AlsxtHeldItemInterface.h"
 #include "Curves/CurveVector.h"
 #include "RootMotionSources/ALSXTRootMotionSource_Vaulting.h"
 #include "Utility/AlsConstants.h"
@@ -420,13 +420,13 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	PhysicalAnimation = CreateDefaultSubobject<UPhysicalAnimationComponent>(TEXT("Physical Animation"));
 	AddOwnedComponent(PhysicalAnimation);
 
-	IdleAnimation = CreateDefaultSubobject<UALSXTIdleAnimationComponent>(TEXT("Idle Animation"));
+	IdleAnimation = CreateDefaultSubobject<UAlsxtIdleAnimationComponent>(TEXT("Idle Animation"));
 	AddOwnedComponent(IdleAnimation);
 
 	Emotes = CreateDefaultSubobject<UALSXTEmoteComponent>(TEXT("Emotes"));
 	AddOwnedComponent(Emotes);
 
-	Gestures = CreateDefaultSubobject<UALSXTGestureComponent>(TEXT("Gestures"));
+	Gestures = CreateDefaultSubobject<UAlsxtGestureComponent>(TEXT("Gestures"));
 	AddOwnedComponent(Gestures);
 
 	OnRagdollingStartedDelegate.BindUFunction(ImpactReaction, "OnRagdollingStarted");
@@ -451,7 +451,7 @@ void AALSXTCharacter::Tick(const float DeltaTime)
 		// GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("%f"), Angle));
 	}
 
-	if (IALSXTHeldItemInterface::Execute_IsHoldingAimableItem(this) && ((GetDesiredCombatStance() == ALSXTCombatStanceTags::Ready) || (GetDesiredCombatStance() == ALSXTCombatStanceTags::Aiming)))
+	if (IAlsxtHeldItemInterface::Execute_IsHoldingAimableItem(this) && ((GetDesiredCombatStance() == ALSXTCombatStanceTags::Ready) || (GetDesiredCombatStance() == ALSXTCombatStanceTags::Aiming)))
 	{
 		FALSXTAimState NewAimState = GetAimState();
 		// OverlaySkeletalMesh->GetSock
@@ -556,7 +556,7 @@ void AALSXTCharacter::BeginPlay()
 	// FreelookTimerDelegate.BindUFunction(this, "FreelookTimer");
 	BlendOutPhysicalAnimationTimerDelegate.BindUFunction(this, "BlendOutPhysicalAnimation");
 	RefreshOverlayObject();
-	IALSXTCharacterInterface::Execute_GetCharacterCameraAnimationInstance(this)->OnFirstPersonOverrideChanged.AddDynamic(this, &AALSXTCharacter::OnFirstPersonOverrideChanged);
+	IAlsxtCharacterInterface::Execute_GetCharacterCameraAnimationInstance(this)->OnFirstPersonOverrideChanged.AddDynamic(this, &AALSXTCharacter::OnFirstPersonOverrideChanged);
 
 }
 
@@ -917,7 +917,7 @@ void AALSXTCharacter::InputAim(const FInputActionValue& ActionValue)
 			{
 				SetDesiredCombatStance(ALSXTCombatStanceTags::Aiming);
 			}
-			if (IALSXTHeldItemInterface::Execute_IsHoldingAimableItem(this)) {
+			if (IAlsxtHeldItemInterface::Execute_IsHoldingAimableItem(this)) {
 				SetDesiredCombatStance(ALSXTCombatStanceTags::Aiming);
 				SetDesiredWeaponReadyPosition(ALSXTWeaponReadyPositionTags::Aiming);
 				
@@ -934,7 +934,7 @@ void AALSXTCharacter::InputAim(const FInputActionValue& ActionValue)
 				SetDesiredCombatStance(ALSXTCombatStanceTags::Ready);
 				SetDesiredWeaponReadyPosition(ALSXTWeaponReadyPositionTags::Ready);
 			}
-			if (IALSXTHeldItemInterface::Execute_IsHoldingAimableItem(this)) {
+			if (IAlsxtHeldItemInterface::Execute_IsHoldingAimableItem(this)) {
 				if (GetDesiredCombatStance() != ALSXTCombatStanceTags::Neutral)
 				{
 					SetDesiredWeaponReadyPosition(ALSXTWeaponReadyPositionTags::Ready);
@@ -954,7 +954,7 @@ void AALSXTCharacter::InputAim(const FInputActionValue& ActionValue)
 
 void AALSXTCharacter::InputToggleAim()
 {
-	if (IALSXTHeldItemInterface::Execute_IsHoldingAimableItem(this)) 
+	if (IAlsxtHeldItemInterface::Execute_IsHoldingAimableItem(this)) 
 	{
 		if (GetDesiredRotationMode() == AlsRotationModeTags::Aiming)
 		{
@@ -1108,7 +1108,7 @@ void AALSXTCharacter::InputSwitchForegripPosition()
 		
 		SetDesiredForegripPosition(AvailableForegripPositionsArray[NextIndex]);
 		FALSXTHeldItemState NewHeldItemState = GetHeldItemState();
-		NewHeldItemState.GripState.Foregrip.Grip = IALSXTHeldItemInterface::Execute_GetHeldItemForegrip(this);
+		NewHeldItemState.GripState.Foregrip.Grip = IAlsxtHeldItemInterface::Execute_GetHeldItemForegrip(this);
 		SetHeldItemState(NewHeldItemState);
 	}
 }
@@ -1267,15 +1267,15 @@ void AALSXTCharacter::OnOverlayModeChanged_Implementation(const FGameplayTag& Pr
 
 void AALSXTCharacter::OnJumped_Implementation()
 {
-	FALSXTCharacterVoiceParameters CharacterVoiceParams = IALSXTCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this);
-	CharacterSound->PlayActionSound(true, true, true, ALSXTCharacterMovementSoundTags::Jumping, CharacterVoiceParams.Sex, CharacterVoiceParams.Variant, IALSXTCharacterInterface::Execute_GetCharacterOverlayMode(this), ALSXTActionStrengthTags::Medium, IALSXTCharacterInterface::Execute_GetStamina(this));
+	FALSXTCharacterVoiceParameters CharacterVoiceParams = IAlsxtCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this);
+	CharacterSound->PlayActionSound(true, true, true, ALSXTCharacterMovementSoundTags::Jumping, CharacterVoiceParams.Sex, CharacterVoiceParams.Variant, IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(this), ALSXTActionStrengthTags::Medium, IAlsxtCharacterInterface::Execute_GetStamina(this));
 
 }
 
 void AALSXTCharacter::OnMantlingStarted_Implementation(const FAlsMantlingParameters& Parameters)
 {
 	FGameplayTag TypeTag{ FGameplayTag::EmptyTag };
-	FALSXTCharacterVoiceParameters CharacterVoiceParams = IALSXTCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this);
+	FALSXTCharacterVoiceParameters CharacterVoiceParams = IAlsxtCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this);
 
 	if (Parameters.MantlingType == EAlsMantlingType::Low)
 	{
@@ -1287,7 +1287,7 @@ void AALSXTCharacter::OnMantlingStarted_Implementation(const FAlsMantlingParamet
 		TypeTag = ALSXTCharacterMovementSoundTags::MantlingHigh;
 	}
 
-	CharacterSound->PlayActionSound(true, true, true, TypeTag, CharacterVoiceParams.Sex, CharacterVoiceParams.Variant, IALSXTCharacterInterface::Execute_GetCharacterOverlayMode(this), ALSXTActionStrengthTags::Medium, IALSXTCharacterInterface::Execute_GetStamina(this));
+	CharacterSound->PlayActionSound(true, true, true, TypeTag, CharacterVoiceParams.Sex, CharacterVoiceParams.Variant, IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(this), ALSXTActionStrengthTags::Medium, IAlsxtCharacterInterface::Execute_GetStamina(this));
 }
 
 void AALSXTCharacter::OnMantlingEnded_Implementation()
@@ -1297,9 +1297,9 @@ void AALSXTCharacter::OnMantlingEnded_Implementation()
 
 void AALSXTCharacter::OnRagdollingStarted_Implementation()
 {
-	FALSXTCharacterVoiceParameters CharacterVoiceParams = IALSXTCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this);
+	FALSXTCharacterVoiceParameters CharacterVoiceParams = IAlsxtCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this);
 	RefreshOverlayObject();
-	CharacterSound->PlayDamageSound(true, true, true, CharacterVoiceParams.Sex, CharacterVoiceParams.Variant, IALSXTCharacterInterface::Execute_GetCharacterOverlayMode(this), ALSXTAttackMethodTags::Regular, ALSXTActionStrengthTags::Medium, ALSXTImpactFormTags::Blunt, IALSXTCharacterInterface::Execute_GetStamina(this));
+	CharacterSound->PlayDamageSound(true, true, true, CharacterVoiceParams.Sex, CharacterVoiceParams.Variant, IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(this), ALSXTAttackMethodTags::Regular, ALSXTActionStrengthTags::Medium, ALSXTImpactFormTags::Blunt, IAlsxtCharacterInterface::Execute_GetStamina(this));
 }
 
 void AALSXTCharacter::OnRagdollingEnded_Implementation()
@@ -1309,8 +1309,8 @@ void AALSXTCharacter::OnRagdollingEnded_Implementation()
 
 void AALSXTCharacter::OnSlidingStarted_Implementation()
 {
-	FALSXTCharacterVoiceParameters CharacterVoiceParams = IALSXTCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this);
-	CharacterSound->PlayActionSound(true, true, true, ALSXTCharacterMovementSoundTags::Sliding, CharacterVoiceParams.Sex, CharacterVoiceParams.Variant, IALSXTCharacterInterface::Execute_GetCharacterOverlayMode(this), ALSXTActionStrengthTags::Medium, IALSXTCharacterInterface::Execute_GetStamina(this));
+	FALSXTCharacterVoiceParameters CharacterVoiceParams = IAlsxtCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this);
+	CharacterSound->PlayActionSound(true, true, true, ALSXTCharacterMovementSoundTags::Sliding, CharacterVoiceParams.Sex, CharacterVoiceParams.Variant, IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(this), ALSXTActionStrengthTags::Medium, IAlsxtCharacterInterface::Execute_GetStamina(this));
 }
 
 bool AALSXTCharacter::IsHoldingItem_Implementation() const
@@ -1321,7 +1321,7 @@ bool AALSXTCharacter::IsHoldingItem_Implementation() const
 bool AALSXTCharacter::IsHoldingAimableItem_Implementation() const
 {
 	
-	return IALSXTHeldItemInterface::Execute_IsHoldingItem(this) && ALSXTSettings->OverlaySettings.AimableOverlayModes.HasTagExact(OverlayMode);
+	return IAlsxtHeldItemInterface::Execute_IsHoldingItem(this) && ALSXTSettings->OverlaySettings.AimableOverlayModes.HasTagExact(OverlayMode);
 	// return (IsDesiredAiming() && CanAimDownSights() && (GetViewMode() == AlsViewModeTags::FirstPerson) && (GetDesiredCombatStance() != ALSXTCombatStanceTags::Neutral));
 }
 
@@ -1721,7 +1721,7 @@ void AALSXTCharacter::InputToggleCombatReady()
 			if (CanBecomeCombatReady())
 			{
 				SetDesiredCombatStance(ALSXTCombatStanceTags::Ready);
-				if (IALSXTHeldItemInterface::Execute_IsHoldingAimableItem(this))
+				if (IAlsxtHeldItemInterface::Execute_IsHoldingAimableItem(this))
 				{
 					if (GetRotationMode() != AlsRotationModeTags::Aiming)
 					{
@@ -1927,7 +1927,7 @@ bool AALSXTCharacter::IsFirstPersonEyeFocusActive() const
 	{
 		if (GetDesiredFocus() == ALSXTFocusedTags::True) 
 		{
-			if (IALSXTHeldItemInterface::Execute_IsHoldingAimableItem(this))
+			if (IAlsxtHeldItemInterface::Execute_IsHoldingAimableItem(this))
 			{
 				if (GetDesiredCombatStance() == ALSXTCombatStanceTags::Neutral)
 				{
@@ -2330,7 +2330,7 @@ void AALSXTCharacter::SetDesiredCombatStance(const FGameplayTag& NewCombatStance
 				ServerSetDesiredCombatStance(NewCombatStanceTag);
 				if (NewCombatStanceTag != ALSXTCombatStanceTags::Neutral)
 				{
-					if (IALSXTHeldItemInterface::Execute_IsHoldingAimableItem(this))
+					if (IAlsxtHeldItemInterface::Execute_IsHoldingAimableItem(this))
 					{
 						SetDesiredWeaponReadyPosition(ALSXTWeaponReadyPositionTags::LowReady);
 					}
@@ -2624,7 +2624,7 @@ void AALSXTCharacter::RemoveHeadLookAtEntry_Implementation(FALSXTHeadLookAtEntry
 
 void AALSXTCharacter::BeginHeadLookAt_Implementation(FALSXTHeadLookAtEntry HeadLookAtEntry)
 {
-	IALSXTHeadLookAtInterface::Execute_GetBestHeadLookAtEntry(this);
+	IAlsxtHeadLookAtInterface::Execute_GetBestHeadLookAtEntry(this);
 }
 
 void AALSXTCharacter::EndHeadLookAt_Implementation()
@@ -3585,9 +3585,9 @@ void AALSXTCharacter::UpdateBreathState()
 {
 	FALSXTBreathState NewBreathState;
 	const float Stamina = GetStatusState().CurrentStamina;
-	if (this->Implements<UALSXTCharacterInterface>())
+	if (this->Implements<UAlsxtCharacterInterface>())
 	{
-		FGameplayTag BreathType = IALSXTCharacterInterface::Execute_GetBreathType(this);
+		FGameplayTag BreathType = IAlsxtCharacterInterface::Execute_GetBreathType(this);
 		if (ShouldTransitionBreathState() && BreathState.HoldingBreath != ALSXTHoldingBreathTags::True)
 		{
 			FALSXTTargetBreathState NewTargetState = CalculateTargetBreathState();
@@ -3601,8 +3601,8 @@ void AALSXTCharacter::UpdateBreathState()
 
 bool AALSXTCharacter::ShouldUpdateBreathState() const
 {
-	FALSXTStatusState StatusState = IALSXTCharacterInterface::Execute_GetStatusState(this);
-	float CurrentStamina = IALSXTCharacterInterface::Execute_GetStamina(this);
+	FALSXTStatusState StatusState = IAlsxtCharacterInterface::Execute_GetStatusState(this);
+	float CurrentStamina = IAlsxtCharacterInterface::Execute_GetStamina(this);
 	return StatusState.CurrentStamina != CurrentStamina;
 }
 
@@ -3638,9 +3638,9 @@ FALSXTTargetBreathState AALSXTCharacter::CalculateTargetBreathState()
 	{
 		FVector2D ConversionRange{ 0, 1 };
 		FVector2D UtilizedStaminaRange{ 0, ALSXTSettings->StatusSettings.StaminaThresholdSettings.StaminaOptimalThreshold };
-		float CurrentStaminaConverted = FMath::GetMappedRangeValueClamped(UtilizedStaminaRange, ConversionRange, IALSXTCharacterInterface::Execute_GetStatusState(this).CurrentStamina);
-		float PlayRateConverted = FMath::GetMappedRangeValueClamped(ConversionRange, IALSXTCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(this).BreathAnimationPlayRateRange, CurrentStaminaConverted);
-		float BlendConverted = FMath::GetMappedRangeValueClamped(ConversionRange, IALSXTCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(this).BreathAnimationBlendRange, CurrentStaminaConverted);
+		float CurrentStaminaConverted = FMath::GetMappedRangeValueClamped(UtilizedStaminaRange, ConversionRange, IAlsxtCharacterInterface::Execute_GetStatusState(this).CurrentStamina);
+		float PlayRateConverted = FMath::GetMappedRangeValueClamped(ConversionRange, IAlsxtCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(this).BreathAnimationPlayRateRange, CurrentStaminaConverted);
+		float BlendConverted = FMath::GetMappedRangeValueClamped(ConversionRange, IAlsxtCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(this).BreathAnimationBlendRange, CurrentStaminaConverted);
 		NewTargetBreathState.Alpha = BlendConverted;
 		NewTargetBreathState.Rate = PlayRateConverted;
 		NewTargetBreathState.TransitionRate = 1.0;

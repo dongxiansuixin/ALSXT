@@ -14,7 +14,7 @@
 #include "Components/Character/ALSXTCharacterCustomizationComponent.h"
 #include "Components/Character/ALSXTImpactReactionComponent.h"
 #include "Components/Character/ALSXTCharacterSoundComponent.h"
-#include "Components/Character/ALSXTIdleAnimationComponent.h"
+#include "Components/Character/AlsxtIdleAnimationComponent.h"
 #include "Components/GameFrameworkComponentManager.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "CineCameraComponent.h"
@@ -37,23 +37,22 @@
 #include "State/ALSXTSlidingState.h"
 #include "State/ALSXTVaultingState.h"
 #include "State/ALSXTBreathState.h"
-#include "Interfaces/ALSXTCharacterCustomizationComponentInterface.h"
 
 #include "Components/BoxComponent.h"
 #include "Settings/ALSXTCombatSettings.h"
-#include "Interfaces/ALSXTTargetLockInterface.h"
-#include "Interfaces/ALSXTCombatInterface.h"
+#include "Interfaces/AlsxtTargetLockInterface.h"
+#include "Interfaces/AlsxtCombatInterface.h"
 
 
-#include "Interfaces/ALSXTStationaryModeComponentInterface.h"
-#include "Interfaces/ALSXTCollisionInterface.h"
-#include "Interfaces/ALSXTHeadLookAtInterface.h"
-#include "Interfaces/ALSXTMeshPaintingInterface.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
-#include "Interfaces/ALSXTHeldItemInterface.h"
-#include "Interfaces/ALSXTCharacterSoundComponentInterface.h"
-#include "Interfaces/ALSXTCharacterCustomizationComponentInterface.h"
-#include "Interfaces/ALSXTIdleAnimationComponentInterface.h"
+#include "Interfaces/AlsxtStationaryModeComponentInterface.h"
+#include "Interfaces/AlsxtCollisionInterface.h"
+#include "Interfaces/AlsxtHeadLookAtInterface.h"
+#include "Interfaces/AlsxtMeshPaintingInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
+#include "Interfaces/AlsxtHeldItemInterface.h"
+#include "Interfaces/AlsxtCharacterSoundComponentInterface.h"
+#include "Interfaces/AlsxtCharacterCustomizationComponentInterface.h"
+#include "Interfaces/AlsxtIdleAnimationComponentInterface.h"
 #include "Notifies/AlsAnimNotify_FootstepEffects.h"
 #include "State/ALSXTFootstepState.h"
 #include "InputActionValue.h"
@@ -85,11 +84,11 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSetupPlayerInputComponentDelegate);
 * @brief Template class that contains all shared Logic and Data for Player and NPC Child Classes.
 * This Class is set up for Modular Gameplay Features
 * This Class is Abstract and should not be used directly! (Not-Blueprintable)
-* change to UCLASS(Abstract, NotBlueprintable) after restructuring classes
+* @todo change to UCLASS(Abstract, NotBlueprintable) after restructuring classes
 */
 
 UCLASS(AutoExpandCategories = ("Settings|Als Character Example", "State|Als Character Example"))
-class ALSXT_API AALSXTCharacter : public AAlsCharacter, public IAlsxtAbilitySystemInterface, public IALSXTCharacterCustomizationComponentInterface, public IALSXTStationaryModeComponentInterface, public IALSXTCollisionInterface, public IALSXTHeadLookAtInterface, public IALSXTTargetLockInterface, public IALSXTCharacterSoundComponentInterface, public IALSXTMeshPaintingInterface, public IALSXTCharacterInterface, public IALSXTHeldItemInterface, public IALSXTIdleAnimationComponentInterface
+class ALSXT_API AALSXTCharacter : public AAlsCharacter, public IAlsxtAbilitySystemInterface, public IAlsxtCharacterCustomizationComponentInterface, public IAlsxtStationaryModeComponentInterface, public IAlsxtCollisionInterface, public IAlsxtHeadLookAtInterface, public IAlsxtTargetLockInterface, public IAlsxtCharacterSoundComponentInterface, public IAlsxtMeshPaintingInterface, public IAlsxtCharacterInterface, public IAlsxtHeldItemInterface, public IAlsxtIdleAnimationComponentInterface
 {
 	GENERATED_BODY()
 
@@ -247,13 +246,13 @@ public:
 	class UPhysicalAnimationComponent* PhysicalAnimation;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	class UALSXTIdleAnimationComponent* IdleAnimation;
+	class UAlsxtIdleAnimationComponent* IdleAnimation;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	class UALSXTEmoteComponent* Emotes;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	class UALSXTGestureComponent* Gestures;
+	class UAlsxtGestureComponent* Gestures;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Als Character")

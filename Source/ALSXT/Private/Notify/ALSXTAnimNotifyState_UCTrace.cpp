@@ -4,8 +4,8 @@
 #include "Notify/ALSXTAnimNotifyState_UCTrace.h"
 
 #include "Utility/ALSXTGameplayTags.h"
-#include "Interfaces/ALSXTCharacterInterface.h"
-#include "Interfaces/ALSXTCombatInterface.h"
+#include "Interfaces/AlsxtCharacterInterface.h"
+#include "Interfaces/AlsxtCombatInterface.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Utility/AlsUtility.h"
 
@@ -34,17 +34,17 @@ void UALSXTAnimNotifyState_UCTrace::NotifyBegin(USkeletalMeshComponent* Mesh, UA
 			TraceSettings.AttackType = UnarmedAttackType;
 			TraceSettings.ImpactForm = ALSXTImpactFormTags::Blunt;
 			TraceSettings.AttackStrength = AttackStrength;
-			if (Mesh->GetOwner()->Implements<UALSXTCharacterInterface>())
+			if (Mesh->GetOwner()->Implements<UAlsxtCharacterInterface>())
 			{
-				TraceSettings.Overlay = IALSXTCharacterInterface::Execute_GetCharacterOverlayMode(Mesh->GetOwner());
+				TraceSettings.Overlay = IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(Mesh->GetOwner());
 
-				IALSXTCharacterInterface::Execute_SetCharacterMovementModeLocked(Mesh->GetOwner(), true);
+				IAlsxtCharacterInterface::Execute_SetCharacterMovementModeLocked(Mesh->GetOwner(), true);
 			}
-			if (Mesh->GetOwner()->Implements<UALSXTCombatInterface>())
+			if (Mesh->GetOwner()->Implements<UAlsxtCombatInterface>())
 			{
-				IALSXTCombatInterface::Execute_GetCombatUnarmedTraceLocations(Mesh->GetOwner(), UnarmedAttackType, TraceSettings.Start, TraceSettings.End, TraceSettings.Radius);
+				IAlsxtCombatInterface::Execute_GetCombatUnarmedTraceLocations(Mesh->GetOwner(), UnarmedAttackType, TraceSettings.Start, TraceSettings.End, TraceSettings.Radius);
 				FString DebugMsg;
-				IALSXTCombatInterface::Execute_BeginCombatAttackCollisionTrace(Mesh->GetOwner(), TraceSettings);
+				IAlsxtCombatInterface::Execute_BeginCombatAttackCollisionTrace(Mesh->GetOwner(), TraceSettings);
 			}
 
 		}
@@ -65,13 +65,13 @@ void UALSXTAnimNotifyState_UCTrace::NotifyEnd(USkeletalMeshComponent* Mesh, UAni
 	{
 		if (IsValid(Mesh->GetOwner()))
 		{
-			if (Mesh->GetOwner()->Implements<UALSXTCombatInterface>())
+			if (Mesh->GetOwner()->Implements<UAlsxtCombatInterface>())
 			{
-				IALSXTCombatInterface::Execute_EndCombatAttackCollisionTrace(Mesh->GetOwner());
+				IAlsxtCombatInterface::Execute_EndCombatAttackCollisionTrace(Mesh->GetOwner());
 			}
-			if (Mesh->GetOwner()->Implements<UALSXTCharacterInterface>())
+			if (Mesh->GetOwner()->Implements<UAlsxtCharacterInterface>())
 			{
-				IALSXTCharacterInterface::Execute_SetCharacterMovementModeLocked(Mesh->GetOwner(), false);
+				IAlsxtCharacterInterface::Execute_SetCharacterMovementModeLocked(Mesh->GetOwner(), false);
 			}
 		}
 	}

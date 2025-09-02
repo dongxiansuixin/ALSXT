@@ -31,7 +31,7 @@ void AALSXTCharacterAdvanced::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (bDesiredAiming && IALSXTHeldItemInterface::Execute_IsHoldingAimableItem(this))
+	if (bDesiredAiming && IAlsxtHeldItemInterface::Execute_IsHoldingAimableItem(this))
 	{
 		FTransform NewTransform;
 		FALSXTAimState NewAimState = GetAimState();
@@ -293,7 +293,7 @@ void AALSXTCharacterAdvanced::OnDesiredAimingChanged_Implementation(bool bPrevio
 {
 	if (bDesiredAiming)
 	{
-		if (Execute_GetTargetableOverlayModes(this).HasTag(IALSXTCharacterInterface::Execute_GetCharacterOverlayMode(this)) && (IALSXTCharacterInterface::Execute_GetCharacterCombatStance(this) == ALSXTCombatStanceTags::Aiming || Execute_GetCharacterCombatStance(this) == ALSXTCombatStanceTags::Ready))
+		if (Execute_GetTargetableOverlayModes(this).HasTag(IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(this)) && (IAlsxtCharacterInterface::Execute_GetCharacterCombatStance(this) == ALSXTCombatStanceTags::Aiming || Execute_GetCharacterCombatStance(this) == ALSXTCombatStanceTags::Ready))
 		{
 			Combat->GetClosestTarget();
 		}
@@ -395,7 +395,7 @@ void AALSXTCharacterAdvanced::InputHoldBreath(const FInputActionValue& ActionVal
 
 float AALSXTCharacterAdvanced::CalculateHoldBreathTimer()
 {
-	return FMath::FRandRange(ALSXTSettings->BreathEffects.BaseHoldingBreathRange.X, ALSXTSettings->BreathEffects.BaseHoldingBreathRange.Y) * IALSXTCharacterInterface::Execute_GetStamina(this);
+	return FMath::FRandRange(ALSXTSettings->BreathEffects.BaseHoldingBreathRange.X, ALSXTSettings->BreathEffects.BaseHoldingBreathRange.Y) * IAlsxtCharacterInterface::Execute_GetStamina(this);
 }
 
 void AALSXTCharacterAdvanced::BeginHoldBreathTimer()
@@ -408,7 +408,7 @@ void AALSXTCharacterAdvanced::BeginHoldBreathTimer()
 	NewBreathState.CurrentMaxHoldBreathTime = CalculateHoldBreathTimer();
 	SetBreathState(NewBreathState);
 	GetWorld()->GetTimerManager().SetTimer(HoldBreathTimerHandle, HoldBreathTimerDelegate, 0.1f, true);
-	CharacterSound->PlayHoldingBreathSound(ALSXTHoldingBreathTags::True, CharacterCustomization->GetVoiceParameters().Sex, CharacterCustomization->GetVoiceParameters().Variant, IALSXTCharacterInterface::Execute_GetStamina(this));
+	CharacterSound->PlayHoldingBreathSound(ALSXTHoldingBreathTags::True, CharacterCustomization->GetVoiceParameters().Sex, CharacterCustomization->GetVoiceParameters().Variant, IAlsxtCharacterInterface::Execute_GetStamina(this));
 }
 
 void AALSXTCharacterAdvanced::HoldBreathTimer()
@@ -435,7 +435,7 @@ void AALSXTCharacterAdvanced::EndHoldBreathTimer()
 	NewBreathState.BreathRecoveryTime = CalculateBreathRecoveryTime();
 	SetDesiredHoldingBreath(BreathReleaseMode);
 	SetBreathState(NewBreathState);
-	CharacterSound->PlayHoldingBreathSound(BreathReleaseMode, CharacterCustomization->GetVoiceParameters().Sex, CharacterCustomization->GetVoiceParameters().Variant, IALSXTCharacterInterface::Execute_GetStamina(this));
+	CharacterSound->PlayHoldingBreathSound(BreathReleaseMode, CharacterCustomization->GetVoiceParameters().Sex, CharacterCustomization->GetVoiceParameters().Variant, IAlsxtCharacterInterface::Execute_GetStamina(this));
 	GetWorld()->GetTimerManager().ClearTimer(HoldBreathTimerHandle);
 
 	BeginBreathRecoveryTimer();
@@ -466,11 +466,11 @@ void AALSXTCharacterAdvanced::BeginBreathRecoveryTimer()
 {
 	if (GetBreathState().HoldingBreath == ALSXTHoldingBreathTags::Gasping)
 	{
-		IALSXTCharacterInterface::Execute_SubtractStamina(this, FMath::FRandRange(ALSXTSettings->BreathEffects.BaseGaspingBreathStaminaCost.X, ALSXTSettings->BreathEffects.BaseGaspingBreathStaminaCost.Y));
+		IAlsxtCharacterInterface::Execute_SubtractStamina(this, FMath::FRandRange(ALSXTSettings->BreathEffects.BaseGaspingBreathStaminaCost.X, ALSXTSettings->BreathEffects.BaseGaspingBreathStaminaCost.Y));
 	}
 	if (GetBreathState().HoldingBreath == ALSXTHoldingBreathTags::Exhausted)
 	{
-		IALSXTCharacterInterface::Execute_SubtractStamina(this, FMath::FRandRange(ALSXTSettings->BreathEffects.BaseExhaustedBreathStaminaCost.X, ALSXTSettings->BreathEffects.BaseExhaustedBreathStaminaCost.Y));
+		IAlsxtCharacterInterface::Execute_SubtractStamina(this, FMath::FRandRange(ALSXTSettings->BreathEffects.BaseExhaustedBreathStaminaCost.X, ALSXTSettings->BreathEffects.BaseExhaustedBreathStaminaCost.Y));
 	}
 
 	FALSXTBreathState NewBreathState = GetBreathState();

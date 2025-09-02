@@ -1,13 +1,13 @@
 #pragma once
 
-#include "ALSXTStationaryModeComponentInterface.generated.h"
+#include "AlsxtStationaryModeComponentInterface.generated.h"
 
 UINTERFACE(Blueprintable)
-class UALSXTStationaryModeComponentInterface : public UInterface {
+class UAlsxtStationaryModeComponentInterface : public UInterface {
 	GENERATED_BODY()
 };
 
-class ALSXT_API IALSXTStationaryModeComponentInterface {
+class ALSXT_API IAlsxtStationaryModeComponentInterface {
 	GENERATED_BODY()
 
 public:
