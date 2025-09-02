@@ -7,16 +7,16 @@
 #include "ALSXTCharacter.h"
 #include "Components/PostProcessComponent.h"
 #include "Settings/ALSXTCameraEffectsSettings.h"
-#include "ALSXTCharacterCameraEffectsComponent.generated.h"
+#include "AlsxtCharacterCameraEffectsComponent.generated.h"
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ALSXT_API UALSXTCharacterCameraEffectsComponent : public UActorComponent
+class ALSXT_API UAlsxtCharacterCameraEffectsComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UALSXTCharacterCameraEffectsComponent();
+	UAlsxtCharacterCameraEffectsComponent();
 
 protected:
 	// Called when the game starts

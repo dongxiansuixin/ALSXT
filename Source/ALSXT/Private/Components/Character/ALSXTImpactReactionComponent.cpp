@@ -1,6 +1,6 @@
 // MIT
 
-#include "Components/Character/ALSXTImpactReactionComponent.h"
+#include "Components/Character/AlsxtImpactReactionComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "Components/CapsuleComponent.h"
 #include "Utility/ALSXTStructs.h"
@@ -26,7 +26,7 @@
 #include "Landscape.h"
 
 // Sets default values for this component's properties
-UALSXTImpactReactionComponent::UALSXTImpactReactionComponent()
+UAlsxtImpactReactionComponent::UAlsxtImpactReactionComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -34,7 +34,7 @@ UALSXTImpactReactionComponent::UALSXTImpactReactionComponent()
 	SetIsReplicatedByDefault(true);
 }
 
-void UALSXTImpactReactionComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void UAlsxtImpactReactionComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
@@ -50,7 +50,7 @@ void UALSXTImpactReactionComponent::GetLifetimeReplicatedProps(TArray<FLifetimeP
 }
 
 // Called when the game starts
-void UALSXTImpactReactionComponent::BeginPlay()
+void UAlsxtImpactReactionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -64,7 +64,7 @@ void UALSXTImpactReactionComponent::BeginPlay()
 	if (GetOwner()->GetClass()->ImplementsInterface(UAlsxtCharacterInterface::StaticClass()))
 	{
 		CharacterCapsule = IAlsxtCharacterInterface::Execute_GetCharacterCapsuleComponent(GetOwner());
-		CharacterCapsule->OnComponentHit.AddDynamic(this, &UALSXTImpactReactionComponent::OnCapsuleHit);
+		CharacterCapsule->OnComponentHit.AddDynamic(this, &UAlsxtImpactReactionComponent::OnCapsuleHit);
 	}
 
 	// Setup Timer Functions
@@ -86,14 +86,14 @@ void UALSXTImpactReactionComponent::BeginPlay()
 }
 
 // Called every frame
-void UALSXTImpactReactionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UAlsxtImpactReactionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	ObstacleTrace();
 	AnticipationTrace();
 }
 
-FGameplayTag UALSXTImpactReactionComponent::DetermineDefensiveModeFromAttackingCharacter(const FGameplayTag& Form, const FGameplayTag& CombatStance)
+FGameplayTag UAlsxtImpactReactionComponent::DetermineDefensiveModeFromAttackingCharacter(const FGameplayTag& Form, const FGameplayTag& CombatStance)
 {
 	if (CombatStance == ALSXTCombatStanceTags::Ready || CombatStance == ALSXTCombatStanceTags::Aiming)
 	{
@@ -113,7 +113,7 @@ FGameplayTag UALSXTImpactReactionComponent::DetermineDefensiveModeFromAttackingC
 	}
 }
 
-FGameplayTag UALSXTImpactReactionComponent::DetermineDefensiveModeFromCharacter(const FGameplayTag& Form, const FGameplayTag& CombatStance)
+FGameplayTag UAlsxtImpactReactionComponent::DetermineDefensiveModeFromCharacter(const FGameplayTag& Form, const FGameplayTag& CombatStance)
 {
 	if (CombatStance == ALSXTCombatStanceTags::Ready || CombatStance == ALSXTCombatStanceTags::Aiming)
 	{
@@ -133,7 +133,7 @@ FGameplayTag UALSXTImpactReactionComponent::DetermineDefensiveModeFromCharacter(
 	}
 }
 
-FGameplayTag UALSXTImpactReactionComponent::HealthToHealthTag(float Health)
+FGameplayTag UAlsxtImpactReactionComponent::HealthToHealthTag(float Health)
 {
 	FGameplayTag HealthTag;
 
@@ -160,7 +160,7 @@ FGameplayTag UALSXTImpactReactionComponent::HealthToHealthTag(float Health)
 	return HealthTag;
 }
 
-TArray<FName> UALSXTImpactReactionComponent::GetAffectedBones(const FGameplayTag& Side, const FGameplayTag& Height)
+TArray<FName> UAlsxtImpactReactionComponent::GetAffectedBones(const FGameplayTag& Side, const FGameplayTag& Height)
 {
 	TArray<FName> AffectedBones;
 	if (Side == ALSXTImpactSideTags::Left)
@@ -221,7 +221,7 @@ TArray<FName> UALSXTImpactReactionComponent::GetAffectedBones(const FGameplayTag
 	return AffectedBones;
 }
 
-FGameplayTag UALSXTImpactReactionComponent::LocationToImpactSide(FVector Location)
+FGameplayTag UAlsxtImpactReactionComponent::LocationToImpactSide(FVector Location)
 {
 	// Get the direction vector from the enemy to the player
 	FVector PlayerStartPoint{ GetOwner()->GetActorLocation()};
@@ -256,7 +256,7 @@ FGameplayTag UALSXTImpactReactionComponent::LocationToImpactSide(FVector Locatio
 	return ALSXTImpactSideTags::Left;
 }
 
-FGameplayTag UALSXTImpactReactionComponent::LocationToImpactHeight(FVector Location)
+FGameplayTag UAlsxtImpactReactionComponent::LocationToImpactHeight(FVector Location)
 {
 	float Range = (GetOwner()->GetActorLocation().Z + IAlsxtCharacterInterface::Execute_GetCharacterCapsuleComponent(GetOwner())->GetScaledCapsuleHalfHeight()) - (GetOwner()->GetActorLocation().Z - IAlsxtCharacterInterface::Execute_GetCharacterCapsuleComponent(GetOwner())->GetScaledCapsuleHalfHeight());
 	float RangeDivisor = Range / 3;
@@ -279,7 +279,7 @@ FGameplayTag UALSXTImpactReactionComponent::LocationToImpactHeight(FVector Locat
 	}
 }
 
-FGameplayTag UALSXTImpactReactionComponent::LocationToActorImpactSide(AActor* Actor, FVector Location)
+FGameplayTag UAlsxtImpactReactionComponent::LocationToActorImpactSide(AActor* Actor, FVector Location)
 {
 	float LocationDotProduct = FVector::DotProduct(Actor->GetActorForwardVector(), (Actor->GetActorLocation() - Location));
 	if (LocationDotProduct > 0)
@@ -292,7 +292,7 @@ FGameplayTag UALSXTImpactReactionComponent::LocationToActorImpactSide(AActor* Ac
 	}
 }
 
-FGameplayTag UALSXTImpactReactionComponent::ConvertVelocityToTag(FVector Velocity)
+FGameplayTag UAlsxtImpactReactionComponent::ConvertVelocityToTag(FVector Velocity)
 {
 	if (Velocity.Length() < 100)
 	{
@@ -320,7 +320,7 @@ FGameplayTag UALSXTImpactReactionComponent::ConvertVelocityToTag(FVector Velocit
 	}
 }
 
-FGameplayTag UALSXTImpactReactionComponent::ConvertVelocityToStrength(FVector Velocity)
+FGameplayTag UAlsxtImpactReactionComponent::ConvertVelocityToStrength(FVector Velocity)
 {
 	if (Velocity.Length() < 100)
 	{
@@ -340,7 +340,7 @@ FGameplayTag UALSXTImpactReactionComponent::ConvertVelocityToStrength(FVector Ve
 	}
 }
 
-FGameplayTag UALSXTImpactReactionComponent::ConvertVelocityTagToStrength(FGameplayTag Velocity)
+FGameplayTag UAlsxtImpactReactionComponent::ConvertVelocityTagToStrength(FGameplayTag Velocity)
 {
 	if (Velocity == ALSXTImpactVelocityTags::Slow)
 	{
@@ -368,7 +368,7 @@ FGameplayTag UALSXTImpactReactionComponent::ConvertVelocityTagToStrength(FGamepl
 	}
 }
 
-FGameplayTag UALSXTImpactReactionComponent::ConvertPhysicalSurfaceToFormTag(EPhysicalSurface PhysicalSurface)
+FGameplayTag UAlsxtImpactReactionComponent::ConvertPhysicalSurfaceToFormTag(EPhysicalSurface PhysicalSurface)
 {
 	FGameplayTag FoundForm;
 	UALSXTImpactReactionSettings* SelectedSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
@@ -385,7 +385,7 @@ FGameplayTag UALSXTImpactReactionComponent::ConvertPhysicalSurfaceToFormTag(EPhy
 }
 
 // Grounded Bump and Crowd Navigation
-void UALSXTImpactReactionComponent::ObstacleTrace()
+void UAlsxtImpactReactionComponent::ObstacleTrace()
 {
 	if (!ImpactReactionSettings.EnableBumpReactions && !ImpactReactionSettings.EnableImpactReactions)
 	{
@@ -1098,7 +1098,7 @@ void UALSXTImpactReactionComponent::ObstacleTrace()
 }
 
 // Dynamically react to colliding objects when moving fast
-void UALSXTImpactReactionComponent::AnticipationTrace()
+void UAlsxtImpactReactionComponent::AnticipationTrace()
 {
 	if (!ImpactReactionSettings.bEnableImpactAnticipationReactions)
 	{
@@ -1186,7 +1186,7 @@ void UALSXTImpactReactionComponent::AnticipationTrace()
 	}
 }
 
-void UALSXTImpactReactionComponent::OnCapsuleHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+void UAlsxtImpactReactionComponent::OnCapsuleHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	
 	float CurrentMinVelocity = (OtherActor->GetClass()->ImplementsInterface(UAlsxtCharacterInterface::StaticClass())) ? ImpactReactionSettings.CharacterBumpDetectionMinimumVelocity : ImpactReactionSettings.ObstacleBumpDetectionMinimumVelocity;
@@ -1327,7 +1327,7 @@ void UALSXTImpactReactionComponent::OnCapsuleHit(UPrimitiveComponent* HitComp, A
 	}
 }
 
-void UALSXTImpactReactionComponent::OnRagdollingStarted()
+void UAlsxtImpactReactionComponent::OnRagdollingStarted()
 {
 	if (PreviousImpacts.IsEmpty() && PreviousAttackImpacts.IsEmpty())
 	{
@@ -1374,12 +1374,12 @@ void UALSXTImpactReactionComponent::OnRagdollingStarted()
 	}	
 }
 
-void UALSXTImpactReactionComponent::OnRagdollingEnded()
+void UAlsxtImpactReactionComponent::OnRagdollingEnded()
 {
 
 }
 
-bool UALSXTImpactReactionComponent::GetImpactFallLocation(FVector& Location, FDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::GetImpactFallLocation(FVector& Location, FDoubleHitResult Hit)
 {
 	// Get Other Actors Mass and Velocity and add it to Impact Velocity to determine potential distance
 	// then capsule sweep for obstacles to find actual end location
@@ -1430,7 +1430,7 @@ bool UALSXTImpactReactionComponent::GetImpactFallLocation(FVector& Location, FDo
 	}
 }
 
-bool UALSXTImpactReactionComponent::GetAttackFallLocation(FVector& Location, FAttackDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::GetAttackFallLocation(FVector& Location, FAttackDoubleHitResult Hit)
 {
 	// Get Other Actors Mass and Velocity and add it to Impact Velocity to determine potential distance
 	// then capsule sweep for obstacles to find actual end location
@@ -1522,17 +1522,17 @@ bool UALSXTImpactReactionComponent::GetAttackFallLocation(FVector& Location, FAt
 	
 }
 
-float UALSXTImpactReactionComponent::GetImpactFallenMinimumTime(FDoubleHitResult Hit)
+float UAlsxtImpactReactionComponent::GetImpactFallenMinimumTime(FDoubleHitResult Hit)
 {
 	return FGenericPlatformMath::Min(GetDynamicImpactFallenMinimumTime(), IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner())->ImpactFallenMinimumTime);
 }
 
-float UALSXTImpactReactionComponent::GetAttackFallenMinimumTime(FAttackDoubleHitResult Hit)
+float UAlsxtImpactReactionComponent::GetAttackFallenMinimumTime(FAttackDoubleHitResult Hit)
 {
 	return FGenericPlatformMath::Min(GetDynamicImpactFallenMinimumTime(), IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner())->AttackFallenMinimumTime);
 }
 
-void UALSXTImpactReactionComponent::CrowdNavigationVelocityTimer()
+void UAlsxtImpactReactionComponent::CrowdNavigationVelocityTimer()
 {
 	FALSXTBumpPoseState CurrentBumpPoseState = GetBumpPoseState();
 	FALSXTBumpPoseState CurrentCrowdNavigationPoseState = GetCrowdNavigationPoseState();
@@ -1581,12 +1581,12 @@ void UALSXTImpactReactionComponent::CrowdNavigationVelocityTimer()
 	// }
 }
 
-void UALSXTImpactReactionComponent::StartDefensiveTimer()
+void UAlsxtImpactReactionComponent::StartDefensiveTimer()
 {
 	GetWorld()->GetTimerManager().SetTimer(DefensiveTimerHandle, DefensiveTimerDelegate, 0.1f, false);
 }
 
-void UALSXTImpactReactionComponent::DefensiveTimer()
+void UAlsxtImpactReactionComponent::DefensiveTimer()
 {
 	
 	
@@ -1602,12 +1602,12 @@ void UALSXTImpactReactionComponent::DefensiveTimer()
 	// Find and apply correct animation pose
 }
 
-void UALSXTImpactReactionComponent::StopDefensiveTimer()
+void UAlsxtImpactReactionComponent::StopDefensiveTimer()
 {
 	GetWorld()->GetTimerManager().ClearTimer(DefensiveTimerHandle);
 }
 
-void UALSXTImpactReactionComponent::BumpVelocityTimer()
+void UAlsxtImpactReactionComponent::BumpVelocityTimer()
 {
 	const auto* Capsule{ IAlsxtCharacterInterface::Execute_GetCharacterCapsuleComponent(GetOwner()) };
 	const auto CapsuleScale{ Capsule->GetComponentScale().Z };
@@ -1642,12 +1642,12 @@ void UALSXTImpactReactionComponent::BumpVelocityTimer()
 	}
 }
 
-void UALSXTImpactReactionComponent::StartClutchImpactPointTimer()
+void UAlsxtImpactReactionComponent::StartClutchImpactPointTimer()
 {
 	GetWorld()->GetTimerManager().SetTimer(ClutchImpactPointTimerHandle, ClutchImpactPointTimerDelegate, 1.25f, false);
 }
 
-void UALSXTImpactReactionComponent::ClutchImpactPointTimer()
+void UAlsxtImpactReactionComponent::ClutchImpactPointTimer()
 {
 	IAlsxtCharacterInterface::Execute_ResetCharacterDefensiveModeState(GetOwner());
 	IAlsxtCharacterInterface::Execute_SetCharacterDefensiveMode(GetOwner(), FGameplayTag::EmptyTag);
@@ -1673,12 +1673,12 @@ void UALSXTImpactReactionComponent::ClutchImpactPointTimer()
 	}
 }
 
-void UALSXTImpactReactionComponent::StartImpactFallingTimer()
+void UAlsxtImpactReactionComponent::StartImpactFallingTimer()
 {
 	GetWorld()->GetTimerManager().SetTimer(ImpactFallingTimerHandle, ImpactFallingTimerDelegate, 0.01f, true);
 }
 
-void UALSXTImpactReactionComponent::ImpactFallingTimer()
+void UAlsxtImpactReactionComponent::ImpactFallingTimer()
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionMode(GetOwner()) == AlsLocomotionModeTags::Grounded)
 	{
@@ -1730,13 +1730,13 @@ void UALSXTImpactReactionComponent::ImpactFallingTimer()
 		}	
 }
 
-void UALSXTImpactReactionComponent::StartAttackFallingTimer()
+void UAlsxtImpactReactionComponent::StartAttackFallingTimer()
 {
 	GetWorld()->GetTimerManager().SetTimer(AttackFallingTimerHandle, AttackFallingTimerDelegate, 0.01f, true);
 	// Character->StartRagdolling();
 }
 
-void UALSXTImpactReactionComponent::AttackFallingTimer()
+void UAlsxtImpactReactionComponent::AttackFallingTimer()
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionMode(GetOwner()) == AlsLocomotionModeTags::Grounded)
 	{
@@ -1790,22 +1790,22 @@ void UALSXTImpactReactionComponent::AttackFallingTimer()
 	}
 }
 
-void UALSXTImpactReactionComponent::StartStabilizeTimer()
+void UAlsxtImpactReactionComponent::StartStabilizeTimer()
 {
 	GetWorld()->GetTimerManager().SetTimer(StabilizeTimerHandle, StabilizeTimerDelegate, 0.01f, true);
 }
 
-void UALSXTImpactReactionComponent::StabilizeTimer()
+void UAlsxtImpactReactionComponent::StabilizeTimer()
 {
 	//..
 }
 
-void UALSXTImpactReactionComponent::StartBraceForImpactTimer()
+void UAlsxtImpactReactionComponent::StartBraceForImpactTimer()
 {
 	GetWorld()->GetTimerManager().SetTimer(BraceForImpactTimerHandle, BraceForImpactTimerDelegate, 0.01f, true);
 }
 
-void UALSXTImpactReactionComponent::BraceForImpactTimer()
+void UAlsxtImpactReactionComponent::BraceForImpactTimer()
 {
 	//..
 	FVector CharVel = GetOwner()->GetVelocity();
@@ -1873,7 +1873,7 @@ void UALSXTImpactReactionComponent::BraceForImpactTimer()
 	}
 }
 
-void UALSXTImpactReactionComponent::StartImpactFallenTimer(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartImpactFallenTimer(FDoubleHitResult Hit)
 {
 	float FallenMinTime = GetImpactFallenMinimumTime(Hit);
 	FALSXTImpactReactionState Params = GetImpactReactionState();
@@ -1884,7 +1884,7 @@ void UALSXTImpactReactionComponent::StartImpactFallenTimer(FDoubleHitResult Hit)
 	GetWorld()->GetTimerManager().SetTimer(ImpactFallenTimerHandle, ImpactFallenTimerDelegate, 0.25f, true);
 }
 
-void UALSXTImpactReactionComponent::ImpactFallenTimer()
+void UAlsxtImpactReactionComponent::ImpactFallenTimer()
 {
 	float CurrentTime = GetImpactReactionState().ImpactReactionParameters.CurrentFallenTime;
 	if (CurrentTime > 0.0f )
@@ -1908,7 +1908,7 @@ void UALSXTImpactReactionComponent::ImpactFallenTimer()
 	}
 }
 
-void UALSXTImpactReactionComponent::StartAttackFallenTimer(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartAttackFallenTimer(FAttackDoubleHitResult Hit)
 {
 	float FallenMinTime = GetAttackFallenMinimumTime(Hit);
 	FALSXTImpactReactionState Params = GetImpactReactionState();
@@ -1919,7 +1919,7 @@ void UALSXTImpactReactionComponent::StartAttackFallenTimer(FAttackDoubleHitResul
 	GetWorld()->GetTimerManager().SetTimer(AttackFallenTimerHandle, AttackFallenTimerDelegate, 0.25f, true);
 }
 
-void UALSXTImpactReactionComponent::AttackFallenTimer()
+void UAlsxtImpactReactionComponent::AttackFallenTimer()
 {
 	float CurrentTime = GetImpactReactionState().ImpactReactionParameters.CurrentFallenTime;
 	RefreshAttackFallReaction(GetOwner()->GetWorld()->GetDeltaSeconds());
@@ -1947,12 +1947,12 @@ void UALSXTImpactReactionComponent::AttackFallenTimer()
 	}
 }
 
-void UALSXTImpactReactionComponent::StartAnticipationTimer()
+void UAlsxtImpactReactionComponent::StartAnticipationTimer()
 {
 	GetWorld()->GetTimerManager().SetTimer(AnticipationTimerHandle, AnticipationTimerDelegate, 0.1f, true);
 }
 
-void UALSXTImpactReactionComponent::AnticipationTimer()
+void UAlsxtImpactReactionComponent::AnticipationTimer()
 {
 	FRotator ControlRotation = Cast<APawn>(GetOwner())->GetControlRotation();
 	FVector CharLoc = GetOwner()->GetActorLocation();
@@ -1996,27 +1996,27 @@ void UALSXTImpactReactionComponent::AnticipationTimer()
 	}
 }
 
-void UALSXTImpactReactionComponent::StopAnticipationTimer()
+void UAlsxtImpactReactionComponent::StopAnticipationTimer()
 {
 	GetWorld()->GetTimerManager().ClearTimer(AnticipationTimerHandle);
 }
 
-void UALSXTImpactReactionComponent::StartFallingAnticipationTimer()
+void UAlsxtImpactReactionComponent::StartFallingAnticipationTimer()
 {
 	GetWorld()->GetTimerManager().SetTimer(FallingAnticipationTimerHandle, FallingAnticipationTimerDelegate, 0.1f, true);
 }
 
-void UALSXTImpactReactionComponent::FallingAnticipationTimer()
+void UAlsxtImpactReactionComponent::FallingAnticipationTimer()
 {
 
 }
 
-void UALSXTImpactReactionComponent::StopFallingAnticipationTimer()
+void UAlsxtImpactReactionComponent::StopFallingAnticipationTimer()
 {
 	GetWorld()->GetTimerManager().ClearTimer(FallingAnticipationTimerHandle);
 }
 
-void UALSXTImpactReactionComponent::OnCrowdNavigationReactionBlendOut(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnCrowdNavigationReactionBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (IAlsxtCollisionInterface::Execute_ShouldCrowdNavigationFall(GetOwner()))
 	{
@@ -2024,7 +2024,7 @@ void UALSXTImpactReactionComponent::OnCrowdNavigationReactionBlendOut(UAnimMonta
 	}
 }
 
-void UALSXTImpactReactionComponent::OnStabilizationBlendOut(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnStabilizationBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (!IAlsxtCharacterInterface::Execute_IsCharacterPlayerControlled(GetOwner()))
 	{
@@ -2046,7 +2046,7 @@ void UALSXTImpactReactionComponent::OnStabilizationBlendOut(UAnimMontage* Montag
 	}
 }
 
-void UALSXTImpactReactionComponent::OnBumpReactionBlendOut(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnBumpReactionBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
 	// GetWorld()->GetTimerManager().ClearTimer(BumpVelocityTimerHandle);
 	GetWorld()->GetTimerManager().SetTimer(BumpVelocityTimerHandle, BumpVelocityTimerDelegate, 0.1f, true);
@@ -2056,7 +2056,7 @@ void UALSXTImpactReactionComponent::OnBumpReactionBlendOut(UAnimMontage* Montage
 	}
 }
 
-void UALSXTImpactReactionComponent::OnImpactReactionBlendOut(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnImpactReactionBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (IAlsxtCollisionInterface::Execute_ShouldImpactFall(GetOwner()) && IsValid(GetImpactReactionState().ImpactReactionParameters.ImpactHit.HitResult.HitResult.GetActor()))
 	{
@@ -2066,7 +2066,7 @@ void UALSXTImpactReactionComponent::OnImpactReactionBlendOut(UAnimMontage* Monta
 	}
 }
 
-void UALSXTImpactReactionComponent::OnAttackReactionBlendOut(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnAttackReactionBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
 		if (IAlsxtCollisionInterface::Execute_CanAttackFall(GetOwner()) && IAlsxtCollisionInterface::Execute_ShouldAttackFall(GetOwner()))
 		{
@@ -2100,7 +2100,7 @@ void UALSXTImpactReactionComponent::OnAttackReactionBlendOut(UAnimMontage* Monta
 	// }
 }
 
-void UALSXTImpactReactionComponent::OnSyncedAttackReactionBlendOut(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnSyncedAttackReactionBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (IAlsxtCollisionInterface::Execute_ShouldSyncedAttackFall(GetOwner()))
 	{
@@ -2108,7 +2108,7 @@ void UALSXTImpactReactionComponent::OnSyncedAttackReactionBlendOut(UAnimMontage*
 	}
 }
 
-void UALSXTImpactReactionComponent::OnClutchImpactPointBlendOut(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnClutchImpactPointBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (IsValid(GetImpactReactionState().ImpactReactionParameters.AttackHit.DoubleHitResult.HitResult.HitResult.GetActor()))
 	{
@@ -2126,25 +2126,25 @@ void UALSXTImpactReactionComponent::OnClutchImpactPointBlendOut(UAnimMontage* Mo
 	}
 }
 
-void UALSXTImpactReactionComponent::OnCrowdNavigationFallBlendOut(UAnimMontage* Montage, bool bInterrupted){}
+void UAlsxtImpactReactionComponent::OnCrowdNavigationFallBlendOut(UAnimMontage* Montage, bool bInterrupted){}
 
-void UALSXTImpactReactionComponent::OnImpactFallBlendOut(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnImpactFallBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
 	ImpactFallIdle(GetImpactReactionState().ImpactReactionParameters.ImpactHit);
 	// StartImpactFallenTimer();
 }
 
-void UALSXTImpactReactionComponent::OnAttackFallBlendOut(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnAttackFallBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
 	AttackFallIdle(GetImpactReactionState().ImpactReactionParameters.AttackHit);
 	StartAttackFallenTimer(GetLastAttackImpact());
 }
 
-void UALSXTImpactReactionComponent::OnSyncedAttackFallBlendOut(UAnimMontage* Montage, bool bInterrupted){}
+void UAlsxtImpactReactionComponent::OnSyncedAttackFallBlendOut(UAnimMontage* Montage, bool bInterrupted){}
 
-void UALSXTImpactReactionComponent::OnBraceForImpactBlendOut(UAnimMontage* Montage, bool bInterrupted){}
+void UAlsxtImpactReactionComponent::OnBraceForImpactBlendOut(UAnimMontage* Montage, bool bInterrupted){}
 
-void UALSXTImpactReactionComponent::OnCrowdNavigationFallGetupBlendOut(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnCrowdNavigationFallGetupBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (IAlsxtCollisionInterface::Execute_ShouldPerformCrowdNavigationResponse(GetOwner()))
 	{
@@ -2152,7 +2152,7 @@ void UALSXTImpactReactionComponent::OnCrowdNavigationFallGetupBlendOut(UAnimMont
 	}
 }
 
-void UALSXTImpactReactionComponent::OnImpactFallGetupBlendOut(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnImpactFallGetupBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (IAlsxtCollisionInterface::Execute_ShouldPerformImpactResponse(GetOwner()))
 	{
@@ -2160,7 +2160,7 @@ void UALSXTImpactReactionComponent::OnImpactFallGetupBlendOut(UAnimMontage* Mont
 	}
 }
 
-void UALSXTImpactReactionComponent::OnAttackFallGetupBlendOut(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnAttackFallGetupBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (IAlsxtCollisionInterface::Execute_ShouldPerformAttackResponse(GetOwner()))
 	{
@@ -2169,13 +2169,13 @@ void UALSXTImpactReactionComponent::OnAttackFallGetupBlendOut(UAnimMontage* Mont
 	}
 }
 
-void UALSXTImpactReactionComponent::OnSyncedAttackFallGetUpBlendOut(UAnimMontage* Montage, bool bInterrupted){}
+void UAlsxtImpactReactionComponent::OnSyncedAttackFallGetUpBlendOut(UAnimMontage* Montage, bool bInterrupted){}
 
-void UALSXTImpactReactionComponent::OnImpactResponseBlendOut(UAnimMontage* Montage, bool bInterrupted){}
+void UAlsxtImpactReactionComponent::OnImpactResponseBlendOut(UAnimMontage* Montage, bool bInterrupted){}
 
-void UALSXTImpactReactionComponent::OnAttackResponseBlendOut(UAnimMontage* Montage, bool bInterrupted){}
+void UAlsxtImpactReactionComponent::OnAttackResponseBlendOut(UAnimMontage* Montage, bool bInterrupted){}
 
-void UALSXTImpactReactionComponent::OnCrowdNavigationReactionEnded(UAnimMontage* Montage, bool bInterrupted) 
+void UAlsxtImpactReactionComponent::OnCrowdNavigationReactionEnded(UAnimMontage* Montage, bool bInterrupted) 
 {
 	if (AnimInstance)
 	{
@@ -2183,7 +2183,7 @@ void UALSXTImpactReactionComponent::OnCrowdNavigationReactionEnded(UAnimMontage*
 	}
 }
 
-void UALSXTImpactReactionComponent::OnBumpReactionEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnBumpReactionEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2191,7 +2191,7 @@ void UALSXTImpactReactionComponent::OnBumpReactionEnded(UAnimMontage* Montage, b
 	}
 }
 
-void UALSXTImpactReactionComponent::OnImpactReactionEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnImpactReactionEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2199,7 +2199,7 @@ void UALSXTImpactReactionComponent::OnImpactReactionEnded(UAnimMontage* Montage,
 	}
 }
 
-void UALSXTImpactReactionComponent::OnAttackReactionEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnAttackReactionEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2207,7 +2207,7 @@ void UALSXTImpactReactionComponent::OnAttackReactionEnded(UAnimMontage* Montage,
 	}
 }
 
-void UALSXTImpactReactionComponent::OnSyncedAttackReactionEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnSyncedAttackReactionEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2215,7 +2215,7 @@ void UALSXTImpactReactionComponent::OnSyncedAttackReactionEnded(UAnimMontage* Mo
 	}
 }
 
-void UALSXTImpactReactionComponent::OnClutchImpactPointEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnClutchImpactPointEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2223,7 +2223,7 @@ void UALSXTImpactReactionComponent::OnClutchImpactPointEnded(UAnimMontage* Monta
 	}
 }
 
-void UALSXTImpactReactionComponent::OnCrowdNavigationFallEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnCrowdNavigationFallEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2231,7 +2231,7 @@ void UALSXTImpactReactionComponent::OnCrowdNavigationFallEnded(UAnimMontage* Mon
 	}
 }
 
-void UALSXTImpactReactionComponent::OnImpactFallEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnImpactFallEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2239,7 +2239,7 @@ void UALSXTImpactReactionComponent::OnImpactFallEnded(UAnimMontage* Montage, boo
 	}
 }
 
-void UALSXTImpactReactionComponent::OnAttackFallEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnAttackFallEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2247,7 +2247,7 @@ void UALSXTImpactReactionComponent::OnAttackFallEnded(UAnimMontage* Montage, boo
 	}
 }
 
-void UALSXTImpactReactionComponent::OnSyncedAttackFallEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnSyncedAttackFallEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2255,7 +2255,7 @@ void UALSXTImpactReactionComponent::OnSyncedAttackFallEnded(UAnimMontage* Montag
 	}
 }
 
-void UALSXTImpactReactionComponent::OnBraceForImpactEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnBraceForImpactEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2263,7 +2263,7 @@ void UALSXTImpactReactionComponent::OnBraceForImpactEnded(UAnimMontage* Montage,
 	}
 }
 
-void UALSXTImpactReactionComponent::OnCrowdNavigationFallGetupEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnCrowdNavigationFallGetupEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2271,7 +2271,7 @@ void UALSXTImpactReactionComponent::OnCrowdNavigationFallGetupEnded(UAnimMontage
 	}
 }
 
-void UALSXTImpactReactionComponent::OnImpactFallGetupEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnImpactFallGetupEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2279,7 +2279,7 @@ void UALSXTImpactReactionComponent::OnImpactFallGetupEnded(UAnimMontage* Montage
 	}
 }
 
-void UALSXTImpactReactionComponent::OnAttackFallGetupEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnAttackFallGetupEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2287,7 +2287,7 @@ void UALSXTImpactReactionComponent::OnAttackFallGetupEnded(UAnimMontage* Montage
 	}
 }
 
-void UALSXTImpactReactionComponent::OnSyncedAttackFallGetUpEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnSyncedAttackFallGetUpEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2295,7 +2295,7 @@ void UALSXTImpactReactionComponent::OnSyncedAttackFallGetUpEnded(UAnimMontage* M
 	}
 }
 
-void UALSXTImpactReactionComponent::OnImpactResponseEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnImpactResponseEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2303,7 +2303,7 @@ void UALSXTImpactReactionComponent::OnImpactResponseEnded(UAnimMontage* Montage,
 	}
 }
 
-void UALSXTImpactReactionComponent::OnAttackResponseEnded(UAnimMontage* Montage, bool bInterrupted)
+void UAlsxtImpactReactionComponent::OnAttackResponseEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	if (AnimInstance)
 	{
@@ -2311,7 +2311,7 @@ void UALSXTImpactReactionComponent::OnAttackResponseEnded(UAnimMontage* Montage,
 	}
 }
 
-FGameplayTag UALSXTImpactReactionComponent::GetCharacterVelocity()
+FGameplayTag UAlsxtImpactReactionComponent::GetCharacterVelocity()
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionMode(GetOwner()) == AlsLocomotionModeTags::InAir)
 	{
@@ -2358,19 +2358,19 @@ FGameplayTag UALSXTImpactReactionComponent::GetCharacterVelocity()
 	}
 }
 
-bool UALSXTImpactReactionComponent::ShouldRecieveVelocityDamage()
+bool UAlsxtImpactReactionComponent::ShouldRecieveVelocityDamage()
 {
 	return GetOwner()->GetVelocity().Length() >= 650;
 }
 
-float UALSXTImpactReactionComponent::GetBaseVelocityDamage()
+float UAlsxtImpactReactionComponent::GetBaseVelocityDamage()
 {
 	FVector2D VelocityRange{ 650.0, 2000.0 };
 	FVector2D ConversionRange{ 0.0, 100.0 };
 	return FMath::GetMappedRangeValueClamped(VelocityRange, ConversionRange, GetOwner()->GetVelocity().Length());
 }
 
-void UALSXTImpactReactionComponent::OnCapsuleHitTimer()
+void UAlsxtImpactReactionComponent::OnCapsuleHitTimer()
 {
 	FVector ClosestLocation { ForceInit };
 
@@ -2390,12 +2390,12 @@ void UALSXTImpactReactionComponent::OnCapsuleHitTimer()
 	}
 }
 
-void UALSXTImpactReactionComponent::ClearObstacleImpactHistory()
+void UAlsxtImpactReactionComponent::ClearObstacleImpactHistory()
 {
 	ObstacleImpactHistory.Empty();
 }
 
-bool UALSXTImpactReactionComponent::ValidateNewHit(AActor* ActorToCheck)
+bool UAlsxtImpactReactionComponent::ValidateNewHit(AActor* ActorToCheck)
 {
 	double NewHitTime;
 	NewHitTime = GetWorld()->GetTimeSeconds();
@@ -2434,7 +2434,7 @@ bool UALSXTImpactReactionComponent::ValidateNewHit(AActor* ActorToCheck)
 	}
 }
 
-bool UALSXTImpactReactionComponent::ValidateNewAnticipationHit(AActor* ActorToCheck)
+bool UAlsxtImpactReactionComponent::ValidateNewAnticipationHit(AActor* ActorToCheck)
 {
 	double NewAnticipationHitTime;
 	NewAnticipationHitTime = GetWorld()->GetTimeSeconds();
@@ -2479,28 +2479,28 @@ bool UALSXTImpactReactionComponent::ValidateNewAnticipationHit(AActor* ActorToCh
 	}
 }
 
-void UALSXTImpactReactionComponent::RefreshObstacleNavigationPoses()
+void UAlsxtImpactReactionComponent::RefreshObstacleNavigationPoses()
 {
 	FALSXTDefensiveModeAnimations NewDefensiveModeAnimations = IAlsxtCharacterInterface::Execute_GetCharacterDefensiveModeAnimations(GetOwner());
 	NewDefensiveModeAnimations.ObstaclePoseSet = SelectObstacleNavigationPoses(IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(GetOwner()), HealthToHealthTag(IAlsxtCharacterInterface::Execute_GetHealth(GetOwner())));
 	IAlsxtCharacterInterface::Execute_SetCharacterDefensiveModeAnimations(GetOwner(), NewDefensiveModeAnimations);
 }
 
-void UALSXTImpactReactionComponent::RefreshCrowdNavigationPoses()
+void UAlsxtImpactReactionComponent::RefreshCrowdNavigationPoses()
 {
 	FALSXTDefensiveModeAnimations NewDefensiveModeAnimations = IAlsxtCharacterInterface::Execute_GetCharacterDefensiveModeAnimations(GetOwner());
 	NewDefensiveModeAnimations.CrowdNavigationPoseSet =	SelectCrowdNavigationPoses(IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(GetOwner()));
 	IAlsxtCharacterInterface::Execute_SetCharacterDefensiveModeAnimations(GetOwner(), NewDefensiveModeAnimations);
 }
 
-void UALSXTImpactReactionComponent::RefreshBlockingPoses()
+void UAlsxtImpactReactionComponent::RefreshBlockingPoses()
 {
 	FALSXTDefensiveModeAnimations NewDefensiveModeAnimations = IAlsxtCharacterInterface::Execute_GetCharacterDefensiveModeAnimations(GetOwner());
 	NewDefensiveModeAnimations.AnticipationPoseSet = SelectBlockingPoses(IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(GetOwner()), ALSXTImpactFormTags::Blunt, ALSXTLocomotionVariantTags::Default);
 	IAlsxtCharacterInterface::Execute_SetCharacterDefensiveModeAnimations(GetOwner(), NewDefensiveModeAnimations);
 }
 
-FALSXTDefensivePoseSet UALSXTImpactReactionComponent::SelectObstacleNavigationPoses(const FGameplayTag& Overlay, const FGameplayTag& Health)
+FALSXTDefensivePoseSet UAlsxtImpactReactionComponent::SelectObstacleNavigationPoses(const FGameplayTag& Overlay, const FGameplayTag& Health)
 {
 	FALSXTDefensivePoseSet DefensivePoseStanceSet;
 	TArray<FObstaclePose> ObstaclePoses = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner())->ObstacleNavigationPoses;
@@ -2523,7 +2523,7 @@ FALSXTDefensivePoseSet UALSXTImpactReactionComponent::SelectObstacleNavigationPo
 	return DefensivePoseStanceSet;
 }
 
-FALSXTDefensivePoseStanceSet UALSXTImpactReactionComponent::SelectCrowdNavigationPoses(const FGameplayTag& Overlay)
+FALSXTDefensivePoseStanceSet UAlsxtImpactReactionComponent::SelectCrowdNavigationPoses(const FGameplayTag& Overlay)
 {
 	FALSXTDefensivePoseStanceSet DefensivePoseStanceSet;
 	TArray<FCrowdNavigationPoses> CrowdNavigationPoses = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner())->CrowdNavigationPosesNew;
@@ -2543,7 +2543,7 @@ FALSXTDefensivePoseStanceSet UALSXTImpactReactionComponent::SelectCrowdNavigatio
 	return DefensivePoseStanceSet;
 }
 
-FALSXTAnticipationPoseSet UALSXTImpactReactionComponent::SelectBlockingPoses(const FGameplayTag& Overlay, const FGameplayTag& Form, const FGameplayTag& Variant)
+FALSXTAnticipationPoseSet UAlsxtImpactReactionComponent::SelectBlockingPoses(const FGameplayTag& Overlay, const FGameplayTag& Form, const FGameplayTag& Variant)
 {
 	FALSXTAnticipationPoseSet DefensivePoseSet;
 	TArray<FAnticipationPoses> BlockingPoses = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner())->BlockingPoses;
@@ -2570,7 +2570,7 @@ FALSXTAnticipationPoseSet UALSXTImpactReactionComponent::SelectBlockingPoses(con
 	return DefensivePoseSet;
 }
 
-FALSXTDefensivePoseSet UALSXTImpactReactionComponent::SelectBraceForImpactPoses(const FGameplayTag& Overlay, const FGameplayTag& Form, const FGameplayTag& Variant)
+FALSXTDefensivePoseSet UAlsxtImpactReactionComponent::SelectBraceForImpactPoses(const FGameplayTag& Overlay, const FGameplayTag& Form, const FGameplayTag& Variant)
 {
 	FALSXTDefensivePoseSet DefensivePoseSet;
 	TArray<FBraceForImpactPoses> BlockingPoses = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner())->BraceForImpactPosesNew;
@@ -2597,7 +2597,7 @@ FALSXTDefensivePoseSet UALSXTImpactReactionComponent::SelectBraceForImpactPoses(
 	return DefensivePoseSet;
 }
 
-FALSXTObstacleCollisionAnticipationPoseSet UALSXTImpactReactionComponent::SelectObstacleCollisionAnticipationPoses(const FGameplayTag& Overlay, const FGameplayTag& Form, const FGameplayTag& Variant)
+FALSXTObstacleCollisionAnticipationPoseSet UAlsxtImpactReactionComponent::SelectObstacleCollisionAnticipationPoses(const FGameplayTag& Overlay, const FGameplayTag& Form, const FGameplayTag& Variant)
 {
 	FALSXTObstacleCollisionAnticipationPoseSet ObstacleCollisionAnticipationPoseSet;
 	TArray<FObstacleCollisionAnticipationPoses> ObstacleCollisionAnticipationPoses = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner())->ObstacleCollisionAnticipationPoses;
@@ -2624,13 +2624,13 @@ FALSXTObstacleCollisionAnticipationPoseSet UALSXTImpactReactionComponent::Select
 	return ObstacleCollisionAnticipationPoseSet;
 }
 
-void UALSXTImpactReactionComponent::ServerSetDefensiveModeState_Implementation(const FALSXTDefensiveModeState& NewDefensiveModeState)
+void UAlsxtImpactReactionComponent::ServerSetDefensiveModeState_Implementation(const FALSXTDefensiveModeState& NewDefensiveModeState)
 {
 	IAlsxtCharacterInterface::Execute_SetCharacterDefensiveModeState(GetOwner(), NewDefensiveModeState);
 }
 
 // ImpactReaction State
-void UALSXTImpactReactionComponent::SetImpactReactionState(const FALSXTImpactReactionState& NewImpactReactionState)
+void UAlsxtImpactReactionComponent::SetImpactReactionState(const FALSXTImpactReactionState& NewImpactReactionState)
 {
 	const auto PreviousImpactReactionState{ ImpactReactionState };
 	ImpactReactionState = NewImpactReactionState;
@@ -2652,42 +2652,42 @@ void UALSXTImpactReactionComponent::SetImpactReactionState(const FALSXTImpactRea
 	}
 }
 
-void UALSXTImpactReactionComponent::SetImpactReactionStateImplementation(const FALSXTImpactReactionState& NewImpactReactionState)
+void UAlsxtImpactReactionComponent::SetImpactReactionStateImplementation(const FALSXTImpactReactionState& NewImpactReactionState)
 {
 	const auto PreviousImpactReactionState{ ImpactReactionState };
 	ImpactReactionState = NewImpactReactionState;
 	OnImpactReactionStateChanged(PreviousImpactReactionState);
 }
 
-void UALSXTImpactReactionComponent::ServerSetImpactReactionState_Implementation(const FALSXTImpactReactionState& NewImpactReactionState)
+void UAlsxtImpactReactionComponent::ServerSetImpactReactionState_Implementation(const FALSXTImpactReactionState& NewImpactReactionState)
 {
 	SetImpactReactionState(NewImpactReactionState);
 }
 
-void UALSXTImpactReactionComponent::ServerProcessNewImpactReactionState_Implementation(const FALSXTImpactReactionState& NewImpactReactionState)
+void UAlsxtImpactReactionComponent::ServerProcessNewImpactReactionState_Implementation(const FALSXTImpactReactionState& NewImpactReactionState)
 {
 	ProcessNewImpactReactionState(NewImpactReactionState);
 }
 
-void UALSXTImpactReactionComponent::OnReplicate_ImpactReactionState(const FALSXTImpactReactionState& PreviousImpactReactionState)
+void UAlsxtImpactReactionComponent::OnReplicate_ImpactReactionState(const FALSXTImpactReactionState& PreviousImpactReactionState)
 {
 	OnImpactReactionStateChanged(PreviousImpactReactionState);
 }
 
-FDoubleHitResult UALSXTImpactReactionComponent::GetLastImpact() const
+FDoubleHitResult UAlsxtImpactReactionComponent::GetLastImpact() const
 {
 	return PreviousImpacts.Last();
 }
 
-FAttackDoubleHitResult UALSXTImpactReactionComponent::GetLastAttackImpact() const
+FAttackDoubleHitResult UAlsxtImpactReactionComponent::GetLastAttackImpact() const
 {
 	return PreviousAttackImpacts.Last();
 }
 
-void UALSXTImpactReactionComponent::OnImpactReactionStateChanged_Implementation(const FALSXTImpactReactionState& PreviousImpactReactionState) {}
+void UAlsxtImpactReactionComponent::OnImpactReactionStateChanged_Implementation(const FALSXTImpactReactionState& PreviousImpactReactionState) {}
 
 // CrowdNavigationPose State
-void UALSXTImpactReactionComponent::SetCrowdNavigationPoseState(const FALSXTBumpPoseState& NewCrowdNavigationPoseState)
+void UAlsxtImpactReactionComponent::SetCrowdNavigationPoseState(const FALSXTBumpPoseState& NewCrowdNavigationPoseState)
 {
 	const auto PreviousCrowdNavigationPoseState{ CrowdNavigationPoseState };
 
@@ -2701,25 +2701,25 @@ void UALSXTImpactReactionComponent::SetCrowdNavigationPoseState(const FALSXTBump
 	}
 }
 
-void UALSXTImpactReactionComponent::ServerSetCrowdNavigationPoseState_Implementation(const FALSXTBumpPoseState& NewCrowdNavigationPoseState)
+void UAlsxtImpactReactionComponent::ServerSetCrowdNavigationPoseState_Implementation(const FALSXTBumpPoseState& NewCrowdNavigationPoseState)
 {
 	SetCrowdNavigationPoseState(NewCrowdNavigationPoseState);
 }
 
-void UALSXTImpactReactionComponent::ServerProcessNewCrowdNavigationPoseState_Implementation(const FALSXTBumpPoseState& NewCrowdNavigationPoseState)
+void UAlsxtImpactReactionComponent::ServerProcessNewCrowdNavigationPoseState_Implementation(const FALSXTBumpPoseState& NewCrowdNavigationPoseState)
 {
 	ProcessNewCrowdNavigationPoseState(NewCrowdNavigationPoseState);
 }
 
-void UALSXTImpactReactionComponent::OnReplicate_CrowdNavigationPoseState(const FALSXTBumpPoseState& PreviousCrowdNavigationPoseState)
+void UAlsxtImpactReactionComponent::OnReplicate_CrowdNavigationPoseState(const FALSXTBumpPoseState& PreviousCrowdNavigationPoseState)
 {
 	OnCrowdNavigationPoseStateChanged(PreviousCrowdNavigationPoseState);
 }
 
-void UALSXTImpactReactionComponent::OnCrowdNavigationPoseStateChanged_Implementation(const FALSXTBumpPoseState& PreviousCrowdNavigationPoseState) {}
+void UAlsxtImpactReactionComponent::OnCrowdNavigationPoseStateChanged_Implementation(const FALSXTBumpPoseState& PreviousCrowdNavigationPoseState) {}
 
 // BumpPose State
-void UALSXTImpactReactionComponent::SetBumpPoseState(const FALSXTBumpPoseState& NewBumpPoseState)
+void UAlsxtImpactReactionComponent::SetBumpPoseState(const FALSXTBumpPoseState& NewBumpPoseState)
 {
 	const auto PreviousBumpPoseState{ BumpPoseState };
 
@@ -2733,42 +2733,42 @@ void UALSXTImpactReactionComponent::SetBumpPoseState(const FALSXTBumpPoseState& 
 	}
 }
 
-void UALSXTImpactReactionComponent::ServerSetBumpPoseState_Implementation(const FALSXTBumpPoseState& NewBumpPoseState)
+void UAlsxtImpactReactionComponent::ServerSetBumpPoseState_Implementation(const FALSXTBumpPoseState& NewBumpPoseState)
 {
 	SetBumpPoseState(NewBumpPoseState);
 }
 
-void UALSXTImpactReactionComponent::ServerProcessNewBumpPoseState_Implementation(const FALSXTBumpPoseState& NewBumpPoseState)
+void UAlsxtImpactReactionComponent::ServerProcessNewBumpPoseState_Implementation(const FALSXTBumpPoseState& NewBumpPoseState)
 {
 	ProcessNewBumpPoseState(NewBumpPoseState);
 }
 
-void UALSXTImpactReactionComponent::OnReplicate_BumpPoseState(const FALSXTBumpPoseState& PreviousBumpPoseState)
+void UAlsxtImpactReactionComponent::OnReplicate_BumpPoseState(const FALSXTBumpPoseState& PreviousBumpPoseState)
 {
 	OnBumpPoseStateChanged(PreviousBumpPoseState);
 }
 
-void UALSXTImpactReactionComponent::OnReplicate_ObstacleImpactHistory(const TArray<FImpactHistoryEntry> PreviousObstacleImpactHistory)
+void UAlsxtImpactReactionComponent::OnReplicate_ObstacleImpactHistory(const TArray<FImpactHistoryEntry> PreviousObstacleImpactHistory)
 {
 	// OnBumpPoseStateChanged(PreviousBumpPoseState);
 }
 
-void UALSXTImpactReactionComponent::OnReplicate_AnticipationImpactHistory(const TArray<FImpactHistoryEntry> PreviousAnticipationImpactHistory)
+void UAlsxtImpactReactionComponent::OnReplicate_AnticipationImpactHistory(const TArray<FImpactHistoryEntry> PreviousAnticipationImpactHistory)
 {
 	// OnBumpPoseStateChanged(PreviousBumpPoseState);
 }
 
-void UALSXTImpactReactionComponent::OnBumpPoseStateChanged_Implementation(const FALSXTBumpPoseState& PreviousBumpPoseState) {}
+void UAlsxtImpactReactionComponent::OnBumpPoseStateChanged_Implementation(const FALSXTBumpPoseState& PreviousBumpPoseState) {}
 
 // ENTRY FUNCTIONS
 
 // Defensive Reaction
-void UALSXTImpactReactionComponent::DefensiveReaction(const FGameplayTag& Velocity, const FGameplayTag& Side, const FGameplayTag& Form, FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::DefensiveReaction(const FGameplayTag& Velocity, const FGameplayTag& Side, const FGameplayTag& Form, FVector AnticipationPoint)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::SyncedAnticipationReaction(FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::SyncedAnticipationReaction(FVector AnticipationPoint)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -2781,7 +2781,7 @@ void UALSXTImpactReactionComponent::SyncedAnticipationReaction(FVector Anticipat
 }
 
 // Crowd Navigation Reaction
-void UALSXTImpactReactionComponent::CrowdNavigationReaction(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
+void UAlsxtImpactReactionComponent::CrowdNavigationReaction(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -2794,7 +2794,7 @@ void UALSXTImpactReactionComponent::CrowdNavigationReaction(const FGameplayTag& 
 }
 
 // Bump Reaction
-void UALSXTImpactReactionComponent::BumpReaction(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
+void UAlsxtImpactReactionComponent::BumpReaction(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
 {
 	FString ClientName = GetOwner()->GetDebugName(GetOwner());
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
@@ -2808,7 +2808,7 @@ void UALSXTImpactReactionComponent::BumpReaction(const FGameplayTag& Gait, const
 }
 
 // Impact Reaction
-void UALSXTImpactReactionComponent::ImpactReaction(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ImpactReaction(FDoubleHitResult Hit)
 {
 	StartImpactReaction(Hit);
 
@@ -2824,12 +2824,12 @@ void UALSXTImpactReactionComponent::ImpactReaction(FDoubleHitResult Hit)
 
 // Attack Reaction
 
-// bool UALSXTImpactReactionComponent::ServerAttackReaction_Validate(FAttackDoubleHitResult Hit)
+// bool UAlsxtImpactReactionComponent::ServerAttackReaction_Validate(FAttackDoubleHitResult Hit)
 // {
 // 	return true;
 // }
 
-void UALSXTImpactReactionComponent::OnStaticMeshAttackCollision(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::OnStaticMeshAttackCollision(FAttackDoubleHitResult Hit)
 {
 	FString LocalRoleString = StaticEnum<ENetRole>()->GetValueAsString(GetOwner()->GetLocalRole());
 	FString RemoteRoleString = StaticEnum<ENetRole>()->GetValueAsString(GetOwner()->GetRemoteRole());
@@ -2851,18 +2851,18 @@ void UALSXTImpactReactionComponent::OnStaticMeshAttackCollision(FAttackDoubleHit
 	}
 }
 
-void UALSXTImpactReactionComponent::MulticastOnStaticMeshAttackCollision_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastOnStaticMeshAttackCollision_Implementation(FAttackDoubleHitResult Hit)
 {
 	OnStaticMeshAttackCollisionImplementation(Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerOnStaticMeshAttackCollision_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerOnStaticMeshAttackCollision_Implementation(FAttackDoubleHitResult Hit)
 {
 	MulticastOnStaticMeshAttackCollision(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-void UALSXTImpactReactionComponent::OnStaticMeshAttackCollisionImplementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::OnStaticMeshAttackCollisionImplementation(FAttackDoubleHitResult Hit)
 {
 	if (IsValid(Hit.DoubleHitResult.HitResult.HitResult.GetComponent()))
 	{
@@ -2923,7 +2923,7 @@ void UALSXTImpactReactionComponent::OnStaticMeshAttackCollisionImplementation(FA
 	}
 }
 
-void UALSXTImpactReactionComponent::AttackReaction(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::AttackReaction(FAttackDoubleHitResult Hit)
 {
 	FString LocalRoleString = StaticEnum<ENetRole>()->GetValueAsString(GetOwner()->GetLocalRole());
 	FString RemoteRoleString = StaticEnum<ENetRole>()->GetValueAsString(GetOwner()->GetRemoteRole());
@@ -2946,19 +2946,19 @@ void UALSXTImpactReactionComponent::AttackReaction(FAttackDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::MulticastAttackReaction_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastAttackReaction_Implementation(FAttackDoubleHitResult Hit)
 {
 	StartAttackReaction(Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerAttackReaction_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerAttackReaction_Implementation(FAttackDoubleHitResult Hit)
 {
 	MulticastAttackReaction(Hit);
 	StartAttackReaction(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-void UALSXTImpactReactionComponent::AttackReactionImplementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::AttackReactionImplementation(FAttackDoubleHitResult Hit)
 {
 	UAnimMontage* Montage{ nullptr };
 
@@ -2984,7 +2984,7 @@ void UALSXTImpactReactionComponent::AttackReactionImplementation(FAttackDoubleHi
 	}
 }
 
-void UALSXTImpactReactionComponent::StartAttackReaction(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartAttackReaction(FAttackDoubleHitResult Hit)
 {
 	if (IsValid(Hit.DoubleHitResult.HitResult.HitResult.GetActor()))
 	{
@@ -3053,23 +3053,23 @@ void UALSXTImpactReactionComponent::StartAttackReaction(FAttackDoubleHitResult H
 	}
 }
 
-void UALSXTImpactReactionComponent::ServerStartAttackReaction_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, UNiagaraSystem* Particle, USoundBase* Audio)
+void UAlsxtImpactReactionComponent::ServerStartAttackReaction_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, UNiagaraSystem* Particle, USoundBase* Audio)
 {
 	MulticastStartAttackReaction(Hit, Montage, Particle, Audio);
 	GetOwner()->ForceNetUpdate();
 }
 
-// bool UALSXTImpactReactionComponent::ServerStartAttackReaction_Validate(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, UNiagaraSystem* Particle, USoundBase* Audio)
+// bool UAlsxtImpactReactionComponent::ServerStartAttackReaction_Validate(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, UNiagaraSystem* Particle, USoundBase* Audio)
 // {
 // 	return true;
 // }
 
-void UALSXTImpactReactionComponent::MulticastStartAttackReaction_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, UNiagaraSystem* Particle, USoundBase* Audio)
+void UAlsxtImpactReactionComponent::MulticastStartAttackReaction_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, UNiagaraSystem* Particle, USoundBase* Audio)
 {
 	StartAttackReactionImplementation(Hit, Montage, Particle, Audio);
 }
 
-void UALSXTImpactReactionComponent::StartAttackReactionImplementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, UNiagaraSystem* Particle, USoundBase* Audio)
+void UAlsxtImpactReactionComponent::StartAttackReactionImplementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, UNiagaraSystem* Particle, USoundBase* Audio)
 {
 	if (IsAttackReactionAllowedToStart(Montage.Montage))
 	{
@@ -3085,7 +3085,7 @@ void UALSXTImpactReactionComponent::StartAttackReactionImplementation(FAttackDou
 
 		if (AnimInstance)
 		{
-			OnAttackReactionBlendOutDelegate.BindUObject(this, &UALSXTImpactReactionComponent::OnAttackReactionBlendOut);
+			OnAttackReactionBlendOutDelegate.BindUObject(this, &UAlsxtImpactReactionComponent::OnAttackReactionBlendOut);
 			AnimInstance->Montage_SetBlendingOutDelegate(OnAttackReactionBlendOutDelegate);
 		}
 
@@ -3235,7 +3235,7 @@ void UALSXTImpactReactionComponent::StartAttackReactionImplementation(FAttackDou
 
 // Synced Attack Reaction
 
-void UALSXTImpactReactionComponent::SyncedAttackReaction(int Index)
+void UAlsxtImpactReactionComponent::SyncedAttackReaction(int Index)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3247,7 +3247,7 @@ void UALSXTImpactReactionComponent::SyncedAttackReaction(int Index)
 	}
 }
 
-void UALSXTImpactReactionComponent::ServerSyncedAttackReaction_Implementation(int32 Index)
+void UAlsxtImpactReactionComponent::ServerSyncedAttackReaction_Implementation(int32 Index)
 {
 	// MulticastSyncedAttackReaction(Index);
 	StartSyncedAttackReaction(Index);
@@ -3256,7 +3256,7 @@ void UALSXTImpactReactionComponent::ServerSyncedAttackReaction_Implementation(in
 
 // Stabilize
 
-void UALSXTImpactReactionComponent::Stabilize(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::Stabilize(FDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3268,7 +3268,7 @@ void UALSXTImpactReactionComponent::Stabilize(FDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::ClutchImpactPoint(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ClutchImpactPoint(FDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3280,7 +3280,7 @@ void UALSXTImpactReactionComponent::ClutchImpactPoint(FDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::ImpactFall(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ImpactFall(FDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3292,7 +3292,7 @@ void UALSXTImpactReactionComponent::ImpactFall(FDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::ImpactFallLand(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ImpactFallLand(FDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3304,7 +3304,7 @@ void UALSXTImpactReactionComponent::ImpactFallLand(FDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::ImpactFallIdle(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ImpactFallIdle(FDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3316,7 +3316,7 @@ void UALSXTImpactReactionComponent::ImpactFallIdle(FDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::AttackFall(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::AttackFall(FAttackDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3329,7 +3329,7 @@ void UALSXTImpactReactionComponent::AttackFall(FAttackDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::AttackFallLand(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::AttackFallLand(FAttackDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3341,7 +3341,7 @@ void UALSXTImpactReactionComponent::AttackFallLand(FAttackDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::AttackFallIdle(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::AttackFallIdle(FAttackDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3353,7 +3353,7 @@ void UALSXTImpactReactionComponent::AttackFallIdle(FAttackDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::SyncedAttackFall(int32 Index)
+void UAlsxtImpactReactionComponent::SyncedAttackFall(int32 Index)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3365,7 +3365,7 @@ void UALSXTImpactReactionComponent::SyncedAttackFall(int32 Index)
 	}
 }
 
-void UALSXTImpactReactionComponent::SyncedAttackFallIdle(int32 Index)
+void UAlsxtImpactReactionComponent::SyncedAttackFallIdle(int32 Index)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3377,7 +3377,7 @@ void UALSXTImpactReactionComponent::SyncedAttackFallIdle(int32 Index)
 	}
 }
 
-void UALSXTImpactReactionComponent::BraceForImpact()
+void UAlsxtImpactReactionComponent::BraceForImpact()
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3389,7 +3389,7 @@ void UALSXTImpactReactionComponent::BraceForImpact()
 	}
 }
 
-void UALSXTImpactReactionComponent::ImpactGetUp(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ImpactGetUp(FDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3401,7 +3401,7 @@ void UALSXTImpactReactionComponent::ImpactGetUp(FDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::AttackGetUp(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::AttackGetUp(FAttackDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3413,7 +3413,7 @@ void UALSXTImpactReactionComponent::AttackGetUp(FAttackDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::SyncedAttackGetUp(int32 Index)
+void UAlsxtImpactReactionComponent::SyncedAttackGetUp(int32 Index)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3425,7 +3425,7 @@ void UALSXTImpactReactionComponent::SyncedAttackGetUp(int32 Index)
 	}
 }
 
-void UALSXTImpactReactionComponent::CrowdNavigationResponse()
+void UAlsxtImpactReactionComponent::CrowdNavigationResponse()
 {
 	// if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	// {
@@ -3437,7 +3437,7 @@ void UALSXTImpactReactionComponent::CrowdNavigationResponse()
 	// }
 }
 
-void UALSXTImpactReactionComponent::ImpactResponse(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ImpactResponse(FDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3449,7 +3449,7 @@ void UALSXTImpactReactionComponent::ImpactResponse(FDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::AttackResponse(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::AttackResponse(FAttackDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3463,7 +3463,7 @@ void UALSXTImpactReactionComponent::AttackResponse(FAttackDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::BodyFallReaction(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::BodyFallReaction(FDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -3475,93 +3475,93 @@ void UALSXTImpactReactionComponent::BodyFallReaction(FDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::ImpactTimelineUpdate(float Value)
+void UAlsxtImpactReactionComponent::ImpactTimelineUpdate(float Value)
 {
 	//...
 }
 
 // Error Checks
-bool UALSXTImpactReactionComponent::IsSyncedAnticipationReactionAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsSyncedAnticipationReactionAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsDefensiveReactionAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsDefensiveReactionAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsCrowdNavigationReactionAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsCrowdNavigationReactionAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsBumpReactionAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsBumpReactionAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsImpactReactionAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsImpactReactionAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsAttackReactionAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsAttackReactionAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsSyncedAttackReactionAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsSyncedAttackReactionAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsClutchImpactPointAllowedToStart(const UAnimSequenceBase* Montage) const
+bool UAlsxtImpactReactionComponent::IsClutchImpactPointAllowedToStart(const UAnimSequenceBase* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsStabilizeAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsStabilizeAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsBraceForImpactAllowedToStart(const UAnimSequenceBase* Montage) const
+bool UAlsxtImpactReactionComponent::IsBraceForImpactAllowedToStart(const UAnimSequenceBase* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsCrowdNavigationFallAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsCrowdNavigationFallAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsImpactFallAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsImpactFallAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsAttackFallAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsAttackFallAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsSyncedAttackFallAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsSyncedAttackFallAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsImpactResponseAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsImpactResponseAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::IsAttackResponseAllowedToStart(const UAnimMontage* Montage) const
+bool UAlsxtImpactReactionComponent::IsAttackResponseAllowedToStart(const UAnimMontage* Montage) const
 {
 	return (Montage != nullptr);
 }
 
-bool UALSXTImpactReactionComponent::ShouldSpawnImpactParticle(FDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ShouldSpawnImpactParticle(FDoubleHitResult Hit)
 {
 	float CombinedVelocity = (Hit.HitResult.Velocity + Hit.OriginHitResult.Velocity).Length();
 	
@@ -3579,7 +3579,7 @@ bool UALSXTImpactReactionComponent::ShouldSpawnImpactParticle(FDoubleHitResult H
 	}
 }
 
-bool UALSXTImpactReactionComponent::ShouldSpawnRearImpactParticle(FDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ShouldSpawnRearImpactParticle(FDoubleHitResult Hit)
 {
 	float CombinedVelocity = (Hit.HitResult.Velocity + Hit.OriginHitResult.Velocity).Length();
 
@@ -3597,7 +3597,7 @@ bool UALSXTImpactReactionComponent::ShouldSpawnRearImpactParticle(FDoubleHitResu
 	}
 }
 
-bool UALSXTImpactReactionComponent::ShouldSpawnFrontImpactDecal(FDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ShouldSpawnFrontImpactDecal(FDoubleHitResult Hit)
 {
 	float CombinedVelocity = (Hit.HitResult.Velocity + Hit.OriginHitResult.Velocity).Length();
 
@@ -3615,7 +3615,7 @@ bool UALSXTImpactReactionComponent::ShouldSpawnFrontImpactDecal(FDoubleHitResult
 	}
 }
 
-bool UALSXTImpactReactionComponent::ShouldSpawnRearImpactDecal(FDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ShouldSpawnRearImpactDecal(FDoubleHitResult Hit)
 {
 	float CombinedVelocity = (Hit.HitResult.Velocity + Hit.OriginHitResult.Velocity).Length();
 
@@ -3634,17 +3634,17 @@ bool UALSXTImpactReactionComponent::ShouldSpawnRearImpactDecal(FDoubleHitResult 
 }
 
 // Start Events
-void UALSXTImpactReactionComponent::StartSyncedAnticipationReaction(FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::StartSyncedAnticipationReaction(FVector AnticipationPoint)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartDefensiveReaction(const FGameplayTag& Velocity, const FGameplayTag& Side, const FGameplayTag& Form, FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::StartDefensiveReaction(const FGameplayTag& Velocity, const FGameplayTag& Side, const FGameplayTag& Form, FVector AnticipationPoint)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::BumpReactionImplementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
+void UAlsxtImpactReactionComponent::BumpReactionImplementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
 {
 	IAlsxtCharacterInterface::Execute_ResetCharacterDefensiveModeState(GetOwner());
 	IAlsxtCharacterInterface::Execute_SetCharacterDefensiveMode(GetOwner(), FGameplayTag::EmptyTag);
@@ -3698,7 +3698,7 @@ void UALSXTImpactReactionComponent::BumpReactionImplementation(const FGameplayTa
 
 		if (AnimInstance)
 		{
-			OnBumpReactionBlendOutDelegate.BindUObject(this, &UALSXTImpactReactionComponent::OnBumpReactionBlendOut);
+			OnBumpReactionBlendOutDelegate.BindUObject(this, &UAlsxtImpactReactionComponent::OnBumpReactionBlendOut);
 			AnimInstance->Montage_SetBlendingOutDelegate(OnBumpReactionBlendOutDelegate);
 		}
 
@@ -3761,7 +3761,7 @@ void UALSXTImpactReactionComponent::BumpReactionImplementation(const FGameplayTa
 	}
 }
 
-// void UALSXTImpactReactionComponent::StartCrowdNavigationReaction(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
+// void UAlsxtImpactReactionComponent::StartCrowdNavigationReaction(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
 // {
 // 	// if (GetOwner()->GetLocalRole() <= ROLE_SimulatedProxy)
 // 	// {
@@ -3794,7 +3794,7 @@ void UALSXTImpactReactionComponent::BumpReactionImplementation(const FGameplayTa
 // 	// }
 // }
 
-void UALSXTImpactReactionComponent::StartImpactReaction(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartImpactReaction(FDoubleHitResult Hit)
 {
 	if (GetOwner()->GetLocalRole() <= ROLE_SimulatedProxy)
 	{
@@ -3851,12 +3851,12 @@ void UALSXTImpactReactionComponent::StartImpactReaction(FDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::StartSyncedAttackReaction(int32 Index)
+void UAlsxtImpactReactionComponent::StartSyncedAttackReaction(int32 Index)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartStabilize(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartStabilize(FDoubleHitResult Hit)
 {
 	UAnimMontage* Montage;
 	FStabilizationMontage SelectedStabilizationMontage = SelectStabilizationMontage(Hit);
@@ -3887,14 +3887,14 @@ void UALSXTImpactReactionComponent::StartStabilize(FDoubleHitResult Hit)
 
 	if (AnimInstance)
 	{
-		OnStabilizeBlendOutDelegate.BindUObject(this, &UALSXTImpactReactionComponent::OnStabilizationBlendOut);
+		OnStabilizeBlendOutDelegate.BindUObject(this, &UAlsxtImpactReactionComponent::OnStabilizationBlendOut);
 		AnimInstance->Montage_SetBlendingOutDelegate(OnStabilizeBlendOutDelegate);
 	}
 	IAlsxtCharacterInterface::Execute_ResetCharacterDefensiveModeState(GetOwner());
 	IAlsxtCharacterInterface::Execute_SetCharacterLocomotionAction(GetOwner(), AlsLocomotionActionTags::Stabilization);
 }
 
-void UALSXTImpactReactionComponent::StartClutchImpactPoint(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartClutchImpactPoint(FDoubleHitResult Hit)
 {
 	// if (GetOwner()->GetLocalRole() <= ROLE_SimulatedProxy)
 	// {
@@ -3934,7 +3934,7 @@ void UALSXTImpactReactionComponent::StartClutchImpactPoint(FDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::StartImpactFall(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartImpactFall(FDoubleHitResult Hit)
 {
 	// if (GetOwner()->GetLocalRole() <= ROLE_SimulatedProxy)
 	// {
@@ -3988,12 +3988,12 @@ void UALSXTImpactReactionComponent::StartImpactFall(FDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::StartImpactFallLand(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartImpactFallLand(FDoubleHitResult Hit)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartImpactFallIdle(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartImpactFallIdle(FDoubleHitResult Hit)
 {
 	// if (GetOwner()->GetLocalRole() <= ROLE_SimulatedProxy)
 	// {
@@ -4041,7 +4041,7 @@ void UALSXTImpactReactionComponent::StartImpactFallIdle(FDoubleHitResult Hit)
 	}
 }
 
-void UALSXTImpactReactionComponent::StartAttackFall(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartAttackFall(FAttackDoubleHitResult Hit)
 {
 	IAlsxtCharacterInterface::Execute_SetCharacterRagdoll(GetOwner(), true);
 
@@ -4092,12 +4092,12 @@ void UALSXTImpactReactionComponent::StartAttackFall(FAttackDoubleHitResult Hit)
 	// }
 }
 
-void UALSXTImpactReactionComponent::StartAttackFallLand(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartAttackFallLand(FAttackDoubleHitResult Hit)
 {
 	StartAttackFallIdle(Hit);
 }
 
-void UALSXTImpactReactionComponent::StartAttackFallIdle(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartAttackFallIdle(FAttackDoubleHitResult Hit)
 {
 	// if (GetOwner()->GetLocalRole() <= ROLE_SimulatedProxy)
 	// {
@@ -4147,22 +4147,22 @@ void UALSXTImpactReactionComponent::StartAttackFallIdle(FAttackDoubleHitResult H
 	}
 }
 
-void UALSXTImpactReactionComponent::StartSyncedAttackFall(int32 Index)
+void UAlsxtImpactReactionComponent::StartSyncedAttackFall(int32 Index)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartSyncedAttackFallLand(int32 Index)
+void UAlsxtImpactReactionComponent::StartSyncedAttackFallLand(int32 Index)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartSyncedAttackFallIdle(int32 Index)
+void UAlsxtImpactReactionComponent::StartSyncedAttackFallIdle(int32 Index)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartBraceForImpact()
+void UAlsxtImpactReactionComponent::StartBraceForImpact()
 {
 	const FGameplayTag Side{ALSXTImpactPositionTags::Front};
 	UAnimSequenceBase* Montage = SelectBraceForImpactPose(Side, ALSXTImpactFormTags::Blunt);
@@ -4179,12 +4179,12 @@ void UALSXTImpactReactionComponent::StartBraceForImpact()
 	IAlsxtCharacterInterface::Execute_SetCharacterDefensiveMode(GetOwner(), ALSXTDefensiveModeTags::BraceForImpact);
 }
 
-void UALSXTImpactReactionComponent::StartImpactGetUp(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartImpactGetUp(FDoubleHitResult Hit)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartAttackGetUp(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartAttackGetUp(FAttackDoubleHitResult Hit)
 {
 	// if (GetOwner()->GetLocalRole() <= ROLE_SimulatedProxy)
 	// {
@@ -4231,12 +4231,12 @@ void UALSXTImpactReactionComponent::StartAttackGetUp(FAttackDoubleHitResult Hit)
 	
 }
 
-void UALSXTImpactReactionComponent::StartSyncedAttackGetUp(int32 Index)
+void UAlsxtImpactReactionComponent::StartSyncedAttackGetUp(int32 Index)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartImpactResponse(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartImpactResponse(FDoubleHitResult Hit)
 {
 	// if (GetOwner()->GetLocalRole() <= ROLE_SimulatedProxy)
 	// {
@@ -4284,7 +4284,7 @@ void UALSXTImpactReactionComponent::StartImpactResponse(FDoubleHitResult Hit)
 
 }
 
-void UALSXTImpactReactionComponent::StartAttackResponse(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartAttackResponse(FAttackDoubleHitResult Hit)
 {
 	// if (GetOwner()->GetLocalRole() <= ROLE_SimulatedProxy)
 	// {
@@ -4336,15 +4336,15 @@ void UALSXTImpactReactionComponent::StartAttackResponse(FAttackDoubleHitResult H
 	}
 }
 
-void UALSXTImpactReactionComponent::CrowdNavigationFall() {}
+void UAlsxtImpactReactionComponent::CrowdNavigationFall() {}
 
 //Parameters
-UALSXTImpactReactionSettings* UALSXTImpactReactionComponent::SelectImpactReactionSettings_Implementation()
+UALSXTImpactReactionSettings* UAlsxtImpactReactionComponent::SelectImpactReactionSettings_Implementation()
 {
 	return nullptr;
 }
  
-UMaterialInterface* UALSXTImpactReactionComponent::GetImpactDecal(FDoubleHitResult Hit)
+UMaterialInterface* UAlsxtImpactReactionComponent::GetImpactDecal(FDoubleHitResult Hit)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	FALSXTImpactDecalMap ImpactParticleMap = SelectedImpactReactionSettings->ImpactDecals;
@@ -4379,7 +4379,7 @@ UMaterialInterface* UALSXTImpactReactionComponent::GetImpactDecal(FDoubleHitResu
 }
 
 
-UNiagaraSystem* UALSXTImpactReactionComponent::GetImpactReactionParticle(FDoubleHitResult Hit)
+UNiagaraSystem* UAlsxtImpactReactionComponent::GetImpactReactionParticle(FDoubleHitResult Hit)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	FALSXTImpactParticleMap ImpactParticleMap = SelectedImpactReactionSettings->ImpactParticles;
@@ -4417,7 +4417,7 @@ UNiagaraSystem* UALSXTImpactReactionComponent::GetImpactReactionParticle(FDouble
 	return FoundImpactParticle;
 }
 
-UNiagaraSystem* UALSXTImpactReactionComponent::GetImpactPointParticle(FDoubleHitResult Hit)
+UNiagaraSystem* UAlsxtImpactReactionComponent::GetImpactPointParticle(FDoubleHitResult Hit)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	TArray<FALSXTImpactPointParticle> ImpactPointParticles = SelectedImpactReactionSettings->ImpactPointParticles;
@@ -4439,7 +4439,7 @@ UNiagaraSystem* UALSXTImpactReactionComponent::GetImpactPointParticle(FDoubleHit
 	return FoundImpactPointParticle;
 }
 
-FALSXTCharacterSound UALSXTImpactReactionComponent::GetAttackReactionSound(FDoubleHitResult Hit)
+FALSXTCharacterSound UAlsxtImpactReactionComponent::GetAttackReactionSound(FDoubleHitResult Hit)
 {
 	FALSXTCharacterSound FoundAttackReactionSound{ nullptr };
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
@@ -4447,7 +4447,7 @@ FALSXTCharacterSound UALSXTImpactReactionComponent::GetAttackReactionSound(FDoub
 	return FoundAttackReactionSound;
 }
 
-FSound UALSXTImpactReactionComponent::GetImpactReactionSound(FDoubleHitResult Hit)
+FSound UAlsxtImpactReactionComponent::GetImpactReactionSound(FDoubleHitResult Hit)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	FALSXTImpactSoundMap ImpactSoundMap = SelectedImpactReactionSettings->ImpactSounds;
@@ -4514,32 +4514,32 @@ FSound UALSXTImpactReactionComponent::GetImpactReactionSound(FDoubleHitResult Hi
 	// return FoundImpactSound;
 }
 
-// UNiagaraSystem* UALSXTImpactReactionComponent::GetBodyFallParticle(FDoubleHitResult Hit)
+// UNiagaraSystem* UAlsxtImpactReactionComponent::GetBodyFallParticle(FDoubleHitResult Hit)
 // {
 // 
 // }
 
-// FALSXTCharacterSound UALSXTImpactReactionComponent::GetImpactReactionSound(FDoubleHitResult Hit)
+// FALSXTCharacterSound UAlsxtImpactReactionComponent::GetImpactReactionSound(FDoubleHitResult Hit)
 // {
 // 
 // }
 // 
-// FALSXTCharacterSound UALSXTImpactReactionComponent::GetAttackReactionSound(FDoubleHitResult Hit)
+// FALSXTCharacterSound UAlsxtImpactReactionComponent::GetAttackReactionSound(FDoubleHitResult Hit)
 // {
 // 
 // }
 // 
-// FALSXTCharacterSound UALSXTImpactReactionComponent::GetBodyFallSound(FDoubleHitResult Hit)
+// FALSXTCharacterSound UAlsxtImpactReactionComponent::GetBodyFallSound(FDoubleHitResult Hit)
 // {
 // 
 // }
 
-UALSXTElementalInteractionSettings* UALSXTImpactReactionComponent::GetElementalInteractionSettings_Implementation()
+UALSXTElementalInteractionSettings* UAlsxtImpactReactionComponent::GetElementalInteractionSettings_Implementation()
 {
 	return nullptr;
 }
 
-UAnimSequenceBase* UALSXTImpactReactionComponent::SelectBraceForImpactPose_Implementation(const FGameplayTag& Side, const FGameplayTag& Form)
+UAnimSequenceBase* UAlsxtImpactReactionComponent::SelectBraceForImpactPose_Implementation(const FGameplayTag& Side, const FGameplayTag& Form)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	TArray<FAnticipationPose> Poses = SelectedImpactReactionSettings->BraceForImpactPoses;
@@ -4605,7 +4605,7 @@ UAnimSequenceBase* UALSXTImpactReactionComponent::SelectBraceForImpactPose_Imple
 	return SelectedBraceForImpactPose.Pose;
 }
 
-FAnticipationPose UALSXTImpactReactionComponent::SelectImpactAnticipationMontage_Implementation(const FGameplayTag& Velocity , const FGameplayTag& Stance, const FGameplayTag& Side, const FGameplayTag& Form, const FGameplayTag& Health)
+FAnticipationPose UAlsxtImpactReactionComponent::SelectImpactAnticipationMontage_Implementation(const FGameplayTag& Velocity , const FGameplayTag& Stance, const FGameplayTag& Side, const FGameplayTag& Form, const FGameplayTag& Health)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	TArray<FAnticipationPose> Montages = SelectedImpactReactionSettings->ImpactAnticipationPoses;
@@ -4673,7 +4673,7 @@ FAnticipationPose UALSXTImpactReactionComponent::SelectImpactAnticipationMontage
 	return SelectedImpactAnticipationPose;
 }
 
-FAnticipationPose UALSXTImpactReactionComponent::SelectAttackAnticipationMontage_Implementation(const FGameplayTag& CharacterCombatStance, const FGameplayTag& Strength, const FGameplayTag& Stance, const FGameplayTag& Side, const FGameplayTag& Form, const FGameplayTag& Health)
+FAnticipationPose UAlsxtImpactReactionComponent::SelectAttackAnticipationMontage_Implementation(const FGameplayTag& CharacterCombatStance, const FGameplayTag& Strength, const FGameplayTag& Stance, const FGameplayTag& Side, const FGameplayTag& Form, const FGameplayTag& Health)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	TArray<FAnticipationPose> Montages = SelectedImpactReactionSettings->AttackAnticipationPoses;
@@ -4741,7 +4741,7 @@ FAnticipationPose UALSXTImpactReactionComponent::SelectAttackAnticipationMontage
 	return SelectedAttackAnticipationPose;
 }
 
-FAnticipationPose UALSXTImpactReactionComponent::SelectDefensiveMontage_Implementation(const FGameplayTag& Strength, const FGameplayTag& Stance, const FGameplayTag& Side, const FGameplayTag& Form, const FGameplayTag& Health)
+FAnticipationPose UAlsxtImpactReactionComponent::SelectDefensiveMontage_Implementation(const FGameplayTag& Strength, const FGameplayTag& Stance, const FGameplayTag& Side, const FGameplayTag& Form, const FGameplayTag& Health)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	TArray<FAnticipationPose> Montages = SelectedImpactReactionSettings->DefensivePoses;
@@ -4809,7 +4809,7 @@ FAnticipationPose UALSXTImpactReactionComponent::SelectDefensiveMontage_Implemen
 	return SelectedDefensivePose;
 }
 
-FBumpReactionAnimation UALSXTImpactReactionComponent::SelectBumpReactionMontage_Implementation(const FGameplayTag& Velocity, const FGameplayTag& Side, const FGameplayTag& Form)
+FBumpReactionAnimation UAlsxtImpactReactionComponent::SelectBumpReactionMontage_Implementation(const FGameplayTag& Velocity, const FGameplayTag& Side, const FGameplayTag& Form)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	TArray<FBumpReactionAnimation> Montages = SelectedImpactReactionSettings->BumpReactionAnimations;
@@ -4876,7 +4876,7 @@ FBumpReactionAnimation UALSXTImpactReactionComponent::SelectBumpReactionMontage_
 	return SelectedBumpReactionAnimation;
 }
 
-UAnimSequenceBase* UALSXTImpactReactionComponent::SelectCrowdNavigationPose_Implementation(const FGameplayTag& Side, const FGameplayTag& Form)
+UAnimSequenceBase* UAlsxtImpactReactionComponent::SelectCrowdNavigationPose_Implementation(const FGameplayTag& Side, const FGameplayTag& Form)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	TArray<FBumpPose> Reactions = SelectedImpactReactionSettings->CrowdNavigationPoses;
@@ -4946,7 +4946,7 @@ UAnimSequenceBase* UALSXTImpactReactionComponent::SelectCrowdNavigationPose_Impl
 	//return Pose;
 }
 
-FBumpReactionAnimation UALSXTImpactReactionComponent::SelectCrowdNavigationReactionMontage_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
+FBumpReactionAnimation UAlsxtImpactReactionComponent::SelectCrowdNavigationReactionMontage_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	TArray<FBumpReactionAnimation> Montages = SelectedImpactReactionSettings->CrowdNavigationBumpReactions;
@@ -5020,7 +5020,7 @@ FBumpReactionAnimation UALSXTImpactReactionComponent::SelectCrowdNavigationReact
 	return SelectedCrowdNavigationReactionAnimation;
 }
 
-UAnimSequenceBase* UALSXTImpactReactionComponent::SelectBumpAnticipationPose_Implementation(const FGameplayTag& Side, const FGameplayTag& Form)
+UAnimSequenceBase* UAlsxtImpactReactionComponent::SelectBumpAnticipationPose_Implementation(const FGameplayTag& Side, const FGameplayTag& Form)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	TArray<FBumpPose> Reactions = SelectedImpactReactionSettings->BumpAnticipationPoses;
@@ -5091,7 +5091,7 @@ UAnimSequenceBase* UALSXTImpactReactionComponent::SelectBumpAnticipationPose_Imp
 	return Pose;
 }
 
-FAttackReactionAnimation UALSXTImpactReactionComponent::SelectAttackReactionMontage_Implementation(FAttackDoubleHitResult Hit)
+FAttackReactionAnimation UAlsxtImpactReactionComponent::SelectAttackReactionMontage_Implementation(FAttackDoubleHitResult Hit)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	TArray<FAttackReactionAnimation> Montages = SelectedImpactReactionSettings->AttackReactionAnimations;
@@ -5158,7 +5158,7 @@ FAttackReactionAnimation UALSXTImpactReactionComponent::SelectAttackReactionMont
 	return SelectedAttackReactionAnimation;
 }
 
-FImpactReactionAnimation UALSXTImpactReactionComponent::SelectImpactReactionMontage_Implementation(FDoubleHitResult Hit)
+FImpactReactionAnimation UAlsxtImpactReactionComponent::SelectImpactReactionMontage_Implementation(FDoubleHitResult Hit)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	TArray<FImpactReactionAnimation> Montages = SelectedImpactReactionSettings->ImpactReactionAnimations;
@@ -5226,7 +5226,7 @@ FImpactReactionAnimation UALSXTImpactReactionComponent::SelectImpactReactionMont
 	return SelectedAttackReactionAnimation;
 }
 
-FSyncedAttackAnimation UALSXTImpactReactionComponent::GetSyncedMontage_Implementation(int Index)
+FSyncedAttackAnimation UAlsxtImpactReactionComponent::GetSyncedMontage_Implementation(int Index)
 {
 	UALSXTCombatSettings* SelectedCombatSettings = IAlsxtCombatInterface::Execute_SelectCombatSettings(this);
 	TArray<FSyncedAttackAnimation> Montages = SelectedCombatSettings->SyncedAttackAnimations;
@@ -5245,7 +5245,7 @@ FSyncedAttackAnimation UALSXTImpactReactionComponent::GetSyncedMontage_Implement
 
 }
 
-FStabilizationMontage UALSXTImpactReactionComponent::SelectStabilizationMontage_Implementation(FDoubleHitResult Hit)
+FStabilizationMontage UAlsxtImpactReactionComponent::SelectStabilizationMontage_Implementation(FDoubleHitResult Hit)
 {
 	TArray<FStabilizationMontage> StabilizationMontages = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner())->StabilizationMontages;
 	TArray<FStabilizationMontage> FilteredStabilizationMontages;
@@ -5311,7 +5311,7 @@ FStabilizationMontage UALSXTImpactReactionComponent::SelectStabilizationMontage_
 	return SelectedMontage;
 }
 
-FClutchImpactLocationAnimation UALSXTImpactReactionComponent::SelectClutchImpactPointMontage_Implementation(FDoubleHitResult Hit)
+FClutchImpactLocationAnimation UAlsxtImpactReactionComponent::SelectClutchImpactPointMontage_Implementation(FDoubleHitResult Hit)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	TArray<FClutchImpactLocationAnimation> Animations = SelectedImpactReactionSettings->ClutchImpactPointAnimations;
@@ -5386,13 +5386,13 @@ FClutchImpactLocationAnimation UALSXTImpactReactionComponent::SelectClutchImpact
 	return SelectedClutchImpactPointAnimation;
 }
 
-FAnticipationPose UALSXTImpactReactionComponent::SelectSteadyMontage_Implementation(const FGameplayTag& Side)
+FAnticipationPose UAlsxtImpactReactionComponent::SelectSteadyMontage_Implementation(const FGameplayTag& Side)
 {
 	FAnticipationPose SelectedMontage;
 	return SelectedMontage;
 }
 
-FFallenAnimation UALSXTImpactReactionComponent::SelectImpactFallAnimations_Implementation(FDoubleHitResult Hit)
+FFallenAnimation UAlsxtImpactReactionComponent::SelectImpactFallAnimations_Implementation(FDoubleHitResult Hit)
 {
 	FFallenAnimation SelectedMontage;
 
@@ -5437,7 +5437,7 @@ FFallenAnimation UALSXTImpactReactionComponent::SelectImpactFallAnimations_Imple
 	return SelectedMontage;
 }
 
-FFallenAnimation UALSXTImpactReactionComponent::SelectAttackFallAnimations_Implementation(FAttackDoubleHitResult Hit)
+FFallenAnimation UAlsxtImpactReactionComponent::SelectAttackFallAnimations_Implementation(FAttackDoubleHitResult Hit)
 {
 	UALSXTImpactReactionSettings* SelectedImpactReactionSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
 	TArray<FGameplayTag> TagsArray = { ALSXTActionStrengthTags::Light, ALSXTImpactSideTags::Left, ALSXTImpactFormTags::Blunt };
@@ -5504,7 +5504,7 @@ FFallenAnimation UALSXTImpactReactionComponent::SelectAttackFallAnimations_Imple
 	return SelectedAttackFallAnimation;
 }
 
-FActionMontageInfo UALSXTImpactReactionComponent::SelectImpactFallMontage_Implementation(FDoubleHitResult Hit)
+FActionMontageInfo UAlsxtImpactReactionComponent::SelectImpactFallMontage_Implementation(FDoubleHitResult Hit)
 {
 	TArray<FActionMontageInfo> FilteredMontages = GetImpactReactionState().ImpactReactionParameters.ImpactFallenAnimations.FallingMontages;
 	FActionMontageInfo SelectedImpactFallAnimation;
@@ -5547,7 +5547,7 @@ FActionMontageInfo UALSXTImpactReactionComponent::SelectImpactFallMontage_Implem
 	return SelectedImpactFallAnimation;
 }
 
-FActionMontageInfo UALSXTImpactReactionComponent::SelectAttackFallMontage_Implementation(FAttackDoubleHitResult Hit)
+FActionMontageInfo UAlsxtImpactReactionComponent::SelectAttackFallMontage_Implementation(FAttackDoubleHitResult Hit)
 {
 	TArray<FActionMontageInfo> FilteredMontages = GetImpactReactionState().ImpactReactionParameters.AttackFallenAnimations.FallingMontages;
 	FActionMontageInfo SelectedAttackFallAnimation;
@@ -5590,7 +5590,7 @@ FActionMontageInfo UALSXTImpactReactionComponent::SelectAttackFallMontage_Implem
 	return SelectedAttackFallAnimation;
 }
 
-// UAnimSequenceBase* UALSXTImpactReactionComponent::SelectBraceForImpactPose_Implementation(const FGameplayTag& Side, const FGameplayTag& Form)
+// UAnimSequenceBase* UAlsxtImpactReactionComponent::SelectBraceForImpactPose_Implementation(const FGameplayTag& Side, const FGameplayTag& Form)
 // {
 // 	TArray<FAnticipationPose> BracePoses = IALSXTCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner())->BraceForImpactPoses;
 // 	TArray<FAnticipationPose> FilteredBracePoses;
@@ -5656,19 +5656,19 @@ FActionMontageInfo UALSXTImpactReactionComponent::SelectAttackFallMontage_Implem
 // 	return SelectedPose;
 // }
 
-UAnimMontage* UALSXTImpactReactionComponent::SelectImpactFallenPose_Implementation(FDoubleHitResult Hit)
+UAnimMontage* UAlsxtImpactReactionComponent::SelectImpactFallenPose_Implementation(FDoubleHitResult Hit)
 {
 	UAnimMontage* SelectedMontage = GetImpactReactionState().ImpactReactionParameters.ImpactFallenAnimations.FallenPose;
 	return SelectedMontage;
 }
 
-UAnimMontage* UALSXTImpactReactionComponent::SelectAttackFallenPose_Implementation(FDoubleHitResult Hit)
+UAnimMontage* UAlsxtImpactReactionComponent::SelectAttackFallenPose_Implementation(FDoubleHitResult Hit)
 {
 	UAnimMontage* SelectedMontage = GetImpactReactionState().ImpactReactionParameters.AttackFallenAnimations.FallenPose;
 	return SelectedMontage;
 }
 
-FActionMontageInfo UALSXTImpactReactionComponent::SelectImpactGetUpMontage_Implementation(FDoubleHitResult Hit)
+FActionMontageInfo UAlsxtImpactReactionComponent::SelectImpactGetUpMontage_Implementation(FDoubleHitResult Hit)
 {
 	TArray<FActionMontageInfo> FilteredMontages = GetImpactReactionState().ImpactReactionParameters.ImpactFallenAnimations.GetUpMontages;
 	FActionMontageInfo SelectedAttackGetUpAnimation;
@@ -5711,7 +5711,7 @@ FActionMontageInfo UALSXTImpactReactionComponent::SelectImpactGetUpMontage_Imple
 	return SelectedAttackGetUpAnimation;
 }
 
-FActionMontageInfo UALSXTImpactReactionComponent::SelectAttackGetUpMontage_Implementation(FAttackDoubleHitResult Hit)
+FActionMontageInfo UAlsxtImpactReactionComponent::SelectAttackGetUpMontage_Implementation(FAttackDoubleHitResult Hit)
 {
 	TArray<FActionMontageInfo> FilteredMontages = GetImpactReactionState().ImpactReactionParameters.AttackFallenAnimations.GetUpMontages;
 	FActionMontageInfo SelectedAttackGetUpAnimation;
@@ -5754,13 +5754,13 @@ FActionMontageInfo UALSXTImpactReactionComponent::SelectAttackGetUpMontage_Imple
 	return SelectedAttackGetUpAnimation;
 }
 
-FResponseAnimation UALSXTImpactReactionComponent::SelectImpactResponseMontage_Implementation(FDoubleHitResult Hit)
+FResponseAnimation UAlsxtImpactReactionComponent::SelectImpactResponseMontage_Implementation(FDoubleHitResult Hit)
 {
 	FResponseAnimation SelectedMontage;
 	return SelectedMontage;
 }
 
-FResponseAnimation UALSXTImpactReactionComponent::SelectAttackResponseMontage_Implementation(FAttackDoubleHitResult Hit)
+FResponseAnimation UAlsxtImpactReactionComponent::SelectAttackResponseMontage_Implementation(FAttackDoubleHitResult Hit)
 {
 	FResponseAnimation SelectedMontage;
 	return SelectedMontage;
@@ -5768,378 +5768,378 @@ FResponseAnimation UALSXTImpactReactionComponent::SelectAttackResponseMontage_Im
 
 // RPCs
 
-void UALSXTImpactReactionComponent::ServerCrouch_Implementation()
+void UAlsxtImpactReactionComponent::ServerCrouch_Implementation()
 {
 	IAlsxtCharacterInterface::Execute_SetCharacterStance(GetOwner(), AlsStanceTags::Crouching);
 	GetOwner()->ForceNetUpdate();
 }
 
-void UALSXTImpactReactionComponent::ServerGetUp_Implementation()
+void UAlsxtImpactReactionComponent::ServerGetUp_Implementation()
 {
 	IAlsxtCharacterInterface::Execute_SetCharacterStance(GetOwner(), AlsStanceTags::Standing);
 	GetOwner()->ForceNetUpdate();
 }
 
 
-void UALSXTImpactReactionComponent::ServerBumpReaction_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
+void UAlsxtImpactReactionComponent::ServerBumpReaction_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
 {
 	MulticastBumpReaction(Gait, Side, Form);
 	// GetOwner()->ForceNetUpdate();
 }
 
-void UALSXTImpactReactionComponent::MulticastBumpReaction_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
+void UAlsxtImpactReactionComponent::MulticastBumpReaction_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
 {
 	BumpReactionImplementation(Gait, Side, Form);
 }
 
-void UALSXTImpactReactionComponent::ServerCrowdNavigationReaction_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
+void UAlsxtImpactReactionComponent::ServerCrowdNavigationReaction_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
 {
 	MulticastCrowdNavigationReaction(Gait, Side, Form);
 	GetOwner()->ForceNetUpdate();
 }
 
-void UALSXTImpactReactionComponent::MulticastCrowdNavigationReaction_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
+void UAlsxtImpactReactionComponent::MulticastCrowdNavigationReaction_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
 {
 	CrowdNavigationReactionImplementation(Gait, Side, Form);
 }
 
-void UALSXTImpactReactionComponent::ServerSyncedAnticipationReaction_Implementation(FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::ServerSyncedAnticipationReaction_Implementation(FVector AnticipationPoint)
 {
 	MulticastSyncedAnticipationReaction(AnticipationPoint);
 	GetOwner()->ForceNetUpdate();
 }
 
-void UALSXTImpactReactionComponent::MulticastSyncedAnticipationReaction_Implementation(FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::MulticastSyncedAnticipationReaction_Implementation(FVector AnticipationPoint)
 {
 	StartSyncedAnticipationReaction(AnticipationPoint);
 }
 
-void UALSXTImpactReactionComponent::ServerDefensiveReaction_Implementation(const FGameplayTag& Velocity, const FGameplayTag& Side, const FGameplayTag& Form, FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::ServerDefensiveReaction_Implementation(const FGameplayTag& Velocity, const FGameplayTag& Side, const FGameplayTag& Form, FVector AnticipationPoint)
 {
 	MulticastDefensiveReaction(Velocity, Side, Form, AnticipationPoint);
 	GetOwner()->ForceNetUpdate();
 }
 
-void UALSXTImpactReactionComponent::MulticastDefensiveReaction_Implementation(const FGameplayTag& Velocity, const FGameplayTag& Side, const FGameplayTag& Form, FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::MulticastDefensiveReaction_Implementation(const FGameplayTag& Velocity, const FGameplayTag& Side, const FGameplayTag& Form, FVector AnticipationPoint)
 {
 	StartDefensiveReaction(Velocity, Side, Form, AnticipationPoint);
 }
 
-void UALSXTImpactReactionComponent::ServerImpactReaction_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerImpactReaction_Implementation(FDoubleHitResult Hit)
 {
 	MulticastImpactReaction(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-void UALSXTImpactReactionComponent::MulticastImpactReaction_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastImpactReaction_Implementation(FDoubleHitResult Hit)
 {
 	StartImpactReaction(Hit);
 }
 
-bool UALSXTImpactReactionComponent::ServerSyncedAttackReaction_Validate(int32 Index)
+bool UAlsxtImpactReactionComponent::ServerSyncedAttackReaction_Validate(int32 Index)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastSyncedAttackReaction_Implementation(int32 Index)
+void UAlsxtImpactReactionComponent::MulticastSyncedAttackReaction_Implementation(int32 Index)
 {
 	StartSyncedAttackReaction(Index);
 }
 
 //
 
-void UALSXTImpactReactionComponent::ServerStabilize_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerStabilize_Implementation(FDoubleHitResult Hit)
 {
 	MulticastStabilize(Hit);
 	// StartClutchImpactPoint(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerStabilize_Validate(FDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ServerStabilize_Validate(FDoubleHitResult Hit)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStabilize_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastStabilize_Implementation(FDoubleHitResult Hit)
 {
 	StartStabilize(Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerClutchImpactPoint_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerClutchImpactPoint_Implementation(FDoubleHitResult Hit)
 {
 	MulticastClutchImpactPoint(Hit);
 	// StartClutchImpactPoint(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerClutchImpactPoint_Validate(FDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ServerClutchImpactPoint_Validate(FDoubleHitResult Hit)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastClutchImpactPoint_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastClutchImpactPoint_Implementation(FDoubleHitResult Hit)
 {
 	StartClutchImpactPoint(Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerImpactFall_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerImpactFall_Implementation(FDoubleHitResult Hit)
 {
 	// MulticastStartImpactFall(Hit);
 	StartImpactFall(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerImpactFall_Validate(FDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ServerImpactFall_Validate(FDoubleHitResult Hit)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastImpactFall_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastImpactFall_Implementation(FDoubleHitResult Hit)
 {
 	StartImpactFall(Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerImpactFallLand_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerImpactFallLand_Implementation(FDoubleHitResult Hit)
 {
 	// MulticastStartImpactFall(Hit);
 	StartImpactFallLand(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerImpactFallLand_Validate(FDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ServerImpactFallLand_Validate(FDoubleHitResult Hit)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastImpactFallLand_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastImpactFallLand_Implementation(FDoubleHitResult Hit)
 {
 	StartImpactFallLand(Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerImpactFallIdle_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerImpactFallIdle_Implementation(FDoubleHitResult Hit)
 {
 	// MulticastStartImpactFallIdle(Hit);
 	StartImpactFallIdle(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerImpactFallIdle_Validate(FDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ServerImpactFallIdle_Validate(FDoubleHitResult Hit)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastImpactFallIdle_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastImpactFallIdle_Implementation(FDoubleHitResult Hit)
 {
 	StartImpactFallIdle(Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerAttackFall_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerAttackFall_Implementation(FAttackDoubleHitResult Hit)
 {
 	MulticastAttackFall(Hit);
 	// StartAttackFall(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerAttackFall_Validate(FAttackDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ServerAttackFall_Validate(FAttackDoubleHitResult Hit)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastAttackFall_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastAttackFall_Implementation(FAttackDoubleHitResult Hit)
 {
 	StartAttackFall(Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerAttackFallLand_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerAttackFallLand_Implementation(FAttackDoubleHitResult Hit)
 {
 	// MulticastAttackFall(Hit);
 	StartAttackFallLand(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerAttackFallLand_Validate(FAttackDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ServerAttackFallLand_Validate(FAttackDoubleHitResult Hit)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastAttackFallLand_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastAttackFallLand_Implementation(FAttackDoubleHitResult Hit)
 {
 	StartAttackFallLand(Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerAttackFallIdle_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerAttackFallIdle_Implementation(FAttackDoubleHitResult Hit)
 {
 	// MulticastAttackFallIdle(Hit);
 	StartAttackFallIdle(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerAttackFallIdle_Validate(FAttackDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ServerAttackFallIdle_Validate(FAttackDoubleHitResult Hit)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastAttackFallIdle_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastAttackFallIdle_Implementation(FAttackDoubleHitResult Hit)
 {
 	StartAttackFallIdle(Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerSyncedAttackFall_Implementation(int32 Index)
+void UAlsxtImpactReactionComponent::ServerSyncedAttackFall_Implementation(int32 Index)
 {
 	// MulticastStartClutchImpactPoint(Hit);
 	StartSyncedAttackFall(Index);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerSyncedAttackFall_Validate(int32 Index)
+bool UAlsxtImpactReactionComponent::ServerSyncedAttackFall_Validate(int32 Index)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastSyncedAttackFall_Implementation(int32 Index)
+void UAlsxtImpactReactionComponent::MulticastSyncedAttackFall_Implementation(int32 Index)
 {
 	StartSyncedAttackFall(Index);
 }
 
-void UALSXTImpactReactionComponent::ServerSyncedAttackFallLand_Implementation(int32 Index)
+void UAlsxtImpactReactionComponent::ServerSyncedAttackFallLand_Implementation(int32 Index)
 {
 	// MulticastStartClutchImpactPoint(Hit);
 	StartSyncedAttackFallLand(Index);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerSyncedAttackFallLand_Validate(int32 Index)
+bool UAlsxtImpactReactionComponent::ServerSyncedAttackFallLand_Validate(int32 Index)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastSyncedAttackFallLand_Implementation(int32 Index)
+void UAlsxtImpactReactionComponent::MulticastSyncedAttackFallLand_Implementation(int32 Index)
 {
 	StartSyncedAttackFallLand(Index);
 }
 
-void UALSXTImpactReactionComponent::ServerSyncedAttackFallIdle_Implementation(int32 Index)
+void UAlsxtImpactReactionComponent::ServerSyncedAttackFallIdle_Implementation(int32 Index)
 {
 	// MulticastStartClutchImpactPoint(Hit);
 	StartSyncedAttackFallIdle(Index);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerSyncedAttackFallIdle_Validate(int32 Index)
+bool UAlsxtImpactReactionComponent::ServerSyncedAttackFallIdle_Validate(int32 Index)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastSyncedAttackFallIdle_Implementation(int32 Index)
+void UAlsxtImpactReactionComponent::MulticastSyncedAttackFallIdle_Implementation(int32 Index)
 {
 	StartSyncedAttackFallIdle(Index);
 }
 
-void UALSXTImpactReactionComponent::ServerBraceForImpact_Implementation()
+void UAlsxtImpactReactionComponent::ServerBraceForImpact_Implementation()
 {
 	// MulticastBraceForImpact();
 	StartBraceForImpact();
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerBraceForImpact_Validate()
+bool UAlsxtImpactReactionComponent::ServerBraceForImpact_Validate()
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastBraceForImpact_Implementation()
+void UAlsxtImpactReactionComponent::MulticastBraceForImpact_Implementation()
 {
 	StartBraceForImpact();
 }
 
-void UALSXTImpactReactionComponent::ServerImpactGetUp_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerImpactGetUp_Implementation(FDoubleHitResult Hit)
 {
 	// MulticastImpactGetUp(Hit);
 	StartImpactGetUp(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerImpactGetUp_Validate(FDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ServerImpactGetUp_Validate(FDoubleHitResult Hit)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastImpactGetUp_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastImpactGetUp_Implementation(FDoubleHitResult Hit)
 {
 	StartImpactGetUp(Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerAttackGetUp_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerAttackGetUp_Implementation(FAttackDoubleHitResult Hit)
 {
 	// MulticastAttackGetUp(Hit);
 	StartAttackGetUp(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerAttackGetUp_Validate(FAttackDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ServerAttackGetUp_Validate(FAttackDoubleHitResult Hit)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastAttackGetUp_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastAttackGetUp_Implementation(FAttackDoubleHitResult Hit)
 {
 	StartAttackGetUp(Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerSyncedAttackGetUp_Implementation(int32 Index)
+void UAlsxtImpactReactionComponent::ServerSyncedAttackGetUp_Implementation(int32 Index)
 {
 	// MulticastSyncedAttackGetUp(Index);
 	StartSyncedAttackGetUp(Index);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerSyncedAttackGetUp_Validate(int32 Index)
+bool UAlsxtImpactReactionComponent::ServerSyncedAttackGetUp_Validate(int32 Index)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastSyncedAttackGetUp_Implementation(int32 Index)
+void UAlsxtImpactReactionComponent::MulticastSyncedAttackGetUp_Implementation(int32 Index)
 {
 	StartSyncedAttackGetUp(Index);
 }
 
-void UALSXTImpactReactionComponent::ServerImpactResponse_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerImpactResponse_Implementation(FDoubleHitResult Hit)
 {
 	MulticastImpactResponse(Hit);
 	// StartImpactResponse(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerImpactResponse_Validate(FDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ServerImpactResponse_Validate(FDoubleHitResult Hit)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastImpactResponse_Implementation(FDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastImpactResponse_Implementation(FDoubleHitResult Hit)
 {
 	StartImpactResponse(Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerAttackResponse_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerAttackResponse_Implementation(FAttackDoubleHitResult Hit)
 {
 	// MulticastAttackResponse(Hit);
 	StartAttackResponse(Hit);
 	GetOwner()->ForceNetUpdate();
 }
 
-bool UALSXTImpactReactionComponent::ServerAttackResponse_Validate(FAttackDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ServerAttackResponse_Validate(FAttackDoubleHitResult Hit)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastAttackResponse_Implementation(FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastAttackResponse_Implementation(FAttackDoubleHitResult Hit)
 {
 	StartAttackResponse(Hit);
 }
 
 // Start RPCs
 
-void UALSXTImpactReactionComponent::ServerStartSyncedAnticipationReaction_Implementation(FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::ServerStartSyncedAnticipationReaction_Implementation(FVector AnticipationPoint)
 {
 	// if (IsImpactReactionAllowedToStart(Montage.Montage))
 	// {
@@ -6148,17 +6148,17 @@ void UALSXTImpactReactionComponent::ServerStartSyncedAnticipationReaction_Implem
 	// }
 }
 
-bool UALSXTImpactReactionComponent::ServerStartSyncedAnticipationReaction_Validate(FVector AnticipationPoint)
+bool UAlsxtImpactReactionComponent::ServerStartSyncedAnticipationReaction_Validate(FVector AnticipationPoint)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartSyncedAnticipationReaction_Implementation(FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::MulticastStartSyncedAnticipationReaction_Implementation(FVector AnticipationPoint)
 {
 	// StartSyncedAnticipationReactionImplementation(Montage, AnticipationPoint);
 }
 
-void UALSXTImpactReactionComponent::ServerStartDefensiveReaction_Implementation(FActionMontageInfo Montage, USoundBase* Audio, FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::ServerStartDefensiveReaction_Implementation(FActionMontageInfo Montage, USoundBase* Audio, FVector AnticipationPoint)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6167,33 +6167,33 @@ void UALSXTImpactReactionComponent::ServerStartDefensiveReaction_Implementation(
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartDefensiveReaction_Validate(FActionMontageInfo Montage, USoundBase* Audio, FVector AnticipationPoint)
+bool UAlsxtImpactReactionComponent::ServerStartDefensiveReaction_Validate(FActionMontageInfo Montage, USoundBase* Audio, FVector AnticipationPoint)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartDefensiveReaction_Implementation(FActionMontageInfo Montage, USoundBase* Audio, FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::MulticastStartDefensiveReaction_Implementation(FActionMontageInfo Montage, USoundBase* Audio, FVector AnticipationPoint)
 {
 	StartDefensiveReactionImplementation(Montage, Audio, AnticipationPoint);
 }
 
-// void UALSXTImpactReactionComponent::ServerCrowdNavigationReaction_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
+// void UAlsxtImpactReactionComponent::ServerCrowdNavigationReaction_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
 // {
 // 	MulticastCrowdNavigationReaction(Gait, Side, Form);
 // 	GetOwner()->ForceNetUpdate();
 // }
 
-// bool UALSXTImpactReactionComponent::ServerCrowdNavigationReaction_Validate(FActionMontageInfo Montage, USoundBase* Audio)
+// bool UAlsxtImpactReactionComponent::ServerCrowdNavigationReaction_Validate(FActionMontageInfo Montage, USoundBase* Audio)
 // {
 // 	return true;
 // }
 
-// void UALSXTImpactReactionComponent::MulticastCrowdNavigationReaction_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
+// void UAlsxtImpactReactionComponent::MulticastCrowdNavigationReaction_Implementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
 // {
 // 	CrowdNavigationReactionImplementation(Gait, Side, Form);
 // }
 
-void UALSXTImpactReactionComponent::ServerStartImpactReaction_Implementation(FDoubleHitResult Hit, UAnimMontage* Montage, UNiagaraSystem* Particle, USoundBase* Audio)
+void UAlsxtImpactReactionComponent::ServerStartImpactReaction_Implementation(FDoubleHitResult Hit, UAnimMontage* Montage, UNiagaraSystem* Particle, USoundBase* Audio)
 {
 	if (IsImpactReactionAllowedToStart(Montage))
 	{
@@ -6202,17 +6202,17 @@ void UALSXTImpactReactionComponent::ServerStartImpactReaction_Implementation(FDo
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartImpactReaction_Validate(FDoubleHitResult Hit, UAnimMontage* Montage, UNiagaraSystem* Particle, USoundBase* Audio)
+bool UAlsxtImpactReactionComponent::ServerStartImpactReaction_Validate(FDoubleHitResult Hit, UAnimMontage* Montage, UNiagaraSystem* Particle, USoundBase* Audio)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartImpactReaction_Implementation(FDoubleHitResult Hit, UAnimMontage* Montage, UNiagaraSystem* Particle, USoundBase* Audio)
+void UAlsxtImpactReactionComponent::MulticastStartImpactReaction_Implementation(FDoubleHitResult Hit, UAnimMontage* Montage, UNiagaraSystem* Particle, USoundBase* Audio)
 {
 	StartImpactReactionImplementation(Hit, Montage, Particle, Audio);
 }
 
-void UALSXTImpactReactionComponent::ServerStartSyncedAttackReaction_Implementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::ServerStartSyncedAttackReaction_Implementation(FActionMontageInfo Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6221,17 +6221,17 @@ void UALSXTImpactReactionComponent::ServerStartSyncedAttackReaction_Implementati
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartSyncedAttackReaction_Validate(FActionMontageInfo Montage)
+bool UAlsxtImpactReactionComponent::ServerStartSyncedAttackReaction_Validate(FActionMontageInfo Montage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartSyncedAttackReaction_Implementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::MulticastStartSyncedAttackReaction_Implementation(FActionMontageInfo Montage)
 {
 	StartSyncedAttackReactionImplementation(Montage);
 }
 
-void UALSXTImpactReactionComponent::ServerStartStabilize_Implementation(UAnimMontage* Pose, FVector ImpactPoint)
+void UAlsxtImpactReactionComponent::ServerStartStabilize_Implementation(UAnimMontage* Pose, FVector ImpactPoint)
 {
 	if (IsStabilizeAllowedToStart(Pose))
 	{
@@ -6240,17 +6240,17 @@ void UALSXTImpactReactionComponent::ServerStartStabilize_Implementation(UAnimMon
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartStabilize_Validate(UAnimMontage* Pose, FVector ImpactPoint)
+bool UAlsxtImpactReactionComponent::ServerStartStabilize_Validate(UAnimMontage* Pose, FVector ImpactPoint)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartStabilize_Implementation(UAnimMontage* Pose, FVector ImpactPoint)
+void UAlsxtImpactReactionComponent::MulticastStartStabilize_Implementation(UAnimMontage* Pose, FVector ImpactPoint)
 {
 	StartStabilizeImplementation(Pose, ImpactPoint);
 }
 
-void UALSXTImpactReactionComponent::ServerStartClutchImpactPoint_Implementation(UAnimSequenceBase* Pose, FVector ImpactPoint)
+void UAlsxtImpactReactionComponent::ServerStartClutchImpactPoint_Implementation(UAnimSequenceBase* Pose, FVector ImpactPoint)
 {
 	if (IsClutchImpactPointAllowedToStart(Pose))
 	{
@@ -6259,17 +6259,17 @@ void UALSXTImpactReactionComponent::ServerStartClutchImpactPoint_Implementation(
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartClutchImpactPoint_Validate(UAnimSequenceBase* Pose, FVector ImpactPoint)
+bool UAlsxtImpactReactionComponent::ServerStartClutchImpactPoint_Validate(UAnimSequenceBase* Pose, FVector ImpactPoint)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartClutchImpactPoint_Implementation(UAnimSequenceBase* Pose, FVector ImpactPoint)
+void UAlsxtImpactReactionComponent::MulticastStartClutchImpactPoint_Implementation(UAnimSequenceBase* Pose, FVector ImpactPoint)
 {
 	StartClutchImpactPointImplementation(Pose, ImpactPoint);
 }
 
-void UALSXTImpactReactionComponent::ServerStartImpactFall_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
+void UAlsxtImpactReactionComponent::ServerStartImpactFall_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
 {
 	if (IsImpactFallAllowedToStart(Montage.Montage))
 	{
@@ -6278,27 +6278,27 @@ void UALSXTImpactReactionComponent::ServerStartImpactFall_Implementation(FDouble
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartImpactFall_Validate(FDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
+bool UAlsxtImpactReactionComponent::ServerStartImpactFall_Validate(FDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartImpactFall_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
+void UAlsxtImpactReactionComponent::MulticastStartImpactFall_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
 {
 	StartImpactFallImplementation(Hit, Montage, FallMontage);
 }
 
-bool UALSXTImpactReactionComponent::ServerStartImpactFallIdle_Validate(FDoubleHitResult Hit, FActionMontageInfo Montage)
+bool UAlsxtImpactReactionComponent::ServerStartImpactFallIdle_Validate(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartImpactFallIdle_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::MulticastStartImpactFallIdle_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	StartImpactFallIdleImplementation(Hit, Montage);
 }
 
-void UALSXTImpactReactionComponent::ServerStartImpactFallIdle_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::ServerStartImpactFallIdle_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6307,7 +6307,7 @@ void UALSXTImpactReactionComponent::ServerStartImpactFallIdle_Implementation(FDo
 	}
 }
 
-void UALSXTImpactReactionComponent::ServerStartAttackFall_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
+void UAlsxtImpactReactionComponent::ServerStartAttackFall_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6317,17 +6317,17 @@ void UALSXTImpactReactionComponent::ServerStartAttackFall_Implementation(FAttack
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartAttackFall_Validate(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
+bool UAlsxtImpactReactionComponent::ServerStartAttackFall_Validate(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartAttackFall_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
+void UAlsxtImpactReactionComponent::MulticastStartAttackFall_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
 {
 	StartAttackFallImplementation(Hit, Montage, FallMontage);
 }
 
-void UALSXTImpactReactionComponent::ServerStartAttackFallIdle_Implementation(UAnimMontage* Montage, FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::ServerStartAttackFallIdle_Implementation(UAnimMontage* Montage, FAttackDoubleHitResult Hit)
 {
 	if (IsImpactReactionAllowedToStart(Montage))
 	{
@@ -6336,17 +6336,17 @@ void UALSXTImpactReactionComponent::ServerStartAttackFallIdle_Implementation(UAn
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartAttackFallIdle_Validate(UAnimMontage* Montage, FAttackDoubleHitResult Hit)
+bool UAlsxtImpactReactionComponent::ServerStartAttackFallIdle_Validate(UAnimMontage* Montage, FAttackDoubleHitResult Hit)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartAttackFallIdle_Implementation(UAnimMontage* Montage, FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::MulticastStartAttackFallIdle_Implementation(UAnimMontage* Montage, FAttackDoubleHitResult Hit)
 {
 	StartAttackFallIdleImplementation(Montage, Hit);
 }
 
-void UALSXTImpactReactionComponent::ServerStartSyncedAttackFall_Implementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::ServerStartSyncedAttackFall_Implementation(FActionMontageInfo Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6355,17 +6355,17 @@ void UALSXTImpactReactionComponent::ServerStartSyncedAttackFall_Implementation(F
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartSyncedAttackFall_Validate(FActionMontageInfo Montage)
+bool UAlsxtImpactReactionComponent::ServerStartSyncedAttackFall_Validate(FActionMontageInfo Montage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartSyncedAttackFall_Implementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::MulticastStartSyncedAttackFall_Implementation(FActionMontageInfo Montage)
 {
 	StartSyncedAttackFallImplementation(Montage);
 }
 
-void UALSXTImpactReactionComponent::ServerStartSyncedAttackFallIdle_Implementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::ServerStartSyncedAttackFallIdle_Implementation(FActionMontageInfo Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6374,17 +6374,17 @@ void UALSXTImpactReactionComponent::ServerStartSyncedAttackFallIdle_Implementati
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartSyncedAttackFallIdle_Validate(FActionMontageInfo Montage)
+bool UAlsxtImpactReactionComponent::ServerStartSyncedAttackFallIdle_Validate(FActionMontageInfo Montage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartSyncedAttackFallIdle_Implementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::MulticastStartSyncedAttackFallIdle_Implementation(FActionMontageInfo Montage)
 {
 	StartSyncedAttackFallIdleImplementation(Montage);
 }
 
-void UALSXTImpactReactionComponent::ServerStartBraceForImpact_Implementation(UAnimMontage* Montage)
+void UAlsxtImpactReactionComponent::ServerStartBraceForImpact_Implementation(UAnimMontage* Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage))
 	{
@@ -6393,17 +6393,17 @@ void UALSXTImpactReactionComponent::ServerStartBraceForImpact_Implementation(UAn
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartBraceForImpact_Validate(UAnimMontage* Montage)
+bool UAlsxtImpactReactionComponent::ServerStartBraceForImpact_Validate(UAnimMontage* Montage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartBraceForImpact_Implementation(UAnimMontage* Montage)
+void UAlsxtImpactReactionComponent::MulticastStartBraceForImpact_Implementation(UAnimMontage* Montage)
 {
 	StartBraceForImpactImplementation(Montage);
 }
 
-void UALSXTImpactReactionComponent::ServerStartImpactFallLand_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::ServerStartImpactFallLand_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6412,17 +6412,17 @@ void UALSXTImpactReactionComponent::ServerStartImpactFallLand_Implementation(FDo
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartImpactFallLand_Validate(FDoubleHitResult Hit, FActionMontageInfo Montage)
+bool UAlsxtImpactReactionComponent::ServerStartImpactFallLand_Validate(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartImpactFallLand_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::MulticastStartImpactFallLand_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	StartImpactFallLandImplementation(Hit, Montage);
 }
 
-void UALSXTImpactReactionComponent::ServerStartAttackFallLand_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::ServerStartAttackFallLand_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6431,17 +6431,17 @@ void UALSXTImpactReactionComponent::ServerStartAttackFallLand_Implementation(FAt
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartAttackFallLand_Validate(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
+bool UAlsxtImpactReactionComponent::ServerStartAttackFallLand_Validate(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartAttackFallLand_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::MulticastStartAttackFallLand_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	StartAttackFallLandImplementation(Hit, Montage);
 }
 
-void UALSXTImpactReactionComponent::ServerStartSyncedAttackFallLand_Implementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::ServerStartSyncedAttackFallLand_Implementation(FActionMontageInfo Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6450,17 +6450,17 @@ void UALSXTImpactReactionComponent::ServerStartSyncedAttackFallLand_Implementati
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartSyncedAttackFallLand_Validate(FActionMontageInfo Montage)
+bool UAlsxtImpactReactionComponent::ServerStartSyncedAttackFallLand_Validate(FActionMontageInfo Montage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartSyncedAttackFallLand_Implementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::MulticastStartSyncedAttackFallLand_Implementation(FActionMontageInfo Montage)
 {
 	StartSyncedAttackFallLandImplementation(Montage);
 }
 
-void UALSXTImpactReactionComponent::ServerStartImpactGetUp_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::ServerStartImpactGetUp_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6469,17 +6469,17 @@ void UALSXTImpactReactionComponent::ServerStartImpactGetUp_Implementation(FDoubl
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartImpactGetUp_Validate(FDoubleHitResult Hit, FActionMontageInfo Montage)
+bool UAlsxtImpactReactionComponent::ServerStartImpactGetUp_Validate(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartImpactGetUp_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::MulticastStartImpactGetUp_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	StartImpactGetUpImplementation(Hit, Montage);
 }
 
-void UALSXTImpactReactionComponent::ServerStartAttackGetUp_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::ServerStartAttackGetUp_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6488,17 +6488,17 @@ void UALSXTImpactReactionComponent::ServerStartAttackGetUp_Implementation(FAttac
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartAttackGetUp_Validate(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
+bool UAlsxtImpactReactionComponent::ServerStartAttackGetUp_Validate(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartAttackGetUp_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::MulticastStartAttackGetUp_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	StartAttackGetUpImplementation(Hit, Montage);
 }
 
-void UALSXTImpactReactionComponent::ServerStartSyncedAttackGetUp_Implementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::ServerStartSyncedAttackGetUp_Implementation(FActionMontageInfo Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6507,17 +6507,17 @@ void UALSXTImpactReactionComponent::ServerStartSyncedAttackGetUp_Implementation(
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartSyncedAttackGetUp_Validate(FActionMontageInfo Montage)
+bool UAlsxtImpactReactionComponent::ServerStartSyncedAttackGetUp_Validate(FActionMontageInfo Montage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartSyncedAttackGetUp_Implementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::MulticastStartSyncedAttackGetUp_Implementation(FActionMontageInfo Montage)
 {
 	StartSyncedAttackGetUpImplementation(Montage);
 }
 
-void UALSXTImpactReactionComponent::ServerStartImpactResponse_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::ServerStartImpactResponse_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6526,17 +6526,17 @@ void UALSXTImpactReactionComponent::ServerStartImpactResponse_Implementation(FDo
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartImpactResponse_Validate(FDoubleHitResult Hit, FActionMontageInfo Montage)
+bool UAlsxtImpactReactionComponent::ServerStartImpactResponse_Validate(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartImpactResponse_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::MulticastStartImpactResponse_Implementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	StartImpactResponseImplementation(Hit, Montage);
 }
 
-void UALSXTImpactReactionComponent::ServerStartAttackResponse_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::ServerStartAttackResponse_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6545,29 +6545,29 @@ void UALSXTImpactReactionComponent::ServerStartAttackResponse_Implementation(FAt
 	}
 }
 
-bool UALSXTImpactReactionComponent::ServerStartAttackResponse_Validate(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
+bool UAlsxtImpactReactionComponent::ServerStartAttackResponse_Validate(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	return true;
 }
 
-void UALSXTImpactReactionComponent::MulticastStartAttackResponse_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::MulticastStartAttackResponse_Implementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	StartAttackResponseImplementation(Hit, Montage);
 }
 
 // Start Implementations
 
-void UALSXTImpactReactionComponent::StartSyncedAnticipationReactionImplementation(FActionMontageInfo Montage, FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::StartSyncedAnticipationReactionImplementation(FActionMontageInfo Montage, FVector AnticipationPoint)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartDefensiveReactionImplementation(FActionMontageInfo Montage, USoundBase* Audio, FVector AnticipationPoint)
+void UAlsxtImpactReactionComponent::StartDefensiveReactionImplementation(FActionMontageInfo Montage, USoundBase* Audio, FVector AnticipationPoint)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::CrowdNavigationReactionImplementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
+void UAlsxtImpactReactionComponent::CrowdNavigationReactionImplementation(const FGameplayTag& Gait, const FGameplayTag& Side, const FGameplayTag& Form)
 {
 	FALSXTImpactReactionState IRState = GetImpactReactionState();
 	FBumpReactionAnimation SelectedCrowdNavigationReaction = SelectCrowdNavigationReactionMontage(Gait, Side, Form);
@@ -6592,7 +6592,7 @@ void UALSXTImpactReactionComponent::CrowdNavigationReactionImplementation(const 
 
 		if (AnimInstance)
 		{
-			OnCrowdNavigationReactionBlendOutDelegate.BindUObject(this, &UALSXTImpactReactionComponent::OnCrowdNavigationReactionBlendOut);
+			OnCrowdNavigationReactionBlendOutDelegate.BindUObject(this, &UAlsxtImpactReactionComponent::OnCrowdNavigationReactionBlendOut);
 			AnimInstance->Montage_SetBlendingOutDelegate(OnCrowdNavigationReactionBlendOutDelegate);
 		}
 
@@ -6671,7 +6671,7 @@ void UALSXTImpactReactionComponent::CrowdNavigationReactionImplementation(const 
 	}
 }
 
-void UALSXTImpactReactionComponent::StartImpactReactionImplementation(FDoubleHitResult Hit, UAnimMontage* Montage, UNiagaraSystem* Particle, USoundBase* Audio)
+void UAlsxtImpactReactionComponent::StartImpactReactionImplementation(FDoubleHitResult Hit, UAnimMontage* Montage, UNiagaraSystem* Particle, USoundBase* Audio)
 {
 	//if (IsImpactReactionAllowedToStart(Montage) && IALSXTCharacterInterface::Execute_GetCharacterMesh(GetOwner())->GetAnimInstance()->Montage_Play(Montage, 1.0f))
 	if (IsImpactReactionAllowedToStart(Montage))
@@ -6688,7 +6688,7 @@ void UALSXTImpactReactionComponent::StartImpactReactionImplementation(FDoubleHit
 
 		if (AnimInstance)
 		{
-			OnImpactReactionBlendOutDelegate.BindUObject(this, &UALSXTImpactReactionComponent::OnImpactReactionBlendOut);
+			OnImpactReactionBlendOutDelegate.BindUObject(this, &UAlsxtImpactReactionComponent::OnImpactReactionBlendOut);
 			AnimInstance->Montage_SetBlendingOutDelegate(OnImpactReactionBlendOutDelegate);
 		}
 
@@ -6749,12 +6749,12 @@ void UALSXTImpactReactionComponent::StartImpactReactionImplementation(FDoubleHit
 	}
 }
 
-void UALSXTImpactReactionComponent::StartSyncedAttackReactionImplementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::StartSyncedAttackReactionImplementation(FActionMontageInfo Montage)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartStabilizeImplementation(UAnimMontage* Montage, FVector ImpactPoint)
+void UAlsxtImpactReactionComponent::StartStabilizeImplementation(UAnimMontage* Montage, FVector ImpactPoint)
 {
 	if (IsStabilizeAllowedToStart(Montage))
 	{
@@ -6777,7 +6777,7 @@ void UALSXTImpactReactionComponent::StartStabilizeImplementation(UAnimMontage* M
 	}
 }
 
-void UALSXTImpactReactionComponent::StartClutchImpactPointImplementation(UAnimSequenceBase* Montage, FVector ImpactPoint)
+void UAlsxtImpactReactionComponent::StartClutchImpactPointImplementation(UAnimSequenceBase* Montage, FVector ImpactPoint)
 {
 	// UAnimSequenceBase* SelectedClutchImpactPointPose;
 	// FClutchImpactLocationAnimation SelectedClutchImpactPointReaction = SelectClutchImpactPointMontage(Hit);
@@ -6805,7 +6805,7 @@ void UALSXTImpactReactionComponent::StartClutchImpactPointImplementation(UAnimSe
 	// }
 }
 
-void UALSXTImpactReactionComponent::StartImpactFallImplementation(FDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
+void UAlsxtImpactReactionComponent::StartImpactFallImplementation(FDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
 {
 	if (IsImpactFallAllowedToStart(Montage.Montage))
 	{
@@ -6826,7 +6826,7 @@ void UALSXTImpactReactionComponent::StartImpactFallImplementation(FDoubleHitResu
 
 		if (AnimInstance)
 		{
-			OnImpactFallBlendOutDelegate.BindUObject(this, &UALSXTImpactReactionComponent::OnImpactFallBlendOut);
+			OnImpactFallBlendOutDelegate.BindUObject(this, &UAlsxtImpactReactionComponent::OnImpactFallBlendOut);
 			AnimInstance->Montage_SetBlendingOutDelegate(OnImpactFallBlendOutDelegate);
 		}
 
@@ -6859,7 +6859,7 @@ void UALSXTImpactReactionComponent::StartImpactFallImplementation(FDoubleHitResu
 	}
 }
 
-void UALSXTImpactReactionComponent::StartImpactFallIdleImplementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::StartImpactFallIdleImplementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	if (IsImpactReactionAllowedToStart(Montage.Montage))
 	{
@@ -6868,7 +6868,7 @@ void UALSXTImpactReactionComponent::StartImpactFallIdleImplementation(FDoubleHit
 
 		if (AnimInstance)
 		{
-			OnImpactFallBlendOutDelegate.BindUObject(this, &UALSXTImpactReactionComponent::OnImpactFallBlendOut);
+			OnImpactFallBlendOutDelegate.BindUObject(this, &UAlsxtImpactReactionComponent::OnImpactFallBlendOut);
 			AnimInstance->Montage_SetBlendingOutDelegate(OnImpactFallBlendOutDelegate);
 		}
 
@@ -6901,7 +6901,7 @@ void UALSXTImpactReactionComponent::StartImpactFallIdleImplementation(FDoubleHit
 	}
 }
 
-void UALSXTImpactReactionComponent::StartAttackFallImplementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
+void UAlsxtImpactReactionComponent::StartAttackFallImplementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage, FActionMontageInfo FallMontage)
 {
 	if (IsAttackFallAllowedToStart(Montage.Montage))
 	{
@@ -6922,7 +6922,7 @@ void UALSXTImpactReactionComponent::StartAttackFallImplementation(FAttackDoubleH
 
 		if (AnimInstance)
 		{
-			OnAttackFallBlendOutDelegate.BindUObject(this, &UALSXTImpactReactionComponent::OnAttackFallBlendOut);
+			OnAttackFallBlendOutDelegate.BindUObject(this, &UAlsxtImpactReactionComponent::OnAttackFallBlendOut);
 			AnimInstance->Montage_SetBlendingOutDelegate(OnAttackFallBlendOutDelegate);
 		}
 
@@ -6957,7 +6957,7 @@ void UALSXTImpactReactionComponent::StartAttackFallImplementation(FAttackDoubleH
 	}
 }
 
-void UALSXTImpactReactionComponent::StartAttackFallIdleImplementation(UAnimMontage* Montage, FAttackDoubleHitResult Hit)
+void UAlsxtImpactReactionComponent::StartAttackFallIdleImplementation(UAnimMontage* Montage, FAttackDoubleHitResult Hit)
 {
 	if (IsImpactReactionAllowedToStart(Montage))
 	{
@@ -6966,7 +6966,7 @@ void UALSXTImpactReactionComponent::StartAttackFallIdleImplementation(UAnimMonta
 
 		if (AnimInstance)
 		{
-			OnAttackFallEndedDelegate.BindUObject(this, &UALSXTImpactReactionComponent::OnAttackFallEnded);
+			OnAttackFallEndedDelegate.BindUObject(this, &UAlsxtImpactReactionComponent::OnAttackFallEnded);
 			// StartAttackGetUp();
 			AnimInstance->Montage_SetEndDelegate(OnAttackFallEndedDelegate);
 		}
@@ -6977,42 +6977,42 @@ void UALSXTImpactReactionComponent::StartAttackFallIdleImplementation(UAnimMonta
 	}
 }
 
-void UALSXTImpactReactionComponent::StartSyncedAttackFallImplementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::StartSyncedAttackFallImplementation(FActionMontageInfo Montage)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartSyncedAttackFallIdleImplementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::StartSyncedAttackFallIdleImplementation(FActionMontageInfo Montage)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartBraceForImpactImplementation(UAnimMontage* Montage)
+void UAlsxtImpactReactionComponent::StartBraceForImpactImplementation(UAnimMontage* Montage)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartImpactFallLandImplementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::StartImpactFallLandImplementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartAttackFallLandImplementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::StartAttackFallLandImplementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartSyncedAttackFallLandImplementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::StartSyncedAttackFallLandImplementation(FActionMontageInfo Montage)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartImpactGetUpImplementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::StartImpactGetUpImplementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartAttackGetUpImplementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::StartAttackGetUpImplementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	if (IsImpactResponseAllowedToStart(Montage.Montage))
 	{
@@ -7022,7 +7022,7 @@ void UALSXTImpactReactionComponent::StartAttackGetUpImplementation(FAttackDouble
 
 		if (AnimInstance && IAlsxtCollisionInterface::Execute_ShouldPerformAttackResponse(GetOwner()))
 		{
-			OnAttackFallGetupBlendOutDelegate.BindUObject(this, &UALSXTImpactReactionComponent::OnAttackFallGetupBlendOut);
+			OnAttackFallGetupBlendOutDelegate.BindUObject(this, &UAlsxtImpactReactionComponent::OnAttackFallGetupBlendOut);
 			AnimInstance->Montage_SetBlendingOutDelegate(OnAttackFallGetupBlendOutDelegate);
 		}
 
@@ -7038,12 +7038,12 @@ void UALSXTImpactReactionComponent::StartAttackGetUpImplementation(FAttackDouble
 	}
 }
 
-void UALSXTImpactReactionComponent::StartSyncedAttackGetUpImplementation(FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::StartSyncedAttackGetUpImplementation(FActionMontageInfo Montage)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StartImpactResponseImplementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::StartImpactResponseImplementation(FDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	if (IsImpactResponseAllowedToStart(Montage.Montage))
 	{
@@ -7062,7 +7062,7 @@ void UALSXTImpactReactionComponent::StartImpactResponseImplementation(FDoubleHit
 	}
 }
 
-void UALSXTImpactReactionComponent::StartAttackResponseImplementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
+void UAlsxtImpactReactionComponent::StartAttackResponseImplementation(FAttackDoubleHitResult Hit, FActionMontageInfo Montage)
 {
 	if (IsAttackResponseAllowedToStart(Montage.Montage))
 	{
@@ -7081,12 +7081,12 @@ void UALSXTImpactReactionComponent::StartAttackResponseImplementation(FAttackDou
 	}
 }
 
-void UALSXTImpactReactionComponent::SpawnParticleActorImplementation(FDoubleHitResult Hit, TSubclassOf<AActor> ParticleActor)
+void UAlsxtImpactReactionComponent::SpawnParticleActorImplementation(FDoubleHitResult Hit, TSubclassOf<AActor> ParticleActor)
 {}
 
 // Refresh
 
-void UALSXTImpactReactionComponent::RefreshSyncedAnticipationReaction(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshSyncedAnticipationReaction(const float DeltaTime)
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != AlsLocomotionActionTags::DefensiveReaction)
 	{
@@ -7099,12 +7099,12 @@ void UALSXTImpactReactionComponent::RefreshSyncedAnticipationReaction(const floa
 	}
 }
 
-void UALSXTImpactReactionComponent::RefreshSyncedAnticipationReactionPhysics(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshSyncedAnticipationReactionPhysics(const float DeltaTime)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::RefreshDefensiveReaction(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshDefensiveReaction(const float DeltaTime)
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != AlsLocomotionActionTags::DefensiveReaction)
 	{
@@ -7117,12 +7117,12 @@ void UALSXTImpactReactionComponent::RefreshDefensiveReaction(const float DeltaTi
 	}
 }
 
-void UALSXTImpactReactionComponent::RefreshDefensiveReactionPhysics(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshDefensiveReactionPhysics(const float DeltaTime)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::RefreshCrowdNavigationReaction(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshCrowdNavigationReaction(const float DeltaTime)
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != AlsLocomotionActionTags::CrowdNavigationReaction)
 	{
@@ -7135,12 +7135,12 @@ void UALSXTImpactReactionComponent::RefreshCrowdNavigationReaction(const float D
 	}
 }
 
-void UALSXTImpactReactionComponent::RefreshCrowdNavigationReactionPhysics(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshCrowdNavigationReactionPhysics(const float DeltaTime)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::RefreshBumpReaction(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshBumpReaction(const float DeltaTime)
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != AlsLocomotionActionTags::ImpactReaction)
 	{
@@ -7153,12 +7153,12 @@ void UALSXTImpactReactionComponent::RefreshBumpReaction(const float DeltaTime)
 	}
 }
 
-void UALSXTImpactReactionComponent::RefreshBumpReactionPhysics(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshBumpReactionPhysics(const float DeltaTime)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::RefreshImpactReaction(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshImpactReaction(const float DeltaTime)
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != AlsLocomotionActionTags::ImpactReaction)
 	{
@@ -7171,7 +7171,7 @@ void UALSXTImpactReactionComponent::RefreshImpactReaction(const float DeltaTime)
 	}
 }
 
-void UALSXTImpactReactionComponent::RefreshImpactReactionPhysics(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshImpactReactionPhysics(const float DeltaTime)
 {
 	float Offset = ImpactReactionSettings.RotationOffset;
 	auto ComponentRotation{ IAlsxtCharacterInterface::Execute_GetCharacterMovementComponent(GetOwner())->UpdatedComponent->GetComponentRotation() };
@@ -7197,7 +7197,7 @@ void UALSXTImpactReactionComponent::RefreshImpactReactionPhysics(const float Del
 	}
 }
 
-void UALSXTImpactReactionComponent::RefreshAttackReaction(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshAttackReaction(const float DeltaTime)
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != AlsLocomotionActionTags::ImpactReaction)
 	{
@@ -7210,12 +7210,12 @@ void UALSXTImpactReactionComponent::RefreshAttackReaction(const float DeltaTime)
 	}
 }
 
-void UALSXTImpactReactionComponent::RefreshAttackReactionPhysics(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshAttackReactionPhysics(const float DeltaTime)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::RefreshSyncedAttackReaction(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshSyncedAttackReaction(const float DeltaTime)
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != AlsLocomotionActionTags::SyncedAttackReaction)
 	{
@@ -7228,12 +7228,12 @@ void UALSXTImpactReactionComponent::RefreshSyncedAttackReaction(const float Delt
 	}
 }
 
-void UALSXTImpactReactionComponent::RefreshSyncedAttackReactionPhysics(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshSyncedAttackReactionPhysics(const float DeltaTime)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::RefreshCrowdNavigationFallReaction(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshCrowdNavigationFallReaction(const float DeltaTime)
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != AlsLocomotionActionTags::ImpactFall)
 	{
@@ -7246,12 +7246,12 @@ void UALSXTImpactReactionComponent::RefreshCrowdNavigationFallReaction(const flo
 	}
 }
 
-void UALSXTImpactReactionComponent::RefreshCrowdNavigationFallReactionPhysics(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshCrowdNavigationFallReactionPhysics(const float DeltaTime)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::RefreshImpactFallReaction(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshImpactFallReaction(const float DeltaTime)
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != AlsLocomotionActionTags::ImpactFall)
 	{
@@ -7264,12 +7264,12 @@ void UALSXTImpactReactionComponent::RefreshImpactFallReaction(const float DeltaT
 	}
 }
 
-void UALSXTImpactReactionComponent::RefreshImpactFallReactionPhysics(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshImpactFallReactionPhysics(const float DeltaTime)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::RefreshAttackFallReaction(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshAttackFallReaction(const float DeltaTime)
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != AlsLocomotionActionTags::ImpactFall)
 	{
@@ -7282,12 +7282,12 @@ void UALSXTImpactReactionComponent::RefreshAttackFallReaction(const float DeltaT
 	}
 }
 
-void UALSXTImpactReactionComponent::RefreshAttackFallReactionPhysics(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshAttackFallReactionPhysics(const float DeltaTime)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::RefreshSyncedAttackFallReaction(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshSyncedAttackFallReaction(const float DeltaTime)
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != AlsLocomotionActionTags::ImpactFall)
 	{
@@ -7300,12 +7300,12 @@ void UALSXTImpactReactionComponent::RefreshSyncedAttackFallReaction(const float 
 	}
 }
 
-void UALSXTImpactReactionComponent::RefreshSyncedAttackFallReactionPhysics(const float DeltaTime)
+void UAlsxtImpactReactionComponent::RefreshSyncedAttackFallReactionPhysics(const float DeltaTime)
 {
 	// ...
 }
 
-void UALSXTImpactReactionComponent::StopSyncedAnticipationReaction()
+void UAlsxtImpactReactionComponent::StopSyncedAnticipationReaction()
 {
 	if (GetOwner()->GetLocalRole() >= ROLE_Authority)
 	{
@@ -7316,7 +7316,7 @@ void UALSXTImpactReactionComponent::StopSyncedAnticipationReaction()
 	OnSyncedAnticipationReactionEnded();
 }
 
-void UALSXTImpactReactionComponent::StopDefensiveReaction()
+void UAlsxtImpactReactionComponent::StopDefensiveReaction()
 {
 	if (GetOwner()->GetLocalRole() >= ROLE_Authority)
 	{
@@ -7327,7 +7327,7 @@ void UALSXTImpactReactionComponent::StopDefensiveReaction()
 	OnDefensiveReactionEnded();
 }
 
-void UALSXTImpactReactionComponent::StopCrowdNavigationReaction()
+void UAlsxtImpactReactionComponent::StopCrowdNavigationReaction()
 {
 	if (GetOwner()->GetLocalRole() >= ROLE_Authority)
 	{
@@ -7338,7 +7338,7 @@ void UALSXTImpactReactionComponent::StopCrowdNavigationReaction()
 	OnCrowdNavigationReactionEnded();
 }
 
-void UALSXTImpactReactionComponent::StopBumpReaction()
+void UAlsxtImpactReactionComponent::StopBumpReaction()
 {
 	if (GetOwner()->GetLocalRole() >= ROLE_Authority)
 	{
@@ -7349,7 +7349,7 @@ void UALSXTImpactReactionComponent::StopBumpReaction()
 	OnBumpReactionEnded();
 }
 
-void UALSXTImpactReactionComponent::StopImpactReaction()
+void UAlsxtImpactReactionComponent::StopImpactReaction()
 {
 	if (GetOwner()->GetLocalRole() >= ROLE_Authority)
 	{
@@ -7360,7 +7360,7 @@ void UALSXTImpactReactionComponent::StopImpactReaction()
 	OnImpactReactionEnded();
 }
 
-void UALSXTImpactReactionComponent::StopAttackReaction()
+void UAlsxtImpactReactionComponent::StopAttackReaction()
 {
 	if (GetOwner()->GetLocalRole() >= ROLE_Authority)
 	{
@@ -7371,7 +7371,7 @@ void UALSXTImpactReactionComponent::StopAttackReaction()
 	OnAttackReactionEnded();
 }
 
-void UALSXTImpactReactionComponent::StopSyncedAttackReaction()
+void UAlsxtImpactReactionComponent::StopSyncedAttackReaction()
 {
 	if (GetOwner()->GetLocalRole() >= ROLE_Authority)
 	{
@@ -7382,7 +7382,7 @@ void UALSXTImpactReactionComponent::StopSyncedAttackReaction()
 	OnSyncedAttackReactionEnded();
 }
 
-void UALSXTImpactReactionComponent::StopCrowdNavigationFallReaction()
+void UAlsxtImpactReactionComponent::StopCrowdNavigationFallReaction()
 {
 	if (GetOwner()->GetLocalRole() >= ROLE_Authority)
 	{
@@ -7393,7 +7393,7 @@ void UALSXTImpactReactionComponent::StopCrowdNavigationFallReaction()
 	OnCrowdNavigationFallEnded();
 }
 
-void UALSXTImpactReactionComponent::StopImpactFallReaction()
+void UAlsxtImpactReactionComponent::StopImpactFallReaction()
 {
 	if (GetOwner()->GetLocalRole() >= ROLE_Authority)
 	{
@@ -7404,7 +7404,7 @@ void UALSXTImpactReactionComponent::StopImpactFallReaction()
 	OnImpactFallEnded();
 }
 
-void UALSXTImpactReactionComponent::StopAttackFallReaction()
+void UAlsxtImpactReactionComponent::StopAttackFallReaction()
 {
 	if (GetOwner()->GetLocalRole() >= ROLE_Authority)
 	{
@@ -7415,7 +7415,7 @@ void UALSXTImpactReactionComponent::StopAttackFallReaction()
 	OnAttackFallEnded();
 }
 
-void UALSXTImpactReactionComponent::StopSyncedAttackFallReaction()
+void UAlsxtImpactReactionComponent::StopSyncedAttackFallReaction()
 {
 	if (GetOwner()->GetLocalRole() >= ROLE_Authority)
 	{
@@ -7426,4 +7426,4 @@ void UALSXTImpactReactionComponent::StopSyncedAttackFallReaction()
 	OnSyncedAttackFallEnded();
 }
 
-void UALSXTImpactReactionComponent::OnImpactReactionEnded_Implementation() {}
+void UAlsxtImpactReactionComponent::OnImpactReactionEnded_Implementation() {}

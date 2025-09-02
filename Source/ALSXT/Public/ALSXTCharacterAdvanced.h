@@ -12,11 +12,11 @@
 #include "Interfaces/AlsxtFirearmInterface.h"
 #include "AlsCameraComponent.h"
 #include "CineCameraComponent.h"
-#include "Components/Character/ALSXTCharacterCameraEffectsComponent.h"
-#include "Components/Character/ALSXTCombatComponent.h"
-#include "Components/Character/ALSXTCharacterSoundComponent.h"
-#include "Components/Character/ALSXTAcrobaticActionComponent.h"
-#include "Components/Character/ALSXTCharacterCameraEffectsComponent.h"
+#include "Components/Character/AlsxtCharacterCameraEffectsComponent.h"
+#include "Components/Character/AlsxtCombatComponent.h"
+#include "Components/Character/AlsxtCharacterSoundComponent.h"
+#include "Components/Character/AlsxtAcrobaticActionComponent.h"
+#include "Components/Character/AlsxtCharacterCameraEffectsComponent.h"
 #include "ALSXTCharacterAdvanced.generated.h"
 
 class UALSXTCharacterAdvancedSettings;
@@ -61,13 +61,13 @@ public:
 
 	// Components
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	class UALSXTCombatComponent* Combat;
+	class UAlsxtCombatComponent* Combat;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	class UALSXTAcrobaticActionComponent* AcrobaticActions;
+	class UAlsxtAcrobaticActionComponent* AcrobaticActions;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	class UALSXTCharacterCameraEffectsComponent* CameraEffects;
+	class UAlsxtCharacterCameraEffectsComponent* CameraEffects;
 
 protected:
 	virtual void BeginPlay() override;
@@ -317,7 +317,7 @@ public:
 	
 	//Character Camera Effects Component Interface
 	virtual UAlsCameraComponent* GetCameraComponent_Implementation() const override;
-	virtual UALSXTCharacterCameraEffectsComponent* GetCameraEffectsComponent_Implementation() const override;
+	virtual UAlsxtCharacterCameraEffectsComponent* GetCameraEffectsComponent_Implementation() const override;
 	virtual FALSXTGeneralCameraEffectsSettings GetCameraEffectsSettings_Implementation() const override;
 	virtual void SetRadialBlurEffect_Implementation(float Amount) override;
 	virtual void ResetRadialBlurEffect_Implementation() override;

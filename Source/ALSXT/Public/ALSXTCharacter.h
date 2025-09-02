@@ -11,9 +11,9 @@
 #include "Components/SceneCaptureComponent2D.h"
 #include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
 #include "Components/Mesh/AlsxtPaintableStaticMeshComponent.h"
-#include "Components/Character/ALSXTCharacterCustomizationComponent.h"
-#include "Components/Character/ALSXTImpactReactionComponent.h"
-#include "Components/Character/ALSXTCharacterSoundComponent.h"
+#include "Components/Character/AlsxtCharacterCustomizationComponent.h"
+#include "Components/Character/AlsxtImpactReactionComponent.h"
+#include "Components/Character/AlsxtCharacterSoundComponent.h"
 #include "Components/Character/AlsxtIdleAnimationComponent.h"
 #include "Components/GameFrameworkComponentManager.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -234,13 +234,13 @@ public:
 	// Code Components
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess))
-	class UALSXTImpactReactionComponent* ImpactReaction;
+	class UAlsxtImpactReactionComponent* ImpactReaction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess))
-	class UALSXTCharacterSoundComponent* CharacterSound;
+	class UAlsxtCharacterSoundComponent* CharacterSound;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	class UALSXTCharacterCustomizationComponent* CharacterCustomization;
+	class UAlsxtCharacterCustomizationComponent* CharacterCustomization;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	class UPhysicalAnimationComponent* PhysicalAnimation;
@@ -249,7 +249,7 @@ public:
 	class UAlsxtIdleAnimationComponent* IdleAnimation;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	class UALSXTEmoteComponent* Emotes;
+	class UAlsxtEmoteComponent* Emotes;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	class UAlsxtGestureComponent* Gestures;

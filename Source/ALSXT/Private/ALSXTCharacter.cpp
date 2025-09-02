@@ -17,7 +17,7 @@
 #include "Components/SceneComponent.h"
 #include "PhysicsEngine/PhysicalAnimationComponent.h"
 #include "Components/Character/AlsxtIdleAnimationComponent.h"
-#include "Components/Character/ALSXTEmoteComponent.h"
+#include "Components/Character/AlsxtEmoteComponent.h"
 #include "Components/Character/AlsxtGestureComponent.h"
 #include "Settings/ALSXTCharacterSettings.h"
 #include "Settings/ALSXTLocomotionActionSettings.h"
@@ -408,13 +408,13 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 
 	// Code Components
 	
-	CharacterCustomization = CreateDefaultSubobject<UALSXTCharacterCustomizationComponent>(TEXT("Character Customization"));
+	CharacterCustomization = CreateDefaultSubobject<UAlsxtCharacterCustomizationComponent>(TEXT("Character Customization"));
 	AddOwnedComponent(CharacterCustomization);
 
-	ImpactReaction = CreateDefaultSubobject<UALSXTImpactReactionComponent>(TEXT("Impact Reaction"));
+	ImpactReaction = CreateDefaultSubobject<UAlsxtImpactReactionComponent>(TEXT("Impact Reaction"));
 	AddOwnedComponent(ImpactReaction);
 
-	CharacterSound = CreateDefaultSubobject<UALSXTCharacterSoundComponent>(TEXT("Character Sound"));
+	CharacterSound = CreateDefaultSubobject<UAlsxtCharacterSoundComponent>(TEXT("Character Sound"));
 	AddOwnedComponent(CharacterSound);
 
 	PhysicalAnimation = CreateDefaultSubobject<UPhysicalAnimationComponent>(TEXT("Physical Animation"));
@@ -423,7 +423,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	IdleAnimation = CreateDefaultSubobject<UAlsxtIdleAnimationComponent>(TEXT("Idle Animation"));
 	AddOwnedComponent(IdleAnimation);
 
-	Emotes = CreateDefaultSubobject<UALSXTEmoteComponent>(TEXT("Emotes"));
+	Emotes = CreateDefaultSubobject<UAlsxtEmoteComponent>(TEXT("Emotes"));
 	AddOwnedComponent(Emotes);
 
 	Gestures = CreateDefaultSubobject<UAlsxtGestureComponent>(TEXT("Gestures"));
@@ -547,8 +547,8 @@ void AALSXTCharacter::BeginPlay()
 	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(this, UGameFrameworkComponentManager::NAME_GameActorReady);
 	Super::BeginPlay();
 
-	// GetCapsuleComponent()->OnComponentHit.AddUniqueDynamic(ImpactReaction, &UALSXTImpactReactionComponent::OnCapsuleHit);
-	// CharacterCapsule->OnComponentHit.AddDynamic(this, &UALSXTImpactReactionComponent::OnCapsuleHit);
+	// GetCapsuleComponent()->OnComponentHit.AddUniqueDynamic(ImpactReaction, &UAlsxtImpactReactionComponent::OnCapsuleHit);
+	// CharacterCapsule->OnComponentHit.AddDynamic(this, &UAlsxtImpactReactionComponent::OnCapsuleHit);
 
 	PhysicalAnimation->SetSkeletalMeshComponent(GetMesh());
 	ResetPhysicalAnimationMode();

@@ -8,7 +8,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "AlsCameraComponent.h"
-#include "Components/Character/ALSXTCharacterCameraEffectsComponent.h"
+#include "Components/Character/AlsxtCharacterCameraEffectsComponent.h"
 #include "Math/Vector.h"
 #include "AlsxtBlueprintFunctionLibrary.h"
 #include "Engine/World.h"
@@ -17,13 +17,13 @@
 AALSXTCharacterAdvanced::AALSXTCharacterAdvanced(const FObjectInitializer& ObjectInitializer) :
 	Super(ObjectInitializer)
 {
-	Combat = CreateDefaultSubobject<UALSXTCombatComponent>(TEXT("Combat"));
+	Combat = CreateDefaultSubobject<UAlsxtCombatComponent>(TEXT("Combat"));
 	AddOwnedComponent(Combat);
 
-	AcrobaticActions = CreateDefaultSubobject<UALSXTAcrobaticActionComponent>(TEXT("Acrobatic Actions"));
+	AcrobaticActions = CreateDefaultSubobject<UAlsxtAcrobaticActionComponent>(TEXT("Acrobatic Actions"));
 	AddOwnedComponent(AcrobaticActions);
 	
-	CameraEffects = CreateDefaultSubobject<UALSXTCharacterCameraEffectsComponent>(TEXT("Camera Effects"));
+	CameraEffects = CreateDefaultSubobject<UAlsxtCharacterCameraEffectsComponent>(TEXT("Camera Effects"));
 	AddOwnedComponent(CameraEffects);
 }
 
@@ -538,7 +538,7 @@ UAlsCameraComponent* AALSXTCharacterAdvanced::GetCameraComponent_Implementation(
 	return Camera;
 }
 
-UALSXTCharacterCameraEffectsComponent* AALSXTCharacterAdvanced::GetCameraEffectsComponent_Implementation() const
+UAlsxtCharacterCameraEffectsComponent* AALSXTCharacterAdvanced::GetCameraEffectsComponent_Implementation() const
 {
 	return CameraEffects;
 }

@@ -8,17 +8,17 @@
 #include "ALSXTCharacter.h"
 #include "Settings/ALSXTEmoteSettings.h"
 #include "NativeGameplayTags.h"
-#include "ALSXTEmoteComponent.generated.h"
+#include "AlsxtEmoteComponent.generated.h"
 
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ALSXT_API UALSXTEmoteComponent : public UActorComponent
+class ALSXT_API UAlsxtEmoteComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UALSXTEmoteComponent();
+	UAlsxtEmoteComponent();
 
 protected:
 	// Called when the game starts

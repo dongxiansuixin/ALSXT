@@ -1,6 +1,6 @@
 // MIT
 
-#include "Components/Character/ALSXTAcrobaticActionComponent.h"
+#include "Components/Character/AlsxtAcrobaticActionComponent.h"
 #include "Interfaces/AlsxtAcrobaticActionComponentInterface.h"
 #include "Components/CapsuleComponent.h"
 #include "Utility/ALSXTGameplayTags.h"
@@ -8,7 +8,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values for this component's properties
-UALSXTAcrobaticActionComponent::UALSXTAcrobaticActionComponent()
+UAlsxtAcrobaticActionComponent::UAlsxtAcrobaticActionComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -19,21 +19,21 @@ UALSXTAcrobaticActionComponent::UALSXTAcrobaticActionComponent()
 
 
 // Called when the game starts
-void UALSXTAcrobaticActionComponent::BeginPlay()
+void UAlsxtAcrobaticActionComponent::BeginPlay()
 {
 	Super::BeginPlay();	
 }
 
 
 // Called every frame
-void UALSXTAcrobaticActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UAlsxtAcrobaticActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
 }
 
-void UALSXTAcrobaticActionComponent::TryAcrobaticAction()
+void UAlsxtAcrobaticActionComponent::TryAcrobaticAction()
 {
 	if (!GeneralAcrobaticActionSettings.bAcrobaticActions || !Settings->bAcrobaticActions || IAlsxtCharacterInterface::Execute_GetCharacterLocomotionMode(GetOwner()) == AlsLocomotionModeTags::Grounded || IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) == AlsLocomotionActionTags::Acrobatic)
 	{
@@ -61,7 +61,7 @@ void UALSXTAcrobaticActionComponent::TryAcrobaticAction()
 	}
 }
 
-void UALSXTAcrobaticActionComponent::DetermineAcrobaticActionType(FGameplayTag& AcrobaticActionType)
+void UAlsxtAcrobaticActionComponent::DetermineAcrobaticActionType(FGameplayTag& AcrobaticActionType)
 {
 	if (IAlsxtCharacterInterface::Execute_GetCharacterLocomotionAction(GetOwner()) != FGameplayTag::EmptyTag)
 	{
@@ -147,7 +147,7 @@ void UALSXTAcrobaticActionComponent::DetermineAcrobaticActionType(FGameplayTag& 
 
 }
 
-void UALSXTAcrobaticActionComponent::BeginFlip()
+void UAlsxtAcrobaticActionComponent::BeginFlip()
 {
 	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy)
 	{
@@ -156,12 +156,12 @@ void UALSXTAcrobaticActionComponent::BeginFlip()
 }
 
 
-void UALSXTAcrobaticActionComponent::ServerBeginFlip_Implementation()
+void UAlsxtAcrobaticActionComponent::ServerBeginFlip_Implementation()
 {
 	MulticastBeginFlip();
 }
 
-void UALSXTAcrobaticActionComponent::MulticastBeginFlip_Implementation()
+void UAlsxtAcrobaticActionComponent::MulticastBeginFlip_Implementation()
 {
 	float Velocity = GetOwner()->GetVelocity().Size();
 	FVector VNorm = GetOwner()->GetVelocity();
@@ -190,22 +190,22 @@ void UALSXTAcrobaticActionComponent::MulticastBeginFlip_Implementation()
 	}
 }
 
-void UALSXTAcrobaticActionComponent::BeginWallJump()
+void UAlsxtAcrobaticActionComponent::BeginWallJump()
 {
 
 }
 
-void UALSXTAcrobaticActionComponent::BeginWallRun()
+void UAlsxtAcrobaticActionComponent::BeginWallRun()
 {
 
 }
 
-void UALSXTAcrobaticActionComponent::UpdateWallRun()
+void UAlsxtAcrobaticActionComponent::UpdateWallRun()
 {
 
 }
 
-void UALSXTAcrobaticActionComponent::EndWallRun()
+void UAlsxtAcrobaticActionComponent::EndWallRun()
 {
 
 }

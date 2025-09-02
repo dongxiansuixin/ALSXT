@@ -7,17 +7,17 @@
 #include "ALSXTCharacter.h"
 #include "Settings/ALSXTAcrobaticActionSettings.h"
 #include "Interfaces/AlsxtCharacterInterface.h"
-#include "ALSXTAcrobaticActionComponent.generated.h"
+#include "AlsxtAcrobaticActionComponent.generated.h"
 
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ALSXT_API UALSXTAcrobaticActionComponent : public UActorComponent
+class ALSXT_API UAlsxtAcrobaticActionComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UALSXTAcrobaticActionComponent();
+	UAlsxtAcrobaticActionComponent();
 
 protected:
 	// Called when the game starts

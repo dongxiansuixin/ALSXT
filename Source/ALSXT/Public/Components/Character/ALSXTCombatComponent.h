@@ -10,7 +10,7 @@
 #include "AlsCameraComponent.h"
 #include "Components/ActorComponent.h"
 #include "State/ALSXTCombatState.h"
-#include "ALSXTCombatComponent.generated.h"
+#include "AlsxtCombatComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnNewTargetSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDashToTargetStartedSignature);
@@ -24,13 +24,13 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAttackRiposteSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAttackEndedSignature);
 
 UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class ALSXT_API UALSXTCombatComponent : public UActorComponent
+class ALSXT_API UAlsxtCombatComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this component's properties
-	UALSXTCombatComponent();
+	UAlsxtCombatComponent();
 
 	UFUNCTION()
 		virtual void SetupInputComponent(class UEnhancedInputComponent* PlayerInputComponent);
@@ -319,7 +319,7 @@ protected:
 	void OnSyncedAttackEnded();
 };
 
-inline const FALSXTCombatState& UALSXTCombatComponent::GetCombatState() const
+inline const FALSXTCombatState& UAlsxtCombatComponent::GetCombatState() const
 {
 	return CombatState;
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AlsCameraComponent.h"
-#include "Components/Character/ALSXTCharacterCameraEffectsComponent.h"
+#include "Components/Character/AlsxtCharacterCameraEffectsComponent.h"
 #include "Settings/ALSXTCameraEffectsSettings.h"
 #include "AlsxtCharacterCameraEffectsComponentInterface.generated.h"
 
@@ -19,7 +19,7 @@ public:
   UAlsCameraComponent* GetCameraComponent() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Character Camera Effects Component Interface")
-  UALSXTCharacterCameraEffectsComponent* GetCameraEffectsComponent() const;
+  UAlsxtCharacterCameraEffectsComponent* GetCameraEffectsComponent() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Character Camera Effects Component Interface|Character")
   APlayerCameraManager* GetPlayerCameraManager();

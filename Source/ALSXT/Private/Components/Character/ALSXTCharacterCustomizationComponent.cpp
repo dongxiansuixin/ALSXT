@@ -1,11 +1,11 @@
 // MIT
 
 
-#include "Components/Character/ALSXTCharacterCustomizationComponent.h"
+#include "Components/Character/AlsxtCharacterCustomizationComponent.h"
 #include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
 
 // Sets default values for this component's properties
-UALSXTCharacterCustomizationComponent::UALSXTCharacterCustomizationComponent()
+UAlsxtCharacterCustomizationComponent::UAlsxtCharacterCustomizationComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -16,7 +16,7 @@ UALSXTCharacterCustomizationComponent::UALSXTCharacterCustomizationComponent()
 
 
 // Called when the game starts
-void UALSXTCharacterCustomizationComponent::BeginPlay()
+void UAlsxtCharacterCustomizationComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -24,25 +24,25 @@ void UALSXTCharacterCustomizationComponent::BeginPlay()
 
 
 // Called every frame
-void UALSXTCharacterCustomizationComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UAlsxtCharacterCustomizationComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
 }
 
-FALSXTCharacterVoiceParameters UALSXTCharacterCustomizationComponent::GetVoiceParameters()
+FALSXTCharacterVoiceParameters UAlsxtCharacterCustomizationComponent::GetVoiceParameters()
 {
 	return VoiceParameters;
 }
 
-TArray<UAlsxtPaintableSkeletalMeshComponent*> UALSXTCharacterCustomizationComponent::GetAllComponents()
+TArray<UAlsxtPaintableSkeletalMeshComponent*> UAlsxtCharacterCustomizationComponent::GetAllComponents()
 {
 	TArray<UAlsxtPaintableSkeletalMeshComponent*> AllComponents;
 	return AllComponents;
 }
 
-TArray<UAlsxtPaintableSkeletalMeshComponent*> UALSXTCharacterCustomizationComponent::GetHighlightableComponents()
+TArray<UAlsxtPaintableSkeletalMeshComponent*> UAlsxtCharacterCustomizationComponent::GetHighlightableComponents()
 {
 	TArray<UAlsxtPaintableSkeletalMeshComponent*> AllComponents {GetAllComponents()};
 	TArray<UAlsxtPaintableSkeletalMeshComponent*> HighlightableComponents;

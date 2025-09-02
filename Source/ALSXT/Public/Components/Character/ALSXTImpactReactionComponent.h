@@ -18,19 +18,19 @@
 #include "State/ALSXTImpactReactionState.h" 
 #include "Components/TimelineComponent.h"
 #include "Settings/ALSXTDefensiveModeSettings.h"
-#include "ALSXTImpactReactionComponent.generated.h"
+#include "AlsxtImpactReactionComponent.generated.h"
 
 struct FALSXTDefensiveModeState;
 class AALSXTCharacter;
 
 UCLASS(Blueprintable, ClassGroup=(Physics), meta=(BlueprintSpawnableComponent) )
-class ALSXT_API UALSXTImpactReactionComponent : public UActorComponent
+class ALSXT_API UAlsxtImpactReactionComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UALSXTImpactReactionComponent();
+	UAlsxtImpactReactionComponent();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
@@ -1334,17 +1334,17 @@ protected:
 
 };
 
-inline const FALSXTBumpPoseState& UALSXTImpactReactionComponent::GetCrowdNavigationPoseState() const
+inline const FALSXTBumpPoseState& UAlsxtImpactReactionComponent::GetCrowdNavigationPoseState() const
 {
 	return CrowdNavigationPoseState;
 }
 
-inline const FALSXTBumpPoseState& UALSXTImpactReactionComponent::GetBumpPoseState() const
+inline const FALSXTBumpPoseState& UAlsxtImpactReactionComponent::GetBumpPoseState() const
 {
 	return BumpPoseState;
 }
 
-inline const FALSXTImpactReactionState& UALSXTImpactReactionComponent::GetImpactReactionState() const
+inline const FALSXTImpactReactionState& UAlsxtImpactReactionComponent::GetImpactReactionState() const
 {
 	return ImpactReactionState;
 }

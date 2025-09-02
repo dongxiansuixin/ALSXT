@@ -13,7 +13,7 @@
 #include "Settings/ALSXTCharacterSoundSettings.h"
 #include "Components/AudioComponent.h"
 #include "Notifies/AlsAnimNotify_FootstepEffects.h"
-#include "ALSXTCharacterSoundComponent.generated.h"
+#include "AlsxtCharacterSoundComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FShouldPlayHoldingBreathSoundDelegateSignature, const FGameplayTag&, HoldBreathType, const float, Stamina);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnVocalizationSignature, FSound, Vocalization);
@@ -21,13 +21,13 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMovementSoundSignature, FSound, M
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWeaponMovementSoundSignature, FSound, WeaponMovementSound);
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ALSXT_API UALSXTCharacterSoundComponent : public UActorComponent
+class ALSXT_API UAlsxtCharacterSoundComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UALSXTCharacterSoundComponent();
+	UAlsxtCharacterSoundComponent();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
