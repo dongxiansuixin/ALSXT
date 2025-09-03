@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Utility/ALSXTVertexEnums.h"
+#include "Utility/AlsxtVertexEnums.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "Chaos/ChaosEngineInterface.h"
-#include "ALSXTVertexStructs.generated.h"
+#include "AlsxtVertexStructs.generated.h"
 
 USTRUCT(BlueprintType)
 struct ALSXT_API FALSXTVertexColorToPhysicalMaterialMap

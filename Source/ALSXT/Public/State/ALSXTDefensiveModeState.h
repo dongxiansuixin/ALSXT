@@ -1,7 +1,7 @@
 #pragma once
 
 #include "NativeGameplayTags.h"
-#include "Utility/ALSXTCollisionGameplayTags.h"
+#include "Utility/AlsxtCollisionGameplayTags.h"
 #include "Settings/ALSXTDefensiveModeSettings.h"
 #include "ALSXTDefensiveModeState.generated.h"
 

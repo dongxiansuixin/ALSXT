@@ -3,7 +3,7 @@
 
 #include "Notify/ALSXTAnimNotifyState_UCTrace.h"
 
-#include "Utility/ALSXTGameplayTags.h"
+#include "Utility/AlsxtGameplayTags.h"
 #include "Interfaces/AlsxtCharacterInterface.h"
 #include "Interfaces/AlsxtCombatInterface.h"
 #include "Components/SkeletalMeshComponent.h"

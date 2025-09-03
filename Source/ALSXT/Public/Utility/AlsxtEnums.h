@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ALSXTEnums.generated.h"
+#include "AlsxtEnums.generated.h"
 
 UENUM(BlueprintType)
 enum class ETargetTraceDirection : uint8

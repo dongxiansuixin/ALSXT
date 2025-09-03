@@ -5,8 +5,8 @@
 
 #include "CoreMinimal.h"
 #include "AlsCharacterMovementComponent.h"
-#include "Utility/ALSXTGameplayTags.h"
-#include "ALSXTCharacterMovementComponent.generated.h"
+#include "Utility/AlsxtGameplayTags.h"
+#include "AlsxtCharacterMovementComponent.generated.h"
 
 class AALSXTCharacter;
 
@@ -26,7 +26,7 @@ enum ECustomMovementMode
  * 
  */
 UCLASS(ClassGroup=(ALSXT), meta=(BlueprintSpawnableComponent))
-class ALSXT_API UALSXTCharacterMovementComponent : public UAlsCharacterMovementComponent
+class ALSXT_API UAlsxtCharacterMovementComponent : public UAlsCharacterMovementComponent
 {
 	GENERATED_BODY()
 

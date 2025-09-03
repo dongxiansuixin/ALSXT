@@ -2,7 +2,7 @@
 
 #include "NativeGameplayTags.h"
 #include "Settings/ALSXTCharacterSoundSettings.h"
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtStructs.h"
 #include "AlsxtCharacterCustomizationComponentInterface.generated.h"
 
 UINTERFACE(Blueprintable)

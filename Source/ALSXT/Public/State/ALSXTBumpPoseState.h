@@ -1,7 +1,7 @@
 #pragma once
 
 #include "NativeGameplayTags.h"
-#include "Utility/ALSXTGameplayTags.h"
+#include "Utility/AlsxtGameplayTags.h"
 #include "ALSXTBumpPoseState.generated.h"
 
 USTRUCT(BlueprintType)

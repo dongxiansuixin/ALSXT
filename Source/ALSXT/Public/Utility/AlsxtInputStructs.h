@@ -4,7 +4,7 @@
 #include "InputActionValue.h"
 #include "InputAction.h"
 #include "Animation/AnimMontage.h"
-#include "ALSXTInputStructs.generated.h"
+#include "AlsxtInputStructs.generated.h"
 
 USTRUCT(BlueprintType)
 struct ALSXT_API FALSXTInputAction

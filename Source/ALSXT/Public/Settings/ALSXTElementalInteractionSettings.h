@@ -2,7 +2,7 @@
 
 #include "Engine/DataAsset.h"
 #include "Engine/EngineTypes.h"
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtStructs.h"
 #include "ALSXTElementalInteractionSettings.generated.h"
 
 UCLASS(Blueprintable, BlueprintType)

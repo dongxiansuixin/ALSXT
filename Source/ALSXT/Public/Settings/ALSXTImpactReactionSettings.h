@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Utility/ALSXTStructs.h"
-#include "Utility/ALSXTCollisionStructs.h"
+#include "Utility/AlsxtStructs.h"
+#include "Utility/AlsxtCollisionStructs.h"
 #include "Engine/DataAsset.h"
 #include "Engine/EngineTypes.h"
 #include "ALSXTImpactReactionSettings.generated.h"

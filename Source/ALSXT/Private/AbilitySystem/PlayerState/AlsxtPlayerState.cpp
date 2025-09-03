@@ -43,11 +43,11 @@ void AAlsxtPlayerState::BeginPlay()
 /**
 * @brief Connect Interface Function to provide a pointer to the AlsxtCharacterMovementComponent
 */
-UALSXTCharacterMovementComponent* AAlsxtPlayerState::GetAlsxtCharacterMovementComponent() const
+UAlsxtCharacterMovementComponent* AAlsxtPlayerState::GetAlsxtCharacterMovementComponent() const
 {
 	if (Cast<AALSXTCharacter>(GetPawn()))
 	{
-		return Cast<UALSXTCharacterMovementComponent>(Cast<AALSXTCharacter>(GetPawn())->GetCharacterMovement());
+		return Cast<UAlsxtCharacterMovementComponent>(Cast<AALSXTCharacter>(GetPawn())->GetCharacterMovement());
 	}
 	return nullptr;
 }

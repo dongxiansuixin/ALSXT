@@ -4,7 +4,7 @@
 #include "AlsxtBlueprintFunctionLibrary.h"
 #include "GameFramework/PlayerController.h"
 #include "Interfaces/AlsxtControllerRenderInterface.h"
-#include "Utility/ALSXTGameplayTags.h"
+#include "Utility/AlsxtGameplayTags.h"
 
 FQuat UAlsxtBlueprintFunctionLibrary::ConvertEulerToQuaternion(FRotator CurrentRotation)
 {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "NativeGameplayTags.h"
-#include "ALSXTFootstepStructs.generated.h"
+#include "AlsxtFootstepStructs.generated.h"
 
 enum EAlsFootstepSoundType : int;
 

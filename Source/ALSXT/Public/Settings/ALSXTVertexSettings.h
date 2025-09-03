@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/DataAsset.h"
-#include "Utility/ALSXTVertexStructs.h"
+#include "Utility/AlsxtVertexStructs.h"
 #include "ALSXTVertexSettings.generated.h"
 
 UCLASS(Blueprintable, BlueprintType)

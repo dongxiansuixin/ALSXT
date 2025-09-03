@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtStructs.h"
 #include "AlsxtBlueprintFunctionLibrary.generated.h"
 
 /**

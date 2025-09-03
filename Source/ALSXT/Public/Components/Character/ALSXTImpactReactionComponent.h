@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtStructs.h"
 #include "Animation/AnimInstance.h"
 #include "Components/CapsuleComponent.h"
 #include "Chaos/ChaosEngineInterface.h"

@@ -5,7 +5,7 @@
 #include "Engine/EngineTypes.h"
 #include "Sound/SoundBase.h"
 #include "NiagaraSystem.h"
-#include "ALSXTStructs.generated.h"
+#include "AlsxtStructs.generated.h"
 
 class UAnimMontage;
 class UCurveFloat;

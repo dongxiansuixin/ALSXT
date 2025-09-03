@@ -17,7 +17,7 @@
 #include "Utility/AlsConstants.h"
 #include "Utility/AlsMacros.h"
 #include "Utility/AlsMath.h"
-#include "Utility/ALSXTGameplayTags.h"
+#include "Utility/AlsxtGameplayTags.h"
 #include "Utility/AlsUtility.h"
 #include "Utility/AlsDebugUtility.h"
 #include "Utility/AlsVector.h"

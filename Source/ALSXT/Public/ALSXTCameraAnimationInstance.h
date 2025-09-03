@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AlsCameraAnimationInstance.h"
-#include "Utility/ALSXTGameplayTags.h"
+#include "Utility/AlsxtGameplayTags.h"
 #include "Settings/ALSXTCameraAnimationInstanceSettings.h"
 #include "ALSXTCharacter.h"
 #include "Interfaces/AlsxtCharacterInterface.h"

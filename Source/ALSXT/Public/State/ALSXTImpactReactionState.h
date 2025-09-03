@@ -1,6 +1,6 @@
 #pragma once
 #include "Settings/ALSXTImpactReactionSettings.h"
-#include "Utility/ALSXTCollisionGameplayTags.h"
+#include "Utility/AlsxtCollisionGameplayTags.h"
 #include "ALSXTImpactReactionState.generated.h"
 
 USTRUCT(BlueprintType)

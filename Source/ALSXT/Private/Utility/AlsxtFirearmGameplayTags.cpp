@@ -1,4 +1,4 @@
-#include "Utility/ALSXTFirearmGameplayTags.h"
+#include "Utility/AlsxtFirearmGameplayTags.h"
 
 namespace ALSXTFirearmFireModeTags
 {

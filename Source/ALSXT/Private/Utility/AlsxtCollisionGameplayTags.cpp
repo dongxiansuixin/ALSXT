@@ -1,4 +1,4 @@
-#include "Utility/ALSXTCollisionGameplayTags.h"
+#include "Utility/AlsxtCollisionGameplayTags.h"
 
 namespace ALSXTPhysicalAnimationModeTags
 {

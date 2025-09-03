@@ -2,7 +2,7 @@
 
 #include "Components/Character/AlsxtCharacterSoundComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtStructs.h"
 #include "Settings/ALSXTCharacterSoundSettings.h"
 #include "Interfaces/AlsxtCharacterInterface.h"
 #include "Interfaces/AlsxtCharacterSoundComponentInterface.h"

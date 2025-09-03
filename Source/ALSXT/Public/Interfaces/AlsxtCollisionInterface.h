@@ -1,7 +1,7 @@
 #pragma once
 
 #include "NativeGameplayTags.h"
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtStructs.h"
 #include "State/ALSXTImpactReactionState.h"
 #include "Settings/ALSXTCollisionSettings.h"
 #include "State/ALSXTBumpPoseState.h"

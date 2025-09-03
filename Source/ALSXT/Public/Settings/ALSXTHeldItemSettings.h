@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtStructs.h"
 #include "Animation/AnimSequence.h"
 #include "ALSXTHeldItemSettings.generated.h"
 

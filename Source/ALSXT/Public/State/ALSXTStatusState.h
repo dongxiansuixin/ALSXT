@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Utility/ALSXTGameplayTags.h"
+#include "Utility/AlsxtGameplayTags.h"
 #include "ALSXTStatusState.generated.h"
 
 USTRUCT(BlueprintType)

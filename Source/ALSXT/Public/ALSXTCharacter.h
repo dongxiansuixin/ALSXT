@@ -7,7 +7,7 @@
 #include "AlsCharacter.h"
 #include "GameFramework/Character.h"
 #include "AlsCameraComponent.h"
-#include "ALSXTCharacterMovementComponent.h"
+#include "AlsxtCharacterMovementComponent.h"
 #include "Components/SceneCaptureComponent2D.h"
 #include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
 #include "Components/Mesh/AlsxtPaintableStaticMeshComponent.h"
@@ -23,10 +23,10 @@
 #include "Settings/ALSXTImpactReactionSettings.h"
 #include "Settings/ALSXTOverlaySettings.h"
 #include "State/AlsLocomotionState.h"
-#include "Utility/ALSXTGameplayTags.h"
-#include "Utility/ALSXTFirearmGameplayTags.h"
+#include "Utility/AlsxtGameplayTags.h"
+#include "Utility/AlsxtFirearmGameplayTags.h"
 #include "Engine/EngineTypes.h"
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtStructs.h"
 #include "State/ALSXTPoseState.h"
 #include "State/ALSXTFootstepState.h"
 #include "State/ALSXTAimState.h"
@@ -67,7 +67,7 @@
 class UALSXTCameraAnimationInstance;
 class UALSXTMantlingSettings;
 class UALSXTAnimationInstance;
-class UALSXTCharacterMovementComponent;
+class UAlsxtCharacterMovementComponent;
 class UALSXTCharacterSettings;
 class USceneComponent;
 class UAlsCameraComponent;
@@ -259,7 +259,7 @@ protected:
 	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> ALSXTMesh;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Als Character")
-	TObjectPtr<UALSXTCharacterMovementComponent> ALSXTCharacterMovement;
+	TObjectPtr<UAlsxtCharacterMovementComponent> ALSXTCharacterMovement;
 
 	virtual void OnStanceChanged_Implementation(const FGameplayTag& PreviousStance) override;
 

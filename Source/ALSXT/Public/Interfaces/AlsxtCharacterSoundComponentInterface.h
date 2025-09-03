@@ -2,7 +2,7 @@
 
 #include "NativeGameplayTags.h"
 #include "Settings/ALSXTCharacterSoundSettings.h"
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtStructs.h"
 #include "Settings/ALSXTCharacterBreathEffectsSettings.h"
 #include "AlsxtCharacterSoundComponentInterface.generated.h"
 

@@ -3,7 +3,7 @@
 #include "Components/Character/AlsxtAcrobaticActionComponent.h"
 #include "Interfaces/AlsxtAcrobaticActionComponentInterface.h"
 #include "Components/CapsuleComponent.h"
-#include "Utility/ALSXTGameplayTags.h"
+#include "Utility/AlsxtGameplayTags.h"
 #include "ALSXTAnimationInstance.h"
 #include "Kismet/KismetSystemLibrary.h"
 

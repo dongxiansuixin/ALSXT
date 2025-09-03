@@ -2,7 +2,7 @@
 
 #include "NativeGameplayTags.h"
 #include "Settings/ALSXTDefensiveModeSettings.h"
-#include "ALSXTCharacterSoundStructs.generated.h"
+#include "AlsxtCharacterSoundStructs.generated.h"
 
 USTRUCT(BlueprintType)
 struct ALSXT_API FCharacterActionSoundCriteria

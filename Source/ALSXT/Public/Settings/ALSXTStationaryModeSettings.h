@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtStructs.h"
 #include "Engine/DataAsset.h"
 #include "Engine/EngineTypes.h"
 #include "GameplayTagContainer.h"

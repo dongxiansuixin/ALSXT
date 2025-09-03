@@ -9,7 +9,7 @@
 #include "DrawDebugHelpers.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Utility/ALSXTEnums.h"
+#include "Utility/AlsxtEnums.h"
 #include "Settings/ALSXTCharacterSettings.h"
 #include "Math/Vector.h"
 #include "GameFramework/Character.h"

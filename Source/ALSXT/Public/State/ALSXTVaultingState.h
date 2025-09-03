@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/EngineTypes.h"
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtStructs.h"
 #include "Settings/ALSXTVaultingSettings.h"
 #include "ALSXTVaultingState.generated.h"
 

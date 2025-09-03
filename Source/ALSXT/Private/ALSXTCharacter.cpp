@@ -32,9 +32,9 @@
 #include "Utility/AlsMacros.h"
 #include "Utility/AlsUtility.h"
 #include "Utility/AlsVector.h"
-#include "Utility/ALSXTGameplayTags.h"
-#include "Utility/ALSXTCollisionGameplayTags.h"
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtGameplayTags.h"
+#include "Utility/AlsxtCollisionGameplayTags.h"
+#include "Utility/AlsxtStructs.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -42,7 +42,7 @@
 #include "ALSXTCameraAnimationInstance.h"
 
 AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
-	Super(ObjectInitializer.SetDefaultSubobjectClass<UAlsxtPaintableSkeletalMeshComponent>(AAlsCharacter::MeshComponentName).SetDefaultSubobjectClass<UALSXTCharacterMovementComponent>(AAlsCharacter::CharacterMovementComponentName))
+	Super(ObjectInitializer.SetDefaultSubobjectClass<UAlsxtPaintableSkeletalMeshComponent>(AAlsCharacter::MeshComponentName).SetDefaultSubobjectClass<UAlsxtCharacterMovementComponent>(AAlsCharacter::CharacterMovementComponentName))
 {
 	// Setup Components
 	GetCapsuleComponent()->SetCapsuleRadius(25);
@@ -402,7 +402,7 @@ AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
 	MeshPaintingSceneCapture->ProjectionType = ECameraProjectionMode::Orthographic;
 	MeshPaintingSceneCapture->CompositeMode = ESceneCaptureCompositeMode::SCCM_Additive;
 
-	ALSXTCharacterMovement = Cast<UALSXTCharacterMovementComponent>(GetCharacterMovement());
+	ALSXTCharacterMovement = Cast<UAlsxtCharacterMovementComponent>(GetCharacterMovement());
 	ALSXTMesh = Cast<UAlsxtPaintableSkeletalMeshComponent>(GetMesh());
 	ALSXTMesh->bReceivesDecals = false;
 

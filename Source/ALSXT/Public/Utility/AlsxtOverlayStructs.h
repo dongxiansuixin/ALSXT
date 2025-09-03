@@ -3,7 +3,7 @@
 #include "NativeGameplayTags.h"
 #include "Settings/ALSXTDefensiveModeSettings.h"
 #include "Templates/SubclassOf.h"
-#include "ALSXTOverlayStructs.generated.h"
+#include "AlsxtOverlayStructs.generated.h"
 
 class UAnimInstance;
 

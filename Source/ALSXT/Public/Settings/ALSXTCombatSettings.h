@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Utility/ALSXTStructs.h"
-#include "Utility/ALSXTGameplayTags.h"
-#include "Utility/ALSXTCombatStructs.h"
+#include "Utility/AlsxtStructs.h"
+#include "Utility/AlsxtGameplayTags.h"
+#include "Utility/AlsxtCombatStructs.h"
 #include "Engine/DataAsset.h"
 #include "Engine/EngineTypes.h"
 #include "ALSXTCombatSettings.generated.h"

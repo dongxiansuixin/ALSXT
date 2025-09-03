@@ -2,7 +2,7 @@
 
 #include "NativeGameplayTags.h"
 #include "Settings/ALSXTDefensiveModeSettings.h"
-#include "ALSXTCollisionStructs.generated.h"
+#include "AlsxtCollisionStructs.generated.h"
 
 USTRUCT(BlueprintType)
 struct ALSXT_API FCrowdNavigationPoses

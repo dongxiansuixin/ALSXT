@@ -3,7 +3,7 @@
 #include "Components/Character/AlsxtImpactReactionComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "Components/CapsuleComponent.h"
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtStructs.h"
 #include "GameFramework/Character.h"
 #include "Engine/World.h"
 #include "GameFrameWork/GameState.h"
@@ -21,7 +21,7 @@
 #include "Engine/DecalActor.h"
 #include "Components/DecalComponent.h"
 #include "ALSXTCharacter.h"
-#include "Utility/ALSXTCollisionStructs.h"
+#include "Utility/AlsxtCollisionStructs.h"
 #include "Settings/ALSXTDefensiveModeSettings.h"
 #include "Landscape.h"
 

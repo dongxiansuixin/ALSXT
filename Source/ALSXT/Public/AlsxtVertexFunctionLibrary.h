@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Components/StaticMeshComponent.h"
-#include "Utility/ALSXTVertexEnums.h"
+#include "Utility/AlsxtVertexEnums.h"
 #include "AlsxtVertexFunctionLibrary.generated.h"
 
 UCLASS()

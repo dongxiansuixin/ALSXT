@@ -12,7 +12,7 @@
 #include "ALSXTCharacter.h"
 #include "AlsxtPlayerState.generated.h"
 
-class UALSXTCharacterMovementComponent;
+class UAlsxtCharacterMovementComponent;
 
 /**
 * @file AlsxtPlayerState.h
@@ -32,7 +32,7 @@ public:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintPure, Category = "MovementComponent")
-	UALSXTCharacterMovementComponent* GetAlsxtCharacterMovementComponent() const;
+	UAlsxtCharacterMovementComponent* GetAlsxtCharacterMovementComponent() const;
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual UAlsxtAbilitySystemComponent* GetAlsxtAbilitySystemComponent() const override;
 

@@ -5,7 +5,7 @@
 #include "Sound/SoundBase.h"
 #include "NiagaraSystem.h"
 #include "Camera/CameraShakeBase.h"
-#include "ALSXTCombatStructs.generated.h"
+#include "AlsxtCombatStructs.generated.h"
 
 USTRUCT(BlueprintType)
 struct ALSXT_API FALSXTAttackImpactCameraShake

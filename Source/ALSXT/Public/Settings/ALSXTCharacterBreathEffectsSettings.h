@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Utility/ALSXTStructs.h"
-#include "Utility/ALSXTGameplayTags.h"
+#include "Utility/AlsxtStructs.h"
+#include "Utility/AlsxtGameplayTags.h"
 #include "NativeGameplayTags.h"
 #include "ALSXTCharacterBreathEffectsSettings.generated.h"
 

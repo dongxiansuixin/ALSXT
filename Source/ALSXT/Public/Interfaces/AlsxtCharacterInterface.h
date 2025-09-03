@@ -16,7 +16,7 @@
 #include "State/ALSXTSlidingState.h"
 #include "AlsCharacterMovementComponent.h"
 #include "Settings/ALSXTStatusSettings.h"
-#include "State/ALSXTClothingState.h"
+#include "State/AlsxtClothingState.h"
 #include "State/ALSXTStatusState.h"
 #include "AlsxtCharacterInterface.generated.h"
 
@@ -315,7 +315,7 @@ public:
   void GetCombatAttackPhysics(float& Mass, float& Velocity) const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ALSXTCharacter Interface")
-  FALSXTClothingState GetClothingState() const;
+  FAlsxtClothingState GetClothingState() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ALSXTCharacter Interface")
   FGameplayTag GetWeightTag() const;

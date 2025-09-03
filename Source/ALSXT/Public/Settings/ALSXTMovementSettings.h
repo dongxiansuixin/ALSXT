@@ -2,7 +2,7 @@
 
 #include "Engine/DataAsset.h"
 #include "Utility/AlsGameplayTags.h"
-#include "Utility/ALSXTGameplayTags.h"
+#include "Utility/AlsxtGameplayTags.h"
 #include "ALSXTMovementSettings.generated.h"
 
 struct FAlsMovementStanceSettings;

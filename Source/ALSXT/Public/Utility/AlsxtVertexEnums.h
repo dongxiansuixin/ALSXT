@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ALSXTVertexEnums.generated.h"
+#include "AlsxtVertexEnums.generated.h"
 
 UENUM(BlueprintType)
 enum class EProminentRGBAChannel : uint8

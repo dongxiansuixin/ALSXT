@@ -2,7 +2,7 @@
 
 #include "GameplayTagContainer.h"
 #include "Engine/EngineTypes.h"
-#include "Utility/ALSXTStructs.h"
+#include "Utility/AlsxtStructs.h"
 #include "State/ALSXTHeadLookAtState.h"
 #include "AlsxtHeadLookAtInterface.generated.h"
 
