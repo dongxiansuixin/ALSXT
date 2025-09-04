@@ -4,7 +4,7 @@
 #include "Net/UnrealNetwork.h"
 #include "Interfaces/AlsxtCharacterInterface.h"
 #include "Interfaces/AlsxtIdleAnimationComponentInterface.h"
-#include "ALSXTAnimationInstance.h"
+#include "AlsxtAnimationInstance.h"
 
 // Sets default values for this component's properties
 UAlsxtIdleAnimationComponent::UAlsxtIdleAnimationComponent()

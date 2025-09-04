@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "Components/PostProcessComponent.h"
 #include "Settings/AlsxtCameraEffectsSettings.h"
 #include "AlsxtPlayerViewportEffectsComponent.generated.h"
@@ -32,7 +32,7 @@ public:
 	APlayerController* PlayerController {Cast<APlayerController>(GetOwner())};
 
 	UPROPERTY(BlueprintReadOnly, Category = "ALSXT", Meta = (AllowPrivateAccess))
-	AALSXTCharacter* Character {nullptr};
+	AAlsxtCharacter* Character {nullptr};
 
 	UPROPERTY(BlueprintReadOnly, Category = "ALSXT", Meta = (AllowPrivateAccess))
 	UAlsCameraComponent* Camera {nullptr};

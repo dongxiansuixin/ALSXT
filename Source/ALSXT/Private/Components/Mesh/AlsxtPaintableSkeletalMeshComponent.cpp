@@ -3,7 +3,7 @@
 
 #include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
 #include "Interfaces/AlsxtMeshPaintingInterface.h"
-#include "Settings/ALSXTCharacterSettings.h"
+#include "Settings/AlsxtCharacterSettings.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/KismetRenderingLibrary.h"
 

@@ -31,7 +31,7 @@ void UAlsxtCharacterCameraEffectsComponent::BeginPlay()
 
 	if (GeneralCameraEffectsSettings.bEnableEffects)
 	{
-		Character = Cast<AALSXTCharacter>(GetOwner());
+		Character = Cast<AAlsxtCharacter>(GetOwner());
 		// PostProcessComponent = NewObject<UPostProcessComponent>(this);
 		// PostProcessComponent = Character->AddComponentByClass(UPostProcessComponent::StaticClass(), false, Character->GetTransform(), false);
 		FString PostProcessComponentName = "PostProcess Component";

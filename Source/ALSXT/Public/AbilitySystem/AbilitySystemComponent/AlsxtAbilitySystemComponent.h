@@ -7,7 +7,7 @@
 #include "AbilitySystem/Data/AlsxtAbilitySystemData.h"
 #include "AlsxtAbilitySystemComponent.generated.h"
 
-class AALSXTCharacter;
+class AAlsxtCharacter;
 class AGASDemoCharacterBase;
 class ALSXTCharacter;
 
@@ -48,7 +48,7 @@ public:
 	virtual void ChangeLevel(const float DesiredLevel, const bool bInitialization = false);
 
 	AGASDemoCharacterBase* GetCharacterBaseAvatar() const;
-	AALSXTCharacter* GetAlsxtBaseAvatar() const;
+	AAlsxtCharacter* GetAlsxtBaseAvatar() const;
 
 	virtual FActiveGameplayEffectHandle SetActiveGameplayEffectInhibit(FActiveGameplayEffectHandle&& ActiveGEHandle, bool bInhibit, bool bInvokeGameplayCueEvents) override;
 

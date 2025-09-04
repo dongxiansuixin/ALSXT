@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/EngineTypes.h"
-#include "Utility/ALSXTAnimationStructs.h"
+#include "Utility/AlsxtAnimationStructs.h"
 #include "AlsxtDefensiveModeSettings.generated.h"
 
 USTRUCT(BlueprintType)

@@ -4,7 +4,7 @@
 #include "Interfaces/AlsxtAcrobaticActionComponentInterface.h"
 #include "Components/CapsuleComponent.h"
 #include "Utility/AlsxtGameplayTags.h"
-#include "ALSXTAnimationInstance.h"
+#include "AlsxtAnimationInstance.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values for this component's properties

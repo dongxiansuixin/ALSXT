@@ -20,11 +20,11 @@
 #include "State/AlsxtStatusState.h"
 #include "AlsxtCharacterInterface.generated.h"
 
-class UALSXTCameraAnimationInstance;
+class UAlsxtCameraAnimationInstance;
 class UAlsCameraComponent;
-class UALSXTCharacterSettings;
-class UALSXTAnimationInstance;
-class AALSXTCharacter;
+class UAlsxtCharacterSettings;
+class UAlsxtAnimationInstance;
+class AAlsxtCharacter;
 
 USTRUCT(BlueprintType)
 struct ALSXT_API FALSXTJigglePhysicsSettings
@@ -60,13 +60,13 @@ class ALSXT_API IAlsxtCharacterInterface {
 
 public:
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  AALSXTCharacter* GetCharacter();
+  AAlsxtCharacter* GetCharacter();
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
   USkeletalMeshComponent* GetCharacterMesh() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  UALSXTAnimationInstance* GetCharacterAnimInstance() const;
+  UAlsxtAnimationInstance* GetCharacterAnimInstance() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
   FALSXTJigglePhysicsSettings GetCharacterJigglePhysicsSettings() const;
@@ -246,7 +246,7 @@ public:
   FGameplayTag GetCharacterWeaponObstruction() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  UALSXTCharacterSettings* GetCharacterSettings() const;
+  UAlsxtCharacterSettings* GetCharacterSettings() const;
   
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
   FGameplayTag GetCharacterSex() const;
@@ -276,7 +276,7 @@ public:
   UAlsCameraComponent* GetCharacterCamera() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  UALSXTCameraAnimationInstance* GetCharacterCameraAnimationInstance() const;
+  UAlsxtCameraAnimationInstance* GetCharacterCameraAnimationInstance() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
   FRotator GetCharacterControlRotation() const;

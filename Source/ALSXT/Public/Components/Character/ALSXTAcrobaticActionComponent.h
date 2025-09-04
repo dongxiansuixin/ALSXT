@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "Settings/AlsxtAcrobaticActionSettings.h"
 #include "Interfaces/AlsxtCharacterInterface.h"
 #include "AlsxtAcrobaticActionComponent.generated.h"

@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "NativeGameplayTags.h"
 #include "InputAction.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "AlsCharacter.h"
 #include "AlsCameraComponent.h"
 #include "Components/ActorComponent.h"
@@ -99,7 +99,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Character", Meta = (AllowPrivateAccess))
-	AALSXTCharacter* Character{ Cast<AALSXTCharacter>(GetOwner()) };
+	AAlsxtCharacter* Character{ Cast<AAlsxtCharacter>(GetOwner()) };
 
 	UPROPERTY(BlueprintReadOnly, Category = "Character", Meta = (AllowPrivateAccess))
 	AAlsCharacter* AlsCharacter{ Cast<AAlsCharacter>(GetOwner()) };

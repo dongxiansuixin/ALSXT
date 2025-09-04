@@ -7,7 +7,7 @@
 #include "NativeGameplayTags.h"
 #include "Utility/AlsxtGameplayTags.h"
 #include "Utility/AlsxtStructs.h"
-#include "Settings/ALSXTCharacterSettings.h"
+#include "Settings/AlsxtCharacterSettings.h"
 #include "Settings/AlsxtMeshPaintingSettings.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Components/SceneCaptureComponent2D.h"

@@ -5,7 +5,7 @@
 #include "AlsCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Settings/ALSXTCharacterSettings.h"
+#include "Settings/AlsxtCharacterSettings.h"
 #include "Utility/AlsMacros.h"
 #include "Utility/AlsRotation.h"
 
@@ -24,7 +24,7 @@ void UAlsxtSlidingActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Character = Cast<AALSXTCharacter>(GetOwner());
+	Character = Cast<AAlsxtCharacter>(GetOwner());
 	AlsCharacter = Cast<AAlsCharacter>(GetOwner());
 	
 	// auto* EnhancedInput{ Cast<UEnhancedInputComponent>(Character) };

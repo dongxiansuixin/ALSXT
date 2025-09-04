@@ -8,7 +8,7 @@
 #include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
 #include "UObject/ObjectPtr.h"
 #include "AbilitySystemComponent.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "AlsxtCharacterNpc.generated.h"
 
 
@@ -20,7 +20,7 @@
 */
 
 UCLASS()
-class ALSXT_API AAlsxtCharacterNpc : public AALSXTCharacter
+class ALSXT_API AAlsxtCharacterNpc : public AAlsxtCharacter
 {
 	GENERATED_BODY()
 

@@ -2,7 +2,7 @@
 
 #include "AlsAnimationInstance.h"
 #include "AlsCharacterMovementComponent.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "DrawDebugHelpers.h"
 #include "Animation/AnimInstance.h"
 #include "Components/CapsuleComponent.h"
@@ -13,7 +13,7 @@
 #include "Net/Core/PushModel/PushModel.h"
 #include "RootMotionSources/AlsRootMotionSource_Mantling.h"
 #include "Settings/AlsCharacterSettings.h"
-#include "Settings/ALSXTCharacterSettings.h"
+#include "Settings/AlsxtCharacterSettings.h"
 #include "Utility/AlsConstants.h"
 #include "Utility/AlsMacros.h"
 #include "Utility/AlsMath.h"
@@ -23,9 +23,9 @@
 #include "Utility/AlsVector.h"
 #include "Utility/AlsRotation.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "RootMotionSources/ALSXTRootMotionSource_Vaulting.h"
+#include "RootMotionSources/AlsxtRootMotionSource_Vaulting.h"
 
-void AALSXTCharacter::TryStartSliding(const float PlayRate)
+void AAlsxtCharacter::TryStartSliding(const float PlayRate)
 {
 	if (GetLocomotionMode() == AlsLocomotionModeTags::Grounded)
 	{
@@ -35,7 +35,7 @@ void AALSXTCharacter::TryStartSliding(const float PlayRate)
 	}
 }
 
-bool AALSXTCharacter::IsSlidingAllowedToStart(const UAnimMontage* Montage) const
+bool AAlsxtCharacter::IsSlidingAllowedToStart(const UAnimMontage* Montage) const
 {
 	return !GetLocomotionAction().IsValid() ||
 		// ReSharper disable once CppRedundantParentheses
@@ -43,7 +43,7 @@ bool AALSXTCharacter::IsSlidingAllowedToStart(const UAnimMontage* Montage) const
 			!GetMesh()->GetAnimInstance()->Montage_IsPlaying(Montage));
 }
 
-void AALSXTCharacter::StartSliding(const float PlayRate, const float TargetYawAngle)
+void AAlsxtCharacter::StartSliding(const float PlayRate, const float TargetYawAngle)
 {
 	if (GetLocalRole() <= ROLE_SimulatedProxy)
 	{
@@ -74,12 +74,12 @@ void AALSXTCharacter::StartSliding(const float PlayRate, const float TargetYawAn
 	}
 }
 
-UAnimMontage* AALSXTCharacter::SelectSlideMontage_Implementation()
+UAnimMontage* AAlsxtCharacter::SelectSlideMontage_Implementation()
 {
 	return ALSXTSettings->Sliding.Montage;
 }
 
-void AALSXTCharacter::ServerStartSliding_Implementation(UAnimMontage* Montage, const float PlayRate,
+void AAlsxtCharacter::ServerStartSliding_Implementation(UAnimMontage* Montage, const float PlayRate,
 	const float StartYawAngle, const float TargetYawAngle)
 {
 	if (IsSlidingAllowedToStart(Montage))
@@ -89,13 +89,13 @@ void AALSXTCharacter::ServerStartSliding_Implementation(UAnimMontage* Montage, c
 	}
 }
 
-void AALSXTCharacter::MulticastStartSliding_Implementation(UAnimMontage* Montage, const float PlayRate,
+void AAlsxtCharacter::MulticastStartSliding_Implementation(UAnimMontage* Montage, const float PlayRate,
 	const float StartYawAngle, const float TargetYawAngle)
 {
 	StartSlidingImplementation(Montage, PlayRate, StartYawAngle, TargetYawAngle);
 }
 
-void AALSXTCharacter::StartSlidingImplementation(UAnimMontage* Montage, const float PlayRate,
+void AAlsxtCharacter::StartSlidingImplementation(UAnimMontage* Montage, const float PlayRate,
 	const float StartYawAngle, const float TargetYawAngle)
 {
 	FAlsxtSlidingState NewSlidingState;
@@ -116,13 +116,13 @@ void AALSXTCharacter::StartSlidingImplementation(UAnimMontage* Montage, const fl
 
 		if (GetMesh()->GetAnimInstance())
 		{
-			OnSlidingStartedBlendOutDelegate.BindUObject(this, &AALSXTCharacter::OnSlidingStartedBlendOut);
+			OnSlidingStartedBlendOutDelegate.BindUObject(this, &AAlsxtCharacter::OnSlidingStartedBlendOut);
 			GetMesh()->GetAnimInstance()->Montage_SetBlendingOutDelegate(OnSlidingStartedBlendOutDelegate);
 		}
 	}
 }
 
-void AALSXTCharacter::RefreshSliding(const float DeltaTime)
+void AAlsxtCharacter::RefreshSliding(const float DeltaTime)
 {
 	if (GetLocalRole() <= ROLE_SimulatedProxy ||
 		GetMesh()->GetAnimInstance()->RootMotionMode <= ERootMotionMode::IgnoreRootMotion)
@@ -134,7 +134,7 @@ void AALSXTCharacter::RefreshSliding(const float DeltaTime)
 	}
 }
 
-void AALSXTCharacter::RefreshSlidingPhysics(const float DeltaTime)
+void AAlsxtCharacter::RefreshSlidingPhysics(const float DeltaTime)
 {
 	if (GetLocomotionAction() != AlsLocomotionActionTags::Sliding)
 	{
@@ -165,24 +165,24 @@ void AALSXTCharacter::RefreshSlidingPhysics(const float DeltaTime)
 	}
 }
 
-void AALSXTCharacter::StopSliding()
+void AAlsxtCharacter::StopSliding()
 {
 	GetMesh()->GetAnimInstance()->Montage_JumpToSection("Exit", GetSlidingState().Montage);
 }
 
-bool AALSXTCharacter::TryStartVaultingGrounded()
+bool AAlsxtCharacter::TryStartVaultingGrounded()
 {
 	return LocomotionMode == AlsLocomotionModeTags::Grounded &&
 	       TryStartVaulting(ALSXTSettings->Vaulting.GroundedTrace);
 }
 
-bool AALSXTCharacter::TryStartVaultingInAir()
+bool AAlsxtCharacter::TryStartVaultingInAir()
 {
 	return LocomotionMode == AlsLocomotionModeTags::InAir && IsLocallyControlled() &&
 	       TryStartVaulting(ALSXTSettings->Vaulting.InAirTrace);
 }
 
-bool AALSXTCharacter::IsVaultingAllowedToStart_Implementation(FVaultAnimation VaultAnimation) const
+bool AAlsxtCharacter::IsVaultingAllowedToStart_Implementation(FVaultAnimation VaultAnimation) const
 {
 	// return !LocomotionAction.IsValid();
 
@@ -192,7 +192,7 @@ bool AALSXTCharacter::IsVaultingAllowedToStart_Implementation(FVaultAnimation Va
 			!GetMesh()->GetAnimInstance()->Montage_IsPlaying(VaultAnimation.Montage.Montage));
 }
 
-bool AALSXTCharacter::TryStartVaulting(const FAlsxtVaultingTraceSettings& TraceSettings)
+bool AAlsxtCharacter::TryStartVaulting(const FAlsxtVaultingTraceSettings& TraceSettings)
 {
 	const auto ActorLocation{GetActorLocation()};
 	const auto ActorYawAngle{UE_REAL_TO_FLOAT(FRotator::NormalizeAxis(GetActorRotation().Yaw))};
@@ -581,7 +581,7 @@ bool AALSXTCharacter::TryStartVaulting(const FAlsxtVaultingTraceSettings& TraceS
 	return true;
 }
 
-void AALSXTCharacter::ServerStartVaulting_Implementation(const FAlsxtVaultingParameters& Parameters)
+void AAlsxtCharacter::ServerStartVaulting_Implementation(const FAlsxtVaultingParameters& Parameters)
 {
 	if (IsVaultingAllowedToStart(Parameters.VaultAnimation))
 	{
@@ -590,12 +590,12 @@ void AALSXTCharacter::ServerStartVaulting_Implementation(const FAlsxtVaultingPar
 	}
 }
 
-void AALSXTCharacter::MulticastStartVaulting_Implementation(const FAlsxtVaultingParameters& Parameters)
+void AAlsxtCharacter::MulticastStartVaulting_Implementation(const FAlsxtVaultingParameters& Parameters)
 {
 	StartVaultingImplementation(Parameters);
 }
 
-void AALSXTCharacter::StartVaultingImplementation(const FAlsxtVaultingParameters& Parameters)
+void AAlsxtCharacter::StartVaultingImplementation(const FAlsxtVaultingParameters& Parameters)
 {
 	if (!IsVaultingAllowedToStart(Parameters.VaultAnimation))
 	{
@@ -652,7 +652,7 @@ void AALSXTCharacter::StartVaultingImplementation(const FAlsxtVaultingParameters
 
 	// Apply Vaulting root motion.
 
-	const auto Vaulting{MakeShared<FALSXTRootMotionSource_Vaulting>()};
+	const auto Vaulting{MakeShared<FAlsxtRootMotionSource_Vaulting>()};
 	Vaulting->InstanceName = __FUNCTION__;
 	Vaulting->Duration = Duration / PlayRate;
 	Vaulting->VaultingSettings = VaultingSettings;
@@ -690,22 +690,22 @@ void AALSXTCharacter::StartVaultingImplementation(const FAlsxtVaultingParameters
 	OnVaultingStarted(Parameters);
 }
 
-UAlsxtMantlingSettings* AALSXTCharacter::SelectMantlingSettingsXT_Implementation()
+UAlsxtMantlingSettings* AAlsxtCharacter::SelectMantlingSettingsXT_Implementation()
 {
 	return nullptr;
 }
 
-UAlsxtSlidingSettings* AALSXTCharacter::SelectSlidingSettings_Implementation()
+UAlsxtSlidingSettings* AAlsxtCharacter::SelectSlidingSettings_Implementation()
 {
 	return nullptr;
 }
 
-UAlsxtVaultingSettings* AALSXTCharacter::SelectVaultingSettings_Implementation(const FGameplayTag& VaultingType)
+UAlsxtVaultingSettings* AAlsxtCharacter::SelectVaultingSettings_Implementation(const FGameplayTag& VaultingType)
 {
 	return nullptr;
 }
 
-FVaultAnimation AALSXTCharacter::SelectVaultingMontage_Implementation(const FGameplayTag& CurrentGait, const FGameplayTag& VaultingType)
+FVaultAnimation AAlsxtCharacter::SelectVaultingMontage_Implementation(const FGameplayTag& CurrentGait, const FGameplayTag& VaultingType)
 {
 	TArray<FVaultAnimation> VaultingAnimations = SelectVaultingSettings(VaultingType)->VaultAnimations;
 	TArray<FGameplayTag> TagsArray = { CurrentGait, VaultingType };
@@ -762,7 +762,7 @@ FVaultAnimation AALSXTCharacter::SelectVaultingMontage_Implementation(const FGam
 	return SelectedVaultingAnimation;
 }
 
-void AALSXTCharacter::OnVaultingStarted_Implementation(const FAlsxtVaultingParameters& Parameters) 
+void AAlsxtCharacter::OnVaultingStarted_Implementation(const FAlsxtVaultingParameters& Parameters) 
 {
 	FALSXTCharacterVoiceParameters CharacterVoiceParams = IAlsxtCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this);
 
@@ -774,7 +774,7 @@ void AALSXTCharacter::OnVaultingStarted_Implementation(const FAlsxtVaultingParam
 	CharacterSound->PlayActionSound(true, true, true, ALSXTCharacterMovementSoundTags::Vaulting, CharacterVoiceParams.Sex, CharacterVoiceParams.Variant, IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(this), ALSXTActionStrengthTags::Medium, IAlsxtCharacterInterface::Execute_GetStamina(this));
 }
 
-void AALSXTCharacter::RefreshVaulting()
+void AAlsxtCharacter::RefreshVaulting()
 {
 	if (VaultingRootMotionSourceId <= 0)
 	{
@@ -795,7 +795,7 @@ void AALSXTCharacter::RefreshVaulting()
 	}
 }
 
-void AALSXTCharacter::StopVaulting()
+void AAlsxtCharacter::StopVaulting()
 {
 	if (VaultingRootMotionSourceId <= 0)
 	{
@@ -824,4 +824,4 @@ void AALSXTCharacter::StopVaulting()
 	OnVaultingEnded();
 }
 
-void AALSXTCharacter::OnVaultingEnded_Implementation() {}
+void AAlsxtCharacter::OnVaultingEnded_Implementation() {}

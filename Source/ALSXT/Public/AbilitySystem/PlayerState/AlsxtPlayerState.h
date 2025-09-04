@@ -9,7 +9,7 @@
 #include "AbilitySystem/Data/AlsxtAbilitySystemData.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemInterface.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "AlsxtPlayerState.generated.h"
 
 class UAlsxtCharacterMovementComponent;

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "Settings/AlsxtSlidingSettings.h"
 #include "State/AlsxtSlidingState.h"
 #include "AlsxtSlidingActionComponent.generated.h"
@@ -38,7 +38,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "ALS|Als Character", Meta = (AllowPrivateAccess))
-	AALSXTCharacter* Character{ Cast<AALSXTCharacter>(GetOwner()) };
+	AAlsxtCharacter* Character{ Cast<AAlsxtCharacter>(GetOwner()) };
 
 	AAlsCharacter* AlsCharacter{ Cast<AAlsCharacter>(GetOwner()) };
 

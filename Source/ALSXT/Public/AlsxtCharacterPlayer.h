@@ -4,7 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "AbilitySystem/PlayerState/AlsxtPlayerState.h"
 #include "AlsxtCharacterPlayer.generated.h"
 
@@ -16,7 +16,7 @@
 */
 
 UCLASS()
-class ALSXT_API AAlsxtCharacterPlayer : public AALSXTCharacter
+class ALSXT_API AAlsxtCharacterPlayer : public AAlsxtCharacter
 {
 	GENERATED_BODY()
 

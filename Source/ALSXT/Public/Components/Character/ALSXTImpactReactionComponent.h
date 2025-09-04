@@ -21,7 +21,7 @@
 #include "AlsxtImpactReactionComponent.generated.h"
 
 struct FAlsxtDefensiveModeState;
-class AALSXTCharacter;
+class AAlsxtCharacter;
 
 UCLASS(Blueprintable, ClassGroup=(Physics), meta=(BlueprintSpawnableComponent) )
 class ALSXT_API UAlsxtImpactReactionComponent : public UActorComponent

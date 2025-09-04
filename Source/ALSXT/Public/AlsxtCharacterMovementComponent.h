@@ -8,7 +8,7 @@
 #include "Utility/AlsxtGameplayTags.h"
 #include "AlsxtCharacterMovementComponent.generated.h"
 
-class AALSXTCharacter;
+class AAlsxtCharacter;
 
 
 UENUM(BlueprintType)
@@ -30,7 +30,7 @@ class ALSXT_API UAlsxtCharacterMovementComponent : public UAlsCharacterMovementC
 {
 	GENERATED_BODY()
 
-	friend AALSXTCharacter;
+	friend AAlsxtCharacter;
 
 public:
 	virtual void BeginPlay() override;

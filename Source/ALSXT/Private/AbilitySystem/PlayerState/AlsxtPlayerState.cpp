@@ -3,7 +3,7 @@
 
 
 #include "AbilitySystem/PlayerState/AlsxtPlayerState.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
 #include "AbilitySystem/AttributeSets/AlsxtMovementAttributeSet.h"
 
@@ -45,9 +45,9 @@ void AAlsxtPlayerState::BeginPlay()
 */
 UAlsxtCharacterMovementComponent* AAlsxtPlayerState::GetAlsxtCharacterMovementComponent() const
 {
-	if (Cast<AALSXTCharacter>(GetPawn()))
+	if (Cast<AAlsxtCharacter>(GetPawn()))
 	{
-		return Cast<UAlsxtCharacterMovementComponent>(Cast<AALSXTCharacter>(GetPawn())->GetCharacterMovement());
+		return Cast<UAlsxtCharacterMovementComponent>(Cast<AAlsxtCharacter>(GetPawn())->GetCharacterMovement());
 	}
 	return nullptr;
 }

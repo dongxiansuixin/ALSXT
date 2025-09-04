@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "AlsCharacter.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "Settings/AlsxtEmoteSettings.h"
 #include "NativeGameplayTags.h"
 #include "AlsxtEmoteComponent.generated.h"

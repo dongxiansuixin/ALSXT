@@ -2,7 +2,7 @@
 
 #include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
 
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "AbilitySystem/AttributeSets/AlsxtLevelAttributeSet.h"
 #include "AbilitySystem/Data/AlsxtGasGameplayTags.h"
 #include "AbilitySystem/FunctionLibrary/AlsxtAbilitySystemBlueprintLibrary.h"
@@ -61,7 +61,7 @@ void UAlsxtAbilitySystemComponent::ChangeLevel_Implementation(const float Desire
 
 	// Update all attributes that should be leveled up
 	
-	if (const AALSXTCharacter* const CharacterBase = GetAlsxtBaseAvatar())
+	if (const AAlsxtCharacter* const CharacterBase = GetAlsxtBaseAvatar())
 	{
 		const FAbilitySystemInitializationData& Data = CharacterBase->GetAbilitySystemInitializationData();
 		// for (const TTuple<FGameplayAttribute, FCustomAttributeInitializer>& AttributeBaseValue : Cast<FAbilitySystemInitializationData>(CharacterBase->GetAbilitySystemInitializationData()))
@@ -115,9 +115,9 @@ AGASDemoCharacterBase* UAlsxtAbilitySystemComponent::GetCharacterBaseAvatar() co
 	return Cast<AGASDemoCharacterBase>(GetAvatarActor_Direct());
 }
 
-AALSXTCharacter* UAlsxtAbilitySystemComponent::GetAlsxtBaseAvatar() const
+AAlsxtCharacter* UAlsxtAbilitySystemComponent::GetAlsxtBaseAvatar() const
 {
-	return Cast<AALSXTCharacter>(GetAvatarActor_Direct());
+	return Cast<AAlsxtCharacter>(GetAvatarActor_Direct());
 }
 
 FActiveGameplayEffectHandle UAlsxtAbilitySystemComponent::SetActiveGameplayEffectInhibit(FActiveGameplayEffectHandle&& ActiveGEHandle, bool bInhibit, bool bInvokeGameplayCueEvents)

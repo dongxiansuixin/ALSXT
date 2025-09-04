@@ -20,7 +20,7 @@
 #include "NiagaraFunctionLibrary.h"
 #include "Engine/DecalActor.h"
 #include "Components/DecalComponent.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "Utility/AlsxtCollisionStructs.h"
 #include "Settings/AlsxtDefensiveModeSettings.h"
 #include "Landscape.h"

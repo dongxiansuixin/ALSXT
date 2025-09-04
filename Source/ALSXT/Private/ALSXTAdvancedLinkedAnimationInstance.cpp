@@ -1,5 +1,0 @@
-// MIT
-
-
-#include "ALSXTAdvancedLinkedAnimationInstance.h"
-

@@ -2,7 +2,7 @@
 // This software is licensed under the MIT License (LICENSE.md).
 
 #include "AlsxtCharacterNpc.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
 #include "AbilitySystem/AttributeSets/AlsxtMovementAttributeSet.h"
 

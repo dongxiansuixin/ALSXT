@@ -10,10 +10,10 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Utility/AlsxtEnums.h"
-#include "Settings/ALSXTCharacterSettings.h"
+#include "Settings/AlsxtCharacterSettings.h"
 #include "Math/Vector.h"
 #include "GameFramework/Character.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "Interfaces/AlsxtCharacterInterface.h"
 #include "Interfaces/AlsxtTargetLockInterface.h"
 #include "Interfaces/AlsxtHeldItemInterface.h"
@@ -202,7 +202,7 @@ void UAlsxtCombatComponent::GetClosestTarget()
 	TArray<FTargetHitResultEntry> OutHits;
 	TraceForTargets(OutHits);
 	FTargetHitResultEntry FoundHit;
-	AALSXTCharacter* ALSXTChar = IAlsxtCharacterInterface::Execute_GetCharacter(GetOwner());
+	AAlsxtCharacter* ALSXTChar = IAlsxtCharacterInterface::Execute_GetCharacter(GetOwner());
 	FGameplayTagContainer TargetableOverlayModes = IAlsxtCombatInterface::Execute_GetTargetableOverlayModes(GetOwner());
 
 	if (TargetableOverlayModes.HasTag(ALSXTChar->GetOverlayMode()) && ALSXTChar->IsDesiredAiming())
@@ -254,7 +254,7 @@ void UAlsxtCombatComponent::SetCurrentTarget(const FTargetHitResultEntry& NewTar
 	CurrentTarget = NewTarget;
 	IAlsxtCombatInterface::Execute_OnNewTarget(GetOwner(), NewTarget);
 	USkeletalMeshComponent* HitMesh;
-	AALSXTCharacter* ALSXTChar = IAlsxtCharacterInterface::Execute_GetCharacter(CurrentTarget.HitResult.GetActor());
+	AAlsxtCharacter* ALSXTChar = IAlsxtCharacterInterface::Execute_GetCharacter(CurrentTarget.HitResult.GetActor());
 	
 
 	if (ALSXTChar)
@@ -288,9 +288,9 @@ void UAlsxtCombatComponent::ClearCurrentTarget()
 		CurrentTarget.DistanceFromPlayer = 340282346638528859811704183484516925440.0f;
 		CurrentTarget.AngleFromCenter = 361.0f;
 
-		if (Cast<AALSXTCharacter>(CurrentTarget.HitResult.GetActor()))
+		if (Cast<AAlsxtCharacter>(CurrentTarget.HitResult.GetActor()))
 		{
-			USkeletalMeshComponent* HitMesh = Cast<AALSXTCharacter>(CurrentTarget.HitResult.GetActor())->GetMesh();
+			USkeletalMeshComponent* HitMesh = Cast<AAlsxtCharacter>(CurrentTarget.HitResult.GetActor())->GetMesh();
 			TArray<UMaterialInterface*> CharMaterials = HitMesh->GetMaterials();
 			if (TargetDynamicMaterials[0])
 			{
@@ -319,7 +319,7 @@ void UAlsxtCombatComponent::GetTargetLeft()
 	TArray<FTargetHitResultEntry> OutHits;
 	TraceForTargets(OutHits);
 	FTargetHitResultEntry FoundHit;
-	AALSXTCharacter* ALSXTChar = IAlsxtCharacterInterface::Execute_GetCharacter(GetOwner());
+	AAlsxtCharacter* ALSXTChar = IAlsxtCharacterInterface::Execute_GetCharacter(GetOwner());
 	FGameplayTagContainer TargetableOverlayModes = IAlsxtCombatInterface::Execute_GetTargetableOverlayModes(GetOwner());
 	// 
 	// // IALSXTCharacterInterface::GetCharacter(this)->IsDesiredAiming();
@@ -362,7 +362,7 @@ void UAlsxtCombatComponent::GetTargetRight()
 	TArray<FTargetHitResultEntry> OutHits;
 	TraceForTargets(OutHits);
 	FTargetHitResultEntry FoundHit;
-	AALSXTCharacter* ALSXTChar = IAlsxtCharacterInterface::Execute_GetCharacter(GetOwner());
+	AAlsxtCharacter* ALSXTChar = IAlsxtCharacterInterface::Execute_GetCharacter(GetOwner());
 	FGameplayTagContainer TargetableOverlayModes = IAlsxtCombatInterface::Execute_GetTargetableOverlayModes(GetOwner());
 	
 	if (TargetableOverlayModes.HasTag(ALSXTChar->GetOverlayMode()) && ALSXTChar->IsDesiredAiming())

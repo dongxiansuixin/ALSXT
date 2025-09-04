@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "ALSXTCharacter.h"
+#include "AlsxtCharacter.h"
 #include "Components/PostProcessComponent.h"
 #include "Settings/AlsxtCameraEffectsSettings.h"
 #include "AlsxtCharacterCameraEffectsComponent.generated.h"
@@ -27,7 +27,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "ALS|Als Character", Meta = (AllowPrivateAccess))
-	AALSXTCharacter* Character {Cast<AALSXTCharacter>(GetOwner())};
+	AAlsxtCharacter* Character {Cast<AAlsxtCharacter>(GetOwner())};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", Meta = (AllowPrivateAccess))
 	FAlsxtGeneralCameraEffectsSettings GeneralCameraEffectsSettings;
