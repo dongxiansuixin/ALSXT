@@ -104,7 +104,7 @@ struct ALSXT_API FAlsxtVaultingTraceSettings
 };
 
 USTRUCT(BlueprintType)
-struct ALSXT_API FAlsxtGeneralVaultingSetti
+struct ALSXT_API FAlsxtGeneralVaultingSettings
 {
 	GENERATED_BODY()
 
