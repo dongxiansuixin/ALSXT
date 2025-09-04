@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Settings/ALSXTFirearmSettings.h"
+#include "Settings/AlsxtFirearmSettings.h"
 #include "AlsxtFirearmInterface.generated.h"
 
 UINTERFACE(Blueprintable)
@@ -13,40 +13,40 @@ class ALSXT_API IAlsxtFirearmInterface {
 
 public:
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Firearm Interface|Settings")
-  FALSXTFirearmDischargeEffectsSettings GetFirearmEffectsSettings() const;
+  FAlsxtFirearmDischargeEffectsSettings GetFirearmEffectsSettings() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Firearm Interface|Settings")
-  FALSXTFirearmRecoilSettings GetFirearmRecoilSettings() const;
+  FAlsxtFirearmRecoilSettings GetFirearmRecoilSettings() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Firearm Interface|State")
-  TSoftObjectPtr<UALSXTFirearmRoundEffectsAsset> GetFirearmRoundEffectsAsset() const;
+  TSoftObjectPtr<UAlsxtFirearmRoundEffectsAsset> GetFirearmRoundEffectsAsset() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Firearm Interface|State")
-  void SetFirearmRoundEffectsAsset(UALSXTFirearmRoundEffectsAsset* NewFirearmRoundEffectsAsset);
+  void SetFirearmRoundEffectsAsset(UAlsxtFirearmRoundEffectsAsset* NewFirearmRoundEffectsAsset);
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Firearm Interface|State")
-  FALSXTFirearmDischargeEffectsModifiersState GetFirearmDischargeEffectsModifiersState() const;
+  FAlsxtFirearmDischargeEffectsModifiersState GetFirearmDischargeEffectsModifiersState() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Firearm Interface|State")
-  FALSXTFirearmDischargeEffectsModifiersState GetCharacterFirearmDischargeEffectsModifiersState() const;
+  FAlsxtFirearmDischargeEffectsModifiersState GetCharacterFirearmDischargeEffectsModifiersState() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Firearm Interface|State")
-  FALSXTFirearmDischargeEffectsModifiersState GetCalculatedDischargeEffectsModifiersState() const;
+  FAlsxtFirearmDischargeEffectsModifiersState GetCalculatedDischargeEffectsModifiersState() const;
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Firearm Interface|State")
-  FALSXTFirearmSightsState GetFirearmState() const;
+  FAlsxtFirearmSightsState GetFirearmState() const;
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Firearm Interface|State")
   FGameplayTag GetFirearmFireMode() const;
 	
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Firearm Interface|State")
-  FALSXTFirearmSightsState GetFirearmSightsState() const;
+  FAlsxtFirearmSightsState GetFirearmSightsState() const;
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Firearm Interface|State")
-  FALSXTFirearmAimState GetFirearmAimState() const;
+  FAlsxtFirearmAimState GetFirearmAimState() const;
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Firearm Interface|State")
-  FALSXTRecoilState GetRecoilState() const;
+  FAlsxtRecoilState GetRecoilState() const;
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Firearm Interface|State", Meta = (ForceAsFunction))
   void InitializeFirearm();
@@ -76,13 +76,13 @@ public:
   void OnFirearmDischargeEnd();
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Firearm Interface|State")
-  FALSXTFirearmDischargeEffectsState GetFirearmDischargeEffectsState() const;
+  FAlsxtFirearmDischargeEffectsState GetFirearmDischargeEffectsState() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Firearm Interface|State")
-  void SetFirearmDischargeEffectsState(FALSXTFirearmDischargeEffectsState NewFirearmDischargeEffectsState);
+  void SetFirearmDischargeEffectsState(FAlsxtFirearmDischargeEffectsState NewFirearmDischargeEffectsState);
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Firearm Interface")
-  TArray <FALSXTFirearmActionSound> GetFirearmActionSounds(const FGameplayTag& ActionType) const;
+  TArray <FAlsxtFirearmActionSound> GetFirearmActionSounds(const FGameplayTag& ActionType) const;
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Firearm Interface|Actions")
   void ChargeFirearm();

@@ -2,7 +2,7 @@
 
 #include "AlsCameraComponent.h"
 #include "Components/Character/AlsxtCharacterCameraEffectsComponent.h"
-#include "Settings/ALSXTCameraEffectsSettings.h"
+#include "Settings/AlsxtCameraEffectsSettings.h"
 #include "AlsxtCharacterCameraEffectsComponentInterface.generated.h"
 
 UINTERFACE()
@@ -25,7 +25,7 @@ public:
   APlayerCameraManager* GetPlayerCameraManager();
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Character Camera Effects Component Interface|Character")
-  FALSXTGeneralCameraEffectsSettings GetCameraEffectsSettings() const;
+  FAlsxtGeneralCameraEffectsSettings GetCameraEffectsSettings() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Character Camera Effects Component Interface|Sprinting")
   void SetRadialBlurEffect(float Amount);

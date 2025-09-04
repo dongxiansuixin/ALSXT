@@ -19,27 +19,27 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "CineCameraComponent.h"
 #include "Components/SkeletalMeshComponent.h"
-#include "Settings/ALSXTVaultingSettings.h"
-#include "Settings/ALSXTImpactReactionSettings.h"
-#include "Settings/ALSXTOverlaySettings.h"
+#include "Settings/AlsxtVaultingSettings.h"
+#include "Settings/AlsxtImpactReactionSettings.h"
+#include "Settings/AlsxtOverlaySettings.h"
 #include "State/AlsLocomotionState.h"
 #include "Utility/AlsxtGameplayTags.h"
 #include "Utility/AlsxtFirearmGameplayTags.h"
 #include "Engine/EngineTypes.h"
 #include "Utility/AlsxtStructs.h"
-#include "State/ALSXTPoseState.h"
-#include "State/ALSXTFootstepState.h"
-#include "State/ALSXTAimState.h"
-#include "State/ALSXTDefensiveModeState.h"
-#include "Settings/ALSXTStationaryModeSettings.h"
-#include "State/ALSXTFreelookState.h"
-#include "State/ALSXTHeadLookAtState.h"
-#include "State/ALSXTSlidingState.h"
-#include "State/ALSXTVaultingState.h"
-#include "State/ALSXTBreathState.h"
+#include "State/AlsxtPoseState.h"
+#include "State/AlsxtFootstepState.h"
+#include "State/AlsxtAimState.h"
+#include "State/AlsxtDefensiveModeState.h"
+#include "Settings/AlsxtStationaryModeSettings.h"
+#include "State/AlsxtFreelookState.h"
+#include "State/AlsxtHeadLookAtState.h"
+#include "State/AlsxtSlidingState.h"
+#include "State/AlsxtVaultingState.h"
+#include "State/AlsxtBreathState.h"
 
 #include "Components/BoxComponent.h"
-#include "Settings/ALSXTCombatSettings.h"
+#include "Settings/AlsxtCombatSettings.h"
 #include "Interfaces/AlsxtTargetLockInterface.h"
 #include "Interfaces/AlsxtCombatInterface.h"
 
@@ -54,7 +54,7 @@
 #include "Interfaces/AlsxtCharacterCustomizationComponentInterface.h"
 #include "Interfaces/AlsxtIdleAnimationComponentInterface.h"
 #include "Notifies/AlsAnimNotify_FootstepEffects.h"
-#include "State/ALSXTFootstepState.h"
+#include "State/AlsxtFootstepState.h"
 #include "InputActionValue.h"
 #include "AbilitySystem/Interfaces/AlsxtAbilitySystemInterface.h"
 // #include "ALSXTAnimationInstance.h"
@@ -65,7 +65,7 @@
 #include "ALSXTCharacter.generated.h"
 
 class UALSXTCameraAnimationInstance;
-class UALSXTMantlingSettings;
+class UAlsxtMantlingSettings;
 class UALSXTAnimationInstance;
 class UAlsxtCharacterMovementComponent;
 class UALSXTCharacterSettings;
@@ -267,8 +267,8 @@ protected:
 	void UpdateBreathState();
 	bool ShouldUpdateBreathState() const;
 	bool ShouldTransitionBreathState();
-	FALSXTTargetBreathState CalculateTargetBreathState();
-	void SetTargetBreathState(const FALSXTTargetBreathState& NewTargetBreathState);
+	FAlsxtTargetBreathState CalculateTargetBreathState();
+	void SetTargetBreathState(const FAlsxtTargetBreathState& NewTargetBreathState);
 	void TransitionBreathState();
 
 	virtual void OnOverlayModeChanged_Implementation(const FGameplayTag& PreviousOverlayMode) override;
@@ -281,7 +281,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Transient)
 	int32 VaultingRootMotionSourceId;
 
-	FALSXTCameraShakeSetting SelectMovementCameraShakeAsset();
+	FAlsxtCameraShakeSetting SelectMovementCameraShakeAsset();
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character")
@@ -310,7 +310,7 @@ public:
 	virtual void SetCharacterEmote_Implementation(const FGameplayTag& NewEmote) override;
 
 	// Mesh Painting Interface
-	virtual FALSXTGlobalGeneralMeshPaintingSettings GetGlobalGeneralMeshPaintingSettings_Implementation() const override;
+	virtual FAlsxtGlobalGeneralMeshPaintingSettings GetGlobalGeneralMeshPaintingSettings_Implementation() const override;
 	virtual USceneCaptureComponent2D* GetSceneCaptureComponent_Implementation() const override;
 	virtual void GetElementalCondition_Implementation(UPrimitiveComponent* Component, UPARAM(meta = (Categories = "Als.Elemental Condition"))FGameplayTag& ElementalCondition) const override;
 	virtual void PaintMesh_Implementation(UPrimitiveComponent* Component, EPhysicalSurface SurfaceType, UPARAM(meta = (Categories = "Als.Mesh Paint Type"))const FGameplayTag PaintType, FVector Location, float Radius) override;
@@ -361,14 +361,14 @@ protected:
 private:
 	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", ReplicatedUsing = "OnReplicate_PhysicalAnimationState", Meta = (AllowPrivateAccess), Transient)
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Meta = (AllowPrivateAccess), Transient)
-	FALSXTPhysicalAnimationState PhysicalAnimationState;
+	FAlsxtPhysicalAnimationState PhysicalAnimationState;
 
 protected:
 	UFUNCTION(NetMulticast, Reliable, BlueprintCallable, Category = "Settings|Als Character|Footstep State")
-	void MulticastSetPhysicalAnimationState(const FALSXTPhysicalAnimationState& NewPhysicalAnimationState);
+	void MulticastSetPhysicalAnimationState(const FAlsxtPhysicalAnimationState& NewPhysicalAnimationState);
 
 	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Settings|Als Character|Footstep State")
-	void ServerSetPhysicalAnimationState(const FALSXTPhysicalAnimationState& NewPhysicalAnimationState);
+	void ServerSetPhysicalAnimationState(const FAlsxtPhysicalAnimationState& NewPhysicalAnimationState);
 
 	//
 	// UFUNCTION()
@@ -376,12 +376,12 @@ protected:
 
 	//
 	UFUNCTION(Server, Unreliable)
-	void ServerProcessNewPhysicalAnimationState(const FALSXTPhysicalAnimationState& NewALSXTPhysicalAnimationState);
+	void ServerProcessNewPhysicalAnimationState(const FAlsxtPhysicalAnimationState& NewALSXTPhysicalAnimationState);
 
 public:
 	//
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTPhysicalAnimationState GetPhysicalAnimationState() const;
+	const FAlsxtPhysicalAnimationState GetPhysicalAnimationState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
 	void StartBlendOutPhysicalAnimation();
@@ -394,46 +394,46 @@ public:
 
 	//
 	UFUNCTION()
-	void OnPhysicalAnimationStateChanged(const FALSXTPhysicalAnimationState& PreviousPhysicalAnimationState);
+	void OnPhysicalAnimationStateChanged(const FAlsxtPhysicalAnimationState& PreviousPhysicalAnimationState);
 
 	//
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewPhysicalAnimationState"))
-	void SetPhysicalAnimationState(const FALSXTPhysicalAnimationState& NewPhysicalAnimationState);
+	void SetPhysicalAnimationState(const FAlsxtPhysicalAnimationState& NewPhysicalAnimationState);
 
 	//
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewPhysicalAnimationState"))
-	FALSXTPhysicalAnimationState ProcessNewPhysicalAnimationState(const FALSXTPhysicalAnimationState& NewPhysicalAnimationState);
+	FAlsxtPhysicalAnimationState ProcessNewPhysicalAnimationState(const FAlsxtPhysicalAnimationState& NewPhysicalAnimationState);
 
 // HeldItemState
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Meta = (AllowPrivateAccess), Transient)
-	FALSXTHeldItemState HeldItemState;
+	FAlsxtHeldItemState HeldItemState;
 
 protected:
 	UFUNCTION(NetMulticast, Reliable, BlueprintCallable, Category = "Settings|Als Character|Footstep State")
-	void MulticastSetHeldItemState(const FALSXTHeldItemState& NewHeldItemState);
+	void MulticastSetHeldItemState(const FAlsxtHeldItemState& NewHeldItemState);
 
 	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Settings|Als Character|Footstep State")
-	void ServerSetHeldItemState(const FALSXTHeldItemState& NewHeldItemState);
+	void ServerSetHeldItemState(const FAlsxtHeldItemState& NewHeldItemState);
 
 	UFUNCTION()
-	void OnReplicate_HeldItemState(const FALSXTHeldItemState& PreviousHeldItemState);
+	void OnReplicate_HeldItemState(const FAlsxtHeldItemState& PreviousHeldItemState);
 
 	UFUNCTION(Server, Unreliable)
-	void ServerProcessNewHeldItemState(const FALSXTHeldItemState& NewALSXTHeldItemState);
+	void ServerProcessNewHeldItemState(const FAlsxtHeldItemState& NewALSXTHeldItemState);
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTHeldItemState& GetHeldItemState() const;
+	const FAlsxtHeldItemState& GetHeldItemState() const;
 
 	UFUNCTION()
-	void OnHeldItemStateChanged(const FALSXTHeldItemState& PreviousHeldItemState);
+	void OnHeldItemStateChanged(const FAlsxtHeldItemState& PreviousHeldItemState);
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewHeldItemState"))
-	void SetHeldItemState(const FALSXTHeldItemState& NewHeldItemState);
+	void SetHeldItemState(const FAlsxtHeldItemState& NewHeldItemState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewHeldItemState"))
-	FALSXTHeldItemState ProcessNewHeldItemState(const FALSXTHeldItemState& NewHeldItemState);
+	FAlsxtHeldItemState ProcessNewHeldItemState(const FAlsxtHeldItemState& NewHeldItemState);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALS|Als Character", Meta = (ForceAsFunction))
 	void OnFirstPersonOverrideChanged(float FirstPersonOverride);
@@ -441,113 +441,113 @@ public:
 	// Breath State
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Meta = (AllowPrivateAccess), Transient)
-	FALSXTBreathState BreathState;
+	FAlsxtBreathState BreathState;
 
 	// Breath State
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTBreathState& GetBreathState() const;
+	const FAlsxtBreathState& GetBreathState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewBreathState"))
-	void SetBreathState(const FALSXTBreathState& NewBreathState);
+	void SetBreathState(const FAlsxtBreathState& NewBreathState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewBreathState"))
-	FALSXTBreathState ProcessNewBreathState(const FALSXTBreathState& NewALSXTBreathState);
+	FAlsxtBreathState ProcessNewBreathState(const FAlsxtBreathState& NewALSXTBreathState);
 
 	UFUNCTION(Server, Unreliable)
-	void ServerProcessNewBreathState(const FALSXTBreathState& NewALSXTBreathState);
+	void ServerProcessNewBreathState(const FAlsxtBreathState& NewALSXTBreathState);
 
 	// Pose State
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Meta = (AllowPrivateAccess), Transient)
-	FALSXTPoseState ALSXTPoseState;
+	FAlsxtPoseState ALSXTPoseState;
 
 	// Pose State
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTPoseState& GetALSXTPoseState() const;
+	const FAlsxtPoseState& GetALSXTPoseState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewPoseState"))
-	void SetALSXTPoseState(const FALSXTPoseState& NewALSXTPoseState);
+	void SetALSXTPoseState(const FAlsxtPoseState& NewALSXTPoseState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewPoseState"))
-	FALSXTPoseState ProcessNewALSXTPoseState(const FALSXTPoseState& NewALSXTPoseState);
+	FAlsxtPoseState ProcessNewALSXTPoseState(const FAlsxtPoseState& NewALSXTPoseState);
 
 	UFUNCTION(Server, Unreliable)
-	void ServerProcessNewALSXTPoseState(const FALSXTPoseState& NewALSXTPoseState);
+	void ServerProcessNewALSXTPoseState(const FAlsxtPoseState& NewALSXTPoseState);
 
 	// Vaulting State
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ALS|State|Vaulting", Meta = (AllowPrivateAccess), Transient)
-	FALSXTVaultingState VaultingState;
+	FAlsxtVaultingState VaultingState;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTVaultingState& GetVaultingState() const;
+	const FAlsxtVaultingState& GetVaultingState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewVaultingState"))
-	void SetVaultingState(const FALSXTVaultingState& NewVaultingState);
+	void SetVaultingState(const FAlsxtVaultingState& NewVaultingState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewVaultingState"))
-	FALSXTVaultingState ProcessNewVaultingState(const FALSXTVaultingState& NewVaultingState);
+	FAlsxtVaultingState ProcessNewVaultingState(const FAlsxtVaultingState& NewVaultingState);
 
 	UFUNCTION(Server, Unreliable)
-	void ServerProcessNewVaultingState(const FALSXTVaultingState& NewVaultingState);
+	void ServerProcessNewVaultingState(const FAlsxtVaultingState& NewVaultingState);
 
 	// Stationary Mode State
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ALS|State|Vaulting", Meta = (AllowPrivateAccess), Transient)
-	FALSXTStationaryModeState StationaryModeState;
+	FAlsxtStationaryModeState StationaryModeState;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTStationaryModeState& GetStationaryModeState() const;
+	const FAlsxtStationaryModeState& GetStationaryModeState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewStationaryModeState"))
-	void SetStationaryModeState(const FALSXTStationaryModeState& NewStationaryModeState);
+	void SetStationaryModeState(const FAlsxtStationaryModeState& NewStationaryModeState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewStationaryModeState"))
-	FALSXTStationaryModeState ProcessNewStationaryModeState(const FALSXTStationaryModeState& NewStationaryModeState);
+	FAlsxtStationaryModeState ProcessNewStationaryModeState(const FAlsxtStationaryModeState& NewStationaryModeState);
 
 	UFUNCTION(Server, Unreliable)
-	void ServerProcessNewStationaryModeState(const FALSXTStationaryModeState& NewStationaryModeState);
+	void ServerProcessNewStationaryModeState(const FAlsxtStationaryModeState& NewStationaryModeState);
 
 private:
 	UFUNCTION(Server, Unreliable)
-	void ServerSetStationaryModeState(const FALSXTStationaryModeState& NewStationaryModeState);
+	void ServerSetStationaryModeState(const FAlsxtStationaryModeState& NewStationaryModeState);
 
 	UFUNCTION()
-	void OnReplicate_StationaryModeState(const FALSXTStationaryModeState& PreviousStationaryModeState);
+	void OnReplicate_StationaryModeState(const FAlsxtStationaryModeState& PreviousStationaryModeState);
 	
 	UFUNCTION(Server, Unreliable)
-	void ServerSetALSXTPoseState(const FALSXTPoseState& NewALSXTPoseState);
+	void ServerSetALSXTPoseState(const FAlsxtPoseState& NewALSXTPoseState);
 
 	UFUNCTION()
-	void OnReplicate_ALSXTPoseState(const FALSXTPoseState& PreviousALSXTPoseState);
+	void OnReplicate_ALSXTPoseState(const FAlsxtPoseState& PreviousALSXTPoseState);
 
 // Breath
 	UFUNCTION(Client, Reliable)
-	void ClientSetBreathState(const FALSXTBreathState& NewBreathState);
+	void ClientSetBreathState(const FAlsxtBreathState& NewBreathState);
 
 	UFUNCTION(Server, Reliable)
-	void ServerSetBreathState(const FALSXTBreathState& NewBreathState);
+	void ServerSetBreathState(const FAlsxtBreathState& NewBreathState);
 
 	UFUNCTION()
-	void OnReplicate_BreathState(const FALSXTBreathState& PreviousBreathState);
+	void OnReplicate_BreathState(const FAlsxtBreathState& PreviousBreathState);
 
 
 	UFUNCTION(Server, Unreliable)
-	void ServerSetVaultingState(const FALSXTVaultingState& NewVaultingState);
+	void ServerSetVaultingState(const FAlsxtVaultingState& NewVaultingState);
 
 	UFUNCTION()
-	void OnReplicate_VaultingState(const FALSXTVaultingState& PreviousVaultingState);
+	void OnReplicate_VaultingState(const FAlsxtVaultingState& PreviousVaultingState);
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnALSXTPoseStateChanged(const FALSXTPoseState& PreviousALSXTPoseState);
+	void OnALSXTPoseStateChanged(const FAlsxtPoseState& PreviousALSXTPoseState);
 
 	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnStationaryModeStateChanged(const FALSXTStationaryModeState& PreviousStationaryModeState);
+	void OnStationaryModeStateChanged(const FAlsxtStationaryModeState& PreviousStationaryModeState);
 
 	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnBreathStateChanged(const FALSXTBreathState& PreviousBreathState);
+	void OnBreathStateChanged(const FAlsxtBreathState& PreviousBreathState);
 	
 	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnVaultingStateChanged(const FALSXTVaultingState& PreviousVaultingState);
+	void OnVaultingStateChanged(const FAlsxtVaultingState& PreviousVaultingState);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Replicated, Meta = (AllowPrivateAccess))
 	bool bMovementEnabled{ true };
@@ -566,28 +566,28 @@ private:
 	// Footstep State
 
 	UPROPERTY(BlueprintReadOnly, Category = "Settings|Als Character|Footstep State", ReplicatedUsing = "OnReplicate_FootprintsState", Meta = (AllowPrivateAccess))
-	FALSXTFootprintsState FootprintsState;
+	FAlsxtFootprintsState FootprintsState;
 
 protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Settings|Als Character|Footstep State", Meta = (AutoCreateRefTerm = "Foot"))
-	void ClientSetFootprintsState(const EAlsFootBone& Foot, const FALSXTFootprintsState& NewFootprintsState);
+	void ClientSetFootprintsState(const EAlsFootBone& Foot, const FAlsxtFootprintsState& NewFootprintsState);
 
 	UFUNCTION(NetMulticast, Reliable, BlueprintCallable, Category = "Settings|Als Character|Footstep State", Meta = (AutoCreateRefTerm = "Foot"))
-	void MulticastSetFootprintsState(const EAlsFootBone& Foot, const FALSXTFootprintsState& NewFootprintsState);
+	void MulticastSetFootprintsState(const EAlsFootBone& Foot, const FAlsxtFootprintsState& NewFootprintsState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Settings|Als Character|Footstep State", Meta = (ForceAsFunction, AutoCreateRefTerm = "Foot"))
-	void UpdateFootprintsState(const EAlsFootBone& Foot, const FALSXTFootprintStatePhase& Target, const float& Alpha);
+	void UpdateFootprintsState(const EAlsFootBone& Foot, const FAlsxtFootprintStatePhase& Target, const float& Alpha);
 
 public:
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Settings|Als Character|Footstep State", Meta = (ForceAsFunction, AutoCreateRefTerm = "Foot"))
-	void SetFootprintNewSurface(const FALSXTFootprintsState& UpdatedTargetState, const FALSXTFootprintsState& NewFootprintsState, const EAlsFootBone& Foot);
+	void SetFootprintNewSurface(const FAlsxtFootprintsState& UpdatedTargetState, const FAlsxtFootprintsState& NewFootprintsState, const EAlsFootBone& Foot);
 
 protected:
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|State|Footstep", Meta = (AutoCreateRefTerm = "Foot"))
-	void StartFootSaturation(const EAlsFootBone& Foot, const FALSXTFootprintStatePhase& TargetState);
+	void StartFootSaturation(const EAlsFootBone& Foot, const FAlsxtFootprintStatePhase& TargetState);
 
 	UFUNCTION(NetMulticast, Reliable, BlueprintCallable, Category = "Settings|Als Character|Footstep State", Meta = (AutoCreateRefTerm = "Foot"))
 	void ResetFootSaturationTimeline(const EAlsFootBone& Foot);
@@ -599,30 +599,30 @@ protected:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character|Footstep State", ReplicatedUsing = "OnReplicate_AimState", Meta = (AllowPrivateAccess))
-	FALSXTAimState AimState;
+	FAlsxtAimState AimState;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTAimState& GetAimState() const;
+	const FAlsxtAimState& GetAimState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewAimState"))
-	void SetAimState(const FALSXTAimState& NewAimState);
+	void SetAimState(const FAlsxtAimState& NewAimState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewAimState"))
-	FALSXTAimState ProcessNewAimState(const FALSXTAimState& NewAimState);
+	FAlsxtAimState ProcessNewAimState(const FAlsxtAimState& NewAimState);
 
 	UFUNCTION(Server, Unreliable)
-	void ServerProcessNewAimState(const FALSXTAimState& NewAimState);
+	void ServerProcessNewAimState(const FAlsxtAimState& NewAimState);
 
 private:
 	UFUNCTION(Server, Unreliable)
-	void ServerSetAimState(const FALSXTAimState& NewAimState);
+	void ServerSetAimState(const FAlsxtAimState& NewAimState);
 
 	UFUNCTION()
-	void OnReplicate_AimState(const FALSXTAimState& PreviousAimState);
+	void OnReplicate_AimState(const FAlsxtAimState& PreviousAimState);
 
 public:
 	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnAimStateChanged(const FALSXTAimState& PreviousAimState);
+	void OnAimStateChanged(const FAlsxtAimState& PreviousAimState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character")
 	FGameplayTagContainer GetHeldItemInfo();
@@ -674,7 +674,7 @@ public:
 	// Freelooking
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", ReplicatedUsing = "OnReplicate_FreelookState", Meta = (AllowPrivateAccess))
-	FALSXTFreelookState FreelookState;
+	FAlsxtFreelookState FreelookState;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Als Character|Desired State", Replicated, Meta = (AllowPrivateAccess))
 	FGameplayTag DesiredFreelooking{ALSXTFreelookingTags::False};
@@ -684,68 +684,68 @@ private:
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTFreelookState& GetFreelookState() const;
+	const FAlsxtFreelookState& GetFreelookState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewFreelookState"))
-	void SetFreelookState(const FALSXTFreelookState& NewFreelookState);
+	void SetFreelookState(const FAlsxtFreelookState& NewFreelookState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewFreelookState"))
-	FALSXTFreelookState ProcessNewFreelookState(const FALSXTFreelookState& NewFreelookState);
+	FAlsxtFreelookState ProcessNewFreelookState(const FAlsxtFreelookState& NewFreelookState);
 
 	UFUNCTION(Server, Unreliable)
-	void ServerProcessNewFreelookState(const FALSXTFreelookState& NewFreelookState);
+	void ServerProcessNewFreelookState(const FAlsxtFreelookState& NewFreelookState);
 
 private:
 	UFUNCTION(Server, Unreliable)
-	void ServerSetFreelookState(const FALSXTFreelookState& NewFreelookState);
+	void ServerSetFreelookState(const FAlsxtFreelookState& NewFreelookState);
 
 	UFUNCTION()
-	void OnReplicate_FreelookState(const FALSXTFreelookState& PreviousFreelookState);
+	void OnReplicate_FreelookState(const FAlsxtFreelookState& PreviousFreelookState);
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnFreelookStateChanged(const FALSXTFreelookState& PreviousFreelookState);
+	void OnFreelookStateChanged(const FAlsxtFreelookState& PreviousFreelookState);
 
 	// HeadLookAt
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Head Look At|State", ReplicatedUsing = "OnReplicate_HeadLookAtState", Meta = (AllowPrivateAccess))
-	FALSXTHeadLookAtState HeadLookAtState;
+	FAlsxtHeadLookAtState HeadLookAtState;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Head Look At", Meta = (AllowPrivateAccess))
-	TArray<FALSXTHeadLookAtEntry> HeadLookAtEntries;
+	TArray<FAlsxtHeadLookAtEntry> HeadLookAtEntries;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Head Look At|State")
-	const FALSXTHeadLookAtState& GetHeadLookAtState() const;
+	const FAlsxtHeadLookAtState& GetHeadLookAtState() const;
 
-	virtual FALSXTHeadLookAtEntry GetBestHeadLookAtEntry_Implementation() const override;
+	virtual FAlsxtHeadLookAtEntry GetBestHeadLookAtEntry_Implementation() const override;
 
 	virtual bool CanHeadLookAt_Implementation() const override;
 
 	UFUNCTION(BlueprintCallable, Category = "Head Look At|State", Meta = (AutoCreateRefTerm = "NewHeadLookAtState"))
-	void SetHeadLookAtState(const FALSXTHeadLookAtState& NewHeadLookAtState);
+	void SetHeadLookAtState(const FAlsxtHeadLookAtState& NewHeadLookAtState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Head Look At|State", Meta = (AutoCreateRefTerm = "NewHeadLookAtState"))
-	FALSXTHeadLookAtState ProcessNewHeadLookAtState(const FALSXTHeadLookAtState& NewHeadLookAtState);
+	FAlsxtHeadLookAtState ProcessNewHeadLookAtState(const FAlsxtHeadLookAtState& NewHeadLookAtState);
 
 	UFUNCTION(Server, Unreliable)
-	void ServerProcessNewHeadLookAtState(const FALSXTHeadLookAtState& NewHeadLookAtState);
+	void ServerProcessNewHeadLookAtState(const FAlsxtHeadLookAtState& NewHeadLookAtState);
 
-	virtual void AddHeadLookAtEntry_Implementation(FALSXTHeadLookAtEntry HeadLookAtEntry) override;
-	virtual void RemoveHeadLookAtEntry_Implementation(FALSXTHeadLookAtEntry HeadLookAtEntry) override;
-	virtual void BeginHeadLookAt_Implementation(FALSXTHeadLookAtEntry HeadLookAtEntry) override;
+	virtual void AddHeadLookAtEntry_Implementation(FAlsxtHeadLookAtEntry HeadLookAtEntry) override;
+	virtual void RemoveHeadLookAtEntry_Implementation(FAlsxtHeadLookAtEntry HeadLookAtEntry) override;
+	virtual void BeginHeadLookAt_Implementation(FAlsxtHeadLookAtEntry HeadLookAtEntry) override;
 	virtual void EndHeadLookAt_Implementation() override;
 
 private:
 	UFUNCTION(Server, Unreliable)
-	void ServerSetHeadLookAtState(const FALSXTHeadLookAtState& NewHeadLookAtState);
+	void ServerSetHeadLookAtState(const FAlsxtHeadLookAtState& NewHeadLookAtState);
 
 	UFUNCTION()
-	void OnReplicate_HeadLookAtState(const FALSXTHeadLookAtState& PreviousHeadLookAtState);
+	void OnReplicate_HeadLookAtState(const FAlsxtHeadLookAtState& PreviousHeadLookAtState);
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "Head Look At|State")
-	void OnHeadLookAtStateChanged(const FALSXTHeadLookAtState& PreviousHeadLookAtState);
+	void OnHeadLookAtStateChanged(const FAlsxtHeadLookAtState& PreviousHeadLookAtState);
 
 	// Lean
 
@@ -804,7 +804,7 @@ protected:
 	FGameplayTag WeaponReadyPosition{ALSXTWeaponReadyPositionTags::None};
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Transient, Meta = (AllowPrivateAccess))
-	FALSXTSlidingState SlidingState;
+	FAlsxtSlidingState SlidingState;
 
 	// Defensive Mode
 
@@ -932,93 +932,93 @@ protected:
 	// Defensive Mode State
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State|Defensive Mode", ReplicatedUsing = "OnReplicate_DefensiveModeState", Meta = (AllowPrivateAccess))
-	FALSXTDefensiveModeState DefensiveModeState;
+	FAlsxtDefensiveModeState DefensiveModeState;
 
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character|Footstep State", ReplicatedUsing = "OnReplicate_DefensiveModeAnimations", Meta = (AllowPrivateAccess))
 	// DefensiveModeAnimations DefensiveModeAnimations;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character|Footstep State", Meta = (AllowPrivateAccess))
-	FALSXTDefensiveModeAnimations DefensiveModeAnimations;
+	FAlsxtDefensiveModeAnimations DefensiveModeAnimations;
 
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Als Character|Footstep State", Transient)
 	// FALSXTDefensiveModeState DefensiveModeState;
 
 public:	
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTSlidingState& GetSlidingState() const;
+	const FAlsxtSlidingState& GetSlidingState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewSlidingState"))
-	void SetSlidingState(const FALSXTSlidingState& NewSlidingState);
+	void SetSlidingState(const FAlsxtSlidingState& NewSlidingState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewSlidingState"))
-	FALSXTSlidingState ProcessNewSlidingState(const FALSXTSlidingState& NewSlidingState);
+	FAlsxtSlidingState ProcessNewSlidingState(const FAlsxtSlidingState& NewSlidingState);
 
 	UFUNCTION(Server, Reliable)
-	void ServerProcessNewSlidingState(const FALSXTSlidingState& NewSlidingState);
+	void ServerProcessNewSlidingState(const FAlsxtSlidingState& NewSlidingState);
 
 private:
 	UFUNCTION(Server, Reliable)
-	void ServerSetSlidingState(const FALSXTSlidingState& NewSlidingState);
+	void ServerSetSlidingState(const FAlsxtSlidingState& NewSlidingState);
 
 	UFUNCTION()
-	void OnReplicate_SlidingState(const FALSXTSlidingState& PreviousSlidingState);
+	void OnReplicate_SlidingState(const FAlsxtSlidingState& PreviousSlidingState);
 
 	UFUNCTION(BlueprintCallable, Category = "Settings|Als Character|Sliding State")
-	void ClientSetSlidingState(const FALSXTSlidingState& NewSlidingState);
+	void ClientSetSlidingState(const FAlsxtSlidingState& NewSlidingState);
 
 	UFUNCTION(NetMulticast, Reliable, BlueprintCallable, Category = "Settings|Als Character|Sliding State")
-	void MulticastSetSlidingState(const FALSXTSlidingState& NewSlidingState);
+	void MulticastSetSlidingState(const FAlsxtSlidingState& NewSlidingState);
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnSlidingStateChanged(const FALSXTSlidingState& PreviousSlidingState);
+	void OnSlidingStateChanged(const FAlsxtSlidingState& PreviousSlidingState);
 
 	/////
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTDefensiveModeState& GetDefensiveModeState() const;
+	const FAlsxtDefensiveModeState& GetDefensiveModeState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTDefensiveModeAnimations& GetDefensiveModeAnimations() const;
+	const FAlsxtDefensiveModeAnimations& GetDefensiveModeAnimations() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewDefensiveModeState"))
-	void SetDefensiveModeState(const FALSXTDefensiveModeState& NewDefensiveModeState);
+	void SetDefensiveModeState(const FAlsxtDefensiveModeState& NewDefensiveModeState);
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewDefensiveModeAnimations"))
-	void SetDefensiveModeAnimations(const FALSXTDefensiveModeAnimations& NewDefensiveModeAnimations);
+	void SetDefensiveModeAnimations(const FAlsxtDefensiveModeAnimations& NewDefensiveModeAnimations);
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewDefensiveModeState"))
-	void SetDefensiveModeStateImplementation(const FALSXTDefensiveModeState& NewDefensiveModeState);
+	void SetDefensiveModeStateImplementation(const FAlsxtDefensiveModeState& NewDefensiveModeState);
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character")
 	void ResetDefensiveModeState();
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewDefensiveModeState"))
-	FALSXTDefensiveModeState ProcessNewDefensiveModeState(const FALSXTDefensiveModeState& NewDefensiveModeState);
+	FAlsxtDefensiveModeState ProcessNewDefensiveModeState(const FAlsxtDefensiveModeState& NewDefensiveModeState);
 
 	UFUNCTION(Server, Reliable)
-	void ServerProcessNewDefensiveModeState(const FALSXTDefensiveModeState& NewDefensiveModeState);
+	void ServerProcessNewDefensiveModeState(const FAlsxtDefensiveModeState& NewDefensiveModeState);
 
 private:
 	UFUNCTION(Server, Reliable)
-	void ServerSetDefensiveModeState(const FALSXTDefensiveModeState& NewDefensiveModeState);
+	void ServerSetDefensiveModeState(const FAlsxtDefensiveModeState& NewDefensiveModeState);
 
 	UFUNCTION()
-	void OnReplicate_DefensiveModeState(const FALSXTDefensiveModeState& PreviousDefensiveModeState);
+	void OnReplicate_DefensiveModeState(const FAlsxtDefensiveModeState& PreviousDefensiveModeState);
 
 	// UFUNCTION()
 	// void OnReplicate_DefensiveModeAnimations(const FALSXTDefensiveModeAnimations& PreviousDefensiveModeAnimations);
 
 	UFUNCTION(BlueprintCallable, Category = "Settings|Als Character|Defensive Mode State")
-	void ClientSetDefensiveModeState(const FALSXTDefensiveModeState& NewDefensiveModeState);
+	void ClientSetDefensiveModeState(const FAlsxtDefensiveModeState& NewDefensiveModeState);
 
 	UFUNCTION(NetMulticast, Reliable, BlueprintCallable, Category = "Settings|Als Character|Defensive Mode State")
-	void MulticastSetDefensiveModeState(const FALSXTDefensiveModeState& NewDefensiveModeState);
+	void MulticastSetDefensiveModeState(const FAlsxtDefensiveModeState& NewDefensiveModeState);
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnDefensiveModeStateChanged(const FALSXTDefensiveModeState& PreviousDefensiveModeState);
+	void OnDefensiveModeStateChanged(const FAlsxtDefensiveModeState& PreviousDefensiveModeState);
 
 	// StationaryMode
 
@@ -1403,31 +1403,31 @@ public:
 private:
 	bool TryStartVaultingInAir();
 
-	bool TryStartVaulting(const FALSXTVaultingTraceSettings& TraceSettings);
+	bool TryStartVaulting(const FAlsxtVaultingTraceSettings& TraceSettings);
 
 	UFUNCTION(Server, Reliable)
-	void ServerStartVaulting(const FALSXTVaultingParameters& Parameters);
+	void ServerStartVaulting(const FAlsxtVaultingParameters& Parameters);
 
 	UFUNCTION(NetMulticast, Reliable)
-	void MulticastStartVaulting(const FALSXTVaultingParameters& Parameters);
+	void MulticastStartVaulting(const FAlsxtVaultingParameters& Parameters);
 
-	void StartVaultingImplementation(const FALSXTVaultingParameters& Parameters);
+	void StartVaultingImplementation(const FAlsxtVaultingParameters& Parameters);
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "Als Character")
-	UALSXTMantlingSettings* SelectMantlingSettingsXT();
+	UAlsxtMantlingSettings* SelectMantlingSettingsXT();
 
 	UFUNCTION(BlueprintNativeEvent, Category = "Als Character")
-	UALSXTSlidingSettings* SelectSlidingSettings();
+	UAlsxtSlidingSettings* SelectSlidingSettings();
 
 	UFUNCTION(BlueprintNativeEvent, Category = "Als Character")
-	UALSXTVaultingSettings* SelectVaultingSettings(const FGameplayTag& VaultingType);
+	UAlsxtVaultingSettings* SelectVaultingSettings(const FGameplayTag& VaultingType);
 
 	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
 	FVaultAnimation SelectVaultingMontage(const FGameplayTag& CurrentGait, const FGameplayTag& VaultingType);
 
 	UFUNCTION(BlueprintNativeEvent, Category = "Als Character")
-	void OnVaultingStarted(const FALSXTVaultingParameters& Parameters);
+	void OnVaultingStarted(const FAlsxtVaultingParameters& Parameters);
 
 private:
 	void RefreshVaulting();
@@ -1471,35 +1471,35 @@ public:
 	// Footstep Values
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Movement System")
-		FALSXTFootwearDetails GetFootwearDetails() const;
+		FAlsxtFootwearDetails GetFootwearDetails() const;
 
 	// Footstep State
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTFootprintsState& GetFootprintsState() const;
+	const FAlsxtFootprintsState& GetFootprintsState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewFootprintsState"))
-	void SetFootprintsState(const EAlsFootBone& Foot, const FALSXTFootprintsState& NewFootprintsState);
+	void SetFootprintsState(const EAlsFootBone& Foot, const FAlsxtFootprintsState& NewFootprintsState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewFootprintsState"))
-	FALSXTFootprintsState ProcessNewFootprintsState(const EAlsFootBone& Foot, const FALSXTFootprintsState& NewFootprintsState);
+	FAlsxtFootprintsState ProcessNewFootprintsState(const EAlsFootBone& Foot, const FAlsxtFootprintsState& NewFootprintsState);
 
 	UFUNCTION(Server, Reliable)
-	void ServerProcessNewFootprintsState(const EAlsFootBone& Foot, const FALSXTFootprintsState& NewFootprintsState);
+	void ServerProcessNewFootprintsState(const EAlsFootBone& Foot, const FAlsxtFootprintsState& NewFootprintsState);
 
 protected:
 	UFUNCTION(BlueprintCallable, Server, Reliable)
-	void ServerSetFootprintsState(const EAlsFootBone& Foot, const FALSXTFootprintsState& NewFootprintsState);
+	void ServerSetFootprintsState(const EAlsFootBone& Foot, const FAlsxtFootprintsState& NewFootprintsState);
 
 private:
 
 	UFUNCTION()
-	void OnReplicate_FootprintsState(const FALSXTFootprintsState& PreviousFootprintsState);
+	void OnReplicate_FootprintsState(const FAlsxtFootprintsState& PreviousFootprintsState);
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnFootprintsStateChanged(const FALSXTFootprintsState& PreviousFootprintsState);
+	void OnFootprintsStateChanged(const FAlsxtFootprintsState& PreviousFootprintsState);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALS|Als Character")
 	void OnSlidingStarted();
@@ -2116,7 +2116,7 @@ protected:
 
 	virtual void SetCharacterLocomotionVariant_Implementation(const FGameplayTag& NewLocomotionVariant) override;
 
-	virtual FALSXTStationaryModeState GetCharacterStationaryModeState_Implementation() const override;
+	virtual FAlsxtStationaryModeState GetCharacterStationaryModeState_Implementation() const override;
 	virtual void GetCharacterGesture_Implementation(FGameplayTag& NewGesture, FGameplayTag& NewGestureHand) const override;
 	virtual void SetCharacterGesture_Implementation(const FGameplayTag& NewGesture, const FGameplayTag& NewGestureHand) override;
 
@@ -2129,21 +2129,21 @@ protected:
 	virtual UAlsCharacterMovementComponent* GetCharacterMovementComponent_Implementation() const override;
 
 	// Footprint Interface Functions
-	virtual FALSXTFootprintsState GetCharacterFootprintsState_Implementation() const override;
-	virtual FALSXTFootwearDetails GetCharacterFootwearDetails_Implementation() const override;
+	virtual FAlsxtFootprintsState GetCharacterFootprintsState_Implementation() const override;
+	virtual FAlsxtFootwearDetails GetCharacterFootwearDetails_Implementation() const override;
 
 	// Collision Interface Functions
 	virtual void AddCollisionImpulse_Implementation(FVector NewImpulse) override;
 	virtual void OnStaticMeshAttackCollision_Implementation(FAttackDoubleHitResult Hit) override;
 	virtual void OnActorAttackCollision_Implementation(FAttackDoubleHitResult Hit) override;
-	virtual FALSXTSlidingState GetCharacterSlidingState_Implementation() const override;
-	virtual FALSXTDefensiveModeState GetCharacterDefensiveModeState_Implementation() const override;
-	virtual FALSXTDefensiveModeAnimations GetCharacterDefensiveModeAnimations_Implementation() const override;
-	virtual FALSXTBumpPoseState GetCrowdNavigationPoseState_Implementation() const override;
+	virtual FAlsxtSlidingState GetCharacterSlidingState_Implementation() const override;
+	virtual FAlsxtDefensiveModeState GetCharacterDefensiveModeState_Implementation() const override;
+	virtual FAlsxtDefensiveModeAnimations GetCharacterDefensiveModeAnimations_Implementation() const override;
+	virtual FAlsxtBumpPoseState GetCrowdNavigationPoseState_Implementation() const override;
 
 	virtual FALSXTJigglePhysicsSettings GetCharacterJigglePhysicsSettings_Implementation() const override;
-	virtual FALSXTPhysicalAnimationState GetCharacterPhysicalAnimationState_Implementation() const override;
-	virtual void SetCharacterPhysicalAnimationState_Implementation(FALSXTPhysicalAnimationState NewPhysicalAnimationState) override;
+	virtual FAlsxtPhysicalAnimationState GetCharacterPhysicalAnimationState_Implementation() const override;
+	virtual void SetCharacterPhysicalAnimationState_Implementation(FAlsxtPhysicalAnimationState NewPhysicalAnimationState) override;
 
 	virtual FGameplayTag GetCharacterPhysicalAnimationMode_Implementation() const override;
 	virtual void SetCharacterPhysicalAnimationMode_Implementation(const FGameplayTag& NewPhysicalAnimationMode, const TArray<FName>& BelowBoneNames) override;
@@ -2162,8 +2162,8 @@ protected:
 	virtual FGameplayTag GetCharacterLocomotionMode_Implementation() const override;
 	virtual FGameplayTag GetCharacterLocomotionAction_Implementation() const override;		
 	virtual void SetCharacterLocomotionAction_Implementation(const FGameplayTag& NewLocomotionAction) override;
-	virtual FALSXTPoseState GetCharacterPoseState_Implementation() const override;
-	virtual FALSXTBreathState GetCharacterBreathState_Implementation() const override;
+	virtual FAlsxtPoseState GetCharacterPoseState_Implementation() const override;
+	virtual FAlsxtBreathState GetCharacterBreathState_Implementation() const override;
 	virtual FGameplayTag GetCharacterLocomotionVariant_Implementation() const override;
 	virtual FGameplayTag GetCharacterVaultType_Implementation() const override;
 
@@ -2188,27 +2188,27 @@ protected:
 
 	// Freelooking Interface Functions
 	virtual FGameplayTag GetCharacterFreelooking_Implementation() const override;
-	virtual FALSXTFreelookState GetCharacterFreelookState_Implementation() const override;
-	virtual FALSXTHeadLookAtState GetCharacterHeadLookAtState_Implementation() const override;
+	virtual FAlsxtFreelookState GetCharacterFreelookState_Implementation() const override;
+	virtual FAlsxtHeadLookAtState GetCharacterHeadLookAtState_Implementation() const override;
 	
 	// Defensive Mode Interface Functions
 	virtual FGameplayTag GetCharacterDefensiveMode_Implementation() const override;
 	virtual bool IsBlocking_Implementation() const override;	
 	virtual void SetCharacterDefensiveMode_Implementation(const FGameplayTag& NewDefensiveMode) override;
-	virtual void SetCharacterDefensiveModeState_Implementation(FALSXTDefensiveModeState NewDefensiveModeState) override;
-	virtual void SetCharacterDefensiveModeAnimations_Implementation(FALSXTDefensiveModeAnimations NewDefensiveModeAnimations) override;
+	virtual void SetCharacterDefensiveModeState_Implementation(FAlsxtDefensiveModeState NewDefensiveModeState) override;
+	virtual void SetCharacterDefensiveModeAnimations_Implementation(FAlsxtDefensiveModeAnimations NewDefensiveModeAnimations) override;
 	virtual void ResetCharacterDefensiveModeState_Implementation() override;
 
 	// Held Item Interface Functions
 	virtual FGameplayTag GetCharacterForegripPosition_Implementation() const override;	
 	virtual FGameplayTag GetCharacterWeaponCarryPosition_Implementation() const override;
 	virtual FTransform GetCharacterCurrentForegripTransform_Implementation() const override;
-	virtual FALSXTAimState GetCharacterAimState_Implementation() const override;
-	virtual FALSXTHeldItemState GetCharacterHeldItemState_Implementation() const override;
+	virtual FAlsxtAimState GetCharacterAimState_Implementation() const override;
+	virtual FAlsxtHeldItemState GetCharacterHeldItemState_Implementation() const override;
 
 	// Idle Animation Component
 	virtual bool ShouldIdle_Implementation() const override;
-	virtual FALSXTIdleState GetIdleState_Implementation() const override;
+	virtual FAlsxtIdleState GetIdleState_Implementation() const override;
 };
 
 inline const FGameplayTag& AALSXTCharacter::GetDesiredEmote() const
@@ -2256,62 +2256,62 @@ inline const FGameplayTag& AALSXTCharacter::GetLean() const
 	return Lean;
 }
 
-inline const FALSXTBreathState& AALSXTCharacter::GetBreathState() const
+inline const FAlsxtBreathState& AALSXTCharacter::GetBreathState() const
 {
 	return BreathState;
 }
 
-inline const FALSXTPoseState& AALSXTCharacter::GetALSXTPoseState() const
+inline const FAlsxtPoseState& AALSXTCharacter::GetALSXTPoseState() const
 {
 	return ALSXTPoseState;
 }
 
-inline const FALSXTStationaryModeState& AALSXTCharacter::GetStationaryModeState() const
+inline const FAlsxtStationaryModeState& AALSXTCharacter::GetStationaryModeState() const
 {
 	return StationaryModeState;
 }
 
-inline const FALSXTVaultingState& AALSXTCharacter::GetVaultingState() const
+inline const FAlsxtVaultingState& AALSXTCharacter::GetVaultingState() const
 {
 	return VaultingState;
 }
 
-inline const FALSXTFootprintsState& AALSXTCharacter::GetFootprintsState() const
+inline const FAlsxtFootprintsState& AALSXTCharacter::GetFootprintsState() const
 {
 	return FootprintsState;
 }
 
-inline const FALSXTFreelookState& AALSXTCharacter::GetFreelookState() const
+inline const FAlsxtFreelookState& AALSXTCharacter::GetFreelookState() const
 {
 	return FreelookState;
 }
 
-inline const FALSXTHeadLookAtState& AALSXTCharacter::GetHeadLookAtState() const
+inline const FAlsxtHeadLookAtState& AALSXTCharacter::GetHeadLookAtState() const
 {
 	return HeadLookAtState;
 }
 
-inline const FALSXTAimState& AALSXTCharacter::GetAimState() const
+inline const FAlsxtAimState& AALSXTCharacter::GetAimState() const
 {
 	return AimState;
 }
 
-inline const FALSXTSlidingState& AALSXTCharacter::GetSlidingState() const
+inline const FAlsxtSlidingState& AALSXTCharacter::GetSlidingState() const
 {
 	return SlidingState;
 }
 
-inline const FALSXTDefensiveModeState& AALSXTCharacter::GetDefensiveModeState() const
+inline const FAlsxtDefensiveModeState& AALSXTCharacter::GetDefensiveModeState() const
 {
 	return DefensiveModeState;
 }
 
-inline const FALSXTDefensiveModeAnimations& AALSXTCharacter::GetDefensiveModeAnimations() const
+inline const FAlsxtDefensiveModeAnimations& AALSXTCharacter::GetDefensiveModeAnimations() const
 {
 	return DefensiveModeAnimations;
 }
 
-inline const FALSXTHeldItemState& AALSXTCharacter::GetHeldItemState() const
+inline const FAlsxtHeldItemState& AALSXTCharacter::GetHeldItemState() const
 {
 	return HeldItemState;
 }
@@ -2431,7 +2431,7 @@ inline const FGameplayTag& AALSXTCharacter::GetDesiredPhysicalAnimationMode() co
 	return DesiredPhysicalAnimationMode;
 }
 
-inline const FALSXTPhysicalAnimationState AALSXTCharacter::GetPhysicalAnimationState() const
+inline const FAlsxtPhysicalAnimationState AALSXTCharacter::GetPhysicalAnimationState() const
 {
 	return PhysicalAnimationState;
 }

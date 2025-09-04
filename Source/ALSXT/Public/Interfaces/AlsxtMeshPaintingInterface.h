@@ -2,7 +2,7 @@
 
 #include "GameplayTagContainer.h"
 #include "Runtime/PhysicsCore/Public/Chaos/ChaosEngineInterface.h"
-#include "Settings/ALSXTMeshPaintingSettings.h"
+#include "Settings/AlsxtMeshPaintingSettings.h"
 #include "AlsxtMeshPaintingInterface.generated.h"
 
 UINTERFACE(MinimalAPI, Blueprintable)
@@ -15,13 +15,13 @@ class ALSXT_API IAlsxtMeshPaintingInterface {
 
 public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Mesh Painting Interface")
-	FALSXTGlobalGeneralMeshPaintingSettings GetGlobalGeneralMeshPaintingSettings() const;
+	FAlsxtGlobalGeneralMeshPaintingSettings GetGlobalGeneralMeshPaintingSettings() const;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Mesh Painting Interface")
-	FALSXTServerMeshPaintingSettings GetServerGeneralMeshPaintingSettings() const;
+	FAlsxtServerMeshPaintingSettings GetServerGeneralMeshPaintingSettings() const;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Mesh Painting Interface")
-	FALSXTGeneralMeshPaintingSettings GetUserGeneralMeshPaintingSettings() const;
+	FAlsxtGeneralMeshPaintingSettings GetUserGeneralMeshPaintingSettings() const;
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Mesh Painting Interface")
 	USceneCaptureComponent2D* GetSceneCaptureComponent() const;

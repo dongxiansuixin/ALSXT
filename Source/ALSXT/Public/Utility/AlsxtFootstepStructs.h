@@ -7,7 +7,7 @@ enum EAlsFootstepSoundType : int;
 
 
 USTRUCT(BlueprintType)
-struct ALSXT_API FALSXTFootstepEffectCriteria
+struct ALSXT_API FAlsxtFootstepEffectCriteria
 {
 	GENERATED_BODY()
 
@@ -20,24 +20,24 @@ struct ALSXT_API FALSXTFootstepEffectCriteria
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess))
 	EAlsFootstepSoundType StepType;
 
-	bool operator==(const FALSXTFootstepEffectCriteria& other) const
+	bool operator==(const FAlsxtFootstepEffectCriteria& other) const
 	{
 		return (other.FootSurface == FootSurface) && (other.GroundSurface == GroundSurface) && (other.StepType == StepType);
 	}
 };
 
 USTRUCT(BlueprintType)
-struct ALSXT_API FALSXTFootstepEffectVertexCriteria
+struct ALSXT_API FAlsxtFootstepEffectVertexCriteria
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess))
-	FALSXTFootstepEffectCriteria FootstepTraceResult;
+	FAlsxtFootstepEffectCriteria FootstepTraceResult;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess))
 	TSoftClassPtr<UPhysicalMaterial> VertexSurface;	
 
-	bool operator==(const FALSXTFootstepEffectVertexCriteria& other) const
+	bool operator==(const FAlsxtFootstepEffectVertexCriteria& other) const
 	{
 		return (other.FootstepTraceResult == FootstepTraceResult) && (other.VertexSurface == VertexSurface);
 	}

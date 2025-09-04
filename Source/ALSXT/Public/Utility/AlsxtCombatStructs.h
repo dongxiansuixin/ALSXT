@@ -8,7 +8,7 @@
 #include "AlsxtCombatStructs.generated.h"
 
 USTRUCT(BlueprintType)
-struct ALSXT_API FALSXTAttackImpactCameraShake
+struct ALSXT_API FAlsxtAttackImpactCameraShake
 {
 	GENERATED_BODY()
 
@@ -21,7 +21,7 @@ struct ALSXT_API FALSXTAttackImpactCameraShake
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess))
 	TSubclassOf<UCameraShakeBase> CameraShake{ nullptr };
 
-	bool operator==(const FALSXTAttackImpactCameraShake& other) const
+	bool operator==(const FAlsxtAttackImpactCameraShake& other) const
 	{
 		return (other.Velocity == Velocity) && (other.Form == Form) && (other.CameraShake == CameraShake);
 	}

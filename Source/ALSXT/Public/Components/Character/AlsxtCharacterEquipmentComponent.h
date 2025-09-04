@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
-#include "Settings/ALSXTClothingSettings.h"
+#include "Settings/AlsxtClothingSettings.h"
 #include "AlsxtCharacterEquipmentComponent.generated.h"
 
 
@@ -75,7 +75,7 @@ public:
 	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> Footwear;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ALS|Als Character", Meta = (AllowPrivateAccess))
-	FALSXTGeneralClothingSettings Settings;
+	FAlsxtGeneralClothingSettings Settings;
 
 	TArray<UAlsxtPaintableSkeletalMeshComponent*> GetAllComponents();
 	TArray<UAlsxtPaintableSkeletalMeshComponent*> GetHighlightableComponents();

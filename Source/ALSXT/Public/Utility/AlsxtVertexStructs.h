@@ -6,7 +6,7 @@
 #include "AlsxtVertexStructs.generated.h"
 
 USTRUCT(BlueprintType)
-struct ALSXT_API FALSXTVertexColorToPhysicalMaterialMap
+struct ALSXT_API FAlsxtVertexColorToPhysicalMaterialMap
 {
 	GENERATED_BODY()
 

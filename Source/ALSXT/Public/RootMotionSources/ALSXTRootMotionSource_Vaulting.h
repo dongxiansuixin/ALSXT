@@ -1,10 +1,10 @@
 #pragma once
 
 #include "GameFramework/RootMotionSource.h"
-#include "State/ALSXTVaultingState.h"
+#include "State/AlsxtVaultingState.h"
 #include "ALSXTRootMotionSource_Vaulting.generated.h"
 
-class UALSXTVaultingSettings;
+class UAlsxtVaultingSettings;
 
 USTRUCT()
 struct ALSXT_API FALSXTRootMotionSource_Vaulting : public FRootMotionSource
@@ -13,10 +13,10 @@ struct ALSXT_API FALSXTRootMotionSource_Vaulting : public FRootMotionSource
 
 public:
 	UPROPERTY()
-	TObjectPtr<UALSXTVaultingSettings> VaultingSettings{nullptr};
+	TObjectPtr<UAlsxtVaultingSettings> VaultingSettings{nullptr};
 
 	UPROPERTY()
-	FALSXTVaultingState VaultingState;
+	FAlsxtVaultingState VaultingState;
 
 	UPROPERTY()
 	TWeakObjectPtr<UPrimitiveComponent> TargetPrimitive;

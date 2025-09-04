@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Settings/ALSXTIdleAnimationSettings.h"
+#include "Settings/AlsxtIdleAnimationSettings.h"
 #include "AlsxtIdleAnimationComponentInterface.generated.h"
 
 UINTERFACE(Blueprintable)
@@ -16,10 +16,10 @@ public:
   bool ShouldIdle() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Idle Animation Component Interface")
-  UALSXTIdleAnimationSettings* SelectIdleSettings();
+  UAlsxtIdleAnimationSettings* SelectIdleSettings();
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Idle Animation Component Interface")
-  FALSXTIdleState GetIdleState() const;
+  FAlsxtIdleState GetIdleState() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Idle Animation Component Interface")
   void EnableIdleAnimation(bool Enable);

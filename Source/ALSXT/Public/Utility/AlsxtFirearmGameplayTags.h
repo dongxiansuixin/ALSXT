@@ -2,19 +2,19 @@
 
 #include "NativeGameplayTags.h"
 
-namespace ALSXTFirearmFireModeTags
+namespace AlsxtFirearmFireModeTags
 {
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(SemiAuto)
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Burst)
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Automatic)
 }
 
-namespace ALSXTFirearmTags
+namespace AlsxtFirearmTags
 {
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Grenade)
 }
 
-namespace ALSXTReloadingTypeTags
+namespace AlsxtReloadingTypeTags
 {
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Drop)
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Retention)
@@ -24,13 +24,13 @@ namespace ALSXTReloadingTypeTags
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TacticalAimed)
 }
 
-namespace ALSXTFirearmFingerPoseTags
+namespace AlsxtFirearmFingerPoseTags
 {
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(OutsideGuard)
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(OnTrigger)
 }
 
-namespace ALSXTFirearmFingerActionTags
+namespace AlsxtFirearmFingerActionTags
 {
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(None)
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(MagazineRelease)
@@ -43,7 +43,7 @@ namespace ALSXTFirearmFingerActionTags
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TogglingAccessory2)
 }
 
-namespace ALSXTFirearmSightLocationTags
+namespace AlsxtFirearmSightLocationTags
 {
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ironsights)
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(ReceiverTop)

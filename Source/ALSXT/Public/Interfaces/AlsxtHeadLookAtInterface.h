@@ -3,7 +3,7 @@
 #include "GameplayTagContainer.h"
 #include "Engine/EngineTypes.h"
 #include "Utility/AlsxtStructs.h"
-#include "State/ALSXTHeadLookAtState.h"
+#include "State/AlsxtHeadLookAtState.h"
 #include "AlsxtHeadLookAtInterface.generated.h"
 
 UINTERFACE(Blueprintable)
@@ -26,7 +26,7 @@ public:
   void IsInFrontOf(bool& IsInFrontOf, FVector LookAtActorLocation) const;
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Head Look At Interface")
-  FALSXTHeadLookAtActor GetHeadLookAtActor(FVector FromLocation) const;
+  FAlsxtHeadLookAtActor GetHeadLookAtActor(FVector FromLocation) const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Head Look At Interface")
   FVector GetHeadLookAtLocation();
@@ -35,25 +35,25 @@ public:
   FTransform GetHeadLookAtTransform();
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Head Look At Interface")
-  FALSXTHeadLookAtSettings GetLookAtSettings();
+  FAlsxtHeadLookAtSettings GetLookAtSettings();
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Head Look At Interface")
-  void AddHeadLookAtEntry(FALSXTHeadLookAtEntry HeadLookAtEntry);
+  void AddHeadLookAtEntry(FAlsxtHeadLookAtEntry HeadLookAtEntry);
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Head Look At Interface")
-  void RemoveHeadLookAtEntry(FALSXTHeadLookAtEntry HeadLookAtEntry);
+  void RemoveHeadLookAtEntry(FAlsxtHeadLookAtEntry HeadLookAtEntry);
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Head Look At Interface")
   void ResetHeadLookAt();
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Head Look At Interface")
-  FALSXTHeadLookAtEntry GetBestHeadLookAtEntry() const;
+  FAlsxtHeadLookAtEntry GetBestHeadLookAtEntry() const;
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Head Look At Interface")
-  FALSXTHeadLookAtEntry GetNewBestGazeHeadLookAtEntry() const;
+  FAlsxtHeadLookAtEntry GetNewBestGazeHeadLookAtEntry() const;
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Head Look At Interface")
-  void BeginHeadLookAt(FALSXTHeadLookAtEntry HeadLookAtEntry);
+  void BeginHeadLookAt(FAlsxtHeadLookAtEntry HeadLookAtEntry);
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Head Look At Interface")
   void OnBeginHeadLookAt();

@@ -8,7 +8,7 @@
 #include "Utility/AlsxtGameplayTags.h"
 #include "Utility/AlsxtStructs.h"
 #include "Settings/ALSXTCharacterSettings.h"
-#include "Settings/ALSXTMeshPaintingSettings.h"
+#include "Settings/AlsxtMeshPaintingSettings.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Components/SceneCaptureComponent2D.h"
 #include "PhysicalMaterials/PhysicalMaterialMask.h"
@@ -17,8 +17,8 @@
 #include "AlsxtPaintableStaticMeshComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeStaticMeshMaterialSignature, UMaterialInterface*, PreviousMaterial, UMaterialInterface*, NewMaterial);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeStaticMeshPaintingSettingsMapSignature, UALSXTMeshPaintingSettingsMap*, PreviousSettingsMap, UALSXTMeshPaintingSettingsMap*, NewSettingsMap);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeStaticMeshPaintingSettingsSignature, UALSXTMeshPaintingSettings*, PreviousSettings, UALSXTMeshPaintingSettings*, NewSettings);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeStaticMeshPaintingSettingsMapSignature, UAlsxtMeshPaintingSettingsMap*, PreviousSettingsMap, UAlsxtMeshPaintingSettingsMap*, NewSettingsMap);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeStaticMeshPaintingSettingsSignature, UAlsxtMeshPaintingSettings*, PreviousSettings, UAlsxtMeshPaintingSettings*, NewSettings);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeStaticMeshPaintCriteriaSignature, FALSXTMeshPaintCriteriaMap, PreviousItemCriteria, FALSXTMeshPaintCriteriaMap, NewItemCriteria);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeItemStaticMeshPaintCriteriaSignature, FALSXTMeshPaintCriteriaMap, PreviousItemCriteria, FALSXTMeshPaintCriteriaMap, NewItemCriteria);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeStaticMeshElementalConditionSignature, const FGameplayTag, PreviousCondition, const FGameplayTag, NewCondition);
@@ -33,7 +33,7 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere, Transient, Setter = SetMeshPaintingSettingsMap, BlueprintSetter = SetMeshPaintingSettingsMap, Getter = GetMeshPaintingSettingsMap, BlueprintGetter = GetMeshPaintingSettingsMap, Category = Mesh)
-	TObjectPtr <UALSXTMeshPaintingSettingsMap> MeshPaintingSettingsMap;
+	TObjectPtr <UAlsxtMeshPaintingSettingsMap> MeshPaintingSettingsMap;
 
 public:
 	UPROPERTY(BlueprintAssignable)
@@ -58,13 +58,13 @@ public:
 	TObjectPtr<USceneCaptureComponent2D> SceneCaptureComponent;
 
 	UPROPERTY(BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	FALSXTGlobalGeneralMeshPaintingSettings GlobalGeneralMeshPaintingSettings;
+	FAlsxtGlobalGeneralMeshPaintingSettings GlobalGeneralMeshPaintingSettings;
 
 	UPROPERTY(BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	FALSXTGeneralMeshPaintingSettings ComponentGeneralMeshPaintingSettings;
+	FAlsxtGeneralMeshPaintingSettings ComponentGeneralMeshPaintingSettings;
 
 	UPROPERTY(BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	UALSXTMeshPaintingSettings* MeshPaintingSettings;
+	UAlsxtMeshPaintingSettings* MeshPaintingSettings;
 
 	UPROPERTY(BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TMap<TEnumAsByte<EPhysicalSurface>, FALSXTMeshPaintCriteria> MeshPaintCriteria;
@@ -171,17 +171,17 @@ public:
 
 	// Settings Map
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Settings")
-	UALSXTMeshPaintingSettingsMap* GetMeshPaintingSettingsMap() const;
+	UAlsxtMeshPaintingSettingsMap* GetMeshPaintingSettingsMap() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Settings")
-	void SetMeshPaintingSettingsMap(UALSXTMeshPaintingSettingsMap* NewMeshPaintingSettingsMap);
+	void SetMeshPaintingSettingsMap(UAlsxtMeshPaintingSettingsMap* NewMeshPaintingSettingsMap);
 
 	// Settings
 	UFUNCTION(BlueprintCallable, Category = "Settings")
-	UALSXTMeshPaintingSettings*& GetMeshPaintingSettings(TEnumAsByte<EPhysicalSurface> SurfaceType);
+	UAlsxtMeshPaintingSettings*& GetMeshPaintingSettings(TEnumAsByte<EPhysicalSurface> SurfaceType);
 
 	UFUNCTION(BlueprintCallable, Category = "Settings")
-	void SetMeshPaintingSettings(UALSXTMeshPaintingSettings* NewMeshPaintingSettings);
+	void SetMeshPaintingSettings(UAlsxtMeshPaintingSettings* NewMeshPaintingSettings);
 
 	// Criteria
 	UFUNCTION(BlueprintCallable, Category = "Settings")

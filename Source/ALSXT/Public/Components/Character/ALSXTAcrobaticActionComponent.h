@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ALSXTCharacter.h"
-#include "Settings/ALSXTAcrobaticActionSettings.h"
+#include "Settings/AlsxtAcrobaticActionSettings.h"
 #include "Interfaces/AlsxtCharacterInterface.h"
 #include "AlsxtAcrobaticActionComponent.generated.h"
 
@@ -24,14 +24,14 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings", Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTAcrobaticActionSettings> Settings;
+	TObjectPtr<UAlsxtAcrobaticActionSettings> Settings;
 
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", Meta = (AllowPrivateAccess))
-	FALSXTGeneralAcrobaticActionSettings GeneralAcrobaticActionSettings;
+	FAlsxtGeneralAcrobaticActionSettings GeneralAcrobaticActionSettings;
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Settings")
 	bool CanPerformAcrobaticAction();

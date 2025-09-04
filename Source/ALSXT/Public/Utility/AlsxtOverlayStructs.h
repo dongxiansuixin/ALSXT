@@ -1,14 +1,14 @@
 #pragma once
 
 #include "NativeGameplayTags.h"
-#include "Settings/ALSXTDefensiveModeSettings.h"
+#include "Settings/AlsxtDefensiveModeSettings.h"
 #include "Templates/SubclassOf.h"
 #include "AlsxtOverlayStructs.generated.h"
 
 class UAnimInstance;
 
 USTRUCT(BlueprintType)
-struct ALSXT_API FOverlaySlotInfo
+struct ALSXT_API FAlsxtOverlaySlotInfo
 {
 	GENERATED_BODY()
 
@@ -21,14 +21,14 @@ struct ALSXT_API FOverlaySlotInfo
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess))
 	TSubclassOf<UAnimInstance> AnimInstance;
 
-	bool operator==(const FOverlaySlotInfo& other) const
+	bool operator==(const FAlsxtOverlaySlotInfo& other) const
 	{
 		return (other.Overlay == Overlay) && (other.Slot == Slot) && (other.AnimInstance->GetClass() == AnimInstance->GetClass());
 	}
 };
 
 USTRUCT(BlueprintType)
-struct ALSXT_API FOverlayInfo
+struct ALSXT_API FAlsxtOverlayInfo
 {
 	GENERATED_BODY()
 
@@ -38,7 +38,7 @@ struct ALSXT_API FOverlayInfo
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (Categories = "Als.OverlaySlot", AllowPrivateAccess))
 	TMap<UPARAM(meta=(Categories="Als.OverlaySlot")) FGameplayTag, TSubclassOf<UAnimInstance>> Slots;
 
-	bool operator==(const FOverlayInfo& other) const
+	bool operator==(const FAlsxtOverlayInfo& other) const
 	{
 		return (other.Overlay == Overlay);
 	}

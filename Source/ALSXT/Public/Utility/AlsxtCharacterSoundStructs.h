@@ -1,7 +1,7 @@
 #pragma once
 
 #include "NativeGameplayTags.h"
-#include "Settings/ALSXTDefensiveModeSettings.h"
+#include "Settings/AlsxtDefensiveModeSettings.h"
 #include "AlsxtCharacterSoundStructs.generated.h"
 
 USTRUCT(BlueprintType)

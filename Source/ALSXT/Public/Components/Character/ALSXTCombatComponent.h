@@ -9,7 +9,7 @@
 #include "AlsCharacter.h"
 #include "AlsCameraComponent.h"
 #include "Components/ActorComponent.h"
-#include "State/ALSXTCombatState.h"
+#include "State/AlsxtCombatState.h"
 #include "AlsxtCombatComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnNewTargetSignature);
@@ -111,7 +111,7 @@ public:
 	FTargetHitResultEntry CurrentTarget;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", Meta = (AllowPrivateAccess))
-	FALSXTGeneralCombatSettings CombatSettings;
+	FAlsxtGeneralCombatSettings CombatSettings;
 
 	UFUNCTION(BlueprintCallable, Category = "Target Lock")
 	float GetAngle(FVector Target);
@@ -153,7 +153,7 @@ public:
 	void DashToTarget();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTCombatState CombatState;
+	FAlsxtCombatState CombatState;
 
 	UFUNCTION(BlueprintCallable, Category = "Attack")
 	AActor* TraceForPotentialAttackTarget(float Distance);
@@ -167,30 +167,30 @@ protected:
 	int32 CombatRootMotionSourceId;
 
 public:
-	FALSXTCombatParameters CombatParameters;
+	FAlsxtCombatParameters CombatParameters;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTCombatState& GetCombatState() const;
+	const FAlsxtCombatState& GetCombatState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewCombatState"))
-	void SetCombatState(const FALSXTCombatState& NewCombatState);
+	void SetCombatState(const FAlsxtCombatState& NewCombatState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewCombatState"))
-	FALSXTCombatState ProcessNewCombatState(const FALSXTCombatState& NewCombatState);
+	FAlsxtCombatState ProcessNewCombatState(const FAlsxtCombatState& NewCombatState);
 
 	UFUNCTION(Server, Unreliable)
-	void ServerProcessNewCombatState(const FALSXTCombatState& NewCombatState);
+	void ServerProcessNewCombatState(const FAlsxtCombatState& NewCombatState);
 
 private:
 	UFUNCTION(Server, Unreliable)
-	void ServerSetCombatState(const FALSXTCombatState& NewCombatState);
+	void ServerSetCombatState(const FAlsxtCombatState& NewCombatState);
 
 	UFUNCTION()
-	void OnReplicate_CombatState(const FALSXTCombatState& PreviousCombatState);
+	void OnReplicate_CombatState(const FAlsxtCombatState& PreviousCombatState);
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnCombatStateChanged(const FALSXTCombatState& PreviousCombatState);
+	void OnCombatStateChanged(const FAlsxtCombatState& PreviousCombatState);
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "Parameters")
@@ -229,7 +229,7 @@ private:
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Meta = (AllowPrivateAccess))
-	FALSXTCombatAttackTraceSettings CurrentAttackTraceSettings;
+	FAlsxtCombatAttackTraceSettings CurrentAttackTraceSettings;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Meta = (AllowPrivateAccess))
 	TArray<AActor*> AttackTraceLastHitActors;
@@ -252,7 +252,7 @@ protected:
 public:
 	// Attack Collision Trace
 	UFUNCTION(BlueprintCallable, Category = "ALSXT|Combat")
-	void BeginAttackCollisionTrace(FALSXTCombatAttackTraceSettings TraceSettings);
+	void BeginAttackCollisionTrace(FAlsxtCombatAttackTraceSettings TraceSettings);
 
 	UFUNCTION(BlueprintCallable, Category = "ALSXT|Combat")
 	void AttackCollisionTrace();
@@ -319,7 +319,7 @@ protected:
 	void OnSyncedAttackEnded();
 };
 
-inline const FALSXTCombatState& UAlsxtCombatComponent::GetCombatState() const
+inline const FAlsxtCombatState& UAlsxtCombatComponent::GetCombatState() const
 {
 	return CombatState;
 }

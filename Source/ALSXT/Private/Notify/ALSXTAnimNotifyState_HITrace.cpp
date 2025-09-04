@@ -28,7 +28,7 @@ void UALSXTAnimNotifyState_HITrace::NotifyBegin(USkeletalMeshComponent* Mesh, UA
 
 	if (IsValid(Mesh->GetOwner()) && Mesh->GetOwner()->GetClass()->ImplementsInterface(UAlsxtCharacterInterface::StaticClass()) && Mesh->GetOwner()->GetClass()->ImplementsInterface(UAlsxtCombatInterface::StaticClass()))
 	{
-		FALSXTCombatAttackTraceSettings TraceSettings;
+		FAlsxtCombatAttackTraceSettings TraceSettings;
 		TraceSettings.Overlay = IAlsxtCharacterInterface::Execute_GetCharacterOverlayMode(Mesh->GetOwner());
 		TraceSettings.ImpactType = ALSXTImpactTypeTags::Hit;
 		TraceSettings.AttackType = ALSXTAttackMethodTags::Regular;

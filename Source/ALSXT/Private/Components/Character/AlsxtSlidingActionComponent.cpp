@@ -123,7 +123,7 @@ void UAlsxtSlidingActionComponent::StartSliding(const float PlayRate, const floa
 	}
 }
 
-UALSXTSlidingSettings* UAlsxtSlidingActionComponent::SelectSlidingSettings_Implementation()
+UAlsxtSlidingSettings* UAlsxtSlidingActionComponent::SelectSlidingSettings_Implementation()
 {
 	return nullptr;
 }

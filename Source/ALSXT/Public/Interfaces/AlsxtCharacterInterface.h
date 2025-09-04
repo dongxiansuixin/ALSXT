@@ -2,22 +2,22 @@
 
 #include "NativeGameplayTags.h"
 #include "Chaos/ChaosEngineInterface.h"
-#include "Settings/ALSXTCameraEffectsSettings.h"
-#include "Settings/ALSXTHeldItemSettings.h"
-#include "Settings/ALSXTStationaryModeSettings.h"
-#include "Settings/ALSXTFirearmSettings.h"
-#include "State/ALSXTPoseState.h"
-#include "State/ALSXTHeadLookAtState.h"
-#include "State/ALSXTFreelookState.h"
-#include "State/ALSXTAimState.h"
-#include "State/ALSXTDefensiveModeState.h"
-#include "State/ALSXTFootstepState.h"
-#include "State/ALSXTBreathState.h"
-#include "State/ALSXTSlidingState.h"
+#include "Settings/AlsxtCameraEffectsSettings.h"
+#include "Settings/AlsxtHeldItemSettings.h"
+#include "Settings/AlsxtStationaryModeSettings.h"
+#include "Settings/AlsxtFirearmSettings.h"
+#include "State/AlsxtPoseState.h"
+#include "State/AlsxtHeadLookAtState.h"
+#include "State/AlsxtFreelookState.h"
+#include "State/AlsxtAimState.h"
+#include "State/AlsxtDefensiveModeState.h"
+#include "State/AlsxtFootstepState.h"
+#include "State/AlsxtBreathState.h"
+#include "State/AlsxtSlidingState.h"
 #include "AlsCharacterMovementComponent.h"
-#include "Settings/ALSXTStatusSettings.h"
+#include "Settings/AlsxtStatusSettings.h"
 #include "State/AlsxtClothingState.h"
-#include "State/ALSXTStatusState.h"
+#include "State/AlsxtStatusState.h"
 #include "AlsxtCharacterInterface.generated.h"
 
 class UALSXTCameraAnimationInstance;
@@ -114,22 +114,22 @@ public:
   void SetCharacterGesture(const FGameplayTag& NewGesture, const FGameplayTag& NewGestureHand);
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  FALSXTSlidingState GetCharacterSlidingState() const;
+  FAlsxtSlidingState GetCharacterSlidingState() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  FALSXTDefensiveModeState GetCharacterDefensiveModeState() const;
+  FAlsxtDefensiveModeState GetCharacterDefensiveModeState() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  FALSXTDefensiveModeAnimations GetCharacterDefensiveModeAnimations() const;
+  FAlsxtDefensiveModeAnimations GetCharacterDefensiveModeAnimations() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  FALSXTFootprintsState GetCharacterFootprintsState() const;
+  FAlsxtFootprintsState GetCharacterFootprintsState() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  FALSXTFootwearDetails GetCharacterFootwearDetails() const;
+  FAlsxtFootwearDetails GetCharacterFootwearDetails() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  FALSXTStationaryModeState GetCharacterStationaryModeState() const;
+  FAlsxtStationaryModeState GetCharacterStationaryModeState() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
   UCapsuleComponent* GetCharacterCapsuleComponent() const;
@@ -168,10 +168,10 @@ public:
   void SetCharacterStatus(const FGameplayTag& NewStatus);
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  void SetCharacterDefensiveModeState(FALSXTDefensiveModeState NewDefensiveModeState);
+  void SetCharacterDefensiveModeState(FAlsxtDefensiveModeState NewDefensiveModeState);
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  void SetCharacterDefensiveModeAnimations(FALSXTDefensiveModeAnimations NewDefensiveModeAnimations);
+  void SetCharacterDefensiveModeAnimations(FAlsxtDefensiveModeAnimations NewDefensiveModeAnimations);
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
   void SetCharacterMovementModeLocked(bool NewLocked);
@@ -225,13 +225,13 @@ public:
   FGameplayTag GetCharacterVaultType() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  FALSXTAimState GetCharacterAimState() const;
+  FAlsxtAimState GetCharacterAimState() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  FALSXTFreelookState GetCharacterFreelookState() const;
+  FAlsxtFreelookState GetCharacterFreelookState() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  FALSXTHeadLookAtState GetCharacterHeadLookAtState() const;
+  FAlsxtHeadLookAtState GetCharacterHeadLookAtState() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
   FGameplayTag GetCharacterLocomotionVariant() const;
@@ -291,7 +291,7 @@ public:
   FGameplayTag GetStaminaTag();
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ALSXTCharacter Interface")
-  FALSXTStaminaThresholdSettings GetStaminaThresholdSettings();
+  FAlsxtStaminaThresholdSettings GetStaminaThresholdSettings();
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ALSXTCharacter Interface")
   float GetHealth() const;
@@ -300,7 +300,7 @@ public:
   UPARAM(meta = (Categories = "Als.Status")) FGameplayTag GetCharacterStatus() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ALSXTCharacter Interface")
-  FALSXTStatusState GetStatusState() const;
+  FAlsxtStatusState GetStatusState() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ALSXTCharacter Interface")
   void GetStaminaThresholds(float& Optimal, float& Low) const;
@@ -309,7 +309,7 @@ public:
   FGameplayTag GetBreathType() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ALSXTCharacter Interface")
-  UALSXTCameraShakeSettings* SelectCameraShakeSettings() const;
+  UAlsxtCameraShakeSettings* SelectCameraShakeSettings() const;
 	
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ALSXTCharacter Interface")
   void GetCombatAttackPhysics(float& Mass, float& Velocity) const;
@@ -327,10 +327,10 @@ public:
   void GetAccentSurfaceForMovement(TEnumAsByte<EPhysicalSurface>& Surface, UPARAM(meta = (Categories = "Als.Character Movement Sound"))FGameplayTag Movement) const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  FALSXTBreathState GetCharacterBreathState() const;
+  FAlsxtBreathState GetCharacterBreathState() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
-  FALSXTPoseState GetCharacterPoseState() const;
+  FAlsxtPoseState GetCharacterPoseState() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Impact Reaction")
   UPARAM(meta = (Categories = "Als.Gait")) FGameplayTag GetGait() const;

@@ -4,21 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "Settings/AlsCharacterSettings.h"
-#include "Settings/ALSXTLocomotionActionSettings.h"
-#include "Settings/ALSXTOverlaySettings.h"
-#include "Settings/ALSXTDefensiveModeSettings.h"
-#include "Settings/ALSXTStatusSettings.h"
-#include "Settings/ALSXTCharacterBreathEffectsSettings.h"
-#include "Settings/ALSXTFootstepEffectSettings.h"
-#include "Settings/ALSXTFreelookSettings.h"
-#include "Settings/ALSXTHeldItemSettings.h"
-#include "Settings/ALSXTProceduralAimSettings.h"
-#include "Settings/ALSXTForegripPositionSettings.h"
-#include "Settings/ALSXTVaultingSettings.h"
-#include "Settings/ALSXTSlidingSettings.h"
-#include "Settings/ALSXTFPEyeFocusSettings.h"
-#include "Settings/ALSXTMeshRenderSettings.h"
-#include "Settings/ALSXTMeshPaintingSettings.h"
+#include "Settings/AlsxtLocomotionActionSettings.h"
+#include "Settings/AlsxtOverlaySettings.h"
+#include "Settings/AlsxtDefensiveModeSettings.h"
+#include "Settings/AlsxtStatusSettings.h"
+#include "Settings/AlsxtCharacterBreathEffectsSettings.h"
+#include "Settings/AlsxtFootstepEffectSettings.h"
+#include "Settings/AlsxtFreelookSettings.h"
+#include "Settings/AlsxtHeldItemSettings.h"
+#include "Settings/AlsxtProceduralAimSettings.h"
+#include "Settings/AlsxtForegripPositionSettings.h"
+#include "Settings/AlsxtVaultingSettings.h"
+#include "Settings/AlsxtSlidingSettings.h"
+#include "Settings/AlsxtFPEyeFocusSettings.h"
+#include "Settings/AlsxtMeshRenderSettings.h"
+#include "Settings/AlsxtMeshPaintingSettings.h"
 #include "ALSXTCharacterSettings.generated.h"
 
 UCLASS()
@@ -28,49 +28,49 @@ class ALSXT_API UALSXTCharacterSettings : public UAlsCharacterSettings
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects")
-	FALSXTLocomotionActionSettings LocomotionActionSettings;
+	FAlsxtLocomotionActionSettings LocomotionActionSettings;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects")
-	FALSXTOverlaySettings OverlaySettings;
+	FAlsxtOverlaySettings OverlaySettings;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects")
-	FALSXTDefensiveModeSettings DefensiveMode;
+	FAlsxtDefensiveModeSettings DefensiveMode;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects")
-	FALSXTStatusSettings StatusSettings;
+	FAlsxtStatusSettings StatusSettings;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects")
-	FALSXTCharacterBreathEffectsSettings BreathEffects;
+	FAlsxtCharacterBreathEffectsSettings BreathEffects;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects")
-	FALSXTGeneralFootstepEffectSettings FootstepEffects;
+	FAlsxtGeneralFootstepEffectSettings FootstepEffects;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "First Person")
-	FALSXTFPEyeFocusSettings FirstPersonEyeFocus;
+	FAlsxtFPEyeFocusSettings FirstPersonEyeFocus;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Freelook")
-	FALSXTGeneralFreelookSettings Freelook;
+	FAlsxtGeneralFreelookSettings Freelook;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Actions")
-	FALSXTGeneralVaultingSettings Vaulting;
+	FAlsxtGeneralVaultingSettings Vaulting;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Actions")
-	FALSXTGeneralSlidingSettings Sliding;
+	FAlsxtGeneralSlidingSettings Sliding;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mesh")
-	FALSXTGeneralALSXTMeshRenderSettings MeshRender;
+	FAlsxtGeneralMeshRenderSettings MeshRender;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mesh")
-	FALSXTGlobalGeneralMeshPaintingSettings MeshPainting;
+	FAlsxtGlobalGeneralMeshPaintingSettings MeshPainting;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Held Item")
-	FALSXTGeneralHeldItemSettings HeldItem;
+	FAlsxtGeneralHeldItemSettings HeldItem;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Procedural")
-	FALSXTProceduralAimSettings ProceduralAim;
+	FAlsxtProceduralAimSettings ProceduralAim;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Procedural")
-	FALSXTForegripPositionSettings ForegripPosition;
+	FAlsxtForegripPositionSettings ForegripPosition;
 
 	UALSXTCharacterSettings();
 	

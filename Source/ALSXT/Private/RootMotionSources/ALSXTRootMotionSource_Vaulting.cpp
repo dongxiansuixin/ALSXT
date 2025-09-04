@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "ALSXTCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Settings/ALSXTVaultingSettings.h"
+#include "Settings/AlsxtVaultingSettings.h"
 #include "Utility/AlsMacros.h"
 
 FALSXTRootMotionSource_Vaulting::FALSXTRootMotionSource_Vaulting()

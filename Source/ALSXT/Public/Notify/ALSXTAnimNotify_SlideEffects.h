@@ -6,7 +6,7 @@
 #include "Chaos/ChaosEngineInterface.h"
 #include "Engine/DataAsset.h"
 #include "Engine/EngineTypes.h"
-#include "State/ALSXTFootstepState.h"
+#include "State/AlsxtFootstepState.h"
 #include "Notify/ALSXTAnimNotify_FootstepEffects.h"
 #include "ALSXTAnimNotify_SlideEffects.generated.h"
 

@@ -7,7 +7,7 @@
 #include "AlsCharacter.h"
 #include "ALSXTCharacter.h"
 #include "NativeGameplayTags.h"
-#include "Settings/ALSXTGestureSettings.h"
+#include "Settings/AlsxtGestureSettings.h"
 #include "AlsxtGestureComponent.generated.h"
 
 
@@ -36,7 +36,7 @@ public:
 	AAlsCharacter* AlsCharacter{ Cast<AAlsCharacter>(GetOwner()) };
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings", Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTGestureSettings> GestureSettings;
+	TObjectPtr<UAlsxtGestureSettings> GestureSettings;
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Settings")
 	bool CanGesture();

@@ -34,7 +34,7 @@ void AALSXTCharacterAdvanced::Tick(const float DeltaTime)
 	if (bDesiredAiming && IAlsxtHeldItemInterface::Execute_IsHoldingAimableItem(this))
 	{
 		FTransform NewTransform;
-		FALSXTAimState NewAimState = GetAimState();
+		FAlsxtAimState NewAimState = GetAimState();
 		NewAimState.CurrentCameraTargetRelativeTransform = NewTransform;
 		SetAimState(NewAimState);
 	}
@@ -230,7 +230,7 @@ void AALSXTCharacterAdvanced::SetDesiredHoldingBreath(const FGameplayTag& NewHol
 
 		MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, DesiredHoldingBreath, this)
 
-		FALSXTBreathState NewBreathState = GetBreathState();
+		FAlsxtBreathState NewBreathState = GetBreathState();
 		NewBreathState.HoldingBreath = NewHoldingBreathTag;
 		SetBreathState(NewBreathState);
 
@@ -243,7 +243,7 @@ void AALSXTCharacterAdvanced::SetDesiredHoldingBreath(const FGameplayTag& NewHol
 
 FGameplayTag AALSXTCharacterAdvanced::CalculateBreathReleaseMode() const
 {
-	FALSXTBreathState NewBreathState = GetBreathState();
+	FAlsxtBreathState NewBreathState = GetBreathState();
 	FGameplayTag ReleaseBreathMode;
 	float RemainingBreath = NewBreathState.CurrentMaxHoldBreathTime - NewBreathState.CurrentHoldBreathTime;
 
@@ -401,7 +401,7 @@ float AALSXTCharacterAdvanced::CalculateHoldBreathTimer()
 void AALSXTCharacterAdvanced::BeginHoldBreathTimer()
 {
 	SetDesiredHoldingBreath(ALSXTHoldingBreathTags::True);
-	FALSXTBreathState NewBreathState = GetBreathState();
+	FAlsxtBreathState NewBreathState = GetBreathState();
 	NewBreathState.HoldingBreath = ALSXTHoldingBreathTags::True;
 	NewBreathState.PreviousBreathRate = NewBreathState.CurrentBreathRate;
 	NewBreathState.PreviousBreathAlpha = NewBreathState.CurrentBreathAlpha;
@@ -413,7 +413,7 @@ void AALSXTCharacterAdvanced::BeginHoldBreathTimer()
 
 void AALSXTCharacterAdvanced::HoldBreathTimer()
 {
-	FALSXTBreathState NewBreathState = GetBreathState();
+	FAlsxtBreathState NewBreathState = GetBreathState();
 	NewBreathState.CurrentHoldBreathTime = NewBreathState.CurrentHoldBreathTime + 0.1f;
 	SetBreathState(NewBreathState);
 
@@ -426,7 +426,7 @@ void AALSXTCharacterAdvanced::HoldBreathTimer()
 
 void AALSXTCharacterAdvanced::EndHoldBreathTimer()
 {
-	FALSXTBreathState NewBreathState = GetBreathState();
+	FAlsxtBreathState NewBreathState = GetBreathState();
 	FGameplayTag BreathReleaseMode;
 	BreathReleaseMode = CalculateBreathReleaseMode();
 	NewBreathState.CurrentHoldBreathTime = 0.0f;
@@ -473,7 +473,7 @@ void AALSXTCharacterAdvanced::BeginBreathRecoveryTimer()
 		IAlsxtCharacterInterface::Execute_SubtractStamina(this, FMath::FRandRange(ALSXTSettings->BreathEffects.BaseExhaustedBreathStaminaCost.X, ALSXTSettings->BreathEffects.BaseExhaustedBreathStaminaCost.Y));
 	}
 
-	FALSXTBreathState NewBreathState = GetBreathState();
+	FAlsxtBreathState NewBreathState = GetBreathState();
 	NewBreathState.BreathRecoveryTime = CalculateBreathRecoveryTime();
 	SetBreathState(NewBreathState);
 	GetWorld()->GetTimerManager().SetTimer(BreathRecoveryTimerHandle, BreathRecoveryTimerDelegate, 0.1f, true);
@@ -481,7 +481,7 @@ void AALSXTCharacterAdvanced::BeginBreathRecoveryTimer()
 
 void AALSXTCharacterAdvanced::BreathRecoveryTimer()
 {
-	FALSXTBreathState NewBreathState = GetBreathState();
+	FAlsxtBreathState NewBreathState = GetBreathState();
 	NewBreathState.CurrentBreathRecoveryTime = NewBreathState.CurrentBreathRecoveryTime + 0.1f;
 	SetBreathState(NewBreathState);
 
@@ -493,13 +493,13 @@ void AALSXTCharacterAdvanced::BreathRecoveryTimer()
 
 void AALSXTCharacterAdvanced::EndBreathRecoveryTimer()
 {
-	FALSXTBreathState NewBreathState = GetBreathState();
+	FAlsxtBreathState NewBreathState = GetBreathState();
 	FGameplayTag BreathReleaseMode;
 	NewBreathState.HoldingBreath = ALSXTHoldingBreathTags::False;
 	NewBreathState.TargetState = CalculateTargetBreathState();
 	NewBreathState.BreathRecoveryTime = 0.0f;
 	NewBreathState.CurrentBreathRecoveryTime = 0.0f;
-	FALSXTTargetBreathState NewTargetBreathState;
+	FAlsxtTargetBreathState NewTargetBreathState;
 	NewTargetBreathState.Alpha = 0.75;
 	NewTargetBreathState.Rate = 1.0;
 	NewBreathState.TargetState = NewTargetBreathState;
@@ -543,12 +543,12 @@ UAlsxtCharacterCameraEffectsComponent* AALSXTCharacterAdvanced::GetCameraEffects
 	return CameraEffects;
 }
 
-FALSXTGeneralCameraEffectsSettings AALSXTCharacterAdvanced::GetCameraEffectsSettings_Implementation() const
+FAlsxtGeneralCameraEffectsSettings AALSXTCharacterAdvanced::GetCameraEffectsSettings_Implementation() const
 {
 	return CameraEffects->GeneralCameraEffectsSettings;
 }
 
-FALSXTFirearmAimState AALSXTCharacterAdvanced::GetFirearmAimState_Implementation() const
+FAlsxtFirearmAimState AALSXTCharacterAdvanced::GetFirearmAimState_Implementation() const
 {
 	return FirearmAimState;
 }
@@ -681,17 +681,17 @@ void AALSXTCharacterAdvanced::IsInFrontOf_Implementation(bool& IsInFrontOf, FVec
 }
 
 //Combat Interface
-FALSXTGeneralCombatSettings AALSXTCharacterAdvanced::GetGeneralCombatSettings_Implementation()
+FAlsxtGeneralCombatSettings AALSXTCharacterAdvanced::GetGeneralCombatSettings_Implementation()
 {
 	return ALSXTAdvancedSettings->Combat;
 }
 
-FALSXTCombatAttackTraceSettings AALSXTCharacterAdvanced::GetCombatAttackTraceSettings_Implementation()
+FAlsxtCombatAttackTraceSettings AALSXTCharacterAdvanced::GetCombatAttackTraceSettings_Implementation()
 {
 	return Combat->CurrentAttackTraceSettings;
 }
 
-void AALSXTCharacterAdvanced::BeginCombatAttackCollisionTrace_Implementation(FALSXTCombatAttackTraceSettings TraceSettings)
+void AALSXTCharacterAdvanced::BeginCombatAttackCollisionTrace_Implementation(FAlsxtCombatAttackTraceSettings TraceSettings)
 {
 	Combat->BeginAttackCollisionTrace(TraceSettings);
 }

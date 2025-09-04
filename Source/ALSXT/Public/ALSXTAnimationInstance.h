@@ -5,20 +5,20 @@
 #include "CoreMinimal.h"
 #include "AlsAnimationInstance.h"
 #include "State/AlsFeetState.h"
-#include "State/ALSXTPoseState.h"
-#include "State/ALSXTStatusState.h"
-#include "State/ALSXTBreathState.h"
-#include "State/ALSXTDefensiveModeState.h"
-#include "State/ALSXTBumpPoseState.h"
-#include "State/ALSXTHeadLookAtState.h"
-#include "Settings/ALSXTHeldItemSettings.h"
-#include "Settings/ALSXTStationaryModeSettings.h"
+#include "State/AlsxtPoseState.h"
+#include "State/AlsxtStatusState.h"
+#include "State/AlsxtBreathState.h"
+#include "State/AlsxtDefensiveModeState.h"
+#include "State/AlsxtBumpPoseState.h"
+#include "State/AlsxtHeadLookAtState.h"
+#include "Settings/AlsxtHeldItemSettings.h"
+#include "Settings/AlsxtStationaryModeSettings.h"
 #include "ALSXTCharacter.h"
 #include "Utility/AlsxtGameplayTags.h"
 #include "Utility/AlsxtFirearmGameplayTags.h"
 #include "Interfaces/AlsxtCharacterInterface.h"
-#include "Settings/ALSXTAnimationInstanceSettings.h"
-#include "Settings/ALSXTCharacterBreathEffectsSettings.h"
+#include "Settings/AlsxtAnimationInstanceSettings.h"
+#include "Settings/AlsxtCharacterBreathEffectsSettings.h"
 #include "ALSXTAnimationInstance.generated.h"
 
 class UALSXTLinkedAnimationInstance;
@@ -64,7 +64,7 @@ class ALSXT_API UALSXTAnimationInstance : public UAlsAnimationInstance
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
-	TObjectPtr<UALSXTAnimationInstanceSettings> ALSXTSettings;
+	TObjectPtr<UAlsxtAnimationInstanceSettings> ALSXTSettings;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
 	TObjectPtr<AALSXTCharacter> ALSXTCharacter;
@@ -73,10 +73,10 @@ protected:
 	FALSXTJigglePhysicsSettings JigglePhysicsSettings;
 
 	UPROPERTY(BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTStaminaThresholdSettings StaminaThresholdSettings;
+	FAlsxtStaminaThresholdSettings StaminaThresholdSettings;
 
 	UPROPERTY(BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTCharacterBreathEffectsSettings CharacterBreathEffectsSettings;
+	FAlsxtCharacterBreathEffectsSettings CharacterBreathEffectsSettings;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
 	FGameplayTag Freelooking{ALSXTFreelookingTags::False};
@@ -100,43 +100,43 @@ protected:
 	FGameplayTag WeaponReadyPosition{ALSXTWeaponReadyPositionTags::None};
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient)
-	FALSXTPoseState ALSXTPoseState;
+	FAlsxtPoseState ALSXTPoseState;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTStatusState StatusState;
+	FAlsxtStatusState StatusState;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTBreathState BreathState;
+	FAlsxtBreathState BreathState;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTHeldItemSettings HeldItemSettings;
+	FAlsxtHeldItemSettings HeldItemSettings;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTHeldItemState HeldItemState;
+	FAlsxtHeldItemState HeldItemState;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTAimState AimState;
+	FAlsxtAimState AimState;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTStationaryModeState StationaryModeState;
+	FAlsxtStationaryModeState StationaryModeState;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTFreelookState FreelookState;
+	FAlsxtFreelookState FreelookState;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTHeadLookAtState HeadLookAtState;
+	FAlsxtHeadLookAtState HeadLookAtState;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTBumpPoseState CrowdNavigationPoseState;
+	FAlsxtBumpPoseState CrowdNavigationPoseState;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTBumpPoseState BumpPoseState;
+	FAlsxtBumpPoseState BumpPoseState;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTDefensiveModeState DefensiveModeState;
+	FAlsxtDefensiveModeState DefensiveModeState;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTDefensiveModeAnimations DefensiveModeAnimations;
+	FAlsxtDefensiveModeAnimations DefensiveModeAnimations;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
 	FGameplayTag DefensiveMode{ FGameplayTag::EmptyTag };
@@ -181,7 +181,7 @@ protected:
 	FTransform ForegripTransform;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FGameplayTag FirearmFingerAction {ALSXTFirearmFingerActionTags::None};
+	FGameplayTag FirearmFingerAction {AlsxtFirearmFingerActionTags::None};
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
 	FGameplayTag FirearmFingerActionHand {FGameplayTag::EmptyTag};
@@ -193,7 +193,7 @@ protected:
 	FGameplayTag WeaponCarryPosition{FGameplayTag::EmptyTag};
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FGameplayTag FirearmSightLocation{ALSXTFirearmFingerActionTags::None};
+	FGameplayTag FirearmSightLocation{AlsxtFirearmFingerActionTags::None};
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
 	FGameplayTag VaultType {FGameplayTag::EmptyTag};
@@ -205,7 +205,7 @@ protected:
 	bool DoesOverlayObjectUseLeftHandIK{ false };
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
-	FALSXTRecoilState RecoilState;
+	FAlsxtRecoilState RecoilState;
 
 protected:
 	void RefreshALSXTPose();
@@ -232,7 +232,7 @@ protected:
 protected:
 	UFUNCTION(BlueprintPure, Category = "ALS|Als Animation Instance",
 		Meta = (BlueprintProtected, BlueprintThreadSafe, ReturnDisplayName = "Setting"))
-	UALSXTAnimationInstanceSettings* GetALSXTSettingsUnsafe() const;
+	UAlsxtAnimationInstanceSettings* GetALSXTSettingsUnsafe() const;
 
 protected:
 	// Spine Rotation
@@ -251,7 +251,7 @@ protected:
 	FALSXTControlRigInput GetALSXTControlRigInput() const;
 };
 
-inline UALSXTAnimationInstanceSettings* UALSXTAnimationInstance::GetALSXTSettingsUnsafe() const
+inline UAlsxtAnimationInstanceSettings* UALSXTAnimationInstance::GetALSXTSettingsUnsafe() const
 {
 	return ALSXTSettings;
 }

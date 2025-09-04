@@ -5,8 +5,8 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ALSXTCharacter.h"
-#include "Settings/ALSXTSlidingSettings.h"
-#include "State/ALSXTSlidingState.h"
+#include "Settings/AlsxtSlidingSettings.h"
+#include "State/AlsxtSlidingState.h"
 #include "AlsxtSlidingActionComponent.generated.h"
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -43,7 +43,7 @@ public:
 	AAlsCharacter* AlsCharacter{ Cast<AAlsCharacter>(GetOwner()) };
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Transient, Meta = (AllowPrivateAccess))
-	FALSXTSlidingState SlidingState;
+	FAlsxtSlidingState SlidingState;
 
 	// Sliding
 
@@ -56,7 +56,7 @@ public:
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "Als Character")
-	UALSXTSlidingSettings* SelectSlidingSettings();
+	UAlsxtSlidingSettings* SelectSlidingSettings();
 
 	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
 	UAnimMontage* SelectSlidingMontage();

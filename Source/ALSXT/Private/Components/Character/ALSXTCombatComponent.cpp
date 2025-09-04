@@ -420,7 +420,7 @@ void UAlsxtCombatComponent::DashToTarget()
 }
 
 // Combat State
-void UAlsxtCombatComponent::SetCombatState(const FALSXTCombatState& NewCombatState)
+void UAlsxtCombatComponent::SetCombatState(const FAlsxtCombatState& NewCombatState)
 {
 	const auto PreviousCombatState{ CombatState };
 
@@ -434,22 +434,22 @@ void UAlsxtCombatComponent::SetCombatState(const FALSXTCombatState& NewCombatSta
 	}
 }
 
-void UAlsxtCombatComponent::ServerSetCombatState_Implementation(const FALSXTCombatState& NewCombatState)
+void UAlsxtCombatComponent::ServerSetCombatState_Implementation(const FAlsxtCombatState& NewCombatState)
 {
 	SetCombatState(NewCombatState);
 }
 
-void UAlsxtCombatComponent::ServerProcessNewCombatState_Implementation(const FALSXTCombatState& NewCombatState)
+void UAlsxtCombatComponent::ServerProcessNewCombatState_Implementation(const FAlsxtCombatState& NewCombatState)
 {
 	ProcessNewCombatState(NewCombatState);
 }
 
-void UAlsxtCombatComponent::OnReplicate_CombatState(const FALSXTCombatState& PreviousCombatState)
+void UAlsxtCombatComponent::OnReplicate_CombatState(const FAlsxtCombatState& PreviousCombatState)
 {
 	OnCombatStateChanged(PreviousCombatState);
 }
 
-void UAlsxtCombatComponent::OnCombatStateChanged_Implementation(const FALSXTCombatState& PreviousCombatState) {}
+void UAlsxtCombatComponent::OnCombatStateChanged_Implementation(const FAlsxtCombatState& PreviousCombatState) {}
 
 // Attack
 
@@ -501,7 +501,7 @@ void UAlsxtCombatComponent::EndMoveToTarget()
 
 }
 
-void UAlsxtCombatComponent::BeginAttackCollisionTrace(FALSXTCombatAttackTraceSettings TraceSettings)
+void UAlsxtCombatComponent::BeginAttackCollisionTrace(FAlsxtCombatAttackTraceSettings TraceSettings)
 {
 	if (TraceSettings.UnarmedAttackType == FGameplayTag::EmptyTag)
 	{
@@ -690,7 +690,7 @@ void UAlsxtCombatComponent::Attack(const FGameplayTag& ActionType, const FGamepl
 	}
 
 	AActor* PotentialAttackTarget = TraceForPotentialAttackTarget(100.0f);
-	FALSXTCombatState CurrentCombatState = GetCombatState();
+	FAlsxtCombatState CurrentCombatState = GetCombatState();
 	CurrentCombatState.CombatParameters.Target = PotentialAttackTarget;
 	CurrentCombatState.CombatParameters.Form = ALSXTImpactFormTags::Blunt;
 	CurrentCombatState.CombatParameters.AttackType = AttackType;
@@ -781,7 +781,7 @@ void UAlsxtCombatComponent::StartAttack(const FGameplayTag& AttackType, const FG
 		CombatParameters.Strength = Strength;
 		CombatParameters.CombatAnimation = Montage.Montage;
 
-		FALSXTCombatState NewCombatState;
+		FAlsxtCombatState NewCombatState;
 		NewCombatState.CombatParameters = CombatParameters;
 		SetCombatState(NewCombatState);
 		MulticastStartAttack(Montage.Montage.Montage, PlayRate, StartYawAngle, TargetYawAngle);
@@ -798,7 +798,7 @@ void UAlsxtCombatComponent::StartAttack(const FGameplayTag& AttackType, const FG
 		CombatParameters.Strength = Strength;
 		CombatParameters.CombatAnimation = Montage.Montage;
 
-		FALSXTCombatState NewCombatState;
+		FAlsxtCombatState NewCombatState;
 		NewCombatState.CombatParameters = CombatParameters;
 		SetCombatState(NewCombatState);
 
@@ -844,7 +844,7 @@ void UAlsxtCombatComponent::StartSyncedAttack(const FGameplayTag& Overlay, const
 		CombatParameters.Strength = Strength;
 		CombatParameters.CombatAnimation = Montage.SyncedMontage.InstigatorSyncedMontage;
 
-		FALSXTCombatState NewCombatState;
+		FAlsxtCombatState NewCombatState;
 		NewCombatState.CombatParameters = CombatParameters;
 		SetCombatState(NewCombatState);
 		MulticastStartSyncedAttack(Montage.SyncedMontage.InstigatorSyncedMontage.Montage, SelectSyncedAttackMontageIndex, PlayRate, StartYawAngle, TargetYawAngle);
@@ -959,7 +959,7 @@ void UAlsxtCombatComponent::DetermineAttackMethod_Implementation(FGameplayTag& A
 FAttackAnimation UAlsxtCombatComponent::SelectAttackMontage_Implementation(const FGameplayTag& AttackType, const FGameplayTag& Stance, const FGameplayTag& Strength, const float BaseDamage)
 {
 	FAttackAnimation SelectedAttackAnimation;
-	UALSXTCombatSettings* Settings = IAlsxtCombatInterface::Execute_SelectCombatSettings(GetOwner());
+	UAlsxtCombatSettings* Settings = IAlsxtCombatInterface::Execute_SelectCombatSettings(GetOwner());
 	TArray<FAttackAnimation> Montages = Settings->AttackAnimations;
 	TArray<FAttackAnimation> FilteredMontages;
 	TArray<FGameplayTag> TagsArray = { AttackType, Stance, Strength };
@@ -1026,7 +1026,7 @@ FAttackAnimation UAlsxtCombatComponent::SelectAttackMontage_Implementation(const
 FSyncedAttackAnimation UAlsxtCombatComponent::SelectSyncedAttackMontage_Implementation(const FGameplayTag& AttackType, const FGameplayTag& Stance, const FGameplayTag& Strength, const float BaseDamage, int& Index)
 {
 	FSyncedAttackAnimation SelectedSyncedAttackAnimation;
-	UALSXTCombatSettings* Settings = IAlsxtCombatInterface::Execute_SelectCombatSettings(GetOwner());
+	UAlsxtCombatSettings* Settings = IAlsxtCombatInterface::Execute_SelectCombatSettings(GetOwner());
 	TArray<FSyncedAttackAnimation> Montages = Settings->SyncedAttackAnimations;
 	TArray<FSyncedAttackAnimation> FilteredMontages;
 	TArray<FGameplayTag> TagsArray = { AttackType, Stance, Strength };
@@ -1100,7 +1100,7 @@ FAnticipationPose UAlsxtCombatComponent::SelectBlockingkMontage_Implementation(c
 
 FSyncedActionAnimation UAlsxtCombatComponent::GetSyncedAttackMontage_Implementation(int32 Index)
 {
-	UALSXTCombatSettings* Settings = IAlsxtCombatInterface::Execute_SelectCombatSettings(GetOwner());
+	UAlsxtCombatSettings* Settings = IAlsxtCombatInterface::Execute_SelectCombatSettings(GetOwner());
 	TArray<FSyncedAttackAnimation> Montages = Settings->SyncedAttackAnimations;
 	return Montages[Index].SyncedMontage;
 }

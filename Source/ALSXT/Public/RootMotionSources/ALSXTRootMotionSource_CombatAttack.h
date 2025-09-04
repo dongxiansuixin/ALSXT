@@ -1,8 +1,8 @@
 #pragma once
 
 #include "GameFramework/RootMotionSource.h"
-#include "Settings/ALSXTCombatSettings.h"
-#include "State/ALSXTCombatState.h"
+#include "Settings/AlsxtCombatSettings.h"
+#include "State/AlsxtCombatState.h"
 #include "ALSXTRootMotionSource_CombatAttack.generated.h"
 
 class UALSXTCombatAttackSettings;
@@ -14,10 +14,10 @@ struct ALSXT_API FALSXTRootMotionSource_CombatAttack : public FRootMotionSource
 
 public:
 	UPROPERTY()
-	TObjectPtr<UALSXTCombatSettings> CombatSettings{nullptr};
+	TObjectPtr<UAlsxtCombatSettings> CombatSettings{nullptr};
 
 	UPROPERTY()
-	FALSXTCombatState CombatState;
+	FAlsxtCombatState CombatState;
 
 	UPROPERTY()
 	TWeakObjectPtr<UPrimitiveComponent> TargetPrimitive;

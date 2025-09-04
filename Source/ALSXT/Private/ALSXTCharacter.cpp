@@ -20,9 +20,9 @@
 #include "Components/Character/AlsxtEmoteComponent.h"
 #include "Components/Character/AlsxtGestureComponent.h"
 #include "Settings/ALSXTCharacterSettings.h"
-#include "Settings/ALSXTLocomotionActionSettings.h"
-#include "Settings/ALSXTVaultingSettings.h"
-#include "Settings/ALSXTCombatSettings.h"
+#include "Settings/AlsxtLocomotionActionSettings.h"
+#include "Settings/AlsxtVaultingSettings.h"
+#include "Settings/AlsxtCombatSettings.h"
 #include "Interfaces/AlsxtCollisionInterface.h"
 #include "Interfaces/AlsxtCharacterInterface.h"
 #include "Interfaces/AlsxtHeldItemInterface.h"
@@ -38,7 +38,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "State/ALSXTFootstepState.h"
+#include "State/AlsxtFootstepState.h"
 #include "ALSXTCameraAnimationInstance.h"
 
 AALSXTCharacter::AALSXTCharacter(const FObjectInitializer& ObjectInitializer) :
@@ -453,7 +453,7 @@ void AALSXTCharacter::Tick(const float DeltaTime)
 
 	if (IAlsxtHeldItemInterface::Execute_IsHoldingAimableItem(this) && ((GetDesiredCombatStance() == ALSXTCombatStanceTags::Ready) || (GetDesiredCombatStance() == ALSXTCombatStanceTags::Aiming)))
 	{
-		FALSXTAimState NewAimState = GetAimState();
+		FAlsxtAimState NewAimState = GetAimState();
 		// OverlaySkeletalMesh->GetSock
 		// NewAimState.CurrentHeadTargetTransform.Location = IALSXTCharacterInterface::Execute_GetCharacterFirearmSightLocation(this);
 	}
@@ -640,9 +640,9 @@ void AALSXTCharacter::OnStanceChanged_Implementation(const FGameplayTag& Previou
 	ImpactReaction->RefreshObstacleNavigationPoses();
 }
 
-FALSXTCameraShakeSetting AALSXTCharacter::SelectMovementCameraShakeAsset()
+FAlsxtCameraShakeSetting AALSXTCharacter::SelectMovementCameraShakeAsset()
 {
-	FALSXTCameraShakeSetting FoundCameraShakeSetting;
+	FAlsxtCameraShakeSetting FoundCameraShakeSetting;
 	auto CameraShakeSettings = ALSXTSettings->OverlaySettings.CameraShake.Find(GetOverlayMode());
 	if (CameraShakeSettings)
 	{
@@ -1107,7 +1107,7 @@ void AALSXTCharacter::InputSwitchForegripPosition()
 		}
 		
 		SetDesiredForegripPosition(AvailableForegripPositionsArray[NextIndex]);
-		FALSXTHeldItemState NewHeldItemState = GetHeldItemState();
+		FAlsxtHeldItemState NewHeldItemState = GetHeldItemState();
 		NewHeldItemState.GripState.Foregrip.Grip = IAlsxtHeldItemInterface::Execute_GetHeldItemForegrip(this);
 		SetHeldItemState(NewHeldItemState);
 	}
@@ -1210,7 +1210,7 @@ void AALSXTCharacter::StartBlendOutPhysicalAnimation()
 
 void AALSXTCharacter::BlendOutPhysicalAnimation()
 {
-	FALSXTPhysicalAnimationState NewPhysicalAnimationState = GetPhysicalAnimationState();
+	FAlsxtPhysicalAnimationState NewPhysicalAnimationState = GetPhysicalAnimationState();
 	NewPhysicalAnimationState.Alpha = NewPhysicalAnimationState.Alpha - 0.01;
 	SetPhysicalAnimationState(NewPhysicalAnimationState);
 
@@ -1228,18 +1228,18 @@ void AALSXTCharacter::BlendOutPhysicalAnimation()
 void AALSXTCharacter::EndBlendOutPhysicalAnimation()
 {
 	GetWorld()->GetTimerManager().ClearTimer(BlendOutPhysicalAnimationTimerHandle);
-	FALSXTPhysicalAnimationState NewPhysicalAnimationState;
+	FAlsxtPhysicalAnimationState NewPhysicalAnimationState;
 	NewPhysicalAnimationState.Mode = FGameplayTag::EmptyTag;
 	NewPhysicalAnimationState.ProfileName = "CharacterMesh";
 	SetPhysicalAnimationState(NewPhysicalAnimationState);
-	FALSXTDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
+	FAlsxtDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
 	NewDefensiveModeState.ObstacleMode = FGameplayTag::EmptyTag;
 	NewDefensiveModeState.ObstacleSide = FGameplayTag::EmptyTag;
 	NewDefensiveModeState.ObstacleHeight = FGameplayTag::EmptyTag;
 
 	if (GetDefensiveModeState().AnticipationMode != ALSXTDefensiveModeTags::Anticipation)
 	{
-		NewDefensiveModeState.Mode = ALSXTPhysicalAnimationModeTags::None;
+		NewDefensiveModeState.Mode = AlsxtPhysicalAnimationModeTags::None;
 		NewDefensiveModeState.AnticipationMode = FGameplayTag::EmptyTag;
 		NewDefensiveModeState.AnticipationSide = FGameplayTag::EmptyTag;
 		NewDefensiveModeState.AnticipationHeight = FGameplayTag::EmptyTag;
@@ -1253,7 +1253,7 @@ void AALSXTCharacter::EndBlendOutPhysicalAnimation()
 	// FALSXTPhysicalAnimationState NewPhysicalAnimationState;
 	// SetPhysicalAnimationState(NewPhysicalAnimationState);
 	TArray<FName> EmptyNames;
-	SetPhysicalAnimationMode(ALSXTPhysicalAnimationModeTags::None, EmptyNames);
+	SetPhysicalAnimationMode(AlsxtPhysicalAnimationModeTags::None, EmptyNames);
 }
 
 void AALSXTCharacter::OnOverlayModeChanged_Implementation(const FGameplayTag& PreviousOverlayMode)
@@ -1330,7 +1330,7 @@ bool AALSXTCharacter::IsAimingDownSights_Implementation() const
 	return (IsDesiredAiming() && CanAimDownSights() && (GetViewMode() == AlsViewModeTags::FirstPerson) && (GetDesiredCombatStance() != ALSXTCombatStanceTags::Neutral));
 }
 
-FALSXTGlobalGeneralMeshPaintingSettings AALSXTCharacter::GetGlobalGeneralMeshPaintingSettings_Implementation() const
+FAlsxtGlobalGeneralMeshPaintingSettings AALSXTCharacter::GetGlobalGeneralMeshPaintingSettings_Implementation() const
 {
 	return ALSXTSettings->MeshPainting;
 }
@@ -1411,7 +1411,7 @@ void AALSXTCharacter::ResetPaintOnAllComponents_Implementation()
 }
 
 // PhysicalAnimation State
-void AALSXTCharacter::SetPhysicalAnimationState(const FALSXTPhysicalAnimationState& NewPhysicalAnimationState)
+void AALSXTCharacter::SetPhysicalAnimationState(const FAlsxtPhysicalAnimationState& NewPhysicalAnimationState)
 {
 	// if (HasAuthority())
 	// {
@@ -1432,22 +1432,22 @@ void AALSXTCharacter::SetPhysicalAnimationState(const FALSXTPhysicalAnimationSta
 	// }
 }
 
-void AALSXTCharacter::OnPhysicalAnimationStateChanged(const FALSXTPhysicalAnimationState& PreviousPhysicalAnimationState)
+void AALSXTCharacter::OnPhysicalAnimationStateChanged(const FAlsxtPhysicalAnimationState& PreviousPhysicalAnimationState)
 {
 
 }
 
-void AALSXTCharacter::ServerSetPhysicalAnimationState_Implementation(const FALSXTPhysicalAnimationState& NewPhysicalAnimationState)
+void AALSXTCharacter::ServerSetPhysicalAnimationState_Implementation(const FAlsxtPhysicalAnimationState& NewPhysicalAnimationState)
 {
 	MulticastSetPhysicalAnimationState(NewPhysicalAnimationState);
 }
 
-void AALSXTCharacter::MulticastSetPhysicalAnimationState_Implementation(const FALSXTPhysicalAnimationState& NewPhysicalAnimationState)
+void AALSXTCharacter::MulticastSetPhysicalAnimationState_Implementation(const FAlsxtPhysicalAnimationState& NewPhysicalAnimationState)
 {
 	SetPhysicalAnimationState(NewPhysicalAnimationState);
 }
 
-void AALSXTCharacter::ServerProcessNewPhysicalAnimationState_Implementation(const FALSXTPhysicalAnimationState& NewPhysicalAnimationState)
+void AALSXTCharacter::ServerProcessNewPhysicalAnimationState_Implementation(const FAlsxtPhysicalAnimationState& NewPhysicalAnimationState)
 {
 	ProcessNewPhysicalAnimationState(NewPhysicalAnimationState);
 }
@@ -1458,7 +1458,7 @@ void AALSXTCharacter::ServerProcessNewPhysicalAnimationState_Implementation(cons
 // }
 
 // Held Item State
-void AALSXTCharacter::SetHeldItemState(const FALSXTHeldItemState& NewHeldItemState)
+void AALSXTCharacter::SetHeldItemState(const FAlsxtHeldItemState& NewHeldItemState)
 {
 	const auto PreviousHeldItemState{ HeldItemState };
 	HeldItemState = NewHeldItemState;
@@ -1470,34 +1470,34 @@ void AALSXTCharacter::SetHeldItemState(const FALSXTHeldItemState& NewHeldItemSta
 	}
 }
 
-void AALSXTCharacter::OnHeldItemStateChanged(const FALSXTHeldItemState& PreviousHeldItemState)
+void AALSXTCharacter::OnHeldItemStateChanged(const FAlsxtHeldItemState& PreviousHeldItemState)
 {
 
 }
 
-void AALSXTCharacter::ServerSetHeldItemState_Implementation(const FALSXTHeldItemState& NewHeldItemState)
+void AALSXTCharacter::ServerSetHeldItemState_Implementation(const FAlsxtHeldItemState& NewHeldItemState)
 {
 	MulticastSetHeldItemState(NewHeldItemState);
 }
 
-void AALSXTCharacter::MulticastSetHeldItemState_Implementation(const FALSXTHeldItemState& NewHeldItemState)
+void AALSXTCharacter::MulticastSetHeldItemState_Implementation(const FAlsxtHeldItemState& NewHeldItemState)
 {
 	SetHeldItemState(NewHeldItemState);
 }
 
-void AALSXTCharacter::ServerProcessNewHeldItemState_Implementation(const FALSXTHeldItemState& NewHeldItemState)
+void AALSXTCharacter::ServerProcessNewHeldItemState_Implementation(const FAlsxtHeldItemState& NewHeldItemState)
 {
 	ProcessNewHeldItemState(NewHeldItemState);
 }
 
-void AALSXTCharacter::OnReplicate_HeldItemState(const FALSXTHeldItemState& PreviousHeldItemState)
+void AALSXTCharacter::OnReplicate_HeldItemState(const FAlsxtHeldItemState& PreviousHeldItemState)
 {
 	OnHeldItemStateChanged(PreviousHeldItemState);
 }
 
 
 // Breath State
-void AALSXTCharacter::SetBreathState(const FALSXTBreathState& NewBreathState)
+void AALSXTCharacter::SetBreathState(const FAlsxtBreathState& NewBreathState)
 {
 	const auto PreviousBreathState{ BreathState };
 	BreathState = NewBreathState;
@@ -1526,30 +1526,30 @@ void AALSXTCharacter::SetBreathState(const FALSXTBreathState& NewBreathState)
 
 }
 
-void AALSXTCharacter::ServerSetBreathState_Implementation(const FALSXTBreathState& NewBreathState)
+void AALSXTCharacter::ServerSetBreathState_Implementation(const FAlsxtBreathState& NewBreathState)
 {
 	SetBreathState(NewBreathState);
 }
 
-void AALSXTCharacter::ClientSetBreathState_Implementation(const FALSXTBreathState& NewBreathState)
+void AALSXTCharacter::ClientSetBreathState_Implementation(const FAlsxtBreathState& NewBreathState)
 {
 	SetBreathState(NewBreathState);
 }
 
-void AALSXTCharacter::ServerProcessNewBreathState_Implementation(const FALSXTBreathState& NewBreathState)
+void AALSXTCharacter::ServerProcessNewBreathState_Implementation(const FAlsxtBreathState& NewBreathState)
 {
 	ProcessNewBreathState(NewBreathState);
 }
 
-void AALSXTCharacter::OnReplicate_BreathState(const FALSXTBreathState& PreviousBreathState)
+void AALSXTCharacter::OnReplicate_BreathState(const FAlsxtBreathState& PreviousBreathState)
 {
 	OnBreathStateChanged(PreviousBreathState);
 }
 
-void AALSXTCharacter::OnBreathStateChanged_Implementation(const FALSXTBreathState& PreviousBreathState) {}
+void AALSXTCharacter::OnBreathStateChanged_Implementation(const FAlsxtBreathState& PreviousBreathState) {}
 
 // ALSXT Pose State
-void AALSXTCharacter::SetALSXTPoseState(const FALSXTPoseState& NewALSXTPoseState)
+void AALSXTCharacter::SetALSXTPoseState(const FAlsxtPoseState& NewALSXTPoseState)
 {
 	const auto PreviousALSXTPoseState{ ALSXTPoseState };
 
@@ -1563,26 +1563,26 @@ void AALSXTCharacter::SetALSXTPoseState(const FALSXTPoseState& NewALSXTPoseState
 	}
 }
 
-void AALSXTCharacter::ServerSetALSXTPoseState_Implementation(const FALSXTPoseState& NewALSXTPoseState)
+void AALSXTCharacter::ServerSetALSXTPoseState_Implementation(const FAlsxtPoseState& NewALSXTPoseState)
 {
 	SetALSXTPoseState(NewALSXTPoseState);
 }
 
-void AALSXTCharacter::ServerProcessNewALSXTPoseState_Implementation(const FALSXTPoseState& NewALSXTPoseState)
+void AALSXTCharacter::ServerProcessNewALSXTPoseState_Implementation(const FAlsxtPoseState& NewALSXTPoseState)
 {
 	ProcessNewALSXTPoseState(NewALSXTPoseState);
 }
 
-void AALSXTCharacter::OnReplicate_ALSXTPoseState(const FALSXTPoseState& PreviousALSXTPoseState)
+void AALSXTCharacter::OnReplicate_ALSXTPoseState(const FAlsxtPoseState& PreviousALSXTPoseState)
 {
 	OnALSXTPoseStateChanged(PreviousALSXTPoseState);
 }
 
-void AALSXTCharacter::OnALSXTPoseStateChanged_Implementation(const FALSXTPoseState& PreviousALSXTPoseState) {}
+void AALSXTCharacter::OnALSXTPoseStateChanged_Implementation(const FAlsxtPoseState& PreviousALSXTPoseState) {}
 
 
 // Vaulting State
-void AALSXTCharacter::SetVaultingState(const FALSXTVaultingState& NewVaultingState)
+void AALSXTCharacter::SetVaultingState(const FAlsxtVaultingState& NewVaultingState)
 {
 	const auto PreviousVaultingState{ VaultingState };
 
@@ -1596,26 +1596,26 @@ void AALSXTCharacter::SetVaultingState(const FALSXTVaultingState& NewVaultingSta
 	}
 }
 
-void AALSXTCharacter::ServerSetVaultingState_Implementation(const FALSXTVaultingState& NewVaultingState)
+void AALSXTCharacter::ServerSetVaultingState_Implementation(const FAlsxtVaultingState& NewVaultingState)
 {
 	SetVaultingState(NewVaultingState);
 }
 
 
-void AALSXTCharacter::ServerProcessNewVaultingState_Implementation(const FALSXTVaultingState& NewVaultingState)
+void AALSXTCharacter::ServerProcessNewVaultingState_Implementation(const FAlsxtVaultingState& NewVaultingState)
 {
 	ProcessNewVaultingState(NewVaultingState);
 }
 
-void AALSXTCharacter::OnReplicate_VaultingState(const FALSXTVaultingState& PreviousVaultingState)
+void AALSXTCharacter::OnReplicate_VaultingState(const FAlsxtVaultingState& PreviousVaultingState)
 {
 	OnVaultingStateChanged(PreviousVaultingState);
 }
 
-void AALSXTCharacter::OnVaultingStateChanged_Implementation(const FALSXTVaultingState& PreviousVaultingState) {}
+void AALSXTCharacter::OnVaultingStateChanged_Implementation(const FAlsxtVaultingState& PreviousVaultingState) {}
 
 // Stationary Mode State
-void AALSXTCharacter::SetStationaryModeState(const FALSXTStationaryModeState& NewStationaryModeState)
+void AALSXTCharacter::SetStationaryModeState(const FAlsxtStationaryModeState& NewStationaryModeState)
 {
 	const auto PreviousStationaryModeState{ StationaryModeState };
 
@@ -1629,26 +1629,26 @@ void AALSXTCharacter::SetStationaryModeState(const FALSXTStationaryModeState& Ne
 	}
 }
 
-void AALSXTCharacter::ServerSetStationaryModeState_Implementation(const FALSXTStationaryModeState& NewStationaryModeState)
+void AALSXTCharacter::ServerSetStationaryModeState_Implementation(const FAlsxtStationaryModeState& NewStationaryModeState)
 {
 	SetStationaryModeState(NewStationaryModeState);
 }
 
 
-void AALSXTCharacter::ServerProcessNewStationaryModeState_Implementation(const FALSXTStationaryModeState& NewStationaryModeState)
+void AALSXTCharacter::ServerProcessNewStationaryModeState_Implementation(const FAlsxtStationaryModeState& NewStationaryModeState)
 {
 	ProcessNewStationaryModeState(NewStationaryModeState);
 }
 
-void AALSXTCharacter::OnReplicate_StationaryModeState(const FALSXTStationaryModeState& PreviousStationaryModeState)
+void AALSXTCharacter::OnReplicate_StationaryModeState(const FAlsxtStationaryModeState& PreviousStationaryModeState)
 {
 	OnStationaryModeStateChanged(PreviousStationaryModeState);
 }
 
-void AALSXTCharacter::OnStationaryModeStateChanged_Implementation(const FALSXTStationaryModeState& PreviousStationaryModeState) {}
+void AALSXTCharacter::OnStationaryModeStateChanged_Implementation(const FAlsxtStationaryModeState& PreviousStationaryModeState) {}
 
 // Footprints State
-void AALSXTCharacter::ClientSetFootprintsState(const EAlsFootBone& Foot, const FALSXTFootprintsState& NewFootprintsState)
+void AALSXTCharacter::ClientSetFootprintsState(const EAlsFootBone& Foot, const FAlsxtFootprintsState& NewFootprintsState)
 {
 	if (HasAuthority())
 	{
@@ -1665,12 +1665,12 @@ void AALSXTCharacter::ResetFootSaturationTimeline_Implementation(const EAlsFootB
 	GetFootTimeline(Foot)->SetPlaybackPosition(0.0, false, false);
 }
 
-void AALSXTCharacter::MulticastSetFootprintsState_Implementation(const EAlsFootBone& Foot, const FALSXTFootprintsState& NewFootprintsState)
+void AALSXTCharacter::MulticastSetFootprintsState_Implementation(const EAlsFootBone& Foot, const FAlsxtFootprintsState& NewFootprintsState)
 {
 	SetFootprintsState(Foot, NewFootprintsState);
 }
 
-void AALSXTCharacter::SetFootprintsState(const EAlsFootBone& Foot, const FALSXTFootprintsState& NewFootprintsState)
+void AALSXTCharacter::SetFootprintsState(const EAlsFootBone& Foot, const FAlsxtFootprintsState& NewFootprintsState)
 {
 	const auto PreviousFootprintsState{ FootprintsState };
 
@@ -1679,23 +1679,23 @@ void AALSXTCharacter::SetFootprintsState(const EAlsFootBone& Foot, const FALSXTF
 	OnFootprintsStateChanged(PreviousFootprintsState);
 }
 
-void AALSXTCharacter::ServerSetFootprintsState_Implementation(const EAlsFootBone& Foot, const FALSXTFootprintsState& NewFootprintsState)
+void AALSXTCharacter::ServerSetFootprintsState_Implementation(const EAlsFootBone& Foot, const FAlsxtFootprintsState& NewFootprintsState)
 {
 	MulticastSetFootprintsState(Foot, NewFootprintsState);
 }
 
 
-void AALSXTCharacter::ServerProcessNewFootprintsState_Implementation(const EAlsFootBone& Foot, const FALSXTFootprintsState& NewFootprintsState)
+void AALSXTCharacter::ServerProcessNewFootprintsState_Implementation(const EAlsFootBone& Foot, const FAlsxtFootprintsState& NewFootprintsState)
 {
 	ProcessNewFootprintsState(Foot, NewFootprintsState);
 }
 
-void AALSXTCharacter::OnReplicate_FootprintsState(const FALSXTFootprintsState& PreviousFootprintsState)
+void AALSXTCharacter::OnReplicate_FootprintsState(const FAlsxtFootprintsState& PreviousFootprintsState)
 {
 	OnFootprintsStateChanged(PreviousFootprintsState);
 }
 
-void AALSXTCharacter::OnFootprintsStateChanged_Implementation(const FALSXTFootprintsState& PreviousFootprintsState) {}
+void AALSXTCharacter::OnFootprintsStateChanged_Implementation(const FAlsxtFootprintsState& PreviousFootprintsState) {}
 
 void AALSXTCharacter::InputToggleGait()
 {
@@ -1748,13 +1748,13 @@ void AALSXTCharacter::InputToggleCombatReady()
 
 void AALSXTCharacter::InputBlock(const FInputActionValue& ActionValue)
 {
-	FALSXTDefensiveModeState PreviousDefensiveModeState = GetDefensiveModeState();
+	FAlsxtDefensiveModeState PreviousDefensiveModeState = GetDefensiveModeState();
 
 	if (CanEnterBlockingDefensiveMode())
 	{
 		if (ActionValue.Get<bool>() == true)
 		{
-			FALSXTDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
+			FAlsxtDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
 			NewDefensiveModeState.Mode = ALSXTDefensiveModeTags::Anticipation;
 			NewDefensiveModeState.AnticipationMode = ALSXTDefensiveModeTags::Anticipation;
 			NewDefensiveModeState.AnticipationSide = PreviousDefensiveModeState.AnticipationSide == FGameplayTag::EmptyTag ? ALSXTImpactSideTags::Front : PreviousDefensiveModeState.AnticipationSide;
@@ -1769,7 +1769,7 @@ void AALSXTCharacter::InputBlock(const FInputActionValue& ActionValue)
 		else 
 		{
 			// ResetDefensiveModeState();
-			FALSXTDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
+			FAlsxtDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
 			NewDefensiveModeState.Mode = PreviousDefensiveModeState.Mode == ALSXTDefensiveModeTags::Anticipation ? FGameplayTag::EmptyTag : PreviousDefensiveModeState.Mode;
 			NewDefensiveModeState.AnticipationMode = FGameplayTag::EmptyTag;
 			NewDefensiveModeState.AnticipationSide = FGameplayTag::EmptyTag;
@@ -1783,7 +1783,7 @@ void AALSXTCharacter::InputBlock(const FInputActionValue& ActionValue)
 	}
 	else if ((DesiredDefensiveMode == ALSXTDefensiveModeTags::Blocking) && (ActionValue.Get<bool>()  == false))
 	{
-		FALSXTDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
+		FAlsxtDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
 		NewDefensiveModeState.Mode = PreviousDefensiveModeState.Mode == ALSXTDefensiveModeTags::Anticipation ? FGameplayTag::EmptyTag : PreviousDefensiveModeState.Mode;
 		NewDefensiveModeState.AnticipationMode = FGameplayTag::EmptyTag;
 		NewDefensiveModeState.AnticipationSide = FGameplayTag::EmptyTag;
@@ -1804,7 +1804,7 @@ void AALSXTCharacter::InputLeanLeft(const FInputActionValue & ActionValue)
 		if (CanLean())
 		{
 			SetDesiredLean(ALSXTLeanDirectionTags::Left);
-			FALSXTPoseState NewPoseState = GetALSXTPoseState();
+			FAlsxtPoseState NewPoseState = GetALSXTPoseState();
 			NewPoseState.LeanDirection = ALSXTLeanDirectionTags::Left;
 			SetALSXTPoseState(NewPoseState);
 		}
@@ -1812,7 +1812,7 @@ void AALSXTCharacter::InputLeanLeft(const FInputActionValue & ActionValue)
 	else
 	{
 		SetDesiredLean(FGameplayTag::EmptyTag);
-		FALSXTPoseState NewPoseState = GetALSXTPoseState();
+		FAlsxtPoseState NewPoseState = GetALSXTPoseState();
 		NewPoseState.LeanDirection = FGameplayTag::EmptyTag;
 		SetALSXTPoseState(NewPoseState);
 	}
@@ -1825,7 +1825,7 @@ void AALSXTCharacter::InputLeanRight(const FInputActionValue& ActionValue)
 		if (CanLean())
 		{
 			SetDesiredLean(ALSXTLeanDirectionTags::Right);
-			FALSXTPoseState NewPoseState = GetALSXTPoseState();
+			FAlsxtPoseState NewPoseState = GetALSXTPoseState();
 			NewPoseState.LeanDirection = ALSXTLeanDirectionTags::Right;
 			SetALSXTPoseState(NewPoseState);
 		}
@@ -1833,7 +1833,7 @@ void AALSXTCharacter::InputLeanRight(const FInputActionValue& ActionValue)
 	else
 	{
 		SetDesiredLean(FGameplayTag::EmptyTag);
-		FALSXTPoseState NewPoseState = GetALSXTPoseState();
+		FAlsxtPoseState NewPoseState = GetALSXTPoseState();
 		NewPoseState.LeanDirection = FGameplayTag::EmptyTag;
 		SetALSXTPoseState(NewPoseState);
 	}
@@ -2018,7 +2018,7 @@ void AALSXTCharacter::ActivateFreelooking()
 	// LockRotation(GetActorRotation().Yaw);
 	SetDesiredRotationMode(AlsRotationModeTags::ViewDirection);
 	SetDesiredFreelooking(ALSXTFreelookingTags::True);
-	FALSXTFreelookState NewFreelookState = GetFreelookState();
+	FAlsxtFreelookState NewFreelookState = GetFreelookState();
 	NewFreelookState.Freelooking = ALSXTFreelookingTags::True;
 	NewFreelookState.LockedControlRotation = GetControlRotation();
 	NewFreelookState.LockedViewState = GetViewState();
@@ -2029,7 +2029,7 @@ void AALSXTCharacter::DeactivateFreelooking()
 {
 	// UnLockRotation();
 	SetDesiredFreelooking(ALSXTFreelookingTags::False);
-	FALSXTFreelookState NewFreelookState = GetFreelookState();
+	FAlsxtFreelookState NewFreelookState = GetFreelookState();
 	NewFreelookState.Freelooking = ALSXTFreelookingTags::False;
 	SetFreelookState(NewFreelookState);
 	// HeadLookAtState.LockedViewState.PreviousYawAngle = 0.0f;
@@ -2065,7 +2065,7 @@ void AALSXTCharacter::SetFreelooking(const FGameplayTag& NewFreelookingTag)
 		const auto PreviousFreelooking{ Freelooking };
 
 		Freelooking = NewFreelookingTag;
-		FALSXTFreelookState NewState = GetFreelookState();
+		FAlsxtFreelookState NewState = GetFreelookState();
 
 		if (NewFreelookingTag == ALSXTFreelookingTags::True)
 		{
@@ -2515,7 +2515,7 @@ void AALSXTCharacter::SetDefensiveMode(const FGameplayTag& NewDefensiveModeTag)
 
 void AALSXTCharacter::OnDefensiveModeChanged_Implementation(const FGameplayTag& PreviousDefensiveModeTag) {}
 
-void AALSXTCharacter::SetAimState(const FALSXTAimState& NewAimState)
+void AALSXTCharacter::SetAimState(const FAlsxtAimState& NewAimState)
 {
 	const auto PreviousAimState{ AimState };
 
@@ -2529,29 +2529,29 @@ void AALSXTCharacter::SetAimState(const FALSXTAimState& NewAimState)
 	}
 }
 
-void AALSXTCharacter::ServerSetAimState_Implementation(const FALSXTAimState& NewAimState)
+void AALSXTCharacter::ServerSetAimState_Implementation(const FAlsxtAimState& NewAimState)
 {
 	SetAimState(NewAimState);
 }
 
 
-void AALSXTCharacter::ServerProcessNewAimState_Implementation(const FALSXTAimState& NewAimState)
+void AALSXTCharacter::ServerProcessNewAimState_Implementation(const FAlsxtAimState& NewAimState)
 {
 	ProcessNewAimState(NewAimState);
 }
 
-void AALSXTCharacter::OnReplicate_AimState(const FALSXTAimState& PreviousAimState)
+void AALSXTCharacter::OnReplicate_AimState(const FAlsxtAimState& PreviousAimState)
 {
 	OnAimStateChanged(PreviousAimState);
 }
 
-void AALSXTCharacter::OnAimStateChanged_Implementation(const FALSXTAimState& PreviousAimState) {}
+void AALSXTCharacter::OnAimStateChanged_Implementation(const FAlsxtAimState& PreviousAimState) {}
 
 
 //Freelooking
 
 
-void AALSXTCharacter::SetFreelookState(const FALSXTFreelookState& NewFreelookState)
+void AALSXTCharacter::SetFreelookState(const FAlsxtFreelookState& NewFreelookState)
 {
 	const auto PreviousFreelookState{ FreelookState };
 	FreelookState = NewFreelookState;
@@ -2568,29 +2568,29 @@ bool AALSXTCharacter::DoesOverlayObjectUseLeftHandIK_Implementation() const
 	return false;
 }
 
-void AALSXTCharacter::ServerSetFreelookState_Implementation(const FALSXTFreelookState& NewFreelookState)
+void AALSXTCharacter::ServerSetFreelookState_Implementation(const FAlsxtFreelookState& NewFreelookState)
 {
 	SetFreelookState(NewFreelookState);
 }
 
 
-void AALSXTCharacter::ServerProcessNewFreelookState_Implementation(const FALSXTFreelookState& NewFreelookState)
+void AALSXTCharacter::ServerProcessNewFreelookState_Implementation(const FAlsxtFreelookState& NewFreelookState)
 {
 	ProcessNewFreelookState(NewFreelookState);
 }
 
-void AALSXTCharacter::OnReplicate_FreelookState(const FALSXTFreelookState& PreviousFreelookState)
+void AALSXTCharacter::OnReplicate_FreelookState(const FAlsxtFreelookState& PreviousFreelookState)
 {
 	OnFreelookStateChanged(PreviousFreelookState);
 }
 
-void AALSXTCharacter::OnFreelookStateChanged_Implementation(const FALSXTFreelookState& PreviousFreelookState) {}
+void AALSXTCharacter::OnFreelookStateChanged_Implementation(const FAlsxtFreelookState& PreviousFreelookState) {}
 
 // Head Look At State
 
 bool AALSXTCharacter::CanHeadLookAt_Implementation() const { return (GetDesiredFreelooking() == ALSXTFreelookingTags::False); };
 
-void AALSXTCharacter::SetHeadLookAtState(const FALSXTHeadLookAtState& NewHeadLookAtState)
+void AALSXTCharacter::SetHeadLookAtState(const FAlsxtHeadLookAtState& NewHeadLookAtState)
 {
 	const auto PreviousHeadLookAtState{ HeadLookAtState };
 	HeadLookAtState = NewHeadLookAtState;
@@ -2602,27 +2602,27 @@ void AALSXTCharacter::SetHeadLookAtState(const FALSXTHeadLookAtState& NewHeadLoo
 	}
 }
 
-void AALSXTCharacter::ServerSetHeadLookAtState_Implementation(const FALSXTHeadLookAtState& NewHeadLookAtState)
+void AALSXTCharacter::ServerSetHeadLookAtState_Implementation(const FAlsxtHeadLookAtState& NewHeadLookAtState)
 {
 	SetHeadLookAtState(NewHeadLookAtState);
 }
 
-void AALSXTCharacter::ServerProcessNewHeadLookAtState_Implementation(const FALSXTHeadLookAtState& NewHeadLookAtState)
+void AALSXTCharacter::ServerProcessNewHeadLookAtState_Implementation(const FAlsxtHeadLookAtState& NewHeadLookAtState)
 {
 	ProcessNewHeadLookAtState(NewHeadLookAtState);
 }
 
-void AALSXTCharacter::AddHeadLookAtEntry_Implementation(FALSXTHeadLookAtEntry HeadLookAtEntry)
+void AALSXTCharacter::AddHeadLookAtEntry_Implementation(FAlsxtHeadLookAtEntry HeadLookAtEntry)
 {
 	HeadLookAtEntries.Add(HeadLookAtEntry);
 }
 
-void AALSXTCharacter::RemoveHeadLookAtEntry_Implementation(FALSXTHeadLookAtEntry HeadLookAtEntry)
+void AALSXTCharacter::RemoveHeadLookAtEntry_Implementation(FAlsxtHeadLookAtEntry HeadLookAtEntry)
 {
 	HeadLookAtEntries.Remove(HeadLookAtEntry);
 }
 
-void AALSXTCharacter::BeginHeadLookAt_Implementation(FALSXTHeadLookAtEntry HeadLookAtEntry)
+void AALSXTCharacter::BeginHeadLookAt_Implementation(FAlsxtHeadLookAtEntry HeadLookAtEntry)
 {
 	IAlsxtHeadLookAtInterface::Execute_GetBestHeadLookAtEntry(this);
 }
@@ -2632,16 +2632,16 @@ void AALSXTCharacter::EndHeadLookAt_Implementation()
 
 }
 
-void AALSXTCharacter::OnReplicate_HeadLookAtState(const FALSXTHeadLookAtState& PreviousHeadLookAtState)
+void AALSXTCharacter::OnReplicate_HeadLookAtState(const FAlsxtHeadLookAtState& PreviousHeadLookAtState)
 {
 	OnHeadLookAtStateChanged(PreviousHeadLookAtState);
 }
 
-void AALSXTCharacter::OnHeadLookAtStateChanged_Implementation(const FALSXTHeadLookAtState& PreviousHeadLookAtState) {}
+void AALSXTCharacter::OnHeadLookAtStateChanged_Implementation(const FAlsxtHeadLookAtState& PreviousHeadLookAtState) {}
 
 //
 
-void AALSXTCharacter::SetSlidingState(const FALSXTSlidingState& NewSlidingState)
+void AALSXTCharacter::SetSlidingState(const FAlsxtSlidingState& NewSlidingState)
 {
 	const auto PreviousSlidingState{ SlidingState };
 
@@ -2655,25 +2655,25 @@ void AALSXTCharacter::SetSlidingState(const FALSXTSlidingState& NewSlidingState)
 	// }
 }
 
-void AALSXTCharacter::ServerSetSlidingState_Implementation(const FALSXTSlidingState& NewSlidingState)
+void AALSXTCharacter::ServerSetSlidingState_Implementation(const FAlsxtSlidingState& NewSlidingState)
 {
 	// SetSlidingState(NewSlidingState);
 	MulticastSetSlidingState(NewSlidingState);
 }
 
 
-void AALSXTCharacter::ServerProcessNewSlidingState_Implementation(const FALSXTSlidingState& NewSlidingState)
+void AALSXTCharacter::ServerProcessNewSlidingState_Implementation(const FAlsxtSlidingState& NewSlidingState)
 {
 	ProcessNewSlidingState(NewSlidingState);
 }
 
-void AALSXTCharacter::OnReplicate_SlidingState(const FALSXTSlidingState& PreviousSlidingState)
+void AALSXTCharacter::OnReplicate_SlidingState(const FAlsxtSlidingState& PreviousSlidingState)
 {
 	OnSlidingStateChanged(PreviousSlidingState);
 }
 
 // Sliding State
-void AALSXTCharacter::ClientSetSlidingState(const FALSXTSlidingState& NewSlidingState)
+void AALSXTCharacter::ClientSetSlidingState(const FAlsxtSlidingState& NewSlidingState)
 {
 	if (HasAuthority())
 	{
@@ -2685,16 +2685,16 @@ void AALSXTCharacter::ClientSetSlidingState(const FALSXTSlidingState& NewSliding
 	}
 }
 
-void AALSXTCharacter::MulticastSetSlidingState_Implementation(const FALSXTSlidingState& NewSlidingState)
+void AALSXTCharacter::MulticastSetSlidingState_Implementation(const FAlsxtSlidingState& NewSlidingState)
 {
 	SetSlidingState(NewSlidingState);
 }
 
-void AALSXTCharacter::OnSlidingStateChanged_Implementation(const FALSXTSlidingState& PreviousSlidingState) {}
+void AALSXTCharacter::OnSlidingStateChanged_Implementation(const FAlsxtSlidingState& PreviousSlidingState) {}
 
 //
 
-void AALSXTCharacter::SetDefensiveModeState(const FALSXTDefensiveModeState& NewDefensiveModeState)
+void AALSXTCharacter::SetDefensiveModeState(const FAlsxtDefensiveModeState& NewDefensiveModeState)
 {
 	// const auto PreviousDefensiveModeState{ DefensiveModeState };
 	// if (GetLocalRole() == ROLE_AutonomousProxy)
@@ -2727,7 +2727,7 @@ void AALSXTCharacter::SetDefensiveModeState(const FALSXTDefensiveModeState& NewD
 	// ForceNetUpdate();
 }
 
-void AALSXTCharacter::SetDefensiveModeAnimations(const FALSXTDefensiveModeAnimations& NewDefensiveModeAnimations)
+void AALSXTCharacter::SetDefensiveModeAnimations(const FAlsxtDefensiveModeAnimations& NewDefensiveModeAnimations)
 {
 	// const auto PreviousDefensiveModeState{ DefensiveModeState };
 	// if (GetLocalRole() == ROLE_AutonomousProxy)
@@ -2763,7 +2763,7 @@ void AALSXTCharacter::SetDefensiveModeAnimations(const FALSXTDefensiveModeAnimat
 	// ForceNetUpdate();
 }
 
-void AALSXTCharacter::SetDefensiveModeStateImplementation(const FALSXTDefensiveModeState& NewDefensiveModeState)
+void AALSXTCharacter::SetDefensiveModeStateImplementation(const FAlsxtDefensiveModeState& NewDefensiveModeState)
 {
 	// const auto PreviousDefensiveModeState{ DefensiveModeState };
 	// DefensiveModeState = NewDefensiveModeState;
@@ -2797,8 +2797,8 @@ void AALSXTCharacter::SetDefensiveModeStateImplementation(const FALSXTDefensiveM
 void AALSXTCharacter::ResetDefensiveModeState()
 {
 	// Reset but keep Nontage
-	FALSXTDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
-	FALSXTDefensiveModeState PreviousDefensiveModeState = GetDefensiveModeState();
+	FAlsxtDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
+	FAlsxtDefensiveModeState PreviousDefensiveModeState = GetDefensiveModeState();
 	// NewDefensiveModeState.Mode = FGameplayTag::EmptyTag;
 	// NewDefensiveModeState.Form = FGameplayTag::EmptyTag;
 	// NewDefensiveModeState.Velocity = FGameplayTag::EmptyTag;
@@ -2811,25 +2811,25 @@ void AALSXTCharacter::ResetDefensiveModeState()
 	// }
 }
 
-void AALSXTCharacter::ServerSetDefensiveModeState_Implementation(const FALSXTDefensiveModeState& NewDefensiveModeState)
+void AALSXTCharacter::ServerSetDefensiveModeState_Implementation(const FAlsxtDefensiveModeState& NewDefensiveModeState)
 {
 	// MulticastSetDefensiveModeState(NewDefensiveModeState);
 	SetDefensiveModeState(NewDefensiveModeState);
 }
 
 
-void AALSXTCharacter::ServerProcessNewDefensiveModeState_Implementation(const FALSXTDefensiveModeState& NewDefensiveModeState)
+void AALSXTCharacter::ServerProcessNewDefensiveModeState_Implementation(const FAlsxtDefensiveModeState& NewDefensiveModeState)
 {
 	ProcessNewDefensiveModeState(NewDefensiveModeState);
 }
 
-void AALSXTCharacter::OnReplicate_DefensiveModeState(const FALSXTDefensiveModeState& PreviousDefensiveModeState)
+void AALSXTCharacter::OnReplicate_DefensiveModeState(const FAlsxtDefensiveModeState& PreviousDefensiveModeState)
 {
 	OnDefensiveModeStateChanged(PreviousDefensiveModeState);
 }
 
 // Defensive ModeState
-void AALSXTCharacter::ClientSetDefensiveModeState(const FALSXTDefensiveModeState& NewDefensiveModeState)
+void AALSXTCharacter::ClientSetDefensiveModeState(const FAlsxtDefensiveModeState& NewDefensiveModeState)
 {
 	if (HasAuthority())
 	{
@@ -2841,12 +2841,12 @@ void AALSXTCharacter::ClientSetDefensiveModeState(const FALSXTDefensiveModeState
 	}
 }
 
-void AALSXTCharacter::MulticastSetDefensiveModeState_Implementation(const FALSXTDefensiveModeState& NewDefensiveModeState)
+void AALSXTCharacter::MulticastSetDefensiveModeState_Implementation(const FAlsxtDefensiveModeState& NewDefensiveModeState)
 {
 	SetDefensiveModeState(NewDefensiveModeState);
 }
 
-void AALSXTCharacter::OnDefensiveModeStateChanged_Implementation(const FALSXTDefensiveModeState& PreviousDefensiveModeState) {}
+void AALSXTCharacter::OnDefensiveModeStateChanged_Implementation(const FAlsxtDefensiveModeState& PreviousDefensiveModeState) {}
 
 // Blocking
 
@@ -3021,7 +3021,7 @@ void AALSXTCharacter::OnActorAttackCollision_Implementation(FAttackDoubleHitResu
 	CharacterSound->PlayDamageSound(true, true, true, GetDesiredSex(), CharacterCustomization->VoiceParameters.Variant, GetOverlayMode(), ALSXTAttackMethodTags::Regular, Hit.Strength, Hit.DoubleHitResult.ImpactForm, Hit.BaseDamage);
 }
 
-FALSXTPhysicalAnimationState AALSXTCharacter::GetCharacterPhysicalAnimationState_Implementation() const
+FAlsxtPhysicalAnimationState AALSXTCharacter::GetCharacterPhysicalAnimationState_Implementation() const
 {
 	return GetPhysicalAnimationState();
 }
@@ -3035,7 +3035,7 @@ FALSXTJigglePhysicsSettings AALSXTCharacter::GetCharacterJigglePhysicsSettings_I
 	return DefualtJigglePhysicsSettings;
 }
 
-void AALSXTCharacter::SetCharacterPhysicalAnimationState_Implementation(FALSXTPhysicalAnimationState NewPhysicalAnimationState)
+void AALSXTCharacter::SetCharacterPhysicalAnimationState_Implementation(FAlsxtPhysicalAnimationState NewPhysicalAnimationState)
 {
 	SetPhysicalAnimationState(NewPhysicalAnimationState);
 }
@@ -3091,7 +3091,7 @@ void AALSXTCharacter::BeginFreelookTimer()
 void AALSXTCharacter::FreelookTimer()
 {
 	FGameplayTag CurrentViewMode = GetViewMode();
-	FALSXTFreelookState NewState;
+	FAlsxtFreelookState NewState;
 
 	if (CurrentViewMode == AlsViewModeTags::FirstPerson && ALSXTSettings->Freelook.bEnableFirstPersonFreelook)
 	{
@@ -3128,7 +3128,7 @@ void AALSXTCharacter::FreelookTimer()
 void AALSXTCharacter::EndFreelookTimer()
 {
 	// Clear Freelook Trace Timer
-	FALSXTFreelookState EmptyState;
+	FAlsxtFreelookState EmptyState;
 	SetFreelookState(EmptyState);
 	GetWorld()->GetTimerManager().ClearTimer(FreelookTimerHandle);
 }
@@ -3170,19 +3170,19 @@ void AALSXTCharacter::SetPhysicalAnimationMode(const FGameplayTag& NewPhysicalAn
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("SetPhysicalAnimationMode"));
 		const auto PreviousPhysicalAnimationMode{ PhysicalAnimationMode };
 
-		if (NewPhysicalAnimationModeTag == ALSXTPhysicalAnimationModeTags::None || NewPhysicalAnimationModeTag == FGameplayTag::EmptyTag)
+		if (NewPhysicalAnimationModeTag == AlsxtPhysicalAnimationModeTags::None || NewPhysicalAnimationModeTag == FGameplayTag::EmptyTag)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("ALSXTPhysicalAnimationModeTags::None"));
-			PhysicalAnimationMode = ALSXTPhysicalAnimationModeTags::None;
+			PhysicalAnimationMode = AlsxtPhysicalAnimationModeTags::None;
 			GetMesh()->SetCollisionProfileName("CharacterMesh");
 			PhysicalAnimation->ApplyPhysicalAnimationProfileBelow("pelvis", "Default", true, false);
 			GetCapsuleComponent()->SetCapsuleRadius(25);		
-			FALSXTPhysicalAnimationState NewPhysicalAnimationState;
+			FAlsxtPhysicalAnimationState NewPhysicalAnimationState;
 			NewPhysicalAnimationState.Mode = FGameplayTag::EmptyTag;
 			NewPhysicalAnimationState.ProfileName = "CharacterMesh";
 			SetPhysicalAnimationState(NewPhysicalAnimationState);
-			FALSXTDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
-			NewDefensiveModeState.Mode = ALSXTPhysicalAnimationModeTags::None;
+			FAlsxtDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
+			NewDefensiveModeState.Mode = AlsxtPhysicalAnimationModeTags::None;
 			NewDefensiveModeState.AnticipationMode = FGameplayTag::EmptyTag;
 			NewDefensiveModeState.ObstacleMode = FGameplayTag::EmptyTag;
 			NewDefensiveModeState.AnticipationSide = FGameplayTag::EmptyTag;
@@ -3198,17 +3198,17 @@ void AALSXTCharacter::SetPhysicalAnimationMode(const FGameplayTag& NewPhysicalAn
 			return;
 			// GetMesh()->SetAllBodiesSimulatePhysics(false);
 		}
-		if (NewPhysicalAnimationModeTag == ALSXTPhysicalAnimationModeTags::Navigation)
+		if (NewPhysicalAnimationModeTag == AlsxtPhysicalAnimationModeTags::Navigation)
 		{
 			GetMesh()->SetCollisionProfileName("PhysicalAnimation");		
 			GetCapsuleComponent()->SetCapsuleRadius(14);
 
 			// GetMesh()->SetAllBodiesBelowSimulatePhysics("pelvis", true, false);
 			// PhysicalAnimation->ApplyPhysicalAnimationProfileBelow("pelvis", "Hit", false, false);
-			FALSXTPhysicalAnimationState NewPhysicalAnimationState;
+			FAlsxtPhysicalAnimationState NewPhysicalAnimationState;
 			NewPhysicalAnimationState.AffectedBonesBelow = BoneNames;
 			NewPhysicalAnimationState.Alpha = 0.5;
-			NewPhysicalAnimationState.Mode = ALSXTPhysicalAnimationModeTags::Navigation;
+			NewPhysicalAnimationState.Mode = AlsxtPhysicalAnimationModeTags::Navigation;
 			NewPhysicalAnimationState.ProfileName = "Bump";
 
 			for (FName BoneName : BoneNames)
@@ -3224,16 +3224,16 @@ void AALSXTCharacter::SetPhysicalAnimationMode(const FGameplayTag& NewPhysicalAn
 			OnPhysicalAnimationModeChanged(PreviousPhysicalAnimationMode);
 			return;
 		}
-		if (NewPhysicalAnimationModeTag == ALSXTPhysicalAnimationModeTags::Bump)
+		if (NewPhysicalAnimationModeTag == AlsxtPhysicalAnimationModeTags::Bump)
 		{
 			GetMesh()->SetCollisionProfileName("PhysicalAnimation");
 			
 			// GetMesh()->SetAllBodiesBelowSimulatePhysics(BoneName, true, false);
 			GetCapsuleComponent()->SetCapsuleRadius(14);
-			FALSXTPhysicalAnimationState NewPhysicalAnimationState;
+			FAlsxtPhysicalAnimationState NewPhysicalAnimationState;
 			NewPhysicalAnimationState.AffectedBonesBelow = BoneNames;
 			NewPhysicalAnimationState.Alpha = 0.5;
-			NewPhysicalAnimationState.Mode = ALSXTPhysicalAnimationModeTags::Bump;
+			NewPhysicalAnimationState.Mode = AlsxtPhysicalAnimationModeTags::Bump;
 			NewPhysicalAnimationState.ProfileName = "Bump";
 
 			for (FName BoneName : BoneNames)
@@ -3248,17 +3248,17 @@ void AALSXTCharacter::SetPhysicalAnimationMode(const FGameplayTag& NewPhysicalAn
 			OnPhysicalAnimationModeChanged(PreviousPhysicalAnimationMode);
 			return;
 		}
-		if (NewPhysicalAnimationModeTag == ALSXTPhysicalAnimationModeTags::Hit)
+		if (NewPhysicalAnimationModeTag == AlsxtPhysicalAnimationModeTags::Hit)
 		{
 			GetMesh()->SetCollisionProfileName("PhysicalAnimation");
 			GetCapsuleComponent()->SetCapsuleRadius(8);
 			
 			GetMesh()->SetAllBodiesBelowSimulatePhysics("pelvis", true, false);
 			PhysicalAnimation->ApplyPhysicalAnimationProfileBelow("pelvis", "Hit", false, false);
-			FALSXTPhysicalAnimationState NewPhysicalAnimationState;
+			FAlsxtPhysicalAnimationState NewPhysicalAnimationState;
 			NewPhysicalAnimationState.AffectedBonesBelow = BoneNames;
 			NewPhysicalAnimationState.Alpha = 1.0f;
-			NewPhysicalAnimationState.Mode = ALSXTPhysicalAnimationModeTags::Hit;
+			NewPhysicalAnimationState.Mode = AlsxtPhysicalAnimationModeTags::Hit;
 			NewPhysicalAnimationState.ProfileName = "Hit";
 
 			for (FName BoneName : BoneNames)
@@ -3293,15 +3293,15 @@ void AALSXTCharacter::ResetPhysicalAnimationMode()
 	GetMesh()->SetAllBodiesBelowPhysicsBlendWeight("", 0.0f, false, true);
 	GetCapsuleComponent()->SetCapsuleRadius(25);
 	TArray<FName> AffectedBonesBelowNames;
-	FALSXTPhysicalAnimationState NewPhysicalAnimationState;
-	NewPhysicalAnimationState.Mode = ALSXTPhysicalAnimationModeTags::None;
+	FAlsxtPhysicalAnimationState NewPhysicalAnimationState;
+	NewPhysicalAnimationState.Mode = AlsxtPhysicalAnimationModeTags::None;
 	NewPhysicalAnimationState.ProfileName = "CharacterMesh";
 	NewPhysicalAnimationState.AffectedBonesBelow = AffectedBonesBelowNames;
 	// NewPhysicalAnimationState.Alpha = 0.0f;
 	StartBlendOutPhysicalAnimation();
 	SetPhysicalAnimationState(NewPhysicalAnimationState);
 	OnPhysicalAnimationModeChanged(PreviousPhysicalAnimationMode);
-	FALSXTDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
+	FAlsxtDefensiveModeState NewDefensiveModeState = GetDefensiveModeState();
 	
 	NewDefensiveModeState.ObstacleMode = FGameplayTag::EmptyTag;
 	NewDefensiveModeState.ObstacleSide = FGameplayTag::EmptyTag;
@@ -3310,7 +3310,7 @@ void AALSXTCharacter::ResetPhysicalAnimationMode()
 
 	if (GetDefensiveModeState().AnticipationMode != ALSXTDefensiveModeTags::Anticipation)
 	{
-		NewDefensiveModeState.Mode = ALSXTPhysicalAnimationModeTags::None;
+		NewDefensiveModeState.Mode = AlsxtPhysicalAnimationModeTags::None;
 		NewDefensiveModeState.AnticipationMode = FGameplayTag::EmptyTag;
 		NewDefensiveModeState.AnticipationSide = FGameplayTag::EmptyTag;
 		NewDefensiveModeState.AnticipationHeight = FGameplayTag::EmptyTag;
@@ -3319,12 +3319,12 @@ void AALSXTCharacter::ResetPhysicalAnimationMode()
 	}
 	
 	SetDefensiveModeState(NewDefensiveModeState);
-	PhysicalAnimationMode = ALSXTPhysicalAnimationModeTags::None;
+	PhysicalAnimationMode = AlsxtPhysicalAnimationModeTags::None;
 }
 
 void AALSXTCharacter::PhysicalAnimationBlendOut() 
 {
-	FALSXTPhysicalAnimationState NewPhysicalAnimationState = GetPhysicalAnimationState();
+	FAlsxtPhysicalAnimationState NewPhysicalAnimationState = GetPhysicalAnimationState();
 	NewPhysicalAnimationState.Alpha = GetPhysicalAnimationState().Alpha - 0.1;
 	SetPhysicalAnimationState(NewPhysicalAnimationState);
 	if (GetPhysicalAnimationState().Alpha <= 0.0)
@@ -3583,14 +3583,14 @@ void AALSXTCharacter::OnWeaponObstructionChanged_Implementation(const FGameplayT
 
 void AALSXTCharacter::UpdateBreathState()
 {
-	FALSXTBreathState NewBreathState;
+	FAlsxtBreathState NewBreathState;
 	const float Stamina = GetStatusState().CurrentStamina;
 	if (this->Implements<UAlsxtCharacterInterface>())
 	{
 		FGameplayTag BreathType = IAlsxtCharacterInterface::Execute_GetBreathType(this);
 		if (ShouldTransitionBreathState() && BreathState.HoldingBreath != ALSXTHoldingBreathTags::True)
 		{
-			FALSXTTargetBreathState NewTargetState = CalculateTargetBreathState();
+			FAlsxtTargetBreathState NewTargetState = CalculateTargetBreathState();
 			BreathState.TargetState = NewTargetState;
 			NewBreathState = GetBreathState();
 			NewBreathState.TargetState = NewTargetState;
@@ -3601,7 +3601,7 @@ void AALSXTCharacter::UpdateBreathState()
 
 bool AALSXTCharacter::ShouldUpdateBreathState() const
 {
-	FALSXTStatusState StatusState = IAlsxtCharacterInterface::Execute_GetStatusState(this);
+	FAlsxtStatusState StatusState = IAlsxtCharacterInterface::Execute_GetStatusState(this);
 	float CurrentStamina = IAlsxtCharacterInterface::Execute_GetStamina(this);
 	return StatusState.CurrentStamina != CurrentStamina;
 }
@@ -3612,9 +3612,9 @@ bool AALSXTCharacter::ShouldTransitionBreathState()
 }
 
 
-FALSXTTargetBreathState AALSXTCharacter::CalculateTargetBreathState()
+FAlsxtTargetBreathState AALSXTCharacter::CalculateTargetBreathState()
 {
-	FALSXTTargetBreathState NewTargetBreathState;
+	FAlsxtTargetBreathState NewTargetBreathState;
 
 	if (BreathState.HoldingBreath == ALSXTHoldingBreathTags::True)
 	{
@@ -3648,7 +3648,7 @@ FALSXTTargetBreathState AALSXTCharacter::CalculateTargetBreathState()
 	}
 }
 
-void AALSXTCharacter::SetTargetBreathState(const FALSXTTargetBreathState& NewTargetBreathState)
+void AALSXTCharacter::SetTargetBreathState(const FAlsxtTargetBreathState& NewTargetBreathState)
 {
 	BreathState.TargetState = NewTargetBreathState;
 }
@@ -3780,12 +3780,12 @@ FVector AALSXTCharacter::GetCharacterFirstPersonCameraLocation_Implementation() 
 	return Camera->GetFirstPersonCameraLocation();
 }
 
-FALSXTBreathState AALSXTCharacter::GetCharacterBreathState_Implementation() const
+FAlsxtBreathState AALSXTCharacter::GetCharacterBreathState_Implementation() const
 {
 	return GetBreathState();
 }
 
-FALSXTPoseState AALSXTCharacter::GetCharacterPoseState_Implementation() const
+FAlsxtPoseState AALSXTCharacter::GetCharacterPoseState_Implementation() const
 {
 	return GetALSXTPoseState();
 }
@@ -3815,27 +3815,27 @@ FGameplayTag AALSXTCharacter::GetCharacterLean_Implementation() const
 	return GetDesiredLean();
 }
 
-FALSXTStationaryModeState AALSXTCharacter::GetCharacterStationaryModeState_Implementation() const
+FAlsxtStationaryModeState AALSXTCharacter::GetCharacterStationaryModeState_Implementation() const
 {
 	return GetStationaryModeState();
 }
 
-FALSXTSlidingState AALSXTCharacter::GetCharacterSlidingState_Implementation() const
+FAlsxtSlidingState AALSXTCharacter::GetCharacterSlidingState_Implementation() const
 {
 	return GetSlidingState();
 }
 
-FALSXTDefensiveModeState AALSXTCharacter::GetCharacterDefensiveModeState_Implementation() const
+FAlsxtDefensiveModeState AALSXTCharacter::GetCharacterDefensiveModeState_Implementation() const
 {
 	return GetDefensiveModeState();
 }
 
-FALSXTDefensiveModeAnimations AALSXTCharacter::GetCharacterDefensiveModeAnimations_Implementation() const
+FAlsxtDefensiveModeAnimations AALSXTCharacter::GetCharacterDefensiveModeAnimations_Implementation() const
 {
 	return GetDefensiveModeAnimations();
 }
 
-FALSXTBumpPoseState AALSXTCharacter::GetCrowdNavigationPoseState_Implementation() const
+FAlsxtBumpPoseState AALSXTCharacter::GetCrowdNavigationPoseState_Implementation() const
 {
 	return ImpactReaction->GetCrowdNavigationPoseState();
 }
@@ -3893,7 +3893,7 @@ void AALSXTCharacter::SetCharacterLocomotionAction_Implementation(const FGamepla
 void AALSXTCharacter::ResetCharacterDefensiveModeState_Implementation()
 {
 	SetDefensiveMode(FGameplayTag::EmptyTag);
-	FALSXTDefensiveModeState EmptyDefensiveModeState;
+	FAlsxtDefensiveModeState EmptyDefensiveModeState;
 	SetDefensiveModeState(EmptyDefensiveModeState);
 }
 
@@ -3927,12 +3927,12 @@ void AALSXTCharacter::SetViewportMask_Implementation(const FGameplayTag& Equipme
 	// SetDesiredStatus(NewStatus);
 }
 
-void AALSXTCharacter::SetCharacterDefensiveModeState_Implementation(FALSXTDefensiveModeState NewDefensiveModeState)
+void AALSXTCharacter::SetCharacterDefensiveModeState_Implementation(FAlsxtDefensiveModeState NewDefensiveModeState)
 {
 	SetDefensiveModeState(NewDefensiveModeState);
 }
 
-void AALSXTCharacter::SetCharacterDefensiveModeAnimations_Implementation(FALSXTDefensiveModeAnimations NewDefensiveModeAnimations)
+void AALSXTCharacter::SetCharacterDefensiveModeAnimations_Implementation(FAlsxtDefensiveModeAnimations NewDefensiveModeAnimations)
 {
 	SetDefensiveModeAnimations(NewDefensiveModeAnimations);
 }
@@ -4010,31 +4010,31 @@ FGameplayTag AALSXTCharacter::GetCharacterVaultType_Implementation() const
 	return GetDesiredVaultType();
 }
 
-FALSXTAimState AALSXTCharacter::GetCharacterAimState_Implementation() const
+FAlsxtAimState AALSXTCharacter::GetCharacterAimState_Implementation() const
 {
 	return GetAimState();
 }
 
-FALSXTHeldItemState AALSXTCharacter::GetCharacterHeldItemState_Implementation() const
+FAlsxtHeldItemState AALSXTCharacter::GetCharacterHeldItemState_Implementation() const
 {
 	return GetHeldItemState();
 }
 
-FALSXTFreelookState AALSXTCharacter::GetCharacterFreelookState_Implementation() const
+FAlsxtFreelookState AALSXTCharacter::GetCharacterFreelookState_Implementation() const
 {
 	return GetFreelookState();
 }
 
-FALSXTHeadLookAtState AALSXTCharacter::GetCharacterHeadLookAtState_Implementation() const
+FAlsxtHeadLookAtState AALSXTCharacter::GetCharacterHeadLookAtState_Implementation() const
 {
 	return GetHeadLookAtState();
 }
 
-FALSXTHeadLookAtEntry AALSXTCharacter::GetBestHeadLookAtEntry_Implementation() const
+FAlsxtHeadLookAtEntry AALSXTCharacter::GetBestHeadLookAtEntry_Implementation() const
 {
-	TArray<FALSXTHeadLookAtEntry> BestHeadLookAtEntries;
-	FALSXTHeadLookAtEntry BestHeadLookAtEntry;
-	FALSXTHeadLookAtEntry CurrentBestHeadLookAtEntry;
+	TArray<FAlsxtHeadLookAtEntry> BestHeadLookAtEntries;
+	FAlsxtHeadLookAtEntry BestHeadLookAtEntry;
+	FAlsxtHeadLookAtEntry CurrentBestHeadLookAtEntry;
 
 	if (HeadLookAtEntries.Num() > 1)
 	{
@@ -4067,12 +4067,12 @@ FGameplayTag AALSXTCharacter::GetCharacterLocomotionVariant_Implementation() con
 	return GetDesiredLocomotionVariant();
 }
 
-FALSXTFootprintsState AALSXTCharacter::GetCharacterFootprintsState_Implementation() const
+FAlsxtFootprintsState AALSXTCharacter::GetCharacterFootprintsState_Implementation() const
 {
 	return GetFootprintsState();
 }
 
-FALSXTFootwearDetails AALSXTCharacter::GetCharacterFootwearDetails_Implementation() const
+FAlsxtFootwearDetails AALSXTCharacter::GetCharacterFootwearDetails_Implementation() const
 {
 	return GetFootwearDetails();
 }
@@ -4189,14 +4189,14 @@ bool AALSXTCharacter::ShouldIdle_Implementation() const
 	return true;
 }
 
-FALSXTIdleState AALSXTCharacter::GetIdleState_Implementation() const
+FAlsxtIdleState AALSXTCharacter::GetIdleState_Implementation() const
 {
 	return IdleAnimation->GetIdleState();
 }
 
 void AALSXTCharacter::OnEnterStationaryModeBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
-	FALSXTStationaryModeState NewStationaryModeState = GetStationaryModeState();
+	FAlsxtStationaryModeState NewStationaryModeState = GetStationaryModeState();
 	NewStationaryModeState.Mode = NewStationaryModeState.TargetMode;
 	NewStationaryModeState.TargetMode = FGameplayTag::EmptyTag;
 	SetStationaryModeState(NewStationaryModeState);

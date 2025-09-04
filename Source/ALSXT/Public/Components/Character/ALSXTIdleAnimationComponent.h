@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Settings/ALSXTIdleAnimationSettings.h"
-#include "State/ALSXTStatusState.h"
+#include "Settings/AlsxtIdleAnimationSettings.h"
+#include "State/AlsxtStatusState.h"
 #include "AlsxtIdleAnimationComponent.generated.h"
 
 
@@ -47,46 +47,46 @@ protected:
 
 private:
 	UFUNCTION(Client, Reliable)
-	void ClientSetIdleState(const FALSXTIdleState& NewIdleState);
+	void ClientSetIdleState(const FAlsxtIdleState& NewIdleState);
 
 	UFUNCTION(Server, Reliable)
-	void ServerSetIdleState(const FALSXTIdleState& NewIdleState);
+	void ServerSetIdleState(const FAlsxtIdleState& NewIdleState);
 
 	UFUNCTION()
-	void OnReplicate_IdleState(const FALSXTIdleState& PreviousIdleState);
+	void OnReplicate_IdleState(const FAlsxtIdleState& PreviousIdleState);
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnIdleStateChanged(const FALSXTIdleState& PreviousIdleState);
+	void OnIdleStateChanged(const FAlsxtIdleState& PreviousIdleState);
 
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Meta = (AllowPrivateAccess), Transient)
-	FALSXTIdleState IdleState;
+	FAlsxtIdleState IdleState;
 
 	// Breath State
 	UFUNCTION(BlueprintCallable, Category = "ALS|Movement System")
-	const FALSXTIdleState& GetIdleState() const;
+	const FAlsxtIdleState& GetIdleState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewIdleState"))
-	void SetIdleState(const FALSXTIdleState& NewIdleState);
+	void SetIdleState(const FAlsxtIdleState& NewIdleState);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewIdleState"))
-	FALSXTIdleState ProcessNewIdleState(const FALSXTIdleState& NewIdleState);
+	FAlsxtIdleState ProcessNewIdleState(const FAlsxtIdleState& NewIdleState);
 
 	UFUNCTION(Server, Unreliable)
-	void ServerProcessNewIdleState(const FALSXTIdleState& NewIdleState);
+	void ServerProcessNewIdleState(const FAlsxtIdleState& NewIdleState);
 
 	UPROPERTY(BlueprintReadOnly, Category = "Character", Meta = (AllowPrivateAccess))
 	UAnimInstance* AnimInstance{ nullptr };
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings", Meta = (AllowPrivateAccess))
-	FALSXTALSXTGeneralIdleAnimationSettings IdleAnimationSettings;
+	FAlsxtGeneralIdleAnimationSettings IdleAnimationSettings;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "State", Meta = (AllowPrivateAccess))
-	FALSXTStatusState StatusState;
+	FAlsxtStatusState StatusState;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Replicated, Category = "State", Meta = (AllowPrivateAccess))
 	UAnimMontage* CurrentIdleMontage;
@@ -170,7 +170,7 @@ public:
 	void StopIdle();
 };
 
-inline const FALSXTIdleState& UAlsxtIdleAnimationComponent::GetIdleState() const
+inline const FAlsxtIdleState& UAlsxtIdleAnimationComponent::GetIdleState() const
 {
 	return IdleState;
 }

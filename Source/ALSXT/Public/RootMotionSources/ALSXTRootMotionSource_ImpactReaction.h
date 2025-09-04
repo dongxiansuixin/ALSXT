@@ -1,11 +1,11 @@
 #pragma once
 
 #include "GameFramework/RootMotionSource.h"
-#include "Settings/ALSXTImpactReactionSettings.h"
-#include "State/ALSXTImpactReactionState.h"
+#include "Settings/AlsxtImpactReactionSettings.h"
+#include "State/AlsxtImpactReactionState.h"
 #include "ALSXTRootMotionSource_ImpactReaction.generated.h"
 
-class UALSXTImpactReactionSettings;
+class UAlsxtImpactReactionSettings;
 
 USTRUCT()
 struct ALSXT_API FALSXTRootMotionSource_ImpactReaction : public FRootMotionSource
@@ -14,10 +14,10 @@ struct ALSXT_API FALSXTRootMotionSource_ImpactReaction : public FRootMotionSourc
 
 public:
 	UPROPERTY()
-	TObjectPtr<UALSXTImpactReactionSettings> ImpactReactionSettings{nullptr};
+	TObjectPtr<UAlsxtImpactReactionSettings> ImpactReactionSettings{nullptr};
 
 	UPROPERTY()
-	FALSXTImpactReactionState ImpactReactionState;
+	FAlsxtImpactReactionState ImpactReactionState;
 
 	UPROPERTY()
 	TWeakObjectPtr<UPrimitiveComponent> TargetPrimitive;

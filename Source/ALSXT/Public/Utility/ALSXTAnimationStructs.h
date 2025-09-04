@@ -6,7 +6,7 @@
 #include "ALSXTAnimationStructs.generated.h"
 
 USTRUCT(BlueprintType)
-struct ALSXT_API FPoseSingleFrame
+struct ALSXT_API FAlsxtPoseSingleFrame
 {
 	GENERATED_BODY()
 
@@ -16,7 +16,7 @@ struct ALSXT_API FPoseSingleFrame
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess))
 	float ExplicitTime {0.0f};
 
-	bool operator==(const FPoseSingleFrame& other) const
+	bool operator==(const FAlsxtPoseSingleFrame& other) const
 	{
 		return (other.Pose == Pose) && (other.ExplicitTime == ExplicitTime);
 	}

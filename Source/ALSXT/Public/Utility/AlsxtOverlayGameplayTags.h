@@ -2,7 +2,7 @@
 
 #include "NativeGameplayTags.h"
 
-namespace ALSXTOverlaySlotTags
+namespace AlsxtOverlaySlotTags
 {
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Left)
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Right)

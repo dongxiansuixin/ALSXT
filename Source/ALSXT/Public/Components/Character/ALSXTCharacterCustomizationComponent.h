@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Settings/ALSXTCharacterSoundSettings.h"
+#include "Settings/AlsxtCharacterSoundSettings.h"
 #include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
 #include "AlsxtCharacterCustomizationComponent.generated.h"
 

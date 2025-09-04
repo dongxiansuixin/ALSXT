@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Settings/ALSXTHeldItemSettings.h"
+#include "Settings/AlsxtHeldItemSettings.h"
 #include "AlsxtHeldItemInterface.generated.h"
 
 
@@ -22,31 +22,31 @@ public:
   bool IsHoldingAimableItem() const;
 	
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Held Item Interface")
-  FALSXTHeldItemSettings GetHeldItemSettings() const;
+  FAlsxtHeldItemSettings GetHeldItemSettings() const;
 
   // Get which current Modes, Positions and Stances for the Held Item
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface|Held Item")
-  FALSXTHeldItemState GetCharacterHeldItemState() const;
+  FAlsxtHeldItemState GetCharacterHeldItemState() const;
 
   UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALSXTCharacter Interface|Held Item")
-  FALSXTHeldItemViewTarget GetCharacterHeldItemViewTarget() const;
+  FAlsxtHeldItemViewTarget GetCharacterHeldItemViewTarget() const;
 
   // Get the current Transform, Socket Names and Positions for the Held Item
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface|Held Item")
-  FALSXTHeldItemGripStates GetHeldItemGripStates() const;
+  FAlsxtHeldItemGripStates GetHeldItemGripStates() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Held Item Interface")
-  FHeldItemGrip GetHeldItemGrip() const;
+  FAlsxtHeldItemGrip GetHeldItemGrip() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Held Item Interface")
-  FHeldItemGrip GetHeldItemForegrip() const;
+  FAlsxtHeldItemGrip GetHeldItemForegrip() const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Held Item Interface")
-  TArray<FHeldItemEquipMontage> GetHeldItemEquipMontages(const FGameplayTag& Type) const;
+  TArray<FAlsxtHeldItemEquipMontage> GetHeldItemEquipMontages(const FGameplayTag& Type) const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Held Item Interface")
-  TArray<FHeldItemActionMontage> GetHeldItemActionMontages(const FGameplayTag& Type) const;
+  TArray<FAlsxtHeldItemActionMontage> GetHeldItemActionMontages(const FGameplayTag& Type) const;
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Held Item Interface")
-  TArray<FHeldItemAttackMontage> GetHeldItemAttackMontages(const FGameplayTag& Type, const FGameplayTag& Strength) const;
+  TArray<FAlsxtHeldItemAttackMontage> GetHeldItemAttackMontages(const FGameplayTag& Type, const FGameplayTag& Strength) const;
 };

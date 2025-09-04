@@ -1,9 +1,9 @@
 #pragma once
 
 #include "NativeGameplayTags.h"
-#include "Settings/ALSXTCharacterSoundSettings.h"
+#include "Settings/AlsxtCharacterSoundSettings.h"
 #include "Utility/AlsxtStructs.h"
-#include "Settings/ALSXTCharacterBreathEffectsSettings.h"
+#include "Settings/AlsxtCharacterBreathEffectsSettings.h"
 #include "AlsxtCharacterSoundComponentInterface.generated.h"
 
 UINTERFACE(MinimalAPI, Blueprintable)
@@ -16,13 +16,13 @@ class ALSXT_API IAlsxtCharacterSoundComponentInterface {
 
 public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Character Sound Component Interface|Parameters")
-	UALSXTCharacterSoundSettings* SelectCharacterSoundSettings();
+	UAlsxtCharacterSoundSettings* SelectCharacterSoundSettings();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Character Sound Component Interface|Parameters")
-	UALSXTWeaponSoundSettings* SelectWeaponSoundSettings();
+	UAlsxtWeaponSoundSettings* SelectWeaponSoundSettings();
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Character Sound Component Interface|Breath Effects")
-	FALSXTCharacterBreathEffectsSettings GetBreathEffectsSettings();
+	FAlsxtCharacterBreathEffectsSettings GetBreathEffectsSettings();
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Character Sound Component Interface|Parameters")
 	FALSXTCharacterVoiceParameters GetVoiceParametersOld();

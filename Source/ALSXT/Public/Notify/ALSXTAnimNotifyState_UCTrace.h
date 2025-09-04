@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "Animation/AnimNotifies/AnimNotifyState.h"
-#include "../Settings/ALSXTCombatSettings.h"
+#include "../Settings/AlsxtCombatSettings.h"
 #include "ALSXTAnimNotifyState_UCTrace.generated.h"
 
 /**
@@ -17,7 +17,7 @@ class ALSXT_API UALSXTAnimNotifyState_UCTrace : public UAnimNotifyState
 	GENERATED_BODY()
 
 protected:
-	FALSXTCombatAttackTraceSettings TraceSettings;
+	FAlsxtCombatAttackTraceSettings TraceSettings;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	FGameplayTag UnarmedAttackType;

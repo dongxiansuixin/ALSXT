@@ -6,7 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "ALSXTCharacter.h"
 #include "Components/PostProcessComponent.h"
-#include "Settings/ALSXTCameraEffectsSettings.h"
+#include "Settings/AlsxtCameraEffectsSettings.h"
 #include "AlsxtPlayerViewportEffectsComponent.generated.h"
 
 
@@ -41,7 +41,7 @@ public:
 	APlayerCameraManager* CameraManager {nullptr};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", Meta = (AllowPrivateAccess))
-	FALSXTGeneralCameraEffectsSettings GeneralCameraEffectsSettings;
+	FAlsxtGeneralCameraEffectsSettings GeneralCameraEffectsSettings;
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Settings", Meta = (AllowPrivateAccess))
 	UPostProcessComponent* PostProcessComponent{ nullptr };

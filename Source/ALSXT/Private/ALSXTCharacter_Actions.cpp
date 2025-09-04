@@ -98,7 +98,7 @@ void AALSXTCharacter::MulticastStartSliding_Implementation(UAnimMontage* Montage
 void AALSXTCharacter::StartSlidingImplementation(UAnimMontage* Montage, const float PlayRate,
 	const float StartYawAngle, const float TargetYawAngle)
 {
-	FALSXTSlidingState NewSlidingState;
+	FAlsxtSlidingState NewSlidingState;
 	NewSlidingState.Montage = Montage;
 	SetSlidingState(NewSlidingState);
 	
@@ -192,7 +192,7 @@ bool AALSXTCharacter::IsVaultingAllowedToStart_Implementation(FVaultAnimation Va
 			!GetMesh()->GetAnimInstance()->Montage_IsPlaying(VaultAnimation.Montage.Montage));
 }
 
-bool AALSXTCharacter::TryStartVaulting(const FALSXTVaultingTraceSettings& TraceSettings)
+bool AALSXTCharacter::TryStartVaulting(const FAlsxtVaultingTraceSettings& TraceSettings)
 {
 	const auto ActorLocation{GetActorLocation()};
 	const auto ActorYawAngle{UE_REAL_TO_FLOAT(FRotator::NormalizeAxis(GetActorRotation().Yaw))};
@@ -468,7 +468,7 @@ bool AALSXTCharacter::TryStartVaulting(const FALSXTVaultingTraceSettings& TraceS
 	TArray <FHitResult> LandingPoints;
 	FHitResult LandingPoint;
 	FVector LandingPointLocation;
-	FALSXTVaultingParameters Parameters;
+	FAlsxtVaultingParameters Parameters;
 	static const FName LandingLocationTraceTag{ __FUNCTION__ TEXT(" (Landing Location Trace)") };
 
 	// Trace for Landing Location
@@ -562,7 +562,7 @@ bool AALSXTCharacter::TryStartVaulting(const FALSXTVaultingTraceSettings& TraceS
 		Parameters.TargetRelativeRotation = TargetRotation.Rotator();
 
 	}
-	FALSXTVaultingState NewVaultingState;
+	FAlsxtVaultingState NewVaultingState;
 	NewVaultingState.VaultingParameters = Parameters;
 	SetVaultingState(NewVaultingState);
 
@@ -581,7 +581,7 @@ bool AALSXTCharacter::TryStartVaulting(const FALSXTVaultingTraceSettings& TraceS
 	return true;
 }
 
-void AALSXTCharacter::ServerStartVaulting_Implementation(const FALSXTVaultingParameters& Parameters)
+void AALSXTCharacter::ServerStartVaulting_Implementation(const FAlsxtVaultingParameters& Parameters)
 {
 	if (IsVaultingAllowedToStart(Parameters.VaultAnimation))
 	{
@@ -590,12 +590,12 @@ void AALSXTCharacter::ServerStartVaulting_Implementation(const FALSXTVaultingPar
 	}
 }
 
-void AALSXTCharacter::MulticastStartVaulting_Implementation(const FALSXTVaultingParameters& Parameters)
+void AALSXTCharacter::MulticastStartVaulting_Implementation(const FAlsxtVaultingParameters& Parameters)
 {
 	StartVaultingImplementation(Parameters);
 }
 
-void AALSXTCharacter::StartVaultingImplementation(const FALSXTVaultingParameters& Parameters)
+void AALSXTCharacter::StartVaultingImplementation(const FAlsxtVaultingParameters& Parameters)
 {
 	if (!IsVaultingAllowedToStart(Parameters.VaultAnimation))
 	{
@@ -690,17 +690,17 @@ void AALSXTCharacter::StartVaultingImplementation(const FALSXTVaultingParameters
 	OnVaultingStarted(Parameters);
 }
 
-UALSXTMantlingSettings* AALSXTCharacter::SelectMantlingSettingsXT_Implementation()
+UAlsxtMantlingSettings* AALSXTCharacter::SelectMantlingSettingsXT_Implementation()
 {
 	return nullptr;
 }
 
-UALSXTSlidingSettings* AALSXTCharacter::SelectSlidingSettings_Implementation()
+UAlsxtSlidingSettings* AALSXTCharacter::SelectSlidingSettings_Implementation()
 {
 	return nullptr;
 }
 
-UALSXTVaultingSettings* AALSXTCharacter::SelectVaultingSettings_Implementation(const FGameplayTag& VaultingType)
+UAlsxtVaultingSettings* AALSXTCharacter::SelectVaultingSettings_Implementation(const FGameplayTag& VaultingType)
 {
 	return nullptr;
 }
@@ -762,7 +762,7 @@ FVaultAnimation AALSXTCharacter::SelectVaultingMontage_Implementation(const FGam
 	return SelectedVaultingAnimation;
 }
 
-void AALSXTCharacter::OnVaultingStarted_Implementation(const FALSXTVaultingParameters& Parameters) 
+void AALSXTCharacter::OnVaultingStarted_Implementation(const FAlsxtVaultingParameters& Parameters) 
 {
 	FALSXTCharacterVoiceParameters CharacterVoiceParams = IAlsxtCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this);
 

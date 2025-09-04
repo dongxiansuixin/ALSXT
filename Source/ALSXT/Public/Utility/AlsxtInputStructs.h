@@ -7,7 +7,7 @@
 #include "AlsxtInputStructs.generated.h"
 
 USTRUCT(BlueprintType)
-struct ALSXT_API FALSXTInputAction
+struct ALSXT_API FAlsxtInputAction
 {
 	GENERATED_BODY()
 
@@ -17,19 +17,19 @@ struct ALSXT_API FALSXTInputAction
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Criteria", Meta = (AllowPrivateAccess))
 	// FInputActionValue InputActionValue;
 
-	bool operator==(const FALSXTInputAction& other) const
+	bool operator==(const FAlsxtInputAction& other) const
 	{
 		return (other.InputAction == InputAction);
 	}
 };
 
 USTRUCT(BlueprintType)
-struct ALSXT_API FALSXTInputComboEntry
+struct ALSXT_API FAlsxtInputComboEntry
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Criteria", Meta = (AllowPrivateAccess))
-	TArray<FALSXTInputAction> InputActions;
+	TArray<FAlsxtInputAction> InputActions;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Criteria", Meta = (Categories = "Als.Overlays", AllowPrivateAccess))
 	FGameplayTagContainer Overlays;
@@ -37,7 +37,7 @@ struct ALSXT_API FALSXTInputComboEntry
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Criteria", Meta = (AllowPrivateAccess))
 	UAnimMontage* Montage {nullptr};
 
-	bool operator==(const FALSXTInputComboEntry& other) const
+	bool operator==(const FAlsxtInputComboEntry& other) const
 	{
 		return (other.InputActions == InputActions) && (other.Overlays == Overlays) && (other.Montage == Montage);
 	}

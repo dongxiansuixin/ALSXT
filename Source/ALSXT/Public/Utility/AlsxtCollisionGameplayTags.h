@@ -2,7 +2,7 @@
 
 #include "NativeGameplayTags.h"
 
-namespace ALSXTPhysicalAnimationModeTags
+namespace AlsxtPhysicalAnimationModeTags
 {
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(None)
 	ALSXT_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Navigation)

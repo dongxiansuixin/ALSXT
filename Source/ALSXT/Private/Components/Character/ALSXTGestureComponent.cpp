@@ -82,7 +82,7 @@ void UAlsxtGestureComponent::AddGesture(const FGameplayTag& Gesture, const FGame
 {
 	if (IsValid(GestureSettings) && IAlsxtCharacterInterface::Execute_CanGesture(GetOwner()))
 	{
-		FALSXTGestureMontages* FoundMontages = GestureSettings->Gestures.Find(Gesture);
+		FAlsxtGestureMontages* FoundMontages = GestureSettings->Gestures.Find(Gesture);
 		if (GestureHand == ALSXTHandTags::Left && IsValid(FoundMontages->LeftMontage))
 		{
 			Character->GetMesh()->GetAnimInstance()->Montage_Play(FoundMontages->LeftMontage);

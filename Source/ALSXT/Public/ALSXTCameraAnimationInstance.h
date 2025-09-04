@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "AlsCameraAnimationInstance.h"
 #include "Utility/AlsxtGameplayTags.h"
-#include "Settings/ALSXTCameraAnimationInstanceSettings.h"
+#include "Settings/AlsxtCameraAnimationInstanceSettings.h"
 #include "ALSXTCharacter.h"
 #include "Interfaces/AlsxtCharacterInterface.h"
 #include "Interfaces/AlsxtIdleAnimationComponentInterface.h"
@@ -83,13 +83,13 @@ private:
 	};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "State", Meta = (AllowPrivateAccess))
-	UALSXTGeneralCameraAnimationInstanceSettings* GeneralCameraAnimationInstanceSettings{nullptr};
+	UAlsxtGeneralCameraAnimationInstanceSettings* GeneralCameraAnimationInstanceSettings{nullptr};
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "State", Meta = (AllowPrivateAccess))
-	UALSXTCameraAnimationInstanceSettings* CameraAnimationInstanceSettings{ nullptr };
+	UAlsxtCameraAnimationInstanceSettings* CameraAnimationInstanceSettings{ nullptr };
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "State", Transient, Meta = (AllowPrivateAccess))
-	FALSXTCameraAnimationInstanceState CameraAnimationInstanceState;
+	FAlsxtCameraAnimationInstanceState CameraAnimationInstanceState;
 
 	virtual void OnFirstPersonOverrideChangedEvent();
 	float FirstPersonOverride{ GetCurveValue("FirstPersonOverride") };

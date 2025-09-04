@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Settings/ALSXTMeshRenderSettings.h"
+#include "Settings/AlsxtMeshRenderSettings.h"
 #include "AlsxtControllerRenderInterface.generated.h"
 
 UINTERFACE(Blueprintable)
@@ -14,7 +14,7 @@ class ALSXT_API IAlsxtControllerRenderInterface {
 public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Controller Render Interface")
-	FALSXTGeneralALSXTMeshRenderSettings GetMeshRenderSettings();
+	FAlsxtGeneralMeshRenderSettings GetMeshRenderSettings();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Controller Render Interface")
     bool IsSeparateFirstPersonFOVEnabled();

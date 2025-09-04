@@ -63,7 +63,7 @@ void UAlsxtIdleAnimationComponent::TickComponent(float DeltaTime, ELevelTick Tic
 	}
 }
 
-void UAlsxtIdleAnimationComponent::SetIdleState(const FALSXTIdleState& NewIdleState)
+void UAlsxtIdleAnimationComponent::SetIdleState(const FAlsxtIdleState& NewIdleState)
 {
 	const auto PreviousIdleState{ IdleState };
 	IdleState = NewIdleState;
@@ -92,31 +92,31 @@ void UAlsxtIdleAnimationComponent::SetIdleState(const FALSXTIdleState& NewIdleSt
 
 }
 
-void UAlsxtIdleAnimationComponent::ServerSetIdleState_Implementation(const FALSXTIdleState& NewIdleState)
+void UAlsxtIdleAnimationComponent::ServerSetIdleState_Implementation(const FAlsxtIdleState& NewIdleState)
 {
 	SetIdleState(NewIdleState);
 }
 
-void UAlsxtIdleAnimationComponent::ClientSetIdleState_Implementation(const FALSXTIdleState& NewIdleState)
+void UAlsxtIdleAnimationComponent::ClientSetIdleState_Implementation(const FAlsxtIdleState& NewIdleState)
 {
 	SetIdleState(NewIdleState);
 }
 
-void UAlsxtIdleAnimationComponent::ServerProcessNewIdleState_Implementation(const FALSXTIdleState& NewIdleState)
+void UAlsxtIdleAnimationComponent::ServerProcessNewIdleState_Implementation(const FAlsxtIdleState& NewIdleState)
 {
 	ProcessNewIdleState(NewIdleState);
 }
 
-void UAlsxtIdleAnimationComponent::OnReplicate_IdleState(const FALSXTIdleState& PreviousIdleState)
+void UAlsxtIdleAnimationComponent::OnReplicate_IdleState(const FAlsxtIdleState& PreviousIdleState)
 {
 	OnIdleStateChanged(PreviousIdleState);
 }
 
-void UAlsxtIdleAnimationComponent::OnIdleStateChanged_Implementation(const FALSXTIdleState& PreviousIdleState) {}
+void UAlsxtIdleAnimationComponent::OnIdleStateChanged_Implementation(const FAlsxtIdleState& PreviousIdleState) {}
 
 void UAlsxtIdleAnimationComponent::SetIdleCounterTarget_Implementation()
 {
-	FALSXTIdleState NewIdleState = GetIdleState();
+	FAlsxtIdleState NewIdleState = GetIdleState();
 	NewIdleState.TargetTime = FMath::RandRange(IdleAnimationSettings.TimeDelayBeforeIdle.X, IdleAnimationSettings.TimeDelayBeforeIdle.Y);
 	NewIdleState.CurrentTime = 0.0f;
 	NewIdleState.GazingTargetTime = FMath::RandRange(IdleAnimationSettings.TimeDelayBeforeGazing.X, IdleAnimationSettings.TimeDelayBeforeGazing.Y);
@@ -145,7 +145,7 @@ bool UAlsxtIdleAnimationComponent::IsPlayerInputIdle()
 
 TArray<FIdleAnimation> UAlsxtIdleAnimationComponent::SelectIdleAnimations(const FGameplayTag& Sex, const FGameplayTag& Stance, const FGameplayTag& Overlay, const FGameplayTag& Injury, const FGameplayTag& CombatStance)
 {
-	UALSXTIdleAnimationSettings* Settings = IAlsxtIdleAnimationComponentInterface::Execute_SelectIdleSettings(GetOwner());
+	UAlsxtIdleAnimationSettings* Settings = IAlsxtIdleAnimationComponentInterface::Execute_SelectIdleSettings(GetOwner());
 	TArray<FIdleAnimation> Animations = Settings->IdleAnimations;
 	FGameplayTagContainer TagsContainer;
 	TArray<FIdleAnimation> SelectedAnimations;
@@ -281,7 +281,7 @@ void UAlsxtIdleAnimationComponent::SetNewAnimationImplementation(UAnimMontage* A
 	if (PreviousMontages.Num() >= abs(NoRepeats))
 	{
 		// CurrentIdleMontage = Animation;
-		FALSXTIdleState NewIdleState = GetIdleState();
+		FAlsxtIdleState NewIdleState = GetIdleState();
 		NewIdleState.CurrentIdleMontage = Animation;
 		SetIdleState(NewIdleState);
 		PreviousMontages.Add(Animation);
@@ -290,7 +290,7 @@ void UAlsxtIdleAnimationComponent::SetNewAnimationImplementation(UAnimMontage* A
 	else
 	{
 		// CurrentIdleMontage = Animation;
-		FALSXTIdleState NewIdleState = GetIdleState();
+		FAlsxtIdleState NewIdleState = GetIdleState();
 		NewIdleState.CurrentIdleMontage = Animation;
 		SetIdleState(NewIdleState);
 		PreviousMontages.Add(Animation);
@@ -333,7 +333,7 @@ void UAlsxtIdleAnimationComponent::IdleCounterTimer()
 {
 	if (IsPlayerInputIdle())
 	{
-		FALSXTIdleState NewIdleState = GetIdleState();
+		FAlsxtIdleState NewIdleState = GetIdleState();
 		NewIdleState.CurrentTime = NewIdleState.CurrentTime + 0.01;
 		SetIdleState(NewIdleState);
 
@@ -362,7 +362,7 @@ void UAlsxtIdleAnimationComponent::GazeCounterTimer()
 {
 	if (IsPlayerInputIdle())
 	{
-		FALSXTIdleState NewIdleState = GetIdleState();
+		FAlsxtIdleState NewIdleState = GetIdleState();
 		NewIdleState.GazingTargetTime = NewIdleState.GazingTargetTime + 0.01;
 		SetIdleState(NewIdleState);
 
@@ -393,7 +393,7 @@ void UAlsxtIdleAnimationComponent::ResetIdleCounterTimer()
 	GetWorld()->GetTimerManager().ClearTimer(IdleCounterTimerHandle);
 	GetWorld()->GetTimerManager().ClearTimer(DelayBetweenAnimationsTimerHandle);
 
-	FALSXTIdleState NewIdleState = GetIdleState();
+	FAlsxtIdleState NewIdleState = GetIdleState();
 	NewIdleState.TargetTime = 0.0;
 	NewIdleState.CurrentTime = 0.0;
 	NewIdleState.GazingTargetTime = 0.0;
@@ -413,7 +413,7 @@ void UAlsxtIdleAnimationComponent::StartDelayBetweenAnimationsTimer(float Initia
 	GetWorld()->GetTimerManager().ClearTimer(PreCountIdleCounterTimerHandle);
 	GetWorld()->GetTimerManager().ClearTimer(IdleCounterTimerHandle);
 
-	FALSXTIdleState NewIdleState = GetIdleState();
+	FAlsxtIdleState NewIdleState = GetIdleState();
 	NewIdleState.TargetTime = 0.0;
 	NewIdleState.CurrentTime = 0.0;
 	NewIdleState.CurrentTimeBeforeNext = 0.0;
@@ -426,7 +426,7 @@ void UAlsxtIdleAnimationComponent::DelayBetweenAnimationsTimer()
 {
 	if (IsPlayerInputIdle())
 	{
-		FALSXTIdleState NewIdleState = GetIdleState();
+		FAlsxtIdleState NewIdleState = GetIdleState();
 		NewIdleState.CurrentTimeBeforeNext = NewIdleState.CurrentTimeBeforeNext + 0.01;
 		SetIdleState(NewIdleState);
 		
@@ -447,7 +447,7 @@ void UAlsxtIdleAnimationComponent::DelayBetweenAnimationsTimer()
 void UAlsxtIdleAnimationComponent::ResetDelayBetweenAnimationsTimer()
 {
 	GetWorld()->GetTimerManager().ClearTimer(DelayBetweenAnimationsTimerHandle);
-	FALSXTIdleState NewIdleState = GetIdleState();
+	FAlsxtIdleState NewIdleState = GetIdleState();
 	NewIdleState.CurrentTimeBeforeNext = 0.0;
 	NewIdleState.TargetTimeBeforeNext = 0.0;
 	SetIdleState(NewIdleState);

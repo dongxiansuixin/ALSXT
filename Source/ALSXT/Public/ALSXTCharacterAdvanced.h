@@ -117,7 +117,7 @@ protected:
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Transient)
-	FALSXTFirearmAimState FirearmAimState;
+	FAlsxtFirearmAimState FirearmAimState;
 
 	// Timers
 
@@ -199,10 +199,10 @@ private:
 	// FirearmFingerAction
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Als Character|Desired State", Replicated, Meta = (AllowPrivateAccess))
-	FGameplayTag DesiredFirearmFingerAction{ ALSXTFirearmFingerActionTags::None };
+	FGameplayTag DesiredFirearmFingerAction{ AlsxtFirearmFingerActionTags::None };
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Transient, Meta = (AllowPrivateAccess))
-	FGameplayTag FirearmFingerAction{ ALSXTFirearmFingerActionTags::None };
+	FGameplayTag FirearmFingerAction{ AlsxtFirearmFingerActionTags::None };
 
 	// FirearmFingerActionHand
 
@@ -318,7 +318,7 @@ public:
 	//Character Camera Effects Component Interface
 	virtual UAlsCameraComponent* GetCameraComponent_Implementation() const override;
 	virtual UAlsxtCharacterCameraEffectsComponent* GetCameraEffectsComponent_Implementation() const override;
-	virtual FALSXTGeneralCameraEffectsSettings GetCameraEffectsSettings_Implementation() const override;
+	virtual FAlsxtGeneralCameraEffectsSettings GetCameraEffectsSettings_Implementation() const override;
 	virtual void SetRadialBlurEffect_Implementation(float Amount) override;
 	virtual void ResetRadialBlurEffect_Implementation() override;
 	virtual void SetFocusEffect_Implementation(bool NewFocus) override;
@@ -344,13 +344,13 @@ public:
 	virtual void IsInFrontOf_Implementation(bool& IsInFrontOf, FVector LookAtActorLocation) const override;
 
 	// Combat Interface
-	virtual FALSXTGeneralCombatSettings GetGeneralCombatSettings_Implementation() override;
-	virtual FALSXTCombatAttackTraceSettings GetCombatAttackTraceSettings_Implementation() override;
-	virtual void BeginCombatAttackCollisionTrace_Implementation(FALSXTCombatAttackTraceSettings TraceSettings) override;
+	virtual FAlsxtGeneralCombatSettings GetGeneralCombatSettings_Implementation() override;
+	virtual FAlsxtCombatAttackTraceSettings GetCombatAttackTraceSettings_Implementation() override;
+	virtual void BeginCombatAttackCollisionTrace_Implementation(FAlsxtCombatAttackTraceSettings TraceSettings) override;
 	virtual void EndCombatAttackCollisionTrace_Implementation() override;
 
 	//Firearm Interface
-	virtual FALSXTFirearmAimState GetFirearmAimState_Implementation() const override;
+	virtual FAlsxtFirearmAimState GetFirearmAimState_Implementation() const override;
 	virtual void InitializeFirearm_Implementation() override;
 	virtual void OnFirearmDischarge_Implementation() override;
 	virtual void OnFirearmDischargeEnd_Implementation() override;

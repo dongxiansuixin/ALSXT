@@ -1,7 +1,7 @@
 #pragma once
 
 #include "NativeGameplayTags.h"
-#include "Settings/ALSXTCharacterSoundSettings.h"
+#include "Settings/AlsxtCharacterSoundSettings.h"
 #include "Utility/AlsxtStructs.h"
 #include "AlsxtCharacterCustomizationComponentInterface.generated.h"
 

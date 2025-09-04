@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Settings/ALSXTAcrobaticActionSettings.h"
+#include "Settings/AlsxtAcrobaticActionSettings.h"
 #include "AlsxtAcrobaticActionComponentInterface.generated.h"
 
 UINTERFACE(Blueprintable)
@@ -14,7 +14,7 @@ class ALSXT_API IAlsxtAcrobaticActionComponentInterface {
 public:
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Acrobatic Action Component Interface")
-  UALSXTAcrobaticActionSettings* GetAcrobaticActionSettings();
+  UAlsxtAcrobaticActionSettings* GetAcrobaticActionSettings();
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Acrobatic Action Component Interface")
   bool CanPerformAcrobaticAction();

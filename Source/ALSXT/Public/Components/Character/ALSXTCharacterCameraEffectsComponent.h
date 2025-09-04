@@ -6,7 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "ALSXTCharacter.h"
 #include "Components/PostProcessComponent.h"
-#include "Settings/ALSXTCameraEffectsSettings.h"
+#include "Settings/AlsxtCameraEffectsSettings.h"
 #include "AlsxtCharacterCameraEffectsComponent.generated.h"
 
 UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -30,7 +30,7 @@ public:
 	AALSXTCharacter* Character {Cast<AALSXTCharacter>(GetOwner())};
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", Meta = (AllowPrivateAccess))
-	FALSXTGeneralCameraEffectsSettings GeneralCameraEffectsSettings;
+	FAlsxtGeneralCameraEffectsSettings GeneralCameraEffectsSettings;
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Settings", Meta = (AllowPrivateAccess))
 	UPostProcessComponent* PostProcessComponent{ nullptr };

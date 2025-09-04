@@ -1,8 +1,8 @@
 #pragma once
 
 #include "GameFramework/RootMotionSource.h"
-#include "Settings/ALSXTImpactReactionSettings.h"
-#include "State/ALSXTImpactReactionState.h"
+#include "Settings/AlsxtImpactReactionSettings.h"
+#include "State/AlsxtImpactReactionState.h"
 #include "ALSXTRootMotionSource_SyncedAttackReaction.generated.h"
 
 class UALSXTSyncedAttackReactionSettings;
@@ -14,10 +14,10 @@ struct ALSXT_API FALSXTRootMotionSource_SyncedAttackReaction : public FRootMotio
 
 public:
 	UPROPERTY()
-	TObjectPtr<UALSXTImpactReactionSettings> ImpactReactionSettings{nullptr};
+	TObjectPtr<UAlsxtImpactReactionSettings> ImpactReactionSettings{nullptr};
 
 	UPROPERTY()
-	FALSXTImpactReactionState ImpactReactionState;
+	FAlsxtImpactReactionState ImpactReactionState;
 
 	UPROPERTY()
 	TWeakObjectPtr<UPrimitiveComponent> TargetPrimitive;

@@ -2,11 +2,11 @@
 
 #include "NativeGameplayTags.h"
 #include "Utility/AlsxtStructs.h"
-#include "State/ALSXTImpactReactionState.h"
-#include "Settings/ALSXTCollisionSettings.h"
-#include "State/ALSXTBumpPoseState.h"
-#include "State/ALSXTDefensiveModeState.h"
-#include "Settings/ALSXTElementalInteractionSettings.h"
+#include "State/AlsxtImpactReactionState.h"
+#include "Settings/AlsxtCollisionSettings.h"
+#include "State/AlsxtBumpPoseState.h"
+#include "State/AlsxtDefensiveModeState.h"
+#include "Settings/AlsxtElementalInteractionSettings.h"
 #include "AlsxtCollisionInterface.generated.h"
 
 UINTERFACE(Blueprintable)
@@ -21,10 +21,10 @@ public:
 
 	// Settings
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Collision Interface|Settings")
-	UALSXTImpactReactionSettings* SelectImpactReactionSettings();
+	UAlsxtImpactReactionSettings* SelectImpactReactionSettings();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Collision Interface|Settings")
-	UALSXTElementalInteractionSettings* SelectElementalInteractionSettings();
+	UAlsxtElementalInteractionSettings* SelectElementalInteractionSettings();
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Collision Interface|Conversions")
 	void GetFormFromHit(FDoubleHitResult Hit, FGameplayTag& Form);
@@ -37,10 +37,10 @@ public:
 	void GetActorVelocity(FVector& Velocity);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Collision Interface|Physics")
-	FALSXTPhysicalAnimationState GetCharacterPhysicalAnimationState() const;
+	FAlsxtPhysicalAnimationState GetCharacterPhysicalAnimationState() const;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Collision Interface|Physics")
-	void SetCharacterPhysicalAnimationState(FALSXTPhysicalAnimationState NewPhysicalAnimationState);
+	void SetCharacterPhysicalAnimationState(FAlsxtPhysicalAnimationState NewPhysicalAnimationState);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Collision Interface|Physics")
 	FGameplayTag GetCharacterPhysicalAnimationMode() const;
@@ -71,7 +71,7 @@ public:
 	UPARAM(meta = (Categories = "Als.Impact Form")) FGameplayTag GetCurrentBumpForm();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Collision Interface|Impact Reaction")
-	FALSXTImpactReactionState GetImpactReactionState();
+	FAlsxtImpactReactionState GetImpactReactionState();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Collision Interface|Impact Reaction")
 	void GetAnticipationInfo(FGameplayTag& Velocity, FGameplayTag& Form, FTransform& AnticipationTransform, FVector& AnticipationPoint);
@@ -179,10 +179,10 @@ public:
 	// States
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Collision Interface|State")
-	FALSXTBumpPoseState GetCrowdNavigationPoseState() const;
+	FAlsxtBumpPoseState GetCrowdNavigationPoseState() const;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Collision Interface|State")
-	FALSXTBumpPoseState GetBumpPoseState();
+	FAlsxtBumpPoseState GetBumpPoseState();
 
 	// Reaction
 
@@ -213,7 +213,7 @@ public:
 	void ActorBumpCollision(FDoubleHitResult Hit);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Collision Interface|Events")
-	FALSXTDamageResult CalculateActualDamage(FAttackDoubleHitResult Hit);
+	FAlsxtDamageResult CalculateActualDamage(FAttackDoubleHitResult Hit);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Collision Interface|Events")
 	void OnActorAttackCollision(FAttackDoubleHitResult Hit);

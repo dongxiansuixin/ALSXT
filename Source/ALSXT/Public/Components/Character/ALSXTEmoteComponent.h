@@ -6,7 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "AlsCharacter.h"
 #include "ALSXTCharacter.h"
-#include "Settings/ALSXTEmoteSettings.h"
+#include "Settings/AlsxtEmoteSettings.h"
 #include "NativeGameplayTags.h"
 #include "AlsxtEmoteComponent.generated.h"
 
@@ -29,7 +29,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings", Meta = (AllowPrivateAccess))
-	TObjectPtr<UALSXTEmoteSettings> EmoteSettings;
+	TObjectPtr<UAlsxtEmoteSettings> EmoteSettings;
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Movement System")
 	bool CanEmote();

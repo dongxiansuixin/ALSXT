@@ -6,10 +6,10 @@
 #include "ALSXTAnimationInstance.h"
 #include "ALSXTCharacterAdvanced.h"
 #include "ALSXTAdvancedLinkedAnimationInstance.h"
-#include "Settings/ALSXTFirearmSettings.h"
+#include "Settings/AlsxtFirearmSettings.h"
 #include "ALSXTAdvancedAnimationInstance.generated.h"
 
-class UALSXTAdvancedAnimationInstanceSettings;
+class UAlsxtAdvancedAnimationInstanceSettings;
 class UALSXTAdvancedLinkedAnimationInstance;
 class AALSXTCharacterAdvanced;
 
@@ -25,10 +25,10 @@ protected:
 	TObjectPtr<AALSXTCharacterAdvanced> ALSXTCharacterAdvanced;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
-	TObjectPtr<UALSXTAdvancedAnimationInstanceSettings> ALSXTAdvancedSettings;
+	TObjectPtr<UAlsxtAdvancedAnimationInstanceSettings> ALSXTAdvancedSettings;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
-	FALSXTFirearmAimState FirearmAimState;
+	FAlsxtFirearmAimState FirearmAimState;
 
 private:
 	void RefreshALSXTPose();
@@ -55,11 +55,11 @@ protected:
 protected:
 	UFUNCTION(BlueprintPure, Category = "ALS|Als Animation Instance",
 		Meta = (BlueprintProtected, BlueprintThreadSafe, ReturnDisplayName = "Setting"))
-	UALSXTAdvancedAnimationInstanceSettings* GetALSXTAdvancedSettingsUnsafe() const;
+	UAlsxtAdvancedAnimationInstanceSettings* GetALSXTAdvancedSettingsUnsafe() const;
 	
 };
 
-inline UALSXTAdvancedAnimationInstanceSettings* UALSXTAdvancedAnimationInstance::GetALSXTAdvancedSettingsUnsafe() const
+inline UAlsxtAdvancedAnimationInstanceSettings* UALSXTAdvancedAnimationInstance::GetALSXTAdvancedSettingsUnsafe() const
 {
 	return ALSXTAdvancedSettings;
 }

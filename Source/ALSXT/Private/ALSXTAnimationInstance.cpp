@@ -256,7 +256,7 @@ void UALSXTAnimationInstance::UpdateStatusState()
 {
 	if (GetOwningActor()->Implements<UAlsxtCharacterInterface>())
 	{
-		FALSXTStatusState NewStatusState{ IAlsxtCharacterInterface::Execute_GetStatusState(GetOwningActor()) };
+		FAlsxtStatusState NewStatusState{ IAlsxtCharacterInterface::Execute_GetStatusState(GetOwningActor()) };
 
 		if (NewStatusState != StatusState)
 		{

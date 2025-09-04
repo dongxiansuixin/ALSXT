@@ -1,7 +1,7 @@
 #pragma once
 
 #include "NativeGameplayTags.h"
-#include "Settings/ALSXTDefensiveModeSettings.h"
+#include "Settings/AlsxtDefensiveModeSettings.h"
 #include "AlsxtCollisionStructs.generated.h"
 
 USTRUCT(BlueprintType)
@@ -13,7 +13,7 @@ struct ALSXT_API FCrowdNavigationPoses
 	FGameplayTagContainer Overlay;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (TitleProperty = "{Front}, {Back}, {Left}, {Right}", AllowPrivateAccess))
-	FALSXTDefensivePoseStanceSet Poses;
+	FAlsxtDefensivePoseStanceSet Poses;
 
 	bool operator==(const FCrowdNavigationPoses& other) const
 	{
@@ -33,7 +33,7 @@ struct ALSXT_API FObstaclePose
 	FGameplayTagContainer Health;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FALSXTDefensivePoseSet Poses;
+	FAlsxtDefensivePoseSet Poses;
 
 	bool operator==(const FObstaclePose& other) const
 	{

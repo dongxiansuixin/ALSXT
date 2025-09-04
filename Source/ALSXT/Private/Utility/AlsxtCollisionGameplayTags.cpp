@@ -1,6 +1,6 @@
 #include "Utility/AlsxtCollisionGameplayTags.h"
 
-namespace ALSXTPhysicalAnimationModeTags
+namespace AlsxtPhysicalAnimationModeTags
 {
 	UE_DEFINE_GAMEPLAY_TAG(None, TEXT("Game.Physical Animation Mode.None"))
 	UE_DEFINE_GAMEPLAY_TAG(Navigation, TEXT("Game.Physical Animation Mode.Navigation"))

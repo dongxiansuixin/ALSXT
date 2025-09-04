@@ -5,10 +5,10 @@
 #include "Engine/DataAsset.h"
 #include "Engine/EngineTypes.h"
 #include "GameplayTagContainer.h"
-#include "Settings/ALSXTFootstepEffectSettings.h"
-#include "State/ALSXTFootstepState.h"
+#include "Settings/AlsxtFootstepEffectSettings.h"
+#include "State/AlsxtFootstepState.h"
 #include "Notifies/AlsAnimNotify_FootstepEffects.h"
-#include "Settings/ALSXTVertexSettings.h"
+#include "Settings/AlsxtVertexSettings.h"
 #include "ALSXTAnimNotify_FootstepEffects.generated.h"
 
 class USoundBase;
@@ -138,7 +138,7 @@ struct ALSXT_API FALSXTFootwearTypeEffectsSettings
 };
 
 USTRUCT(BlueprintType)
-struct ALSXT_API FALSXTFootstepEffectSettings
+struct ALSXT_API FAlsxtFootstepEffectSettings
 {
 	GENERATED_BODY()
 
@@ -273,7 +273,7 @@ public:
 	bool EnableVertexPaintTrace{ false };
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TWeakObjectPtr<UALSXTVertexColorPhysicalMaterialMap> VertexColorPhysicalMaterialMap;
+	TWeakObjectPtr<UAlsxtVertexColorPhysicalMaterialMap> VertexColorPhysicalMaterialMap;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool EnableCharacterMovementSound{ true };
@@ -300,7 +300,7 @@ public:
 	FVector FootRightZAxis{-1.0f, 0.0f, 0.0f};
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Meta = (ForceInlineRow))
-	TMap<TEnumAsByte<EPhysicalSurface>, FALSXTFootstepEffectSettings> Effects;
+	TMap<TEnumAsByte<EPhysicalSurface>, FAlsxtFootstepEffectSettings> Effects;
 };
 
 UCLASS(DisplayName = "ALSXT Footstep Effects Animation Notify",
@@ -357,5 +357,5 @@ public:
 
 	FHitResult HitResult;
 
-	FALSXTFootprintsState CurrentFootprintsState;
+	FAlsxtFootprintsState CurrentFootprintsState;
 };

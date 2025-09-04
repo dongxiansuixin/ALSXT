@@ -9,8 +9,8 @@
 #include "Utility/AlsxtStructs.h"
 #include "Notifies/AlsAnimNotify_FootstepEffects.h"
 #include "Utility/AlsxtGameplayTags.h"
-#include "Settings/ALSXTCharacterBreathEffectsSettings.h"
-#include "Settings/ALSXTCharacterSoundSettings.h"
+#include "Settings/AlsxtCharacterBreathEffectsSettings.h"
+#include "Settings/AlsxtCharacterSoundSettings.h"
 #include "Components/AudioComponent.h"
 #include "Notifies/AlsAnimNotify_FootstepEffects.h"
 #include "AlsxtCharacterSoundComponent.generated.h"
@@ -90,10 +90,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Als Character")
-	UALSXTCharacterSoundSettings* SelectCharacterSoundSettings();
+	UAlsxtCharacterSoundSettings* SelectCharacterSoundSettings();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Als Character")
-	UALSXTWeaponSoundSettings* SelectWeaponSoundSettings();
+	UAlsxtWeaponSoundSettings* SelectWeaponSoundSettings();
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character")
 	bool ShouldPlayDeathSoundModeration();
@@ -107,7 +107,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "ALS|Als Character", Meta = (AllowPrivateAccess))
-	FALSXTCharacterBreathEffectsSettings BreathParticleSettings;
+	FAlsxtCharacterBreathEffectsSettings BreathParticleSettings;
 
 	UPROPERTY(Replicated, BlueprintReadOnly, Category = "Settings", Meta = (AllowPrivateAccess))
 	float CurrentStamina {1.0f};
@@ -191,7 +191,7 @@ public:
 	TArray<UObject*> PreviousWeaponActionAssets;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", Meta = (AllowPrivateAccess))
-	FALSXTGeneralCharacterSoundSettings GeneralCharacterSoundSettings;
+	FAlsxtGeneralCharacterSoundSettings GeneralCharacterSoundSettings;
 
 	// UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Action Sound")
 	// FOnAudioPlayStateChanged OnAudioPlayStateChanged();
@@ -280,43 +280,43 @@ public:
 	FGameplayTag ConvertStaminaToStaminaTag(const float Stamina);
 
 	UFUNCTION(BlueprintCallable, Category = "Action Sound")
-	TArray<FALSXTBreathSound> SelectBreathSoundsNew(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& BreathType, const FGameplayTag& Stamina);
+	TArray<FALSXTBreathSound> SelectBreathSoundsNew(UAlsxtCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& BreathType, const FGameplayTag& Stamina);
 
 	UFUNCTION(BlueprintCallable, Category = "Action Sound")
 	TArray<UNiagaraSystem*> SelectBreathParticles(const FGameplayTag& BreathType, const FGameplayTag& Stamina);
 
 	UFUNCTION(BlueprintCallable, Category = "Action Sound")
-	TArray<FALSXTBreathSound> SelectBreathSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& BreathType, const float Stamina);
+	TArray<FALSXTBreathSound> SelectBreathSounds(UAlsxtCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& BreathType, const float Stamina);
 
 	UFUNCTION(BlueprintCallable, Category = "Action Sound")
-	TArray<FALSXTCharacterMovementSound> SelectCharacterMovementSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Type, const FGameplayTag& Weight);
+	TArray<FALSXTCharacterMovementSound> SelectCharacterMovementSounds(UAlsxtCharacterSoundSettings* Settings, const FGameplayTag& Type, const FGameplayTag& Weight);
 
 	UFUNCTION(BlueprintCallable, Category = "Action Sound")
-	TArray<FALSXTCharacterMovementSound> SelectCharacterMovementAccentSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Type, const FGameplayTag& Weight);
+	TArray<FALSXTCharacterMovementSound> SelectCharacterMovementAccentSounds(UAlsxtCharacterSoundSettings* Settings, const FGameplayTag& Type, const FGameplayTag& Weight);
 
 	UFUNCTION(BlueprintCallable, Category = "Action Sound")
-	TArray<FALSXTWeaponMovementSound> SelectWeaponMovementSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Weapon, const FGameplayTag& Type);
+	TArray<FALSXTWeaponMovementSound> SelectWeaponMovementSounds(UAlsxtCharacterSoundSettings* Settings, const FGameplayTag& Weapon, const FGameplayTag& Type);
 
 	UFUNCTION(BlueprintCallable, Category = "Action Sound")
-	FALSXTWeaponActionSound SelectWeaponActionSound(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Type);
+	FALSXTWeaponActionSound SelectWeaponActionSound(UAlsxtCharacterSoundSettings* Settings, const FGameplayTag& Type);
 
 	UFUNCTION(BlueprintCallable, Category = "Action Sound")
-	TArray<FALSXTHoldingBreathSound> SelectHoldingBreathSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& HoldingBreathType);
+	TArray<FALSXTHoldingBreathSound> SelectHoldingBreathSounds(UAlsxtCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& HoldingBreathType);
 
 	UFUNCTION(BlueprintCallable, Category = "Action Sound")
-	TArray<FALSXTCharacterActionSound> SelectActionSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Overlay, const FGameplayTag& Strength, const float Stamina);
+	TArray<FALSXTCharacterActionSound> SelectActionSounds(UAlsxtCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Overlay, const FGameplayTag& Strength, const float Stamina);
 
 	UFUNCTION(BlueprintCallable, Category = "Action Sound")
-	TArray<FALSXTCharacterActionSound> SelectAttackSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Overlay, const FGameplayTag& Strength, const float Stamina);
+	TArray<FALSXTCharacterActionSound> SelectAttackSounds(UAlsxtCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Overlay, const FGameplayTag& Strength, const float Stamina);
 
 	UFUNCTION(BlueprintCallable, Category = "Action Sound")
-	TArray<FALSXTCharacterDamageSound> SelectDamageSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Overlay, const FGameplayTag& AttackMethod, const FGameplayTag& Form, const FGameplayTag& Strength);
+	TArray<FALSXTCharacterDamageSound> SelectDamageSounds(UAlsxtCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Overlay, const FGameplayTag& AttackMethod, const FGameplayTag& Form, const FGameplayTag& Strength);
 
 	UFUNCTION(BlueprintCallable, Category = "Action Sound")
-	TArray<FALSXTResponseVocalization> SelectResponseVocalizations(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Velocity, const FGameplayTag& Form, const FGameplayTag& Health, const bool Mature);
+	TArray<FALSXTResponseVocalization> SelectResponseVocalizations(UAlsxtCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Velocity, const FGameplayTag& Form, const FGameplayTag& Health, const bool Mature);
 
 	UFUNCTION(BlueprintCallable, Category = "Action Sound")
-	TArray<FALSXTCharacterDamageSound> SelectDeathSounds(UALSXTCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Overlay, const FGameplayTag& Form, const FGameplayTag& Strength);
+	TArray<FALSXTCharacterDamageSound> SelectDeathSounds(UAlsxtCharacterSoundSettings* Settings, const FGameplayTag& Sex, const FGameplayTag& Variant, const FGameplayTag& Overlay, const FGameplayTag& Form, const FGameplayTag& Strength);
 	
 	UFUNCTION(BlueprintCallable, Category = "Action Sound", Meta = (AutoCreateRefTerm = "Type, Weight"))
 	void PlayCharacterMovementSound(bool AccentSound, bool WeaponSound, UPARAM(meta = (Categories = "Als.Character Movement Sound"))const FGameplayTag& Type, UPARAM(meta = (Categories = "Als.Object Weight"))const FGameplayTag& Weight);

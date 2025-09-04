@@ -1,7 +1,7 @@
 #pragma once
 
-#include "State/ALSXTCombatState.h"
-#include "Settings/ALSXTCombatSettings.h"
+#include "State/AlsxtCombatState.h"
+#include "Settings/AlsxtCombatSettings.h"
 #include "GameplayTagContainer.h"
 #include "AlsxtCombatInterface.generated.h"
 
@@ -15,13 +15,13 @@ class ALSXT_API IAlsxtCombatInterface {
 
 public:
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
-  FALSXTGeneralCombatSettings GetGeneralCombatSettings();
+  FAlsxtGeneralCombatSettings GetGeneralCombatSettings();
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")
-  UALSXTCombatSettings* SelectCombatSettings();
+  UAlsxtCombatSettings* SelectCombatSettings();
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
-  FALSXTCombatAttackTraceSettings GetCombatAttackTraceSettings();
+  FAlsxtCombatAttackTraceSettings GetCombatAttackTraceSettings();
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")
   FGameplayTagContainer GetTargetableOverlayModes();
@@ -57,7 +57,7 @@ public:
   AActor* GetCurrentTarget();
 
   UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")
-  FALSXTCombatState GetCombatState();
+  FAlsxtCombatState GetCombatState();
 
 
 
@@ -80,7 +80,7 @@ public:
   void GetCombatHeldItemTraceLocations(bool& Found, FVector& Start, FVector& End, float& Radius) const;
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
-  void BeginCombatAttackCollisionTrace(FALSXTCombatAttackTraceSettings TraceSettings);
+  void BeginCombatAttackCollisionTrace(FAlsxtCombatAttackTraceSettings TraceSettings);
 
   UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
   void EndCombatAttackCollisionTrace();

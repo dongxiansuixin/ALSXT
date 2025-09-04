@@ -1,18 +1,18 @@
 #include "Utility/AlsxtFirearmGameplayTags.h"
 
-namespace ALSXTFirearmFireModeTags
+namespace AlsxtFirearmFireModeTags
 {
 	UE_DEFINE_GAMEPLAY_TAG(SemiAuto, TEXT("Als.Firearm Fire Mode.Semi-Auto"))
 	UE_DEFINE_GAMEPLAY_TAG(Burst, TEXT("Als.Firearm Fire Mode.Burst"))
 	UE_DEFINE_GAMEPLAY_TAG(Automatic, TEXT("Als.Firearm Fire Mode.Automatic"))
 }
 
-namespace ALSXTFirearmTags
+namespace AlsxtFirearmTags
 {
 	UE_DEFINE_GAMEPLAY_TAG(Grenade, TEXT("Als.OverlayMode.Grenade"))
 }
 
-namespace ALSXTReloadingTypeTags
+namespace AlsxtReloadingTypeTags
 {
 	UE_DEFINE_GAMEPLAY_TAG(Drop, TEXT("Als.Reloading Type.Drop"))
 	UE_DEFINE_GAMEPLAY_TAG(Retention, TEXT("Als.Reloading Type.Retention"))
@@ -22,13 +22,13 @@ namespace ALSXTReloadingTypeTags
 	UE_DEFINE_GAMEPLAY_TAG(TacticalAimed, TEXT("Als.Reloading Type.Tactical Aimed"))
 }
 
-namespace ALSXTFirearmFingerPoseTags
+namespace AlsxtFirearmFingerPoseTags
 {
 	UE_DEFINE_GAMEPLAY_TAG(OutsideGuard, TEXT("Als.Firearm Finger Pose.Outside Guard"))
 	UE_DEFINE_GAMEPLAY_TAG(OnTrigger, TEXT("Als.Firearm Finger Pose.On Trigger"))
 }
 
-namespace ALSXTFirearmFingerActionTags
+namespace AlsxtFirearmFingerActionTags
 {
 	UE_DEFINE_GAMEPLAY_TAG(None, TEXT("Als.Firearm Finger Action.None"))
 	UE_DEFINE_GAMEPLAY_TAG(MagazineRelease, TEXT("Als.Firearm Finger Action.Magazine Release"))
@@ -41,7 +41,7 @@ namespace ALSXTFirearmFingerActionTags
 	UE_DEFINE_GAMEPLAY_TAG(TogglingAccessory2, TEXT("Als.Firearm Finger Action.Toggling Accessory2"))
 }
 
-namespace ALSXTFirearmSightLocationTags
+namespace AlsxtFirearmSightLocationTags
 {
 	UE_DEFINE_GAMEPLAY_TAG(Ironsights, TEXT("Als.Firearm Sight Location.Ironsights"))
 	UE_DEFINE_GAMEPLAY_TAG(ReceiverTop, TEXT("Als.Firearm Sight Location.Receiver Top"))

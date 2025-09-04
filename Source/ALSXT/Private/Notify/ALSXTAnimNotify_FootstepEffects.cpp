@@ -18,7 +18,7 @@
 #include "Utility/AlsMacros.h"
 #include "Utility/AlsMath.h"
 #include "Utility/AlsUtility.h"
-#include "State/ALSXTFootstepState.h"
+#include "State/AlsxtFootstepState.h"
 #include "Engine/GameEngine.h"
 #include "Interfaces/AlsxtCharacterInterface.h"
 #include "Math/UnrealMathUtility.h"
@@ -150,7 +150,7 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 					EVertexColorChannel VertexColorChannel = static_cast<EVertexColorChannel>(EnumAsUint8);
 
 					// Find Matching Physical Material
-					UALSXTVertexColorPhysicalMaterialMap* VertexColorPhysicalMaterialMap = FootstepEffectsSettings->VertexColorPhysicalMaterialMap.Get();
+					UAlsxtVertexColorPhysicalMaterialMap* VertexColorPhysicalMaterialMap = FootstepEffectsSettings->VertexColorPhysicalMaterialMap.Get();
 					UPhysicalMaterial** VertexColorChannelPhysicalMaterial = VertexColorPhysicalMaterialMap->VertexColorPhysicalMaterialMap.VertexColorPhysicalMaterialMap.Find(VertexColorChannel);
 				}
 			}
@@ -161,7 +161,7 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 	FGameplayTag CharacterStance = IAlsxtCharacterInterface::Execute_GetCharacterStance(Mesh->GetOwner());
 	const auto SurfaceType{ HitResult.PhysMaterial.IsValid() ? HitResult.PhysMaterial->SurfaceType.GetValue() : SurfaceType_Default };
 	const auto* EffectSettings{ FootstepEffectsSettings->Effects.Find(SurfaceType) };
-	FALSXTFootwearDetails FootwearDetails = IAlsxtCharacterInterface::Execute_GetCharacterFootwearDetails(Mesh->GetOwner());
+	FAlsxtFootwearDetails FootwearDetails = IAlsxtCharacterInterface::Execute_GetCharacterFootwearDetails(Mesh->GetOwner());
 	FGameplayTag CharacterFootwearType = FootwearDetails.FootwearType;
 	UTexture2D* SoleTexture = FootwearDetails.FootwearSoleTexture;
 	UTexture2D* SoleNormalTexture = FootwearDetails.FootwearSoleNormalTexture;
@@ -347,8 +347,8 @@ void UALSXTAnimNotify_FootstepEffects::Notify(USkeletalMeshComponent* Mesh, UAni
 				FVector2D OutputRange{ 0, 1 };
 				float DurationModifier{ 0.0f };
 
-				FALSXTFootprintState ActiveFootState;
-				FALSXTFootprintState CharacterFootState;
+				FAlsxtFootprintState ActiveFootState;
+				FAlsxtFootprintState CharacterFootState;
 
 				if (FootBone == EAlsFootBone::Left)
 				{
