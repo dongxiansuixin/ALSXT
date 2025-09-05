@@ -22,7 +22,7 @@ struct ALSXT_API FCharacterActionSoundCriteria
 	FGameplayTag Strength;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (Categories = "Als.OverlayMode", AllowPrivateAccess))
-	float Stamina;
+	float Stamina {0.0f};
 
 	bool operator==(const FCharacterActionSoundCriteria& other) const
 	{
@@ -48,7 +48,7 @@ struct ALSXT_API FCharacterAttackSoundCriteria
 	FGameplayTag Strength;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (Categories = "Als.OverlayMode", AllowPrivateAccess))
-	float Stamina;
+	float Stamina {0.0f};
 
 	bool operator==(const FCharacterAttackSoundCriteria& other) const
 	{

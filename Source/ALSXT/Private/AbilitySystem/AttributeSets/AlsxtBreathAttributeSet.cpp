@@ -79,3 +79,8 @@ void UAlsxtBreathAttributeSet::OnRep_BreathRegeneration(const FGameplayAttribute
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtBreathAttributeSet, BreathRegeneration, OldValue);
 }
+
+void UAlsxtBreathAttributeSet::OnRep_HoldingBreathLength(const FGameplayAttributeData& OldValue)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtBreathAttributeSet, HoldingBreathLength, OldValue);
+}

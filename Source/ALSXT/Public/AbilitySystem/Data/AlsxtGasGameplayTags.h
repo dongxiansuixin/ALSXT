@@ -34,6 +34,12 @@ namespace ALSXTGASGameplayTags
 	
 	namespace State
 	{
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_KnockedDown);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Unconscious);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Dead);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_HoldingBreath);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_OutOfBreath);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Exhausted);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Health);
 		
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Blood);
@@ -46,7 +52,7 @@ namespace ALSXTGASGameplayTags
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Stamina);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Strength);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Stability);
-		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_HoldBreath);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_HoldingBreath);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Breath);
 		
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Health);
@@ -61,7 +67,7 @@ namespace ALSXTGASGameplayTags
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Stamina);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Strength);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Stability);
-		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_HoldBreath);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_HoldingBreath);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Breath);
 	}
 	

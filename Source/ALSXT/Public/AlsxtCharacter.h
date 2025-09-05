@@ -14,7 +14,6 @@
 #include "Components/Character/AlsxtCharacterCustomizationComponent.h"
 #include "Components/Character/AlsxtImpactReactionComponent.h"
 #include "Components/Character/AlsxtCharacterSoundComponent.h"
-#include "Components/Character/AlsxtIdleAnimationComponent.h"
 #include "Components/GameFrameworkComponentManager.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "CineCameraComponent.h"
@@ -245,15 +244,6 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	class UPhysicalAnimationComponent* PhysicalAnimation;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	class UAlsxtIdleAnimationComponent* IdleAnimation;
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	class UAlsxtEmoteComponent* Emotes;
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	class UAlsxtGestureComponent* Gestures;
-
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Als Character")
 	TObjectPtr<UAlsxtPaintableSkeletalMeshComponent> ALSXTMesh;
@@ -305,9 +295,7 @@ public:
 	virtual void SetCharacterCombatStance_Implementation(UPARAM(meta = (Categories = "Als.Combat Stance"))const FGameplayTag& NewCombatStance) override;
 	virtual FGameplayTag GetCharacterWeaponReadyPosition_Implementation() const override;
 	virtual FGameplayTag GetCharacterWeaponFirearmStance_Implementation() const override;
-	virtual FGameplayTag GetCharacterEmote_Implementation() const override;
 	virtual void SetCharacterRagdoll_Implementation(const bool NewRagdoll) override;
-	virtual void SetCharacterEmote_Implementation(const FGameplayTag& NewEmote) override;
 
 	// Mesh Painting Interface
 	virtual FAlsxtGlobalGeneralMeshPaintingSettings GetGlobalGeneralMeshPaintingSettings_Implementation() const override;
@@ -814,30 +802,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Transient, Meta = (AllowPrivateAccess))
 	FGameplayTag DefensiveMode {FGameplayTag::EmptyTag};
 
-	// Emote
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Als Character|Desired State", Replicated, Meta = (AllowPrivateAccess))
-	FGameplayTag DesiredEmote{ FGameplayTag::EmptyTag };
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Transient, Meta = (AllowPrivateAccess))
-	FGameplayTag Emote{ FGameplayTag::EmptyTag };
-
-	// Gesture
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Als Character|Desired State", Replicated, Meta = (AllowPrivateAccess))
-	FGameplayTag DesiredGesture{ FGameplayTag::EmptyTag };
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Transient, Meta = (AllowPrivateAccess))
-	FGameplayTag Gesture{ FGameplayTag::EmptyTag };
-
-	// GestureHand
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Als Character|Desired State", Replicated, Meta = (AllowPrivateAccess))
-	FGameplayTag DesiredGestureHand{ FGameplayTag::EmptyTag };
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Transient, Meta = (AllowPrivateAccess))
-	FGameplayTag GestureHand{ FGameplayTag::EmptyTag };
-
 	// AvailableHands
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Als Character|Desired State", Replicated, Meta = (AllowPrivateAccess))
@@ -845,89 +809,7 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Transient, Meta = (AllowPrivateAccess))
 	FGameplayTagContainer AvailableHands;
-
-	// Desired Emote
-
-public:
-	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character")
-	const FGameplayTag& GetDesiredEmote() const;
-
-	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewEmoteTag"))
-	void SetDesiredEmote(const FGameplayTag& NewEmoteTag);
-
-private:
-	UFUNCTION(Server, Reliable)
-	void ServerSetDesiredEmote(const FGameplayTag& NewEmoteTag);
-
-	// Emote
-
-public:
-	const FGameplayTag& GetEmote() const;
-
-private:
-	void SetEmote(const FGameplayTag& NewGestureTag);
-
-protected:
-	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnEmoteChanged(const FGameplayTag& PreviousEmoteTag);
-
-	// Desired Gesture
-
-public:
-	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character")
-	const FGameplayTag& GetDesiredGesture() const;
-
-	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewGestureTag"))
-	void SetDesiredGesture(const FGameplayTag& NewGestureTag);
-
-private:
-	UFUNCTION(Server, Reliable)
-	void ServerSetDesiredGesture(const FGameplayTag& NewGestureTag);
-
-	// Gesture
-
-public:
-	const FGameplayTag& GetGesture() const;
-
-private:
-	void SetGesture(const FGameplayTag& NewGestureTag);
-
-protected:
-	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnGestureChanged(const FGameplayTag& PreviousGestureTag);
-
-	// Desired GestureHand
-
-public:
-	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character")
-	const FGameplayTag& GetDesiredGestureHand() const;
-
-	UFUNCTION(BlueprintCallable, Category = "ALS|Als Character", Meta = (AutoCreateRefTerm = "NewGestureHandTag"))
-	void SetDesiredGestureHand(const FGameplayTag& NewGestureHandTag);
-
-private:
-	UFUNCTION(Server, Reliable)
-	void ServerSetDesiredGestureHand(const FGameplayTag& NewGestureHandTag);
-
-	// GestureHand
-
-public:
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character")
-	bool CanGesture() const;
-
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character")
-	bool CanSelectGesture() const;
-
-	const FGameplayTagContainer& GetAvailableGestureHands() const;
-
-	const FGameplayTag& GetGestureHand() const;
-
-private:
-	void SetGestureHand(const FGameplayTag& NewGestureHandTag);
-
-protected:
-	UFUNCTION(BlueprintNativeEvent, Category = "ALS|Als Character")
-	void OnGestureHandChanged(const FGameplayTag& PreviousGestureHandTag);
+	
 
 	// Defensive Mode State
 protected:
@@ -1215,12 +1097,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Settings|Als Character Example", Meta = (DisplayThumbnail = false))
 	TObjectPtr<UInputAction> SwitchForegripPositionAction;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Settings|Input Actions", Meta = (DisplayThumbnail = false))
-	TObjectPtr<UInputAction> SelectGestureAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Settings|Input Actions", Meta = (DisplayThumbnail = false))
-	TObjectPtr<UInputAction> SelectEmoteAction;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Settings|Als Character Example",
 		Meta = (AllowPrivateAccess, ClampMin = 0, ForceUnits = "x"))
 	float LookUpMouseSensitivity{3.0f};
@@ -1333,10 +1209,6 @@ private:
 
 	void InputSwitchForegripPosition();
 
-	void InputSelectEmote(const FInputActionValue& ActionValue);
-
-	void InputSelectGesture(const FInputActionValue& ActionValue);
-
 protected:
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "ALS|Als Character")
 	void OnViewModeChanged(const FGameplayTag& PreviousViewModeTag);
@@ -1344,7 +1216,7 @@ protected:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Als|Input Actions")
 	bool CanPerformPrimaryInteraction() const;
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Als|Input Actions")
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "APrimaryInteractionls|Input Actions")
 	bool CanPerformSecondaryInteraction() const;
 
 public:
@@ -2117,8 +1989,6 @@ protected:
 	virtual void SetCharacterLocomotionVariant_Implementation(const FGameplayTag& NewLocomotionVariant) override;
 
 	virtual FAlsxtStationaryModeState GetCharacterStationaryModeState_Implementation() const override;
-	virtual void GetCharacterGesture_Implementation(FGameplayTag& NewGesture, FGameplayTag& NewGestureHand) const override;
-	virtual void SetCharacterGesture_Implementation(const FGameplayTag& NewGesture, const FGameplayTag& NewGestureHand) override;
 
 	// Viewport Mask Functions
 	virtual void SetViewportMask_Implementation(const FGameplayTag& EquipmentSlot, const UMaterialInterface* NewViewportMask) override;
@@ -2208,43 +2078,7 @@ protected:
 
 	// Idle Animation Component
 	virtual bool ShouldIdle_Implementation() const override;
-	virtual FAlsxtIdleState GetIdleState_Implementation() const override;
 };
-
-inline const FGameplayTag& AAlsxtCharacter::GetDesiredEmote() const
-{
-	return DesiredEmote;
-}
-
-inline const FGameplayTag& AAlsxtCharacter::GetEmote() const
-{
-	return Emote;
-}
-
-inline const FGameplayTag& AAlsxtCharacter::GetDesiredGesture() const
-{
-	return DesiredGesture;
-}
-
-inline const FGameplayTag& AAlsxtCharacter::GetGesture() const
-{
-	return Gesture;
-}
-
-inline const FGameplayTag& AAlsxtCharacter::GetDesiredGestureHand() const
-{
-	return DesiredGestureHand;
-}
-
-inline const FGameplayTag& AAlsxtCharacter::GetGestureHand() const
-{
-	return GestureHand;
-}
-
-inline const FGameplayTagContainer& AAlsxtCharacter::GetAvailableGestureHands() const
-{
-	return AvailableHands;
-}
 
 inline const FGameplayTag& AAlsxtCharacter::GetDesiredLean() const
 {

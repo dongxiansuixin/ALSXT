@@ -5,6 +5,7 @@
 
 namespace ALSXTAbilityGameplayTags
 {
+	UE_DEFINE_GAMEPLAY_TAG(Breathing, TEXT("Gameplay.Ability.Breathing"))
 	UE_DEFINE_GAMEPLAY_TAG(Jump, TEXT("Gameplay.Ability.Jump"))
 	UE_DEFINE_GAMEPLAY_TAG(Roll, TEXT("Gameplay.Ability.Roll"))
 	UE_DEFINE_GAMEPLAY_TAG(Mantle, TEXT("Gameplay.Ability.Mantle"))
@@ -31,12 +32,19 @@ namespace ALSXTGASGameplayTags
 
 	namespace State
 	{
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_KnockedDown, "State.KnockedDown", "KnockedDown")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Unconscious, "State.Unconscious", "Unconscious")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Dead, "Gameplay.State.Dead", "Dead")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_HoldingBreath, "State.HoldingBreath", "HoldingBreath Active")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_OutOfBreath, "State.OutOfBreath", "OutOfBreath")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Exhausted, "State.Exhausted", "Exhausted")
+
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Health, "State.Max.Health", "Max Health reached")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Stamina, "State.Max.Stamina", "Max Stamina reached")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Strength, "State.Max.Strength", "Max Strength reached")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Stability, "State.Max.Stamina", "Max Stamina reached")
-		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_HoldBreath, "State.Max.HoldBreath", "Max HoldBreath reached")
-		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Breath, "State.Max.Breath", "Max HoldBreath reached")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_HoldingBreath, "Gameplay.State.Max.HoldingBreath", "Max HoldingBreath reached")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Breath, "Gameplay.State.Max.Breath", "Max Breath reached")
 
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Blood, "State.Max.Blood", "Max Blood reached")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_BodyTemp, "State.Max.BodyTemp", "Max BodyTemp reached")
@@ -48,8 +56,8 @@ namespace ALSXTGASGameplayTags
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_Stamina, "State.Blocked.Regeneration.Stamina", "Block Stamina regeneration.")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_Strength, "State.Blocked.Regeneration.Strength", "Block Strength regeneration.")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_Stability, "State.Blocked.Regeneration.Stability", "Block Stability regeneration.")
-		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_HoldBreath, "State.Blocked.Regeneration.HoldBreath", "Block HoldBreath regeneration.")
-		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_Breath, "State.Blocked.Regeneration.Breath", "Block HoldBreath regeneration.")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_HoldBreath, "Gameplay.State.Blocked.Regeneration.HoldingBreath", "Block HoldingBreath regeneration.")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_Breath, "Gameplay.State.Blocked.Regeneration.Breath", "Block Breath regeneration.")
 
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_Blood, "State.Blocked.Regeneration.Blood", "Block Blood regeneration.")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Blocked_Regen_BodyTemp, "State.Blocked.Regeneration.BodyTemp", "Block BodyTemp regeneration.")

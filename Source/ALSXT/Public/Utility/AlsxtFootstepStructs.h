@@ -1,9 +1,10 @@
 #pragma once
 
 #include "NativeGameplayTags.h"
+#include "Notifies/AlsAnimNotify_FootstepEffects.h"
 #include "AlsxtFootstepStructs.generated.h"
 
-enum EAlsFootstepSoundType : int;
+enum class EAlsFootstepSoundType : uint8;
 
 
 USTRUCT(BlueprintType)
@@ -18,7 +19,7 @@ struct ALSXT_API FAlsxtFootstepEffectCriteria
 	TSoftClassPtr<UPhysicalMaterial> GroundSurface;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess))
-	EAlsFootstepSoundType StepType;
+	EAlsFootstepSoundType StepType {EAlsFootstepSoundType::Step};
 
 	bool operator==(const FAlsxtFootstepEffectCriteria& other) const
 	{

@@ -47,6 +47,11 @@ public:
 	FGameplayAttributeData BreathRegeneration;
 	ATTRIBUTE_ACCESSORS(UAlsxtBreathAttributeSet, BreathRegeneration)
 
+	// Length of time the player can hold their breath
+	UPROPERTY(BlueprintReadOnly, Category = "Breath Attribute Set", ReplicatedUsing = OnRep_HoldingBreathLength)
+	FGameplayAttributeData HoldingBreathLength;
+	ATTRIBUTE_ACCESSORS(UAlsxtBreathAttributeSet, HoldingBreathLength);
+
 protected:
 	
 	UFUNCTION()
@@ -57,4 +62,7 @@ protected:
 
 	UFUNCTION()
 	virtual void OnRep_BreathRegeneration(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	virtual void OnRep_HoldingBreathLength(const FGameplayAttributeData& OldValue);
 };

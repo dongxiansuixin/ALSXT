@@ -11,6 +11,8 @@
 #include "Math/UnrealMathUtility.h"
 #include "Stats/Stats.h"
 #include "Interfaces/AlsxtFirearmInterface.h"
+#include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
+#include "AbilitySystem/AttributeSets/AlsxtStaminaAttributeSet.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTAnimationInstance)
 
@@ -263,6 +265,47 @@ void UAlsxtAnimationInstance::UpdateStatusState()
 			StatusState = NewStatusState;
 		}
 	}
+}
+
+TSoftObjectPtr<UAlsxtAbilitySystemComponent> UAlsxtAnimationInstance::GetAlsxtAbilitySystemComponent() const
+{
+	// Set outbound pointer
+	TSoftObjectPtr<UAlsxtAbilitySystemComponent> ASC;
+	
+	// First check if AlsxtCharacter pointer is set, otherwise return empty pointer
+	if (ALSXTCharacter)
+	{		
+		// Double check AlsxtCharacter implements UAlsxtAbilitySystemInterface
+		if (ALSXTCharacter->Implements<UAlsxtAbilitySystemInterface>())
+		{
+			if (IAlsxtAbilitySystemInterface* ASCInterface = Cast<IAlsxtAbilitySystemInterface>(ALSXTCharacter))
+			{
+				// Create the FSoftObjectPath from the raw pointer
+				FSoftObjectPath AscObjectPath(ASCInterface->GetAbilitySystemComponent());
+				TSoftObjectPtr<UAlsxtAbilitySystemComponent> AscSoftPointer(AscObjectPath);
+				return AscSoftPointer;
+			}
+		}
+	}
+	return ASC;
+}
+
+float UAlsxtAnimationInstance::GetBreathingRate() const
+{
+	// GetAlsxtAbilitySystemComponent();
+
+	if (AlsxtAbilitySystemComponent)
+	{
+		// 4. Get the breathing rate attribute value from the attribute set.
+		const FGameplayAttribute BreathingRateAttribute = UAlsxtStaminaAttributeSet::GetBreathingRateAttribute();
+		if (BreathingRateAttribute.IsValid())
+		{
+			// You can use the GetNumericAttribute function to get the current value.
+			return AlsxtAbilitySystemComponent->GetNumericAttribute(BreathingRateAttribute);
+		}
+	}
+
+	return 0.0f;
 }
 
 FALSXTControlRigInput UAlsxtAnimationInstance::GetALSXTControlRigInput() const {

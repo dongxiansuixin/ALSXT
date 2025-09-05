@@ -64,6 +64,11 @@ class ALSXT_API UAlsxtHoldBreathAttributeSet : public UAlsxtAttributeSetBase
 	FGameplayAttributeData CurrentHoldBreath;
 	ATTRIBUTE_ACCESSORS(UAlsxtHoldBreathAttributeSet, CurrentHoldBreath)
 
+	// Holds the current value for HoldBreath.
+	UPROPERTY(BlueprintReadOnly, Category = "HoldBreath Attribute Set", ReplicatedUsing = OnRep_CurrentHoldBreathDuration)
+	FGameplayAttributeData CurrentHoldBreathDuration;
+	ATTRIBUTE_ACCESSORS(UAlsxtHoldBreathAttributeSet, CurrentHoldBreathDuration)
+
 	// Holds the value for Maximum HoldBreath.
 	UPROPERTY(BlueprintReadOnly, Category = "HoldBreath Attribute Set", ReplicatedUsing = OnRep_MaximumHoldBreath)
 	FGameplayAttributeData MaximumHoldBreath;
@@ -90,6 +95,9 @@ protected:
 	
 	UFUNCTION()
 	virtual void OnRep_CurrentHoldBreath(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	virtual void OnRep_CurrentHoldBreathDuration(const FGameplayAttributeData& OldValue);
 
 	UFUNCTION()
 	virtual void OnRep_MaximumHoldBreath(const FGameplayAttributeData& OldValue);

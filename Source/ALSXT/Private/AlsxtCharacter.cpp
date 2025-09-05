@@ -16,9 +16,6 @@
 #include "Net/Core/PushModel/PushModel.h"
 #include "Components/SceneComponent.h"
 #include "PhysicsEngine/PhysicalAnimationComponent.h"
-#include "Components/Character/AlsxtIdleAnimationComponent.h"
-#include "Components/Character/AlsxtEmoteComponent.h"
-#include "Components/Character/AlsxtGestureComponent.h"
 #include "Settings/AlsxtCharacterSettings.h"
 #include "Settings/AlsxtLocomotionActionSettings.h"
 #include "Settings/AlsxtVaultingSettings.h"
@@ -40,6 +37,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "State/AlsxtFootstepState.h"
 #include "AlsxtCameraAnimationInstance.h"
+#include "AbilitySystem/AttributeSets/AlsxtStaminaAttributeSet.h"
 
 AAlsxtCharacter::AAlsxtCharacter(const FObjectInitializer& ObjectInitializer) :
                                                                               Super(ObjectInitializer.SetDefaultSubobjectClass<UAlsxtPaintableSkeletalMeshComponent>(AAlsCharacter::MeshComponentName).SetDefaultSubobjectClass<UAlsxtCharacterMovementComponent>(AAlsCharacter::CharacterMovementComponentName))
@@ -420,15 +418,6 @@ AAlsxtCharacter::AAlsxtCharacter(const FObjectInitializer& ObjectInitializer) :
 	PhysicalAnimation = CreateDefaultSubobject<UPhysicalAnimationComponent>(TEXT("Physical Animation"));
 	AddOwnedComponent(PhysicalAnimation);
 
-	IdleAnimation = CreateDefaultSubobject<UAlsxtIdleAnimationComponent>(TEXT("Idle Animation"));
-	AddOwnedComponent(IdleAnimation);
-
-	Emotes = CreateDefaultSubobject<UAlsxtEmoteComponent>(TEXT("Emotes"));
-	AddOwnedComponent(Emotes);
-
-	Gestures = CreateDefaultSubobject<UAlsxtGestureComponent>(TEXT("Gestures"));
-	AddOwnedComponent(Gestures);
-
 	OnRagdollingStartedDelegate.BindUFunction(ImpactReaction, "OnRagdollingStarted");
 	OnRagdollingEndedDelegate.BindUFunction(ImpactReaction, "OnRagdollingEnded");
 }
@@ -526,12 +515,9 @@ void AAlsxtCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, PreviousLookInput, Parameters)
 	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, FreelookState, Parameters)
 	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, HeadLookAtState, Parameters)
-	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, DesiredEmote, Parameters)
 	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, AimState, Parameters)
 	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, bMovementEnabled, Parameters)
 	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, MovementInput, Parameters)
-	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, DesiredGesture, Parameters)
-	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, DesiredGestureHand, Parameters)
 }
 
 void AAlsxtCharacter::PreInitializeComponents()
@@ -626,8 +612,6 @@ void AAlsxtCharacter::SetupPlayerInputComponent(UInputComponent* Input)
 		EnhancedInput->BindAction(SwitchWeaponReadyPositionAction, ETriggerEvent::Triggered, this, &ThisClass::InputSwitchWeaponReadyPosition);
 		EnhancedInput->BindAction(SwitchGripPositionAction, ETriggerEvent::Triggered, this, &ThisClass::InputSwitchGripPosition);
 		EnhancedInput->BindAction(SwitchForegripPositionAction, ETriggerEvent::Triggered, this, &ThisClass::InputSwitchForegripPosition);
-		EnhancedInput->BindAction(SelectEmoteAction, ETriggerEvent::Triggered, this, &ThisClass::InputSelectEmote);
-		EnhancedInput->BindAction(SelectGestureAction, ETriggerEvent::Triggered, this, &ThisClass::InputSelectGesture);
 
 		InputMantleValue = EnhancedInput->GetBoundActionValue(MantleAction);
 		
@@ -729,11 +713,6 @@ void AAlsxtCharacter::InputLookMouse(const FInputActionValue& ActionValue)
 		Value = ActionValue.Get<FVector2D>();
 	}
 
-	if (Value.Length() > 0.0)
-	{
-		IdleAnimation->ResetIdleCounterTimer();
-	}
-
 	AddControllerPitchInput(Value.Y * LookUpMouseSensitivity);
 	PreviousLookInput.Y = Value.Y;
 	AddControllerYawInput(Value.X * LookRightMouseSensitivity);
@@ -752,10 +731,7 @@ void AAlsxtCharacter::InputLook(const FInputActionValue& ActionValue)
 	{
 		Value = ActionValue.Get<FVector2D>();
 	}
-	if (Value.Length() > 0.0)
-	{
-		IdleAnimation->ResetIdleCounterTimer();
-	}
+
 	AddControllerPitchInput(Value.Y * LookUpRate * GetWorld()->GetDeltaSeconds());
 	PreviousLookInput.Y = Value.Y;
 	AddControllerYawInput(Value.X * LookRightRate * GetWorld()->GetDeltaSeconds());
@@ -767,11 +743,6 @@ void AAlsxtCharacter::InputMove(const FInputActionValue& ActionValue)
 	if (GetDesiredStatus() == ALSXTStatusTags::Normal && bMovementEnabled)
 	{
 		const auto Value{ UAlsVector::ClampMagnitude012D(ActionValue.Get<FVector2D>()) };
-
-		if (Value.Length() > 0.0)
-		{
-			IdleAnimation->ResetIdleCounterTimer();
-		}
 
 		FRotator CapsuleRotation = GetActorRotation();
 		auto ForwardDirection{ UAlsVector::AngleToDirectionXY(UE_REAL_TO_FLOAT(GetViewState().Rotation.Yaw)) };
@@ -827,7 +798,6 @@ void AAlsxtCharacter::InputWalk()
 
 void AAlsxtCharacter::InputCrouch()
 {
-	IdleAnimation->ResetIdleCounterTimer();
 	if (GetDesiredStance() == AlsStanceTags::Standing)
 	{
 		if (CanSlide())
@@ -854,7 +824,6 @@ void AAlsxtCharacter::InputJump(const FInputActionValue& ActionValue)
 	{
 		if (ActionValue.Get<bool>())
 		{
-			IdleAnimation->ResetIdleCounterTimer();
 			if (StopRagdolling())
 			{
 				return;
@@ -912,7 +881,6 @@ void AAlsxtCharacter::InputAim(const FInputActionValue& ActionValue)
 		if (ActionValue.Get<bool>())
 		{
 			SetDesiredRotationMode(AlsRotationModeTags::Aiming);
-			IdleAnimation->ResetIdleCounterTimer();
 			if (GetDesiredCombatStance() == ALSXTCombatStanceTags::Ready)
 			{
 				SetDesiredCombatStance(ALSXTCombatStanceTags::Aiming);
@@ -989,7 +957,6 @@ void AAlsxtCharacter::InputRagdoll()
 {
 	if (!StopRagdolling())
 	{
-		IdleAnimation->ResetIdleCounterTimer();
 		StartRagdolling();
 	}
 }
@@ -999,7 +966,6 @@ void AAlsxtCharacter::InputRoll()
 	static constexpr auto PlayRate{ 1.3f };
 	if(CanRoll() && bMovementEnabled)
 	{
-		IdleAnimation->ResetIdleCounterTimer();
 		StartRolling(PlayRate);
 	}
 }
@@ -1018,7 +984,6 @@ void AAlsxtCharacter::InputViewMode()
 	DesiredViewMode == (GetViewMode() == AlsViewModeTags::ThirdPerson ? AlsViewModeTags::FirstPerson : AlsViewModeTags::ThirdPerson);
 	if (CanSetToViewMode(DesiredViewMode)) 
 	{
-		IdleAnimation->ResetIdleCounterTimer();
 		SetViewMode(GetViewMode() == AlsViewModeTags::ThirdPerson ? AlsViewModeTags::FirstPerson : AlsViewModeTags::ThirdPerson);
 		OnViewModeChanged(PreviousViewMode);
 	}
@@ -1027,7 +992,6 @@ void AAlsxtCharacter::InputViewMode()
 // ReSharper disable once CppMemberFunctionMayBeConst
 void AAlsxtCharacter::InputSwitchShoulder()
 {
-	IdleAnimation->ResetIdleCounterTimer();
 	Camera->SetRightShoulder(!Camera->IsRightShoulder());
 }
 
@@ -1050,7 +1014,6 @@ void AAlsxtCharacter::InputSwitchGripPosition()
 {
 	if (CanSwitchGripPosition())
 	{
-		IdleAnimation->ResetIdleCounterTimer();
 		FGameplayTagContainer AvailableGripPositions = GetAvailableGripPositions();
 		TArray<FGameplayTag> AvailableGripPositionsArray;
 		AvailableGripPositions.GetGameplayTagArray(AvailableGripPositionsArray);
@@ -1086,7 +1049,6 @@ void AAlsxtCharacter::InputSwitchForegripPosition()
 {
 	if (CanSwitchForegripPosition())
 	{
-		IdleAnimation->ResetIdleCounterTimer();
 		FGameplayTagContainer AvailableForegripPositions = GetAvailableForegripPositions();
 		TArray<FGameplayTag> AvailableForegripPositionsArray;
 		AvailableForegripPositions.GetGameplayTagArray(AvailableForegripPositionsArray);
@@ -1143,22 +1105,6 @@ void AAlsxtCharacter::ApplyDesiredStance()
 }
 
 // Input Actions
-
-void AAlsxtCharacter::InputSelectEmote(const FInputActionValue& ActionValue)
-{
-	if (CanSelectEmote())
-	{
-		// 
-	}
-}
-
-void AAlsxtCharacter::InputSelectGesture(const FInputActionValue& ActionValue)
-{
-	if (CanSelectGesture())
-	{
-		//
-	}
-}
 
 bool AAlsxtCharacter::CanFreelook_Implementation() const {return true;}
 
@@ -1986,7 +1932,6 @@ void AAlsxtCharacter::SetLean(const FGameplayTag& NewLeanTag)
 
 	if (Lean != NewLeanTag)
 	{
-		IdleAnimation->ResetIdleCounterTimer();
 		const auto PreviousLean{ Lean };
 
 		Lean = NewLeanTag;
@@ -2008,7 +1953,6 @@ void AAlsxtCharacter::IsFreelooking(bool& bIsFreelooking, bool& bIsFreelookingIn
 
 void AAlsxtCharacter::ActivateFreelooking()
 {
-	IdleAnimation->ResetIdleCounterTimer();
 	//PreviousYaw = GetViewState().Rotation.Yaw;
 	PreviousYaw = FMath::GetMappedRangeValueClamped(FVector2D(0, 359.998993), FVector2D(0.0, 1.0), GetControlRotation().Yaw);
 	//FMath::GetMappedRangeValueClamped(FVector2D(-90,90), FVector2D(0,1), GetViewState().Rotation.Pitch)
@@ -2090,118 +2034,6 @@ void AAlsxtCharacter::OnFreelookingChanged_Implementation(const FGameplayTag& Pr
 {
 	
 }
-
-// Emote
-
-void AAlsxtCharacter::SetDesiredEmote(const FGameplayTag& NewEmoteTag)
-{
-	if (DesiredEmote != NewEmoteTag)
-	{
-		DesiredEmote = NewEmoteTag;
-		Emotes->AddDesiredEmote(NewEmoteTag);
-
-		MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, DesiredEmote, this)
-
-			if (GetLocalRole() == ROLE_AutonomousProxy)
-			{
-				ServerSetDesiredEmote(NewEmoteTag);
-			}
-	}
-}
-
-void AAlsxtCharacter::ServerSetDesiredEmote_Implementation(const FGameplayTag& NewEmoteTag)
-{
-	SetDesiredEmote(NewEmoteTag);
-}
-
-void AAlsxtCharacter::SetEmote(const FGameplayTag& NewEmoteTag)
-{
-
-	if (Emote != NewEmoteTag)
-	{
-		const auto PreviousEmote{ Emote };
-
-		Gesture = NewEmoteTag;
-		Emotes->AddDesiredEmote(NewEmoteTag);
-		OnEmoteChanged(PreviousEmote);
-	}
-}
-
-void AAlsxtCharacter::OnEmoteChanged_Implementation(const FGameplayTag& PreviousEmoteeTag) {}
-
-// Gesture
-
-void AAlsxtCharacter::SetDesiredGesture(const FGameplayTag& NewGestureTag)
-{
-	if (DesiredGesture != NewGestureTag)
-	{
-		DesiredGesture = NewGestureTag;
-
-		MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, DesiredGesture, this)
-
-			if (GetLocalRole() == ROLE_AutonomousProxy)
-			{
-				ServerSetDesiredGesture(NewGestureTag);
-			}
-	}
-}
-
-void AAlsxtCharacter::ServerSetDesiredGesture_Implementation(const FGameplayTag& NewGestureTag)
-{
-	SetDesiredGesture(NewGestureTag);
-}
-
-void AAlsxtCharacter::SetGesture(const FGameplayTag& NewGestureTag)
-{
-
-	if (Gesture != NewGestureTag)
-	{
-		const auto PreviousGesture{ Gesture };
-
-		Gesture = NewGestureTag;
-
-		OnGestureChanged(PreviousGesture);
-	}
-}
-
-void AAlsxtCharacter::OnGestureChanged_Implementation(const FGameplayTag& PreviousGestureTag) {}
-
-// GestureHand
-
-void AAlsxtCharacter::SetDesiredGestureHand(const FGameplayTag& NewGestureHandTag)
-{
-	if (DesiredGestureHand != NewGestureHandTag)
-	{
-		DesiredGestureHand = NewGestureHandTag;
-
-		MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, DesiredGestureHand, this)
-
-			if (GetLocalRole() == ROLE_AutonomousProxy)
-			{
-				ServerSetDesiredGestureHand(NewGestureHandTag);
-			}
-	}
-}
-
-void AAlsxtCharacter::ServerSetDesiredGestureHand_Implementation(const FGameplayTag& NewGestureHandTag)
-{
-	SetDesiredGestureHand(NewGestureHandTag);
-}
-
-void AAlsxtCharacter::SetGestureHand(const FGameplayTag& NewGestureHandTag)
-{
-
-	if (GestureHand != NewGestureHandTag)
-	{
-		const auto PreviousGestureHand{ GestureHand };
-
-		GestureHand = NewGestureHandTag;
-
-		OnGestureHandChanged(PreviousGestureHand);
-	}
-}
-
-void AAlsxtCharacter::OnGestureHandChanged_Implementation(const FGameplayTag& PreviousGestureHandTag) {}
 
 // Sex
 
@@ -2362,7 +2194,6 @@ void AAlsxtCharacter::SetCombatStance(const FGameplayTag& NewCombatStanceTag)
 
 	if (CombatStance != NewCombatStanceTag)
 	{
-		IdleAnimation->ResetIdleCounterTimer();
 		const auto PreviousCombatStance{ CombatStance };
 
 		CombatStance = NewCombatStanceTag;
@@ -2400,7 +2231,6 @@ void AAlsxtCharacter::SetWeaponFirearmStance(const FGameplayTag& NewWeaponFirear
 
 	if (WeaponFirearmStance != NewWeaponFirearmStanceTag)
 	{
-		IdleAnimation->ResetIdleCounterTimer();
 		const auto PreviousWeaponFirearmStance{ WeaponFirearmStance };
 
 		WeaponFirearmStance = NewWeaponFirearmStanceTag;
@@ -2438,7 +2268,6 @@ void AAlsxtCharacter::SetWeaponReadyPosition(const FGameplayTag& NewWeaponReadyP
 
 	if (WeaponReadyPosition != NewWeaponReadyPositionTag)
 	{
-		IdleAnimation->ResetIdleCounterTimer();
 		const auto PreviousWeaponReadyPosition{ WeaponReadyPosition };
 
 		WeaponReadyPosition = NewWeaponReadyPositionTag;
@@ -2497,7 +2326,6 @@ void AAlsxtCharacter::SetDefensiveMode(const FGameplayTag& NewDefensiveModeTag)
 {
 	if (DefensiveMode != NewDefensiveModeTag)
 	{
-		IdleAnimation->ResetIdleCounterTimer();
 		const auto PreviousDefensiveMode{ DefensiveMode };
 		DefensiveMode = NewDefensiveModeTag;
 		OnDefensiveModeChanged(PreviousDefensiveMode);
@@ -3616,6 +3444,15 @@ FAlsxtTargetBreathState AAlsxtCharacter::CalculateTargetBreathState()
 {
 	FAlsxtTargetBreathState NewTargetBreathState;
 
+	const FGameplayAttribute BreathingRateAttribute = UAlsxtStaminaAttributeSet::GetBreathingRateAttribute();
+	float GasBreathRate {0.0f};
+	if (BreathingRateAttribute.IsValid())
+	{
+		// You can use the GetNumericAttribute function to get the current value.
+		// IAlsxtAbilitySystemInterface::Execute_GetAlsxtAbilitySystemComponent(this);
+		// GasBreathRate = GetAlsxtAbilitySystemComponent()->GetNumericAttribute(BreathingRateAttribute);
+	}
+
 	if (BreathState.HoldingBreath == ALSXTHoldingBreathTags::True)
 	{
 		NewTargetBreathState.Alpha = 0.0;
@@ -3626,6 +3463,7 @@ FAlsxtTargetBreathState AAlsxtCharacter::CalculateTargetBreathState()
 	{
 		NewTargetBreathState.Alpha = GetBreathState().PreviousBreathAlpha;
 		NewTargetBreathState.Rate = GetBreathState().PreviousBreathRate;
+		// NewTargetBreathState.Rate = GasBreathRate;
 		return NewTargetBreathState;
 	}
 	if (BreathState.HoldingBreath == ALSXTHoldingBreathTags::Exhausted)
@@ -3643,6 +3481,7 @@ FAlsxtTargetBreathState AAlsxtCharacter::CalculateTargetBreathState()
 		float BlendConverted = FMath::GetMappedRangeValueClamped(ConversionRange, IAlsxtCharacterSoundComponentInterface::Execute_GetBreathEffectsSettings(this).BreathAnimationBlendRange, CurrentStaminaConverted);
 		NewTargetBreathState.Alpha = BlendConverted;
 		NewTargetBreathState.Rate = PlayRateConverted;
+		// NewTargetBreathState.Rate = GasBreathRate;
 		NewTargetBreathState.TransitionRate = 1.0;
 		return NewTargetBreathState;
 	}
@@ -3953,11 +3792,6 @@ FGameplayTag AAlsxtCharacter::GetCharacterFreelooking_Implementation() const
 	return GetDesiredFreelooking();
 }
 
-FGameplayTag AAlsxtCharacter::GetCharacterEmote_Implementation() const
-{
-	return DesiredEmote;
-}
-
 void AAlsxtCharacter::SetCharacterRagdoll_Implementation(const bool NewRagdoll)
 {
 	if (NewRagdoll)
@@ -3970,24 +3804,6 @@ void AAlsxtCharacter::SetCharacterRagdoll_Implementation(const bool NewRagdoll)
 	}
 }
 
-void AAlsxtCharacter::SetCharacterEmote_Implementation(const FGameplayTag& NewEmote)
-{
-	// Emotes->MulticastAddDesiredEmote(NewEmote);
-	// SetDesiredEmote(NewEmote);
-	Emotes->AddDesiredEmote(NewEmote);
-}
-
-void AAlsxtCharacter::GetCharacterGesture_Implementation(FGameplayTag& NewGesture, FGameplayTag& NewGestureHand) const
-{
-	NewGesture = GetDesiredGesture();
-	NewGestureHand = GetDesiredGestureHand();
-}
-
-void AAlsxtCharacter::SetCharacterGesture_Implementation(const FGameplayTag& NewGesture, const FGameplayTag& NewGestureHand)
-{
-	SetDesiredGestureHand(NewGestureHand);
-	SetDesiredGesture(NewGesture);
-}
 
 
 FGameplayTag AAlsxtCharacter::GetCharacterForegripPosition_Implementation() const
@@ -4187,11 +4003,6 @@ FString AAlsxtCharacter::GetCurrentVocalization_Implementation() const
 bool AAlsxtCharacter::ShouldIdle_Implementation() const
 {
 	return true;
-}
-
-FAlsxtIdleState AAlsxtCharacter::GetIdleState_Implementation() const
-{
-	return IdleAnimation->GetIdleState();
 }
 
 void AAlsxtCharacter::OnEnterStationaryModeBlendOut(UAnimMontage* Montage, bool bInterrupted)

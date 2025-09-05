@@ -19,6 +19,7 @@
 #include "Interfaces/AlsxtCharacterInterface.h"
 #include "Settings/AlsxtAnimationInstanceSettings.h"
 #include "Settings/AlsxtCharacterBreathEffectsSettings.h"
+#include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
 #include "AlsxtAnimationInstance.generated.h"
 
 class UAlsxtLinkedAnimationInstance;
@@ -68,6 +69,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
 	TObjectPtr<AAlsxtCharacter> ALSXTCharacter;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
+	TObjectPtr<UAlsxtAbilitySystemComponent> AlsxtAbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
 	FALSXTJigglePhysicsSettings JigglePhysicsSettings;
@@ -246,6 +250,11 @@ protected:
 	virtual bool IsTurnInPlaceAllowed() override;
 
 	void UpdateStatusState();
+
+	UFUNCTION(BlueprintPure, Category = "ALSXT|Animation Instance", Meta = (BlueprintThreadSafe, ReturnDisplayName = "ALSXT Ability System Component"))
+	TSoftObjectPtr<UAlsxtAbilitySystemComponent> GetAlsxtAbilitySystemComponent() const;
+
+	float GetBreathingRate() const;
 
 	UFUNCTION(BlueprintPure, Category = "ALSXT|Animation Instance", Meta = (BlueprintThreadSafe, ReturnDisplayName = "Rig Input"))
 	FALSXTControlRigInput GetALSXTControlRigInput() const;

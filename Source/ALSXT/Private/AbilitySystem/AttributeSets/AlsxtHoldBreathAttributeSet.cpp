@@ -98,6 +98,11 @@ void UAlsxtHoldBreathAttributeSet::OnRep_CurrentHoldBreath(const FGameplayAttrib
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtHoldBreathAttributeSet, CurrentHoldBreath, OldValue);
 }
 
+void UAlsxtHoldBreathAttributeSet::OnRep_CurrentHoldBreathDuration(const FGameplayAttributeData& OldValue)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtHoldBreathAttributeSet, CurrentHoldBreathDuration, OldValue);
+}
+
 void UAlsxtHoldBreathAttributeSet::OnRep_MaximumHoldBreath(const FGameplayAttributeData& OldValue)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtHoldBreathAttributeSet, MaximumHoldBreath, OldValue);
@@ -124,7 +129,7 @@ void UAlsxtHoldBreathAttributeSet::PostAttributeChange(const FGameplayAttribute&
 	
 	if (Attribute == GetCurrentHoldBreathAttribute())
 	{
-		CheckMaxReachedForAttribute(MaximumHoldBreath, ALSXTGASGameplayTags::State::TAG_State_Max_HoldBreath.GetTag(), NewValue);
+		CheckMaxReachedForAttribute(MaximumHoldBreath, ALSXTGASGameplayTags::State::TAG_State_Max_HoldingBreath.GetTag(), NewValue);
 		return;
 	}
 	

@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "GameplayEffectExecutionCalculation.h"
+#include "AbilitySystem/AttributeSets/AlsxtStaminaAttributeSet.h"
+#include "AbilitySystem/AttributeSets/AlsxtBreathAttributeSet.h"
 #include "AlsxtGeecBreathingRate.generated.h"
 
 /**

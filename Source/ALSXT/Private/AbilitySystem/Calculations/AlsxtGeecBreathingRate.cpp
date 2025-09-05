@@ -1,5 +1,6 @@
 #include "AbilitySystem/Calculations/AlsxtGeecBreathingRate.h"
 #include "AbilitySystem/AttributeSets/AlsxtStaminaAttributeSet.h" // Assuming this is the attribute set class.
+#include "AbilitySystem/Calculations/AlsxtGeecBreathingRate.h"
 #include "GameplayEffect.h"
 #include "AbilitySystemComponent.h"
 
@@ -14,10 +15,12 @@ UAlsxtGeecBreathingRate::UAlsxtGeecBreathingRate()
 	// `false` means we don't need a snapshot of the attribute at the start.
 	StaminaDef = FGameplayEffectAttributeCaptureDefinition(UAlsxtStaminaAttributeSet::GetCurrentStaminaAttribute(), EGameplayEffectAttributeCaptureSource::Target, false);
 	MaxStaminaDef = FGameplayEffectAttributeCaptureDefinition(UAlsxtStaminaAttributeSet::GetMaximumStaminaAttribute(), EGameplayEffectAttributeCaptureSource::Target, false);
+	// UAlsxtGeecBreathingRate::FBreathingRateCaptureDefinition UAlsxtGeecBreathingRate::BreathingRateCaptureDefinition;
 
 	// Add the capture definitions to the relevant attributes.
 	RelevantAttributesToCapture.Add(StaminaDef);
 	RelevantAttributesToCapture.Add(MaxStaminaDef);
+	// RelevantAttributesToCapture.Add(BreathingRateCaptureDefinition.HoldingBreathLengthDef);
 }
 
 void UAlsxtGeecBreathingRate::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const

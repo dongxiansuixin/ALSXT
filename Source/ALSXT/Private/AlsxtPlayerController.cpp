@@ -8,6 +8,7 @@
 #include "AbilitySystem/Interfaces/AlsxtAbilitySystemInterface.h"
 #include "Utility/AlsGameplayTags.h"
 #include "Utility/AlsVector.h"
+#include "Net/UnrealNetwork.h"
 
 // #include UE_INLINE_GENERATED_CPP_BY_NAME(AlsxtPlayerController)
 
@@ -50,6 +51,17 @@ void AAlsxtPlayerController::BeginPlay()
 	}
 }
 
+void AAlsxtPlayerController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	FDoRepLifetimeParams Parameters;
+	Parameters.bIsPushBased = true;
+	Parameters.Condition = COND_SkipOwner;
+	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, PreviousLookInput, Parameters)
+	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, MovementInput, Parameters)
+}
+
 void AAlsxtPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -61,6 +73,10 @@ void AAlsxtPlayerController::SetupInputComponent()
 		if (MoveAction)
 		{
 			EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Canceled, this, &ThisClass::Input_OnMove);
+		}
+		if (AnyInputDetectionAction)
+		{
+			EnhancedInputComponent->BindAction(AnyInputDetectionAction, ETriggerEvent::Triggered, this, &ThisClass::HandleAnyInputKey);
 		}
 		EnhancedInputComponent->BindAction(LookMouseAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnLookMouse);
 		EnhancedInputComponent->BindAction(LookMouseAction, ETriggerEvent::Canceled, this, &ThisClass::Input_OnLookMouse);
@@ -81,7 +97,39 @@ void AAlsxtPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(RotationModeAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnRotationMode);
 		EnhancedInputComponent->BindAction(ViewModeAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnViewMode);
 		EnhancedInputComponent->BindAction(SwitchShoulderAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnSwitchShoulder);
+		
+		EnhancedInputComponent->BindAction(AimToggleAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnToggleAim);
+		EnhancedInputComponent->BindAction(FocusAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnFocus);
+		
+		EnhancedInputComponent->BindAction(FreelookAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnFreelook);
+		EnhancedInputComponent->BindAction(ToggleFreelookAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnToggleFreelook);
+		EnhancedInputComponent->BindAction(ToggleGaitAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnToggleGait);
+		EnhancedInputComponent->BindAction(ToggleCombatReadyAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnToggleCombatReady);
+		EnhancedInputComponent->BindAction(PrimaryInteractionAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnPrimaryInteraction);
+		EnhancedInputComponent->BindAction(SecondaryInteractionAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnSecondaryInteraction);
+		EnhancedInputComponent->BindAction(BlockAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnBlock);
+
+		
+		EnhancedInputComponent->BindAction(SwitchWeaponReadyPositionAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnSwitchWeaponReadyPosition);
+		EnhancedInputComponent->BindAction(SwitchGripPositionAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnSwitchGripPosition);
+		EnhancedInputComponent->BindAction(SwitchForegripPositionAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnSwitchForegripPosition);
+
+
+		EnhancedInputComponent->BindAction(LeanLeftAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnLeanLeft);
+		EnhancedInputComponent->BindAction(ToggleLeanLeftAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnToggleLeanLeft);
+		EnhancedInputComponent->BindAction(LeanRightAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnLeanRight);
+		EnhancedInputComponent->BindAction(ToggleLeanRightAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnToggleLeanRight);
+
+
+		EnhancedInputComponent->BindAction(MantleAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnMantle);
+		InputMantleValue = EnhancedInputComponent->GetBoundActionValue(MantleAction);
+		OnSetupPlayerInputComponentUpdated.Broadcast();
 	}
+}
+
+void AAlsxtPlayerController::HandleAnyInputKey()
+{
+	OnAnyInputDetected.Broadcast();
 }
 
 void AAlsxtPlayerController::Input_OnLookMouse(const FInputActionValue& ActionValue)
@@ -211,4 +259,375 @@ void AAlsxtPlayerController::Input_OnViewMode()
 void AAlsxtPlayerController::Input_OnSwitchShoulder()
 {
 	AlsxtCharacterPlayer.Get()->Camera->SetRightShoulder(!AlsxtCharacterPlayer.Get()->Camera->IsRightShoulder());
+}
+
+void AAlsxtPlayerController::Input_OnMantle(const FInputActionValue& ActionValue)
+{
+	if (ActionValue.Get<bool>())
+	{
+		// RefreshMantle();
+	}
+	else
+	{
+
+	}
+}
+
+void AAlsxtPlayerController::Input_OnToggleAim()
+{
+	if (IAlsxtHeldItemInterface::Execute_IsHoldingAimableItem(this)) 
+	{
+		if (AlsxtCharacterPlayer->GetDesiredRotationMode() == AlsRotationModeTags::Aiming)
+		{
+			AlsxtCharacterPlayer->SetDesiredRotationMode(AlsRotationModeTags::ViewDirection);
+			AlsxtCharacterPlayer->SetDesiredCombatStance(ALSXTCombatStanceTags::Ready);
+		}
+		if (AlsxtCharacterPlayer->CanAim())
+		{
+			AlsxtCharacterPlayer->SetViewMode(AlsViewModeTags::FirstPerson);
+			AlsxtCharacterPlayer->SetDesiredCombatStance(ALSXTCombatStanceTags::Aiming);
+			AlsxtCharacterPlayer->SetDesiredRotationMode(AlsRotationModeTags::Aiming);
+		}
+	}
+}
+
+void AAlsxtPlayerController::Input_OnFocus(const FInputActionValue& ActionValue)
+{
+	if (AlsxtCharacterPlayer->CanFocus())
+	{
+		if (ActionValue.Get<bool>())
+		{
+			AlsxtCharacterPlayer->SetDesiredFocus(ALSXTFocusedTags::True);
+		}
+		else
+		{
+			AlsxtCharacterPlayer->SetDesiredFocus(ALSXTFocusedTags::False);
+		}
+	}
+}
+
+void AAlsxtPlayerController::Input_OnFreelook(const FInputActionValue& ActionValue)
+{
+	if (AlsxtCharacterPlayer->CanFreelook())
+	{
+		if (ActionValue.Get<bool>())
+		{
+			// AlsxtCharacterPlayer->ActivateFreelooking();
+		}
+		else
+		{
+			// AlsxtCharacterPlayer->DeactivateFreelooking();
+		}
+	}
+}
+
+void AAlsxtPlayerController::Input_OnToggleFreelook(const FInputActionValue& ActionValue)
+{
+	if (AlsxtCharacterPlayer->CanFreelook())
+	{
+		if (ActionValue.Get<bool>())
+		{
+			// AlsxtCharacterPlayer->ActivateFreelooking();
+		}
+		else
+		{
+			// AlsxtCharacterPlayer->DeactivateFreelooking();
+		}
+	}
+}
+
+void AAlsxtPlayerController::Input_OnBlock(const FInputActionValue& ActionValue)
+{
+	FAlsxtDefensiveModeState PreviousDefensiveModeState = AlsxtCharacterPlayer->GetDefensiveModeState();
+
+	if (AlsxtCharacterPlayer->CanEnterBlockingDefensiveMode())
+	{
+		if (ActionValue.Get<bool>() == true)
+		{
+			FAlsxtDefensiveModeState NewDefensiveModeState = AlsxtCharacterPlayer->GetDefensiveModeState();
+			NewDefensiveModeState.Mode = ALSXTDefensiveModeTags::Anticipation;
+			NewDefensiveModeState.AnticipationMode = ALSXTDefensiveModeTags::Anticipation;
+			NewDefensiveModeState.AnticipationSide = PreviousDefensiveModeState.AnticipationSide == FGameplayTag::EmptyTag ? ALSXTImpactSideTags::Front : PreviousDefensiveModeState.AnticipationSide;
+			NewDefensiveModeState.AnticipationHeight = PreviousDefensiveModeState.AnticipationHeight == FGameplayTag::EmptyTag ? ALSXTImpactHeightTags::Middle : PreviousDefensiveModeState.AnticipationHeight;
+			NewDefensiveModeState.ObstacleMode = FGameplayTag::EmptyTag;
+			NewDefensiveModeState.ObstacleSide = FGameplayTag::EmptyTag;
+			NewDefensiveModeState.ObstacleHeight = FGameplayTag::EmptyTag;
+			AlsxtCharacterPlayer->SetDefensiveModeState(NewDefensiveModeState);
+			// SetDesiredDefensiveMode(ALSXTDefensiveModeTags::Blocking);
+
+		}
+		else 
+		{
+			// ResetDefensiveModeState();
+			FAlsxtDefensiveModeState NewDefensiveModeState = AlsxtCharacterPlayer->GetDefensiveModeState();
+			NewDefensiveModeState.Mode = PreviousDefensiveModeState.Mode == ALSXTDefensiveModeTags::Anticipation ? FGameplayTag::EmptyTag : PreviousDefensiveModeState.Mode;
+			NewDefensiveModeState.AnticipationMode = FGameplayTag::EmptyTag;
+			NewDefensiveModeState.AnticipationSide = FGameplayTag::EmptyTag;
+			NewDefensiveModeState.AnticipationHeight = FGameplayTag::EmptyTag;
+			NewDefensiveModeState.ObstacleMode = FGameplayTag::EmptyTag;
+			NewDefensiveModeState.ObstacleSide = FGameplayTag::EmptyTag;
+			NewDefensiveModeState.ObstacleHeight = FGameplayTag::EmptyTag;
+			AlsxtCharacterPlayer->SetDefensiveModeState(NewDefensiveModeState);
+			// SetDesiredDefensiveMode(FGameplayTag::EmptyTag);
+		}
+	}
+	else if ((AlsxtCharacterPlayer->GetDesiredDefensiveMode() == ALSXTDefensiveModeTags::Blocking) && (ActionValue.Get<bool>()  == false))
+	{
+		FAlsxtDefensiveModeState NewDefensiveModeState = AlsxtCharacterPlayer->GetDefensiveModeState();
+		NewDefensiveModeState.Mode = PreviousDefensiveModeState.Mode == ALSXTDefensiveModeTags::Anticipation ? FGameplayTag::EmptyTag : PreviousDefensiveModeState.Mode;
+		NewDefensiveModeState.AnticipationMode = FGameplayTag::EmptyTag;
+		NewDefensiveModeState.AnticipationSide = FGameplayTag::EmptyTag;
+		NewDefensiveModeState.AnticipationHeight = FGameplayTag::EmptyTag;
+		NewDefensiveModeState.ObstacleMode = FGameplayTag::EmptyTag;
+		NewDefensiveModeState.ObstacleSide = FGameplayTag::EmptyTag;
+		NewDefensiveModeState.ObstacleHeight = FGameplayTag::EmptyTag;
+		AlsxtCharacterPlayer->SetDefensiveModeState(NewDefensiveModeState);
+		AlsxtCharacterPlayer->SetDesiredDefensiveMode(FGameplayTag::EmptyTag);
+	}
+}
+
+
+void AAlsxtPlayerController::Input_OnLeanLeft(const FInputActionValue & ActionValue)
+{
+	if (ActionValue.Get<bool>())
+	{
+		if (AlsxtCharacterPlayer->CanLean())
+		{
+			AlsxtCharacterPlayer->SetDesiredLean(ALSXTLeanDirectionTags::Left);
+			FAlsxtPoseState NewPoseState = AlsxtCharacterPlayer->GetALSXTPoseState();
+			NewPoseState.LeanDirection = ALSXTLeanDirectionTags::Left;
+			AlsxtCharacterPlayer->SetALSXTPoseState(NewPoseState);
+		}
+	}
+	else
+	{
+		AlsxtCharacterPlayer->SetDesiredLean(FGameplayTag::EmptyTag);
+		FAlsxtPoseState NewPoseState = AlsxtCharacterPlayer->GetALSXTPoseState();
+		NewPoseState.LeanDirection = FGameplayTag::EmptyTag;
+		AlsxtCharacterPlayer->SetALSXTPoseState(NewPoseState);
+	}
+}
+
+void AAlsxtPlayerController::Input_OnLeanRight(const FInputActionValue& ActionValue)
+{
+	if (ActionValue.Get<bool>())
+	{
+		if (AlsxtCharacterPlayer->CanLean())
+		{
+			AlsxtCharacterPlayer->SetDesiredLean(ALSXTLeanDirectionTags::Right);
+			FAlsxtPoseState NewPoseState = AlsxtCharacterPlayer->GetALSXTPoseState();
+			NewPoseState.LeanDirection = ALSXTLeanDirectionTags::Right;
+			AlsxtCharacterPlayer->SetALSXTPoseState(NewPoseState);
+		}
+	}
+	else
+	{
+		AlsxtCharacterPlayer->SetDesiredLean(FGameplayTag::EmptyTag);
+		FAlsxtPoseState NewPoseState = AlsxtCharacterPlayer->GetALSXTPoseState();
+		NewPoseState.LeanDirection = FGameplayTag::EmptyTag;
+		AlsxtCharacterPlayer->SetALSXTPoseState(NewPoseState);
+	}
+}
+
+void AAlsxtPlayerController::Input_OnToggleLeanLeft(const FInputActionValue & ActionValue)
+{
+	if (ActionValue.Get<bool>())
+	{
+		if (AlsxtCharacterPlayer->CanLean())
+		{
+			AlsxtCharacterPlayer->SetDesiredLean(ALSXTLeanDirectionTags::Left);
+			FAlsxtPoseState NewPoseState = AlsxtCharacterPlayer->GetALSXTPoseState();
+			NewPoseState.LeanDirection = ALSXTLeanDirectionTags::Left;
+			AlsxtCharacterPlayer->SetALSXTPoseState(NewPoseState);
+		}
+	}
+	else
+	{
+		AlsxtCharacterPlayer->SetDesiredLean(FGameplayTag::EmptyTag);
+		FAlsxtPoseState NewPoseState = AlsxtCharacterPlayer->GetALSXTPoseState();
+		NewPoseState.LeanDirection = FGameplayTag::EmptyTag;
+		AlsxtCharacterPlayer->SetALSXTPoseState(NewPoseState);
+	}
+}
+
+void AAlsxtPlayerController::Input_OnToggleLeanRight(const FInputActionValue& ActionValue)
+{
+	if (ActionValue.Get<bool>())
+	{
+		if (AlsxtCharacterPlayer->CanLean())
+		{
+			AlsxtCharacterPlayer->SetDesiredLean(ALSXTLeanDirectionTags::Right);
+			FAlsxtPoseState NewPoseState = AlsxtCharacterPlayer->GetALSXTPoseState();
+			NewPoseState.LeanDirection = ALSXTLeanDirectionTags::Right;
+			AlsxtCharacterPlayer->SetALSXTPoseState(NewPoseState);
+		}
+	}
+	else
+	{
+		AlsxtCharacterPlayer->SetDesiredLean(FGameplayTag::EmptyTag);
+		FAlsxtPoseState NewPoseState = AlsxtCharacterPlayer->GetALSXTPoseState();
+		NewPoseState.LeanDirection = FGameplayTag::EmptyTag;
+		AlsxtCharacterPlayer->SetALSXTPoseState(NewPoseState);
+	}
+}
+
+void AAlsxtPlayerController::Input_OnSwitchWeaponFirearmStance()
+{
+	if (AlsxtCharacterPlayer->GetDesiredCombatStance() == ALSXTCombatStanceTags::Neutral)
+	{
+		return;
+	}
+	else
+	{
+		FGameplayTagContainer AvailableStances = AlsxtCharacterPlayer->GetAvailableFirearmStances();
+		TArray<FGameplayTag> AvailableStancesArray;
+		AvailableStances.GetGameplayTagArray(AvailableStancesArray);
+		if (AvailableStances.Num() <= 0 || AvailableStances.Num() == 1 && AvailableStancesArray[0] == AlsxtCharacterPlayer->GetDesiredWeaponFirearmStance())
+		{
+			return;
+		}
+		int CurrentIndex = AvailableStancesArray.IndexOfByKey(AlsxtCharacterPlayer->GetDesiredWeaponFirearmStance());
+		int NextIndex;
+		if ((CurrentIndex + 1) > (AvailableStancesArray.Num() - 1))
+		{
+			NextIndex = 0;
+		}
+		else
+		{
+			NextIndex = CurrentIndex + 1;
+		}
+		AlsxtCharacterPlayer->SetDesiredWeaponFirearmStance(AvailableStancesArray[NextIndex]);
+	}
+}
+
+void AAlsxtPlayerController::Input_OnSwitchWeaponReadyPosition()
+{
+	TArray<FGameplayTag> AvailablePositions;
+	// TArray<FGameplayTag> AvailablePositions = (GetDesiredCombatStance() == ALSXTCombatStanceTags::Neutral) ? {ALSXTWeaponReadyPositionTags::PatrolReady, ALSXTWeaponReadyPositionTags::HighReady, ALSXTWeaponReadyPositionTags::LowReady, ALSXTWeaponReadyPositionTags::Hidden } : { ALSXTWeaponReadyPositionTags::Ready, ALSXTWeaponReadyPositionTags::Retention, ALSXTWeaponReadyPositionTags::Hip, ALSXTWeaponReadyPositionTags::PatrolReady, ALSXTWeaponReadyPositionTags::HighReady, ALSXTWeaponReadyPositionTags::LowReady, ALSXTWeaponReadyPositionTags::Hidden };
+	if (AlsxtCharacterPlayer->GetDesiredCombatStance() == ALSXTCombatStanceTags::Neutral)
+	{
+		AvailablePositions = {ALSXTWeaponReadyPositionTags::PatrolReady, ALSXTWeaponReadyPositionTags::HighReady, ALSXTWeaponReadyPositionTags::LowReady, ALSXTWeaponReadyPositionTags::Hidden };
+	}
+	else
+	{
+		AvailablePositions = { ALSXTWeaponReadyPositionTags::Ready, ALSXTWeaponReadyPositionTags::Retention, ALSXTWeaponReadyPositionTags::Hip, ALSXTWeaponReadyPositionTags::PatrolReady, ALSXTWeaponReadyPositionTags::HighReady, ALSXTWeaponReadyPositionTags::LowReady, ALSXTWeaponReadyPositionTags::Hidden };
+	}
+	int CurrentIndex = AvailablePositions.IndexOfByKey(AlsxtCharacterPlayer->GetDesiredWeaponReadyPosition());
+	int NextIndex = (CurrentIndex + 1) > (AvailablePositions.Num() - 1) ? 0 : CurrentIndex + 1;
+
+	// if ((CurrentIndex + 1) > (AvailablePositions.Num() - 1))
+	// {
+	// 	NextIndex = 0;
+	// }
+	// else
+	// {
+	// 	NextIndex = CurrentIndex + 1;
+	// }
+	AlsxtCharacterPlayer->SetDesiredWeaponReadyPosition(AvailablePositions[NextIndex]);
+}
+
+void AAlsxtPlayerController::Input_OnSwitchGripPosition()
+{
+	if (AlsxtCharacterPlayer->CanSwitchGripPosition())
+	{
+		FGameplayTagContainer AvailableGripPositions = AlsxtCharacterPlayer->GetAvailableGripPositions();
+		TArray<FGameplayTag> AvailableGripPositionsArray;
+		AvailableGripPositions.GetGameplayTagArray(AvailableGripPositionsArray);
+		if (AvailableGripPositions.IsEmpty() || AvailableGripPositions.Num() == 1 && AvailableGripPositionsArray[0] == AlsxtCharacterPlayer->GetDesiredGripPosition())
+		{
+			return;
+		}
+		int LastIndex = AvailableGripPositionsArray.Num() - 1;
+		int CurrentIndex = AvailableGripPositionsArray.IndexOfByKey(AlsxtCharacterPlayer->GetDesiredGripPosition());
+		int NextIndex;
+		if ((CurrentIndex + 1) > LastIndex)
+		{
+			NextIndex = 0;
+		}
+		else
+		{
+			NextIndex = CurrentIndex + 1;
+		}
+
+		AlsxtCharacterPlayer->SetDesiredGripPosition(AvailableGripPositionsArray[NextIndex]);
+	}
+}
+
+void AAlsxtPlayerController::Input_OnSwitchForegripPosition()
+{
+	if (AlsxtCharacterPlayer->CanSwitchForegripPosition())
+	{
+		FGameplayTagContainer AvailableForegripPositions = AlsxtCharacterPlayer->GetAvailableForegripPositions();
+		TArray<FGameplayTag> AvailableForegripPositionsArray;
+		AvailableForegripPositions.GetGameplayTagArray(AvailableForegripPositionsArray);
+		if (AvailableForegripPositions.IsEmpty() || AvailableForegripPositions.Num() == 1 && AvailableForegripPositionsArray[0] == AlsxtCharacterPlayer->GetDesiredGripPosition())
+		{
+			return;
+		}
+		int LastIndex = AvailableForegripPositionsArray.Num() - 1;
+		int CurrentIndex = AvailableForegripPositionsArray.IndexOfByKey(AlsxtCharacterPlayer->GetDesiredForegripPosition());
+		int NextIndex;
+		if ((CurrentIndex + 1) > LastIndex)
+		{
+			NextIndex = 0;
+		}
+		else
+		{
+			NextIndex = CurrentIndex + 1;
+		}
+		
+		AlsxtCharacterPlayer->SetDesiredForegripPosition(AvailableForegripPositionsArray[NextIndex]);
+		FAlsxtHeldItemState NewHeldItemState = AlsxtCharacterPlayer->GetHeldItemState();
+		NewHeldItemState.GripState.Foregrip.Grip = IAlsxtHeldItemInterface::Execute_GetHeldItemForegrip(this);
+		AlsxtCharacterPlayer->SetHeldItemState(NewHeldItemState);
+	}
+}
+
+void AAlsxtPlayerController::Input_OnToggleGait()
+{
+	if (AlsxtCharacterPlayer->CanToggleGait())
+	{
+		if ((AlsxtCharacterPlayer->GetDesiredGait() == AlsGaitTags::Walking))
+		{
+			AlsxtCharacterPlayer->SetDesiredGait(AlsGaitTags::Running);
+		}
+		else
+		{
+			AlsxtCharacterPlayer->SetDesiredGait(AlsGaitTags::Walking);
+		}
+	}
+}
+
+void AAlsxtPlayerController::Input_OnToggleCombatReady()
+{
+	if (AlsxtCharacterPlayer->CanToggleCombatReady())
+	{
+		if ((AlsxtCharacterPlayer->GetDesiredCombatStance() == FGameplayTag::EmptyTag) || (AlsxtCharacterPlayer->GetDesiredCombatStance() == ALSXTCombatStanceTags::Neutral))
+		{
+			if (AlsxtCharacterPlayer->CanBecomeCombatReady())
+			{
+				AlsxtCharacterPlayer->SetDesiredCombatStance(ALSXTCombatStanceTags::Ready);
+				if (IAlsxtHeldItemInterface::Execute_IsHoldingAimableItem(this))
+				{
+					if (AlsxtCharacterPlayer->GetRotationMode() != AlsRotationModeTags::Aiming)
+					{
+						AlsxtCharacterPlayer->SetDesiredWeaponReadyPosition(ALSXTWeaponReadyPositionTags::LowReady);
+					}
+					else
+					{
+						AlsxtCharacterPlayer->SetDesiredWeaponReadyPosition(ALSXTWeaponReadyPositionTags::Ready);
+					}
+				}
+				else
+				{
+					AlsxtCharacterPlayer->SetDesiredWeaponReadyPosition(ALSXTWeaponReadyPositionTags::Ready);
+				}
+			}
+		}
+		else
+		{
+			AlsxtCharacterPlayer->SetDesiredCombatStance(ALSXTCombatStanceTags::Neutral);
+			AlsxtCharacterPlayer->SetDesiredWeaponReadyPosition(ALSXTWeaponReadyPositionTags::PatrolReady);
+		}
+	}
 }
