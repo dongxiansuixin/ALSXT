@@ -92,6 +92,10 @@
 			"Enabled": true
 		},
 		{
+			"Name": "PhysicsControl",
+			"Enabled": true
+		},
+		{
 			"Name": "DataRegistry",
 			"Enabled": true
 		}

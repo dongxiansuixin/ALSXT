@@ -59,7 +59,8 @@
 // #include "ALSXTAnimationInstance.h"
 #include "GameFramework/GameplayCameraComponent.h"
 #include "AbilitySystem/Data/AlsxtAbilitySystemData.h"
-
+#include "ContextualAnimSceneActorComponent.h"
+#include "PhysicsControlComponent.h"
 
 #include "AlsxtCharacter.generated.h"
 
@@ -125,6 +126,12 @@ public:
 
 	// Components
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UContextualAnimSceneActorComponent> ContextualAnimationComponent;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Physics Control")
+	TObjectPtr<UPhysicsControlComponent> PhysicsControlComponent;
+	
 	// Cameras
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	TObjectPtr<UGameplayCameraComponent> GameplayCamera;

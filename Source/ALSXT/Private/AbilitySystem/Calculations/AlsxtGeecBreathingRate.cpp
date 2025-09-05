@@ -1,12 +1,33 @@
 #include "AbilitySystem/Calculations/AlsxtGeecBreathingRate.h"
-#include "AbilitySystem/AttributeSets/AlsxtStaminaAttributeSet.h" // Assuming this is the attribute set class.
-#include "AbilitySystem/Calculations/AlsxtGeecBreathingRate.h"
+#include "AbilitySystem/AttributeSets/AlsxtStaminaAttributeSet.h"
 #include "GameplayEffect.h"
 #include "AbilitySystemComponent.h"
 
 // Define the attribute capture macro. This helps ensure proper attribute access.
-#define DEFINE_ATTRIBUTE_CAPTUREDEF(Attribute, CaptureType) \
-	Attribute##Def(UAlsxtStaminaAttributeSet::Get##Attribute##Attribute(), CaptureType)
+// DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtStaminaAttributeSet, CurrentStamina, Target, false);
+// #define DEFINE_ATTRIBUTE_CAPTUREDEF(Attribute, CaptureType) \
+// 	Attribute##Def(UAlsxtStaminaAttributeSet::Get##Attribute##Attribute(), CaptureType)
+
+struct FAlsxtBreathingRateStatics
+{
+	DECLARE_ATTRIBUTE_CAPTUREDEF(CurrentStamina);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(MaximumStamina);
+
+	FAlsxtBreathingRateStatics()
+	{
+		// Capture the Target's Stamina attribute.
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtStaminaAttributeSet, CurrentStamina, Target, false);
+		// Capture the Target's MaxStamina attribute.
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtStaminaAttributeSet, MaximumStamina, Target, false);
+
+	}
+};
+
+static const FAlsxtBreathingRateStatics& AlsxtBreathingRateStatics()
+{
+	static FAlsxtBreathingRateStatics Statics;
+	return Statics;
+}
 
 UAlsxtGeecBreathingRate::UAlsxtGeecBreathingRate()
 {
@@ -18,8 +39,11 @@ UAlsxtGeecBreathingRate::UAlsxtGeecBreathingRate()
 	// UAlsxtGeecBreathingRate::FBreathingRateCaptureDefinition UAlsxtGeecBreathingRate::BreathingRateCaptureDefinition;
 
 	// Add the capture definitions to the relevant attributes.
-	RelevantAttributesToCapture.Add(StaminaDef);
-	RelevantAttributesToCapture.Add(MaxStaminaDef);
+	// Add the captured attributes to the RelevantAttributesToCapture array.
+	RelevantAttributesToCapture.Add(AlsxtBreathingRateStatics().CurrentStaminaDef);
+	RelevantAttributesToCapture.Add(AlsxtBreathingRateStatics().MaximumStaminaDef);
+	// RelevantAttributesToCapture.Add(StaminaDef);
+	// RelevantAttributesToCapture.Add(MaxStaminaDef);
 	// RelevantAttributesToCapture.Add(BreathingRateCaptureDefinition.HoldingBreathLengthDef);
 }
 

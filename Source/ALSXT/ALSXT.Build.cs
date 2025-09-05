@@ -38,6 +38,7 @@ public class ALSXT : ModuleRules
 			"GameplayTasks",
 			"Chooser",
 			"ContextualAnimation",
+			"PhysicsControl",
 			"DataRegistry",
 #if UE_5_5_OR_LATER
 			// pass

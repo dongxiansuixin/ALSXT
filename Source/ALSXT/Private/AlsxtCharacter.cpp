@@ -405,6 +405,11 @@ AAlsxtCharacter::AAlsxtCharacter(const FObjectInitializer& ObjectInitializer) :
 	ALSXTMesh->bReceivesDecals = false;
 
 	// Code Components
+	PhysicsControlComponent = CreateDefaultSubobject<UPhysicsControlComponent>(TEXT("Physics Control Component"));
+    PhysicsControlComponent->SetupAttachment(GetMesh());
+	
+	ContextualAnimationComponent = CreateDefaultSubobject<UContextualAnimSceneActorComponent>(TEXT("Contextual Animation Component"));
+	AddOwnedComponent(ContextualAnimationComponent);
 	
 	CharacterCustomization = CreateDefaultSubobject<UAlsxtCharacterCustomizationComponent>(TEXT("Character Customization"));
 	AddOwnedComponent(CharacterCustomization);

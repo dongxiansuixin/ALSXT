@@ -4,13 +4,13 @@
 #include "AbilitySystem/AttributeSets//AlsxtStaminaAttributeSet.h"
 
 // Set up attribute capture definitions. These are used to specify which attributes the execution calculation needs.
-struct ALSXT_HoldingBreathDurationStatics
+struct FAlsxtHoldingBreathDurationStatics
 {
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CurrentStamina);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(MaximumStamina);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CurrentHoldBreathDuration);
 
-	ALSXT_HoldingBreathDurationStatics()
+	FAlsxtHoldingBreathDurationStatics()
 	{
 		// Capture the Target's Stamina attribute.
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtStaminaAttributeSet, CurrentStamina, Target, false);
@@ -21,9 +21,9 @@ struct ALSXT_HoldingBreathDurationStatics
 	}
 };
 
-static const ALSXT_HoldingBreathDurationStatics& HoldingBreathDurationStatics()
+static const FAlsxtHoldingBreathDurationStatics& HoldingBreathDurationStatics()
 {
-	static ALSXT_HoldingBreathDurationStatics Statics;
+	static FAlsxtHoldingBreathDurationStatics Statics;
 	return Statics;
 }
 
