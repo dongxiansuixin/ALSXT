@@ -1,0 +1,69 @@
+name: Unreal Plugin Cross-Platform Build
+
+on:
+  push:
+    branches:
+      - stable
+  pull_request:
+    branches:
+      - stable
+
+jobs:
+  build-windows:
+    runs-on: [self-hosted, windows-latest, x64]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: true # If your plugin has submodules
+
+    - name: Setup Unreal Engine (Windows)
+      # Use a pre-built Unreal Engine setup action or manually download/install
+      # For free tier, consider using a minimal engine version if possible,
+      # or focusing on a specific engine version to reduce download size.
+      # Example: Using a community-maintained action if available, or a custom script.
+      # This step is the most critical for free tier usage due to download/disk space.
+      # A custom script to download a specific, minimal engine version from Epic Games
+      # or a pre-configured environment in a self-hosted runner would be optimal.
+      run: |
+        # Example placeholder for setting up Unreal Engine
+        # This would involve downloading and extracting a specific UE version
+        # from Epic's CDN (requires authentication) or a pre-cached version.
+        # For free tier, manually managing engine versions is often required.
+        echo "Setting up Unreal Engine for Windows..."
+        # Add your specific commands here to download/configure UE.
+
+    - name: Build Plugin (Windows)
+      run: |
+        # Replace with your actual build command for the plugin
+        # Example: Using UnrealBuildTool
+        # "C:\Program Files\Epic Games\UE_VERSION\Engine\Build\BatchFiles\RunUAT.bat" BuildPlugin -Plugin="ASLXT.uplugin" -Package=".\Builds\Windows" -TargetPlatforms=Win64
+        echo "Building Plugin for Windows..."
+        
+    - name: Return True
+      run: echo "Return true."
+
+  build-linux:
+    runs-on: [self-hosted, ubuntu-latest, x64]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Setup Unreal Engine (Linux)
+      # Similar to Windows, this step needs careful consideration for free tier.
+      # Focus on downloading a minimal engine or using a pre-cached environment.
+      run: |
+        echo "Setting up Unreal Engine for Linux..."
+        # Add your specific commands here to download/configure UE.
+
+    - name: Build Plugin (Linux)
+      run: |
+        # Replace with your actual build command for the plugin
+        # Example: Using UnrealBuildTool
+        # /home/runner/work/UE_VERSION/Engine/Build/BatchFiles/RunUAT.sh BuildPlugin -Plugin="ASLXT.uplugin" -Package="./Builds/Linux" -TargetPlatforms=Linux
+        echo "Building Plugin for Linux..."
+        
+    - name: Return True
+      run: echo "Return true."
