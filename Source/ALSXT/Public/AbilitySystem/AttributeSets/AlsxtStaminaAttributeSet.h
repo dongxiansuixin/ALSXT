@@ -1,4 +1,5 @@
-// MIT
+// Copyright (C) 2025 Uriel Ballinas, VOIDWARE Prohibited. All rights reserved.
+// This software is licensed under the MIT License (LICENSE.md).
 
 #pragma once
 
@@ -7,21 +8,19 @@
 #include "AlsxtAttributeSetBase.h"
 #include "AlsxtStaminaAttributeSet.generated.h"
 
-
-// Contains Attributes related to Stamina. Any Character that uses Stamina will need this Attribute Set.
-//
-//	Contents:
-//	
-//	CurrentStamina - Primarily used as a cost resource for Abilities.
-//	MaximumStamina - The maximum amount of Stamina the Character can have.
-//	StaminaRegeneration - How much Stamina is gained per period of Regeneration.
+/**
+* @file AlsxtStaminaAttributeSet.h
+* @brief Contains Attributes related to Stamina. Any Character that uses Stamina will need this Attribute Set.
+* @attribute CurrentStamina - Primarily used as a cost resource for Abilities.
+* @attribute MaximumStamina - The maximum amount of Stamina the Character can have.
+* @attribute StaminaRegeneration - How much Stamina is gained per period of Regeneration.
+*/
 UCLASS()
 class ALSXT_API UAlsxtStaminaAttributeSet : public UAlsxtAttributeSetBase
 {
 	GENERATED_BODY()
 
 public:
-	
 	UAlsxtStaminaAttributeSet();
 
 	// Attribute Set Overrides.

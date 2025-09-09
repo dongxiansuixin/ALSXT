@@ -28,5 +28,8 @@ public:
 	virtual UAlsxtAbilitySystemComponent* GetAlsxtAbilitySystemComponent() const override;
 
 	virtual void BeginPlay() override;
-	
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Input", Meta = (DisplayThumbnail = false))
+	TObjectPtr<UInputMappingContext> InputMappingContextNew;
 };
