@@ -11,7 +11,6 @@
 #include "Components/SceneCaptureComponent2D.h"
 #include "Components/Mesh/AlsxtPaintableSkeletalMeshComponent.h"
 #include "Components/Mesh/AlsxtPaintableStaticMeshComponent.h"
-#include "Components/Character/AlsxtCharacterCustomizationComponent.h"
 #include "Components/Character/AlsxtImpactReactionComponent.h"
 #include "Components/Character/AlsxtCharacterSoundComponent.h"
 #include "Components/GameFrameworkComponentManager.h"
@@ -95,13 +94,13 @@ class ALSXT_API AAlsxtCharacter : public AAlsCharacter, public IAlsxtAbilitySyst
 protected:
 	// Data used to initialize the Ability System Component. (Can be found in "AbilitySystemData.h")
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability System", Meta = (ShowOnlyInnerProperties))
-	FAbilitySystemInitializationData AbilitySystemInitializationData;
+	FAlsxtAbilitySystemInitializationData AbilitySystemInitializationData;
 	
 
 public:
 	AAlsxtCharacter(const FObjectInitializer& ObjectInitializer);
 
-	virtual const FAbilitySystemInitializationData& GetAbilitySystemInitializationData() const override
+	virtual const FAlsxtAbilitySystemInitializationData& GetAbilitySystemInitializationData() const override
 	{
 		return AbilitySystemInitializationData;
 	}
@@ -244,9 +243,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowPrivateAccess))
 	class UAlsxtCharacterSoundComponent* CharacterSound;
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
-	class UAlsxtCharacterCustomizationComponent* CharacterCustomization;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess))
 	class UPhysicalAnimationComponent* PhysicalAnimation;

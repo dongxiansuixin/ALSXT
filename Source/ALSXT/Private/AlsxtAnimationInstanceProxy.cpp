@@ -1,8 +1,6 @@
 #include "AlsxtAnimationInstanceProxy.h"
 #include "AlsxtAnimationInstance.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTAnimationInstanceProxy)
-
 FAlsxtAnimationInstanceProxy::FAlsxtAnimationInstanceProxy(UAnimInstance* AnimationInstance): FAnimInstanceProxy{AnimationInstance} {}
 
 void FAlsxtAnimationInstanceProxy::PostUpdate(UAnimInstance* AnimationInstance) const

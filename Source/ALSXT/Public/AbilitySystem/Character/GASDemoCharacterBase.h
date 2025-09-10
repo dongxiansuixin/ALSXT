@@ -36,7 +36,7 @@ public:
 	void PostInitializeAbilitySystem();
 
 	UFUNCTION(BlueprintPure)
-	const FAbilitySystemInitializationData& GetAbilitySystemInitializationData() const
+	const FAlsxtAbilitySystemInitializationData& GetAbilitySystemInitializationData() const
 	{
 		return AbilitySystemInitializationData;
 	}
@@ -44,7 +44,7 @@ protected:
 
 	// Data used to initialize the Ability System Component. (Can be found in "AbilitySystemData.h")
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability System", Meta = (ShowOnlyInnerProperties))
-	FAbilitySystemInitializationData AbilitySystemInitializationData;
+	FAlsxtAbilitySystemInitializationData AbilitySystemInitializationData;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UAlsxtAbilitySystemComponent> AbilitySystemComponent;

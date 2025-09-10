@@ -43,7 +43,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void PostInitializeAbilitySystem();
 	
-	virtual const FAbilitySystemInitializationData& GetAbilitySystemInitializationData() const override
+	virtual const FAlsxtAbilitySystemInitializationData& GetAbilitySystemInitializationData() const override
 	{
 		return AbilitySystemInitializationData;
 	}
@@ -51,7 +51,7 @@ public:
 protected:
 	// Data used to initialize the Ability System Component. (Can be found in "AbilitySystemData.h")
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability System", Meta = (ShowOnlyInnerProperties))
-	FAbilitySystemInitializationData AbilitySystemInitializationData;
+	FAlsxtAbilitySystemInitializationData AbilitySystemInitializationData;
 	
 	UAlsxtAbilitySystemComponent* AbilitySystemComponent;
 	

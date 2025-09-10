@@ -1,7 +1,5 @@
 #include "Settings/AlsxtAnimationInstanceSettings.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTAnimationInstanceSettings)
-
 UAlsxtAnimationInstanceSettings::UAlsxtAnimationInstanceSettings()
 {
 	InAir.GroundPredictionResponseChannels =

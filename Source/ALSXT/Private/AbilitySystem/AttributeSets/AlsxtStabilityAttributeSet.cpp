@@ -39,7 +39,7 @@ void UAlsxtStabilityAttributeSet::PreAttributeBaseChange(const FGameplayAttribut
 	Super::PreAttributeBaseChange(Attribute, NewValue);
 	// const FCustomAttributeMaxValue* MaximumValue;
 
-	if (const FCustomAttributeMaxValue* MaximumValue = AttributeMaxValue.Find(Attribute))
+	if (const FAlsxtCustomAttributeMaxValue* MaximumValue = AttributeMaxValue.Find(Attribute))
 	{
 		// const float Max = MaximumValue->MaxAttribute.IsValid() ? MaximumValue->MaxAttribute.GetNumericValue(this) : MaximumValue->MaxFloat.GetValueAtLevel(0);
 

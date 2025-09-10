@@ -408,7 +408,7 @@ void AAlsxtCharacterAdvanced::BeginHoldBreathTimer()
 	NewBreathState.CurrentMaxHoldBreathTime = CalculateHoldBreathTimer();
 	SetBreathState(NewBreathState);
 	GetWorld()->GetTimerManager().SetTimer(HoldBreathTimerHandle, HoldBreathTimerDelegate, 0.1f, true);
-	CharacterSound->PlayHoldingBreathSound(ALSXTHoldingBreathTags::True, CharacterCustomization->GetVoiceParameters().Sex, CharacterCustomization->GetVoiceParameters().Variant, IAlsxtCharacterInterface::Execute_GetStamina(this));
+	CharacterSound->PlayHoldingBreathSound(ALSXTHoldingBreathTags::True, IAlsxtCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this).Sex, IAlsxtCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this).Variant, IAlsxtCharacterInterface::Execute_GetStamina(this));
 }
 
 void AAlsxtCharacterAdvanced::HoldBreathTimer()
@@ -435,7 +435,7 @@ void AAlsxtCharacterAdvanced::EndHoldBreathTimer()
 	NewBreathState.BreathRecoveryTime = CalculateBreathRecoveryTime();
 	SetDesiredHoldingBreath(BreathReleaseMode);
 	SetBreathState(NewBreathState);
-	CharacterSound->PlayHoldingBreathSound(BreathReleaseMode, CharacterCustomization->GetVoiceParameters().Sex, CharacterCustomization->GetVoiceParameters().Variant, IAlsxtCharacterInterface::Execute_GetStamina(this));
+	CharacterSound->PlayHoldingBreathSound(BreathReleaseMode, IAlsxtCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this).Sex, IAlsxtCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this).Variant, IAlsxtCharacterInterface::Execute_GetStamina(this));
 	GetWorld()->GetTimerManager().ClearTimer(HoldBreathTimerHandle);
 
 	BeginBreathRecoveryTimer();

@@ -86,7 +86,7 @@ class ALSXT_API UAlsxtNutritionAttributeSet : public UAlsxtAttributeSetBase
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	TMap<FGameplayAttribute, FCustomAttributeMaxValue> AttributeMaxValue;
+	TMap<FGameplayAttribute, FAlsxtCustomAttributeMaxValue> AttributeMaxValue;
 	
 	UFUNCTION()
 	virtual void OnRep_CurrentNutrition(const FGameplayAttributeData& OldValue);

@@ -29,7 +29,7 @@ AAlsxtPlayerState::AAlsxtPlayerState(const FObjectInitializer& ObjectInitializer
 
 	// Set Replication Mode to Mixed for Players.
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
-	AbilitySystemInitializationData = FAbilitySystemInitializationData();
+	AbilitySystemInitializationData = FAlsxtAbilitySystemInitializationData();
 }
 
 void AAlsxtPlayerState::BeginPlay()

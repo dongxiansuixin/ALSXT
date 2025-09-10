@@ -12,7 +12,7 @@ class UAbilitySystemComponent;
 class UGameplayAbility;
 class UAttributeSet;
 
-enum class EAttributeSearchType : uint8;
+enum class EAlsxtAttributeSearchType : uint8;
 
 // Contains helper functions that make interacting with the Gameplay Abilities System easier.
 UCLASS()
@@ -28,11 +28,11 @@ public:
 	// Tries to find the Actor's Ability System Component using the IAbilitySystemInterface.
 	// If the Ability System Component is found; attempts to find the value of the Attribute supplied.
 	UFUNCTION(BlueprintCallable, Category = "Ability System")
-	static float GetAttributeValueFromActor(const AActor* const Actor, const FGameplayAttribute Attribute, const EAttributeSearchType SearchType);
+	static float GetAttributeValueFromActor(const AActor* const Actor, const FGameplayAttribute Attribute, const EAlsxtAttributeSearchType SearchType);
 	
 	// Attempts to find the value of the Attribute supplied.
 	UFUNCTION(BlueprintCallable, Category = "Ability System")
-	static float GetAttributeValueFromAbilitySystem(const UAbilitySystemComponent* const AbilitySystemComponent, const FGameplayAttribute Attribute, const EAttributeSearchType SearchType);
+	static float GetAttributeValueFromAbilitySystem(const UAbilitySystemComponent* const AbilitySystemComponent, const FGameplayAttribute Attribute, const EAlsxtAttributeSearchType SearchType);
 
 	// Return damage multiplier
 	UFUNCTION(BlueprintCallable, Category = "Ability System")
@@ -54,5 +54,5 @@ public:
 	static const AActor* GetTargetActorFromGameplayEffectSpec(const FGameplayEffectSpec& EffectSpec);
 private:
 
-	static void GetAttributeValue(const UAbilitySystemComponent* const AbilitySystemComponent, const FGameplayAttribute& Attribute, const EAttributeSearchType SearchType, OUT float& ReturnValue);
+	static void GetAttributeValue(const UAbilitySystemComponent* const AbilitySystemComponent, const FGameplayAttribute& Attribute, const EAlsxtAttributeSearchType SearchType, OUT float& ReturnValue);
 };

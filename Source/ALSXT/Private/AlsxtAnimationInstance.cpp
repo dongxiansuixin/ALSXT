@@ -14,8 +14,6 @@
 #include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
 #include "AbilitySystem/AttributeSets/AlsxtStaminaAttributeSet.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTAnimationInstance)
-
 UAlsxtAnimationInstance::UAlsxtAnimationInstance()
 {
 	RootMotionMode = ERootMotionMode::RootMotionFromMontagesOnly;

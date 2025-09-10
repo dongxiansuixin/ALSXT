@@ -63,7 +63,7 @@ void UAlsxtAbilitySystemComponent::ChangeLevel_Implementation(const float Desire
 	
 	if (const AAlsxtCharacter* const CharacterBase = GetAlsxtBaseAvatar())
 	{
-		const FAbilitySystemInitializationData& Data = CharacterBase->GetAbilitySystemInitializationData();
+		const FAlsxtAbilitySystemInitializationData& Data = CharacterBase->GetAbilitySystemInitializationData();
 		// for (const TTuple<FGameplayAttribute, FCustomAttributeInitializer>& AttributeBaseValue : Cast<FAbilitySystemInitializationData>(CharacterBase->GetAbilitySystemInitializationData()))
 		// {
 		// 	// Don't touch the level itself.
@@ -200,7 +200,7 @@ FActiveGameplayEffectHandle UAlsxtAbilitySystemComponent::ApplyGameplayEffectSpe
 	return Super::ApplyGameplayEffectSpecToTarget(GameplayEffect, Target, PredictionKey);
 }
 
- void UAlsxtAbilitySystemComponent::InitializeAbilitySystemData(const FAbilitySystemInitializationData& InitializationData, AActor* InOwningActor, AActor* InAvatarActor)
+ void UAlsxtAbilitySystemComponent::InitializeAbilitySystemData(const FAlsxtAbilitySystemInitializationData& InitializationData, AActor* InOwningActor, AActor* InAvatarActor)
  {
  	if (AbilitySystemDataInitialized)
  	{
@@ -244,7 +244,7 @@ FActiveGameplayEffectHandle UAlsxtAbilitySystemComponent::ApplyGameplayEffectSpe
  	// Set base attribute values if the map isn't empty.
  	if (!InitializationData.AttributeBaseValues.IsEmpty())
  	{
- 		for (const TTuple<FGameplayAttribute, FCustomAttributeInitializer>& AttributeBaseValue : InitializationData.AttributeBaseValues)
+ 		for (const TTuple<FGameplayAttribute, FAlsxtCustomAttributeInitializer>& AttributeBaseValue : InitializationData.AttributeBaseValues)
  		{
  			if (HasAttributeSetForAttribute(AttributeBaseValue.Key))
  			{

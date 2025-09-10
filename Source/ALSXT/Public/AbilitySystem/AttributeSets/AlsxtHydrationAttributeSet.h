@@ -86,7 +86,7 @@ class ALSXT_API UAlsxtHydrationAttributeSet : public UAlsxtAttributeSetBase
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	TMap<FGameplayAttribute, FCustomAttributeMaxValue> AttributeMaxValue;
+	TMap<FGameplayAttribute, FAlsxtCustomAttributeMaxValue> AttributeMaxValue;
 	
 	UFUNCTION()
 	virtual void OnRep_CurrentHydration(const FGameplayAttributeData& OldValue);

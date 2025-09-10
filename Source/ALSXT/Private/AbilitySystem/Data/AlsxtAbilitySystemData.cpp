@@ -2,7 +2,7 @@
 
 #include "AbilitySystem/Data/AlsxtAbilitySystemData.h"
 
-bool FCustomGameplayEffectContext::NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess)
+bool FAlsxtCustomGameplayEffectContext::NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess)
 {
     bool bCombinedSuccess = FGameplayEffectContext::NetSerialize(Ar, Map, bOutSuccess);
 
@@ -40,17 +40,17 @@ bool FCustomGameplayEffectContext::NetSerialize(FArchive& Ar, class UPackageMap*
     return bCombinedSuccess;
 }
 
-bool FGameplayEffectContainerSpec::HasValidEffects() const
+bool FAlsxtGameplayEffectContainerSpec::HasValidEffects() const
 {
     return !TargetGameplayEffectSpecs.IsEmpty();
 }
 
-bool FGameplayEffectContainerSpec::HasValidTargets() const
+bool FAlsxtGameplayEffectContainerSpec::HasValidTargets() const
 {
     return TargetData.Num() > 0;
 }
 
-void FGameplayEffectContainerSpec::AddTargets(const TArray<FGameplayAbilityTargetDataHandle>& InTargetData, const TArray<FHitResult>& HitResults, const TArray<AActor*>& TargetActors)
+void FAlsxtGameplayEffectContainerSpec::AddTargets(const TArray<FGameplayAbilityTargetDataHandle>& InTargetData, const TArray<FHitResult>& HitResults, const TArray<AActor*>& TargetActors)
 {
     for (const FGameplayAbilityTargetDataHandle& TD : InTargetData)
     {
@@ -71,7 +71,7 @@ void FGameplayEffectContainerSpec::AddTargets(const TArray<FGameplayAbilityTarge
     }
 }
 
-void FGameplayEffectContainerSpec::ClearTargets()
+void FAlsxtGameplayEffectContainerSpec::ClearTargets()
 {
     TargetData.Clear();
 }

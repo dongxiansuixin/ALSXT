@@ -86,7 +86,7 @@ class ALSXT_API UAlsxtStabilityAttributeSet : public UAlsxtAttributeSetBase
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	TMap<FGameplayAttribute, FCustomAttributeMaxValue> AttributeMaxValue;
+	TMap<FGameplayAttribute, FAlsxtCustomAttributeMaxValue> AttributeMaxValue;
 	
 	UFUNCTION()
 	virtual void OnRep_CurrentStability(const FGameplayAttributeData& OldValue);

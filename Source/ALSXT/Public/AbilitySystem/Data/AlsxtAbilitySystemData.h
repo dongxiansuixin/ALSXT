@@ -11,13 +11,13 @@
 #include "StructUtils/InstancedStruct.h"
 #include "AlsxtAbilitySystemData.generated.h"
 
-struct FCustomAttributeInitializer;
+struct FAlsxtCustomAttributeInitializer;
 class UAttributeSet;
 class UGameplayAbility;
 class UGameplayEffect;
 
 USTRUCT(Blueprintable)
-struct ALSXT_API FCustomAttributeMaxValue
+struct ALSXT_API FAlsxtCustomAttributeMaxValue
 {
 	GENERATED_BODY()
 
@@ -29,7 +29,7 @@ struct ALSXT_API FCustomAttributeMaxValue
 };
 
 USTRUCT(Blueprintable)
-struct ALSXT_API FCustomAttributeInitializer
+struct ALSXT_API FAlsxtCustomAttributeInitializer
 {
 	GENERATED_BODY()
 
@@ -39,7 +39,7 @@ struct ALSXT_API FCustomAttributeInitializer
 
 // Contains data used to initialize an Ability System Component.
 USTRUCT(BlueprintType)
-struct ALSXT_API FAbilitySystemInitializationData
+struct ALSXT_API FAlsxtAbilitySystemInitializationData
 {
 	GENERATED_BODY()
 
@@ -49,7 +49,7 @@ struct ALSXT_API FAbilitySystemInitializationData
 
 	// A map of Attributes / float used to set base values.
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
-	TMap<FGameplayAttribute, FCustomAttributeInitializer> AttributeBaseValues;
+	TMap<FGameplayAttribute, FAlsxtCustomAttributeInitializer> AttributeBaseValues;
 
 	// An Array of Gameplay Abilities to give.
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
@@ -66,7 +66,7 @@ struct ALSXT_API FAbilitySystemInitializationData
 
 // Returns the value of an Attribute based on the search type.
 UENUM(BlueprintType)
-enum class EAttributeSearchType : uint8
+enum class EAlsxtAttributeSearchType : uint8
 {
 	// Returns the final value of the Attribute including all stateful Gameplay Effect modifiers.
 	FinalValue,
@@ -79,11 +79,11 @@ enum class EAttributeSearchType : uint8
 };
 
 USTRUCT(BlueprintType)
-struct ALSXT_API FCustomContextDataBase
+struct ALSXT_API FAlsxtCustomContextDataBase
 {
 	GENERATED_BODY()
 	
-	virtual ~FCustomContextDataBase() = default;
+	virtual ~FAlsxtCustomContextDataBase() = default;
 	
 	/** Overridden to serialize new fields */
 	virtual bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess)
@@ -91,11 +91,11 @@ struct ALSXT_API FCustomContextDataBase
 		return true;
 	};
 	
-	FCustomContextDataBase() {}
+	FAlsxtCustomContextDataBase() {}
 };
 
 template <>
-struct ALSXT_API TStructOpsTypeTraits<FCustomContextDataBase> : public TStructOpsTypeTraitsBase2<FCustomContextDataBase>
+struct ALSXT_API TStructOpsTypeTraits<FAlsxtCustomContextDataBase> : public TStructOpsTypeTraitsBase2<FAlsxtCustomContextDataBase>
 {
 	enum
 	{
@@ -106,7 +106,7 @@ struct ALSXT_API TStructOpsTypeTraits<FCustomContextDataBase> : public TStructOp
 
 
 USTRUCT(BlueprintType)
-struct ALSXT_API FCustomGameplayEffectContext : public FGameplayEffectContext
+struct ALSXT_API FAlsxtCustomGameplayEffectContext : public FGameplayEffectContext
 {
 	GENERATED_BODY()
 	
@@ -150,7 +150,7 @@ public:
 	template <typename T>
 	void AddCustomContextData(const T& Fragment)
 	{
-		TInstancedStruct<FCustomContextDataBase> InstancedStruct;
+		TInstancedStruct<FAlsxtCustomContextDataBase> InstancedStruct;
 		InstancedStruct.InitializeAs<T>();
 		T& Mutable = InstancedStruct.GetMutable<T>();
 		Mutable = Fragment;
@@ -161,13 +161,13 @@ public:
 	/** Returns the actual struct used for serialization, subclasses must override this! */
 	virtual UScriptStruct* GetScriptStruct() const override
 	{
-		return FCustomGameplayEffectContext::StaticStruct();
+		return FAlsxtCustomGameplayEffectContext::StaticStruct();
 	}
  
 	/** Creates a copy of this context, used to duplicate for later modifications */
-	virtual FCustomGameplayEffectContext* Duplicate() const override
+	virtual FAlsxtCustomGameplayEffectContext* Duplicate() const override
 	{
-		FCustomGameplayEffectContext* NewContext = new FCustomGameplayEffectContext();
+		FAlsxtCustomGameplayEffectContext* NewContext = new FAlsxtCustomGameplayEffectContext();
 		*NewContext = *this;
 		NewContext->AddActors(Actors);
 		
@@ -183,7 +183,7 @@ public:
 };
  
 template <>
-struct ALSXT_API TStructOpsTypeTraits<FCustomGameplayEffectContext> : public TStructOpsTypeTraitsBase2<FCustomGameplayEffectContext>
+struct ALSXT_API TStructOpsTypeTraits<FAlsxtCustomGameplayEffectContext> : public TStructOpsTypeTraitsBase2<FAlsxtCustomGameplayEffectContext>
 {
 	enum
 	{
@@ -195,12 +195,12 @@ struct ALSXT_API TStructOpsTypeTraits<FCustomGameplayEffectContext> : public TSt
 
 /** A "processed" version of GSGameplayEffectContainer that can be passed around and eventually applied */
 USTRUCT(BlueprintType)
-struct ALSXT_API FGameplayEffectContainerSpec
+struct ALSXT_API FAlsxtGameplayEffectContainerSpec
 {
 	GENERATED_BODY()
 
 public:
-	FGameplayEffectContainerSpec() {}
+	FAlsxtGameplayEffectContainerSpec() {}
 
 	/** Computed target data */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GameplayEffectContainer)

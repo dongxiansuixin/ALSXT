@@ -3,8 +3,6 @@
 #include "AlsxtAdvancedAnimationInstance.h"
 #include "AlsxtAnimationInstance.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTAdvancedAnimationInstanceProxy)
-
 FAlsxtAdvancedAnimationInstanceProxy::FAlsxtAdvancedAnimationInstanceProxy(UAnimInstance* AnimationInstance): FAlsxtAnimationInstanceProxy{AnimationInstance} {}
 
 void FAlsxtAdvancedAnimationInstanceProxy::PostUpdate(UAnimInstance* AnimationInstance) const

@@ -14,7 +14,7 @@ AActor* UCustomAbilitySystemBlueprintLibrary::GetInstigatorFromGameplayEffectSpe
 	return Spec.GetEffectContext().GetInstigator();
 }
 
-float UCustomAbilitySystemBlueprintLibrary::GetAttributeValueFromActor(const AActor* const Actor, const FGameplayAttribute Attribute, const EAttributeSearchType SearchType)
+float UCustomAbilitySystemBlueprintLibrary::GetAttributeValueFromActor(const AActor* const Actor, const FGameplayAttribute Attribute, const EAlsxtAttributeSearchType SearchType)
 {
 	const UAbilitySystemComponent* const AbilitySystemComponent = UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(Actor);
 	
@@ -29,7 +29,7 @@ float UCustomAbilitySystemBlueprintLibrary::GetAttributeValueFromActor(const AAc
 	return ReturnValue;
 }
 
-float UCustomAbilitySystemBlueprintLibrary::GetAttributeValueFromAbilitySystem(const UAbilitySystemComponent* const AbilitySystemComponent, const FGameplayAttribute Attribute, const EAttributeSearchType SearchType)
+float UCustomAbilitySystemBlueprintLibrary::GetAttributeValueFromAbilitySystem(const UAbilitySystemComponent* const AbilitySystemComponent, const FGameplayAttribute Attribute, const EAlsxtAttributeSearchType SearchType)
 {
 	float ReturnValue = -1.0f;
 
@@ -53,7 +53,7 @@ float UCustomAbilitySystemBlueprintLibrary::GetValueAtLevel(const FScalableFloat
 
 void UCustomAbilitySystemBlueprintLibrary::SetTargetOnGameplayEffectContext(FGameplayEffectContextHandle& ContextHandle,	const AActor* TargetActor)
 {
-	if (FCustomGameplayEffectContext* const EffectContext = static_cast<FCustomGameplayEffectContext*>(ContextHandle.Get()))
+	if (FAlsxtCustomGameplayEffectContext* const EffectContext = static_cast<FAlsxtCustomGameplayEffectContext*>(ContextHandle.Get()))
 	{
 		EffectContext->SetTargetActor(TargetActor);
 	}
@@ -66,7 +66,7 @@ void UCustomAbilitySystemBlueprintLibrary::SetTargetOnGameplayEffectContextFromS
 
 const AActor* UCustomAbilitySystemBlueprintLibrary::GetTargetActorFromGameplayEffectContext(const FGameplayEffectContextHandle& ContextHandle)
 {
-	if (const FCustomGameplayEffectContext* const EffectContext = static_cast<const FCustomGameplayEffectContext*>(ContextHandle.Get()))
+	if (const FAlsxtCustomGameplayEffectContext* const EffectContext = static_cast<const FAlsxtCustomGameplayEffectContext*>(ContextHandle.Get()))
 	{
 		return EffectContext->GetTargetActor();
 	}
@@ -78,7 +78,7 @@ const AActor* UCustomAbilitySystemBlueprintLibrary::GetTargetActorFromGameplayEf
 	return GetTargetActorFromGameplayEffectContext(EffectSpec.GetEffectContext());
 }
 
-void UCustomAbilitySystemBlueprintLibrary::GetAttributeValue(const UAbilitySystemComponent* const AbilitySystemComponent, const FGameplayAttribute& Attribute, const EAttributeSearchType SearchType, OUT float& ReturnValue)
+void UCustomAbilitySystemBlueprintLibrary::GetAttributeValue(const UAbilitySystemComponent* const AbilitySystemComponent, const FGameplayAttribute& Attribute, const EAlsxtAttributeSearchType SearchType, OUT float& ReturnValue)
 {
 	ReturnValue = -1.0f;
 	
@@ -89,21 +89,21 @@ void UCustomAbilitySystemBlueprintLibrary::GetAttributeValue(const UAbilitySyste
 
 	switch (SearchType)
 	{
-	case EAttributeSearchType::FinalValue:
+	case EAlsxtAttributeSearchType::FinalValue:
 		{
 			ReturnValue = AbilitySystemComponent->GetNumericAttribute(Attribute);
 
 			return;
 		}
 
-	case EAttributeSearchType::BaseValue:
+	case EAlsxtAttributeSearchType::BaseValue:
 		{
 			ReturnValue = AbilitySystemComponent->GetNumericAttributeBase(Attribute);
 
 			return;
 		}
 
-	case EAttributeSearchType::BonusValue:
+	case EAlsxtAttributeSearchType::BonusValue:
 		{
 			ReturnValue = AbilitySystemComponent->GetNumericAttribute(Attribute) - AbilitySystemComponent->
 				GetNumericAttributeBase(Attribute);

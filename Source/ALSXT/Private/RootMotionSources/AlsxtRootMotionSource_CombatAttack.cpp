@@ -11,9 +11,6 @@
 #include "Utility/AlsMacros.h"
 #include "Interfaces/AlsxtCombatInterface.h"
 
-// ReSharper disable once CppUnusedIncludeDirective
-#include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTRootMotionSource_CombatAttack)
-
 FAlsxtRootMotionSource_CombatAttack::FAlsxtRootMotionSource_CombatAttack()
 {
 	Priority = 1000;

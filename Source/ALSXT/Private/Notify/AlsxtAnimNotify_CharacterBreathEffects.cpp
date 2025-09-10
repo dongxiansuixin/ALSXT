@@ -1,6 +1,5 @@
 // MIT
 
-
 #include "Notify/AlsxtAnimNotify_CharacterBreathEffects.h"
 #include "AlsCharacter.h"
 #include "Kismet/GameplayStatics.h"
@@ -9,9 +8,6 @@
 #include "Interfaces/AlsxtCharacterInterface.h"
 #include "Interfaces/AlsxtCharacterSoundComponentInterface.h"
 #include "NiagaraFunctionLibrary.h"
-
-// ReSharper disable once CppUnusedIncludeDirective
-#include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTAnimNotify_CharacterBreathEffects)
 
 FString UAlsxtAnimNotify_CharacterBreathEffects::GetNotifyName_Implementation() const
 {

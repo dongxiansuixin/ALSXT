@@ -1,7 +1,5 @@
 #include "Settings/AlsxtAdvancedAnimationInstanceSettings.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTAdvancedAnimationInstanceSettings)
-
 UAlsxtAdvancedAnimationInstanceSettings::UAlsxtAdvancedAnimationInstanceSettings()
 {
 	Param = true;

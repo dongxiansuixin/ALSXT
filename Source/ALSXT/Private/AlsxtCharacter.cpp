@@ -410,9 +410,6 @@ AAlsxtCharacter::AAlsxtCharacter(const FObjectInitializer& ObjectInitializer) :
 	
 	ContextualAnimationComponent = CreateDefaultSubobject<UContextualAnimSceneActorComponent>(TEXT("Contextual Animation Component"));
 	AddOwnedComponent(ContextualAnimationComponent);
-	
-	CharacterCustomization = CreateDefaultSubobject<UAlsxtCharacterCustomizationComponent>(TEXT("Character Customization"));
-	AddOwnedComponent(CharacterCustomization);
 
 	ImpactReaction = CreateDefaultSubobject<UAlsxtImpactReactionComponent>(TEXT("Impact Reaction"));
 	AddOwnedComponent(ImpactReaction);
@@ -2851,7 +2848,7 @@ void AAlsxtCharacter::OnActorAttackCollision_Implementation(FAttackDoubleHitResu
 	}
 	// FALSXTDamageResult DamageResult = GetActualDamage(Hit);
 	ImpactReaction->AttackReaction(Hit);
-	CharacterSound->PlayDamageSound(true, true, true, GetDesiredSex(), CharacterCustomization->VoiceParameters.Variant, GetOverlayMode(), ALSXTAttackMethodTags::Regular, Hit.Strength, Hit.DoubleHitResult.ImpactForm, Hit.BaseDamage);
+	CharacterSound->PlayDamageSound(true, true, true, GetDesiredSex(), IAlsxtCharacterCustomizationComponentInterface::Execute_GetVoiceParameters(this).Variant, GetOverlayMode(), ALSXTAttackMethodTags::Regular, Hit.Strength, Hit.DoubleHitResult.ImpactForm, Hit.BaseDamage);
 }
 
 FAlsxtPhysicalAnimationState AAlsxtCharacter::GetCharacterPhysicalAnimationState_Implementation() const

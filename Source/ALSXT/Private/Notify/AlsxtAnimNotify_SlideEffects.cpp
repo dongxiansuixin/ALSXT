@@ -1,6 +1,5 @@
 // MIT
 
-
 #include "Notify/AlsxtAnimNotify_SlideEffects.h"
 
 #include "AlsCharacter.h"
@@ -22,9 +21,6 @@
 #include "Utility/AlsMath.h"
 #include "Utility/AlsUtility.h"
 #include "Utility/AlsDebugUtility.h"
-
-// ReSharper disable once CppUnusedIncludeDirective
-#include UE_INLINE_GENERATED_CPP_BY_NAME(ALSXTAnimNotify_SlideEffects)
 
 FString UAlsxtAnimNotify_SlideEffects::GetNotifyName_Implementation() const
 {
