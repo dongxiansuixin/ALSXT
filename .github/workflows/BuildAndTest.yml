@@ -10,9 +10,7 @@ on:
 
 jobs:
   build-windows:
-    runs-on: [self-hosted, x64]
-    labels:
-      - windows-cross-compiler
+    runs-on: [self-hosted, windows-latest, windows-cross-compiler, x64]
     steps:
      - name: Set up Git
        uses: actions/setup-git@v2
