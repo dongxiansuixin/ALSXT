@@ -5,6 +5,7 @@
 #include "AbilitySystem/PlayerState/AlsxtPlayerState.h"
 #include "AlsxtCharacter.h"
 #include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
+#include "Components/Character/AlsxtCharacterCustomizationComponent.h"
 #include "AbilitySystem/AttributeSets/AlsxtMovementAttributeSet.h"
 
 /**
@@ -29,7 +30,11 @@ AAlsxtPlayerState::AAlsxtPlayerState(const FObjectInitializer& ObjectInitializer
 
 	// Set Replication Mode to Mixed for Players.
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
-	AbilitySystemInitializationData = FAlsxtAbilitySystemInitializationData();
+	// AbilitySystemInitializationData = FAlsxtAbilitySystemInitializationData();
+
+	// Create the Character Customization Component sub-object.
+	CharacterCustomizationComponent = CreateDefaultSubobject<UAlsxtCharacterCustomizationComponent>(TEXT("Character Customization Component"));
+	AddOwnedComponent(CharacterCustomizationComponent);
 }
 
 void AAlsxtPlayerState::BeginPlay()

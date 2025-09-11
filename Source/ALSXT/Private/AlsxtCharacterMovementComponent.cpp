@@ -412,3 +412,28 @@ void UAlsxtCharacterMovementComponent::SetSwimmingSprintSpeedMultiplier(float Mu
 {
 	SwimmingSprintSpeedMultiplier = Multiplier;
 }
+
+void UAlsxtCharacterMovementComponent::OnMovementModeChanged(EMovementMode PreviousMovementMode, uint8 PreviousCustomMode)
+{
+	Super::OnMovementModeChanged(PreviousMovementMode, PreviousCustomMode);
+	
+	if (MovementMode == MOVE_Walking)
+	{
+		CheckSlopeAngle();
+	}
+}
+
+void UAlsxtCharacterMovementComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (MovementMode == MOVE_Walking)
+	{
+		CheckSlopeAngle();
+	}
+}
+
+void UAlsxtCharacterMovementComponent::CheckSlopeAngle()
+{
+	
+}

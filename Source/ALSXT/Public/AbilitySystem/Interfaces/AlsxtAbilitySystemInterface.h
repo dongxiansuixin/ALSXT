@@ -14,6 +14,7 @@
 * UAbilitySystemInterface is not a Blueprintable Interface (CannotImplementInterfaceInBlueprint) and can only be inherited in C++.
 */
 
+class UAlsxtAbilitySystemInitializationDataAsset;
 class UAlsxtAbilitySystemComponent;
 struct FAlsxtAbilitySystemInitializationData;
 
@@ -31,5 +32,5 @@ public:
 
 	/** Returns the ability system component to use for this actor. It may live on another actor, such as a Pawn using the PlayerState's component */
 	virtual UAlsxtAbilitySystemComponent* GetAlsxtAbilitySystemComponent() const = 0;
-	virtual const FAlsxtAbilitySystemInitializationData& GetAbilitySystemInitializationData() const = 0;
+	virtual const TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> GetAbilitySystemInitializationData() const = 0;
 };

@@ -64,6 +64,16 @@ struct ALSXT_API FAlsxtAbilitySystemInitializationData
 	FGameplayTagContainer GameplayTags;
 };
 
+UCLASS(Blueprintable, BlueprintType)
+class ALSXT_API UAlsxtAbilitySystemInitializationDataAsset : public UDataAsset
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Features")
+	FAlsxtAbilitySystemInitializationData AbilitySystemInitializationData;
+};
+
 // Returns the value of an Attribute based on the search type.
 UENUM(BlueprintType)
 enum class EAlsxtAttributeSearchType : uint8

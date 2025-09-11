@@ -5,6 +5,7 @@
 #include "AlsxtCharacter.h"
 #include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
 #include "AbilitySystem/AttributeSets/AlsxtMovementAttributeSet.h"
+#include "Components/Character/AlsxtCharacterCustomizationComponent.h"
 
 /**
 * @file AlsxtCharacterNpc.cpp
@@ -25,6 +26,10 @@ AAlsxtCharacterNpc::AAlsxtCharacterNpc(const FObjectInitializer& ObjectInitializ
  
 	 // Set Replication Mode to Mixed for NPCs.
 	 AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+
+	 // Create the Character Customization Component sub-object.
+	 CharacterCustomizationComponent = CreateDefaultSubobject<UAlsxtCharacterCustomizationComponent>(TEXT("Character Customization Component"));
+	 AddOwnedComponent(CharacterCustomizationComponent);
 }
 
 void AAlsxtCharacterNpc::BeginPlay()

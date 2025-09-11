@@ -94,13 +94,12 @@ class ALSXT_API AAlsxtCharacter : public AAlsCharacter, public IAlsxtAbilitySyst
 protected:
 	// Data used to initialize the Ability System Component. (Can be found in "AbilitySystemData.h")
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability System", Meta = (ShowOnlyInnerProperties))
-	FAlsxtAbilitySystemInitializationData AbilitySystemInitializationData;
-	
+	TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> AbilitySystemInitializationData;
 
 public:
 	AAlsxtCharacter(const FObjectInitializer& ObjectInitializer);
 
-	virtual const FAlsxtAbilitySystemInitializationData& GetAbilitySystemInitializationData() const override
+	virtual const TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> GetAbilitySystemInitializationData() const override
 	{
 		return AbilitySystemInitializationData;
 	}

@@ -12,15 +12,15 @@
 #include "AlsxtCharacter.h"
 #include "AlsxtPlayerState.generated.h"
 
+class UAlsxtCharacterCustomizationComponent;
 class UAlsxtCharacterMovementComponent;
 
 /**
 * @file AlsxtPlayerState.h
-* @brief Base ALSXT Player State class. ASC and Gameplay Abilities/Effect are implemented here.
+* @brief Base ALSXT Player State class. ASC and Gameplay Abilities/Effects are implemented here.
 * AlsxtPlayerState is a template class that contains all shared Logic and Data for Player State Classes.
 * Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
 */
-
 UCLASS()
 class ALSXT_API AAlsxtPlayerState : public AModularPlayerState, public IAlsxtAbilitySystemInterface
 {
@@ -43,17 +43,22 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void PostInitializeAbilitySystem();
 	
-	virtual const FAlsxtAbilitySystemInitializationData& GetAbilitySystemInitializationData() const override
+	virtual const TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> GetAbilitySystemInitializationData() const override
 	{
 		return AbilitySystemInitializationData;
 	}
 
 protected:
-	// Data used to initialize the Ability System Component. (Can be found in "AbilitySystemData.h")
+	// Data used to initialize the Ability System Component. (Can be found in "AlsxtAbilitySystemData.h")
+	// UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability System", Meta = (ShowOnlyInnerProperties))
+	// FAlsxtAbilitySystemInitializationData AbilitySystemInitializationData;
+
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability System", Meta = (ShowOnlyInnerProperties))
-	FAlsxtAbilitySystemInitializationData AbilitySystemInitializationData;
+	TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> AbilitySystemInitializationData;
 	
 	UAlsxtAbilitySystemComponent* AbilitySystemComponent;
+
+	UAlsxtCharacterCustomizationComponent* CharacterCustomizationComponent;
 	
 	void MovementSpeedMultiplierChanged(const FOnAttributeChangeData& OnAttributeChangeData) const;	
 	

@@ -63,7 +63,7 @@ void UAlsxtAbilitySystemComponent::ChangeLevel_Implementation(const float Desire
 	
 	if (const AAlsxtCharacter* const CharacterBase = GetAlsxtBaseAvatar())
 	{
-		const FAlsxtAbilitySystemInitializationData& Data = CharacterBase->GetAbilitySystemInitializationData();
+		const TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> Data = CharacterBase->GetAbilitySystemInitializationData();
 		// for (const TTuple<FGameplayAttribute, FCustomAttributeInitializer>& AttributeBaseValue : Cast<FAbilitySystemInitializationData>(CharacterBase->GetAbilitySystemInitializationData()))
 		// {
 		// 	// Don't touch the level itself.
@@ -200,7 +200,7 @@ FActiveGameplayEffectHandle UAlsxtAbilitySystemComponent::ApplyGameplayEffectSpe
 	return Super::ApplyGameplayEffectSpecToTarget(GameplayEffect, Target, PredictionKey);
 }
 
- void UAlsxtAbilitySystemComponent::InitializeAbilitySystemData(const FAlsxtAbilitySystemInitializationData& InitializationData, AActor* InOwningActor, AActor* InAvatarActor)
+ void UAlsxtAbilitySystemComponent::InitializeAbilitySystemData(const TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> InitializationData, AActor* InOwningActor, AActor* InAvatarActor)
  {
  	if (AbilitySystemDataInitialized)
  	{
@@ -213,9 +213,9 @@ FActiveGameplayEffectHandle UAlsxtAbilitySystemComponent::ApplyGameplayEffectSpe
  	InitAbilityActorInfo(InOwningActor, InAvatarActor);
  
  	// Apply the Gameplay Tag container as loose Gameplay Tags. (These are not replicated by default and should be applied on both server and client respectively.)
- 	if (!InitializationData.GameplayTags.IsEmpty())
+ 	if (!InitializationData.Get()->AbilitySystemInitializationData.GameplayTags.IsEmpty())
  	{
- 		AddLooseGameplayTags(InitializationData.GameplayTags);
+ 		AddLooseGameplayTags(InitializationData.Get()->AbilitySystemInitializationData.GameplayTags);
  	}
  
  	/** This is our entry point for other component to react to gameplay effect added and removed.
@@ -233,18 +233,18 @@ FActiveGameplayEffectHandle UAlsxtAbilitySystemComponent::ApplyGameplayEffectSpe
  	}
  	
  	// Grant Attribute Sets if the array isn't empty.
- 	if (!InitializationData.AttributeSets.IsEmpty())
+ 	if (!InitializationData.Get()->AbilitySystemInitializationData.AttributeSets.IsEmpty())
  	{
- 		for (const TSubclassOf<UAttributeSet> AttributeSetClass : InitializationData.AttributeSets)
+ 		for (const TSubclassOf<UAttributeSet> AttributeSetClass : InitializationData.Get()->AbilitySystemInitializationData.AttributeSets)
  		{
  			GetOrCreateAttributeSet(AttributeSetClass);
  		}
  	}
  
  	// Set base attribute values if the map isn't empty.
- 	if (!InitializationData.AttributeBaseValues.IsEmpty())
+ 	if (!InitializationData.Get()->AbilitySystemInitializationData.AttributeBaseValues.IsEmpty())
  	{
- 		for (const TTuple<FGameplayAttribute, FAlsxtCustomAttributeInitializer>& AttributeBaseValue : InitializationData.AttributeBaseValues)
+ 		for (const TTuple<FGameplayAttribute, FAlsxtCustomAttributeInitializer>& AttributeBaseValue : InitializationData.Get()->AbilitySystemInitializationData.AttributeBaseValues)
  		{
  			if (HasAttributeSetForAttribute(AttributeBaseValue.Key))
  			{
@@ -254,9 +254,9 @@ FActiveGameplayEffectHandle UAlsxtAbilitySystemComponent::ApplyGameplayEffectSpe
  	}
  
  	// Grant Gameplay Abilities if the array isn't empty.
- 	if (!InitializationData.GameplayAbilities.IsEmpty())
+ 	if (!InitializationData.Get()->AbilitySystemInitializationData.GameplayAbilities.IsEmpty())
  	{
- 		for (const TSubclassOf<UGameplayAbility> GameplayAbility : InitializationData.GameplayAbilities)
+ 		for (const TSubclassOf<UGameplayAbility> GameplayAbility : InitializationData.Get()->AbilitySystemInitializationData.GameplayAbilities)
  		{
  			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(GameplayAbility, 0, INDEX_NONE, this);
  			
@@ -265,9 +265,9 @@ FActiveGameplayEffectHandle UAlsxtAbilitySystemComponent::ApplyGameplayEffectSpe
  	}
  
  	// Apply Gameplay Effects if the array isn't empty.
- 	if (!InitializationData.GameplayEffects.IsEmpty())
+ 	if (!InitializationData.Get()->AbilitySystemInitializationData.GameplayEffects.IsEmpty())
  	{
- 		for (const TSubclassOf<UGameplayEffect>& GameplayEffect : InitializationData.GameplayEffects)
+ 		for (const TSubclassOf<UGameplayEffect>& GameplayEffect : InitializationData.Get()->AbilitySystemInitializationData.GameplayEffects)
  		{
  			if (!IsValid(GameplayEffect))
  			{

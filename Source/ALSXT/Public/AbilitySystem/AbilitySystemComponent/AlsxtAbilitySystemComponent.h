@@ -34,7 +34,7 @@ public:
 	// Called to initialize an Ability System Component with the supplied data. (Can be found in "AbilitySystemData.h")
 	// Call this on the Server and Client to properly init references / values.
 	UFUNCTION(BlueprintCallable)
-	void InitializeAbilitySystemData(const FAlsxtAbilitySystemInitializationData& InitializationData, AActor* InOwningActor, AActor* InAvatarActor);
+	void InitializeAbilitySystemData(const TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> InitializationData, AActor* InOwningActor, AActor* InAvatarActor);
 	
 	// Wrapper for the "GetOrCreateAttributeSubobject" function. Returns the specified Attribute Set / creates one if it isn't found.
 	const UAttributeSet* GetOrCreateAttributeSet(const TSubclassOf<UAttributeSet>& InAttributeSet);

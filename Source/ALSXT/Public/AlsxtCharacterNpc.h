@@ -11,6 +11,7 @@
 #include "AlsxtCharacter.h"
 #include "AlsxtCharacterNpc.generated.h"
 
+class UAlsxtCharacterCustomizationComponent;
 
 /**
 * @file AlsxtCharacterNpc.cpp
@@ -18,7 +19,6 @@
 * AlsxtCharacterNPC is a template class that contains all shared Logic and Data for NPC Classes.
 * Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
 */
-
 UCLASS()
 class ALSXT_API AAlsxtCharacterNpc : public AAlsxtCharacter
 {
@@ -34,12 +34,9 @@ public:
 	virtual UAlsxtAbilitySystemComponent* GetAlsxtAbilitySystemComponent() const override
 	{ return AbilitySystemComponent; }
 	
-protected:
-	// Data used to initialize the Ability System Component. (Can be found in "AbilitySystemData.h")
-	// UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability System", Meta = (ShowOnlyInnerProperties))
-	// FAbilitySystemInitializationData AbilitySystemInitializationData;
-	
+protected:	
 	UAlsxtAbilitySystemComponent* AbilitySystemComponent;
+	UAlsxtCharacterCustomizationComponent* CharacterCustomizationComponent;
 
 	void InitializeAbilitySystem();
 

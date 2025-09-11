@@ -22,6 +22,9 @@ enum ECustomMovementMode
 	CMOVE_MAX			UMETA(Hidden),
 };
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEnterSlideSlopeAngleDelegate, float, CurrentSlopeAngle);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnExitSlideSlopeAngleDelegate, float, CurrentSlopeAngle);
+
 /**
  * 
  */
@@ -122,8 +125,30 @@ public:
 	void SetSwimmingCombatSpeedMultiplier(float Multiplier);
 	void SetSwimmingRunSpeedMultiplier(float Multiplier);
 	void SetSwimmingSprintSpeedMultiplier(float Multiplier);
+
+	UPROPERTY(BlueprintAssignable, Category="Movement")
+	FOnEnterSlideSlopeAngleDelegate OnEnterSlideSlopeAngle;
+
+	UPROPERTY(BlueprintAssignable, Category="Movement")
+	FOnExitSlideSlopeAngleDelegate OnExitSlideSlopeAngle;
 	
 protected:
+	virtual void OnMovementModeChanged(EMovementMode PreviousMovementMode, uint8 PreviousCustomMode) override;
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	/**
+	 * @todo Add the following into settings
+	 */
+	// The angle when character begins sliding
+	float SlideSlopeAngle = 45.0f;
+
+	// Amount of degrees wetness can affect the sliding angle, to make it appear slippery
+	float WetnessSlideSlopeAngleModifier = 3.0f;
+	
+	float LastSlopeAngle = 0.0f;
+
+	void CheckSlopeAngle();
+	
 	float MovementSpeedMultiplier = 1.f;
 
 	float StandingWalkSpeedMultiplier = 1.f;
