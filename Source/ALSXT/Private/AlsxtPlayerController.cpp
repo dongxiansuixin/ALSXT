@@ -19,6 +19,27 @@
 * Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
 */
 
+// Server only
+void AAlsxtPlayerController::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+
+	AAlsxtPlayerState* PS = GetPlayerState<AAlsxtPlayerState>();
+	if (PS)
+	{
+		// Init ASC with PS (Owner) and our new Pawn (AvatarActor)
+		PS->GetAbilitySystemComponent()->InitAbilityActorInfo(PS, InPawn);
+	}
+}
+
+void AAlsxtPlayerController::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	// For edge cases where the PlayerState is repped before the Hero is possessed.
+	// CreateHUD();
+}
+
 void AAlsxtPlayerController::BeginPlay()
 {
 	Super::BeginPlay();

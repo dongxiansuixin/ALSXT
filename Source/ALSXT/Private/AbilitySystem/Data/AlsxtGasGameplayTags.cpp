@@ -5,6 +5,7 @@
 
 namespace ALSXTAbilityGameplayTags
 {
+	UE_DEFINE_GAMEPLAY_TAG(Sprint, TEXT("Gameplay.Ability.Sprint"))
 	UE_DEFINE_GAMEPLAY_TAG(Breathing, TEXT("Gameplay.Ability.Breathing"))
 	UE_DEFINE_GAMEPLAY_TAG(Jump, TEXT("Gameplay.Ability.Jump"))
 	UE_DEFINE_GAMEPLAY_TAG(Roll, TEXT("Gameplay.Ability.Roll"))

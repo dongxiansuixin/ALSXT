@@ -39,13 +39,16 @@ void UAlsxtAnimationInstance::NativeBeginPlay()
 {
 	Super::NativeBeginPlay();
 
-	ALS_ENSURE(IsValid(ALSXTSettings));
-	ALS_ENSURE(IsValid(ALSXTCharacter));
-	if (GetOwningActor()->Implements<UAlsxtCharacterInterface>())
+	if (IsValid(ALSXTSettings))
 	{
-		StaminaThresholdSettings = IAlsxtCharacterInterface::Execute_GetCharacterSettings(GetOwningActor())->StatusSettings.StaminaThresholdSettings;
-		CharacterBreathEffectsSettings = IAlsxtCharacterInterface::Execute_GetCharacterSettings(GetOwningActor())->BreathEffects;
+		ALS_ENSURE(IsValid(ALSXTCharacter));
+		if (GetOwningActor()->Implements<UAlsxtCharacterInterface>())
+		{
+			StaminaThresholdSettings = IAlsxtCharacterInterface::Execute_GetCharacterSettings(GetOwningActor())->StatusSettings.StaminaThresholdSettings;
+			CharacterBreathEffectsSettings = IAlsxtCharacterInterface::Execute_GetCharacterSettings(GetOwningActor())->BreathEffects;
+		}
 	}
+	
 }
 
 void UAlsxtAnimationInstance::NativeUpdateAnimation(const float DeltaTime)

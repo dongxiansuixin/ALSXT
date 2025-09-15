@@ -27,6 +27,7 @@ AAlsxtPlayerState::AAlsxtPlayerState(const FObjectInitializer& ObjectInitializer
 	// Create the Ability System Component sub-object.
 	AbilitySystemComponent = CreateDefaultSubobject<UAlsxtAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	AbilitySystemComponent->SetIsReplicated(true);
+	AddOwnedComponent(AbilitySystemComponent);
 
 	// Set Replication Mode to Mixed for Players.
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
@@ -43,6 +44,7 @@ void AAlsxtPlayerState::BeginPlay()
 	 
 	// Provide this character as owner and avatar
 	AbilitySystemComponent->InitAbilityActorInfo(this, GetPawn());
+	InitializeAbilitySystem();
 }
 
 /**
@@ -82,9 +84,9 @@ void AAlsxtPlayerState::InitializeAbilitySystem()
 	}
 	
 	// Call the function on "Custom Ability System Component" to set up references and Init data. (Client)
-	AbilitySystemComponent->InitializeAbilitySystemData(AbilitySystemInitializationData, this, this);
+	AbilitySystemComponent->InitializeAbilitySystemData(AbilitySystemInitializationData.Get(), this, GetPawn());
 
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UAlsxtMovementAttributeSet::GetMovementSpeedMultiplierAttribute()).AddUObject(this, &ThisClass::MovementSpeedMultiplierChanged);
+	// AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UAlsxtMovementAttributeSet::GetMovementSpeedMultiplierAttribute()).AddUObject(this, &ThisClass::MovementSpeedMultiplierChanged);
 	
 	PostInitializeAbilitySystem();
 }

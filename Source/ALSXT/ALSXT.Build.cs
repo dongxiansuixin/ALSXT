@@ -53,6 +53,7 @@ public class ALSXT : ModuleRules
 			"Slate",
 			"SlateCore",
 			"GameplayAbilities",
+			"GameplayDebugger",
 			"TargetingSystem"
 		]);
 

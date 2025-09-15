@@ -53,9 +53,10 @@ protected:
 	// UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability System", Meta = (ShowOnlyInnerProperties))
 	// FAlsxtAbilitySystemInitializationData AbilitySystemInitializationData;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability System", Meta = (ShowOnlyInnerProperties))
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability System")
 	TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> AbilitySystemInitializationData;
 	
+	UPROPERTY(EditAnywhere, Category = "Ability System")
 	UAlsxtAbilitySystemComponent* AbilitySystemComponent;
 
 	UAlsxtCharacterCustomizationComponent* CharacterCustomizationComponent;

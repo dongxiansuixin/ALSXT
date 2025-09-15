@@ -61,9 +61,11 @@ void UAlsxtAbilitySystemComponent::ChangeLevel_Implementation(const float Desire
 
 	// Update all attributes that should be leveled up
 	
-	if (const AAlsxtCharacter* const CharacterBase = GetAlsxtBaseAvatar())
+	if (const IAlsxtAbilitySystemInterface* AlsxtAbilitySystemInterface = Cast<IAlsxtAbilitySystemInterface>(GetOwnerActor()))
 	{
-		const TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> Data = CharacterBase->GetAbilitySystemInitializationData();
+
+		const TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> Data = AlsxtAbilitySystemInterface->GetAbilitySystemInitializationData();
+		
 		// for (const TTuple<FGameplayAttribute, FCustomAttributeInitializer>& AttributeBaseValue : Cast<FAbilitySystemInitializationData>(CharacterBase->GetAbilitySystemInitializationData()))
 		// {
 		// 	// Don't touch the level itself.
@@ -71,7 +73,7 @@ void UAlsxtAbilitySystemComponent::ChangeLevel_Implementation(const float Desire
 		// 	{
 		// 		continue;
 		// 	}
- 	// 
+		// 
 		// 	// Don't touch Current Attribute if they are marked to not level up. They will be adjusted when the Max will (See the AttributeSets)
 		// 	if (!bInitialization && NoLevelAttribute.Contains(AttributeBaseValue.Key))
 		// 	{
@@ -202,7 +204,12 @@ FActiveGameplayEffectHandle UAlsxtAbilitySystemComponent::ApplyGameplayEffectSpe
 
  void UAlsxtAbilitySystemComponent::InitializeAbilitySystemData(const TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> InitializationData, AActor* InOwningActor, AActor* InAvatarActor)
  {
- 	if (AbilitySystemDataInitialized)
+	if (!InitializationData)
+	{
+		return;
+	}
+	
+	if (AbilitySystemDataInitialized)
  	{
  		return;
  	}

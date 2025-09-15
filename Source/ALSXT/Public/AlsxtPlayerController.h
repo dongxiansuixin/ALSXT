@@ -61,6 +61,11 @@ private:
 	bool CanControlPawn {false};
 	
 protected:
+	// Server only
+	virtual void OnPossess(APawn* InPawn) override;
+
+	virtual void OnRep_PlayerState() override;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Input", Meta = (DisplayThumbnail = false))
 	TObjectPtr<UInputMappingContext> InputMappingContext;
 

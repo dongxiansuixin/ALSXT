@@ -62,6 +62,7 @@ AAlsxtCharacter::AAlsxtCharacter(const FObjectInitializer& ObjectInitializer) :
 
 	//Setup Gameplay Camera Component
 	GameplayCamera = CreateDefaultSubobject<UGameplayCameraComponent>(TEXT("Gameplay Camera Component"));
+	AddOwnedComponent(GameplayCamera);
 
 	// TODO Remove
 	KillerCameraSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Killer Camera Spring Arm"));
@@ -579,7 +580,7 @@ void AAlsxtCharacter::CalcCamera(const float DeltaTime, FMinimalViewInfo& ViewIn
 
 void AAlsxtCharacter::SetupPlayerInputComponent(UInputComponent* Input)
 {
-	Super::SetupPlayerInputComponent(Input);
+	// Super::SetupPlayerInputComponent(Input);
 
 	auto* EnhancedInput{Cast<UEnhancedInputComponent>(Input)};
 	if (IsValid(EnhancedInput))
