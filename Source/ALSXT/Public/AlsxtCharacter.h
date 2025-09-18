@@ -56,10 +56,12 @@
 #include "InputActionValue.h"
 #include "AbilitySystem/Interfaces/AlsxtAbilitySystemInterface.h"
 // #include "ALSXTAnimationInstance.h"
+#include "AbilitySystemInterface.h"
 #include "GameFramework/GameplayCameraComponent.h"
 #include "AbilitySystem/Data/AlsxtAbilitySystemData.h"
 #include "ContextualAnimSceneActorComponent.h"
 #include "PhysicsControlComponent.h"
+#include "State/AlsxtAnimationParametersState.h"
 
 #include "AlsxtCharacter.generated.h"
 
@@ -87,7 +89,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSetupPlayerInputComponentDelegate);
 */
 
 UCLASS(AutoExpandCategories = ("Settings|Als Character Example", "State|Als Character Example"))
-class ALSXT_API AAlsxtCharacter : public AAlsCharacter, public IAlsxtAbilitySystemInterface, public IAlsxtCharacterCustomizationComponentInterface, public IAlsxtStationaryModeComponentInterface, public IAlsxtCollisionInterface, public IAlsxtHeadLookAtInterface, public IAlsxtTargetLockInterface, public IAlsxtCharacterSoundComponentInterface, public IAlsxtMeshPaintingInterface, public IAlsxtCharacterInterface, public IAlsxtHeldItemInterface, public IAlsxtIdleAnimationComponentInterface
+class ALSXT_API AAlsxtCharacter : public AAlsCharacter, public IAbilitySystemInterface, public IAlsxtCharacterCustomizationComponentInterface, public IAlsxtStationaryModeComponentInterface, public IAlsxtCollisionInterface, public IAlsxtHeadLookAtInterface, public IAlsxtTargetLockInterface, public IAlsxtCharacterSoundComponentInterface, public IAlsxtMeshPaintingInterface, public IAlsxtCharacterInterface, public IAlsxtHeldItemInterface, public IAlsxtIdleAnimationComponentInterface
 {
 	GENERATED_BODY()
 
@@ -97,21 +99,19 @@ protected:
 	TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> AbilitySystemInitializationData;
 
 public:
-	AAlsxtCharacter(const FObjectInitializer& ObjectInitializer);
+	virtual void OnRep_PlayerState() override;
 
-	virtual const TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> GetAbilitySystemInitializationData() const override
-	{
-		return AbilitySystemInitializationData;
-	}
+	AAlsxtCharacter(const FObjectInitializer& ObjectInitializer);
 
 	// Implement the IAbilitySystemInterface. (This is used to find the Ability System Component.)
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-
-	UFUNCTION(Category = "Ability System")
-	virtual UAlsxtAbilitySystemComponent* GetAlsxtAbilitySystemComponent() const override;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings|Als Character", Meta = (AllowPrivateAccess))
 	TObjectPtr<UAlsxtCharacterSettings> ALSXTSettings;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ALS|State|Parameters", Meta = (AllowPrivateAccess), Transient)
+	FAlsxtAnimationParametersState AnimationParametersState;
+
 
 	UPROPERTY(BlueprintAssignable)
 	FSetupPlayerInputComponentDelegate OnSetupPlayerInputComponentUpdated;
@@ -252,7 +252,7 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Als Character")
 	TObjectPtr<UAlsxtCharacterMovementComponent> ALSXTCharacterMovement;
-
+	
 	virtual void OnStanceChanged_Implementation(const FGameplayTag& PreviousStance) override;
 
 	// Breath State
@@ -448,7 +448,7 @@ public:
 
 	// Pose State
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State|Als Character", Meta = (AllowPrivateAccess), Transient)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ALS|State|Pose", Meta = (AllowPrivateAccess), Transient)
 	FAlsxtPoseState ALSXTPoseState;
 
 	// Pose State
@@ -1987,6 +1987,7 @@ protected:
 	virtual bool GetCharacterAimingDownSights_Implementation() const override;
 	virtual bool CanEmote_Implementation() const override;
 	virtual bool CanGesture_Implementation() const override;
+	virtual FAlsxtAnimationParametersState GetCharacterAnimationParametersState_Implementation() const override;
 
 	virtual void SetCharacterLocomotionVariant_Implementation(const FGameplayTag& NewLocomotionVariant) override;
 

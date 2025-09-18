@@ -30,8 +30,6 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
-	virtual UAlsxtAbilitySystemComponent* GetAlsxtAbilitySystemComponent() const override;
-
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Als|Input Actions")
@@ -43,6 +41,8 @@ public:
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Input", Meta = (DisplayThumbnail = false))
 	TObjectPtr<UInputMappingContext> InputMappingContextNew;
+
+	virtual void OnRep_PlayerState() override;
 	
 	virtual void Input_OnLookMouse(const FInputActionValue& ActionValue);
     

@@ -1,4 +1,5 @@
-// MIT
+// Copyright (C) 2025 Uriel Ballinas, VOIDWARE Prohibited. All rights reserved.
+// This software is licensed under the MIT License (LICENSE.md).
 
 #pragma once
 
@@ -25,7 +26,21 @@ namespace ALSXTGASGameplayTags
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Character_Type_NPC);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Character_State_BlockHealthRegen);
 	}
+	
+	namespace StaminaCost
+	{
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_StaminaCost_Infinite_Sprint);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_StaminaCost_Instant_Jump);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_StaminaCost_Instant_Roll);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_StaminaCost_Instant_Mantle);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_StaminaCost_Instant_Vault);
+	}
 
+	namespace Data
+	{
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Data_Magnitude_Sprint);
+	}
+	
 	namespace BasicAttack
 	{
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_DamageType_DirectDamage);
@@ -55,6 +70,8 @@ namespace ALSXTGASGameplayTags
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Stability);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_HoldingBreath);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_Breath);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_BreathRegen);
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Max_HoldingBreathRegen);
 		
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Health);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_State_Blocked_Regen_Blood);

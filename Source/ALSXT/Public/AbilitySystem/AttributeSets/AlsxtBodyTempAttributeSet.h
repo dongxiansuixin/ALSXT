@@ -42,47 +42,47 @@ class ALSXT_API UAlsxtBodyTempAttributeSet : public UAlsxtAttributeSetBase
 	// Used to create a local copy of Damage which is then subtracted from Current BodyTemp.
 	UPROPERTY(BlueprintReadOnly, Category = "BodyTemp Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Damage;
-	ATTRIBUTE_ACCESSORS(UAlsxtBodyTempAttributeSet, Damage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBodyTempAttributeSet, Damage)
 
 	// Used to create a local copy of Healing which is then added to Current BodyTemp.
 	UPROPERTY(BlueprintReadOnly, Category = "BodyTemp Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Healing;
-	ATTRIBUTE_ACCESSORS(UAlsxtBodyTempAttributeSet, Healing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBodyTempAttributeSet, Healing)
 
 	// Used to create a local copy of Bleed which is then added to Bleeding.
 	UPROPERTY(BlueprintReadOnly, Category = "BodyTemp Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedBleed;
-	ATTRIBUTE_ACCESSORS(UAlsxtBodyTempAttributeSet, ReceivedBleed)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBodyTempAttributeSet, ReceivedBleed)
 
 	// Used to create a local copy of Direct Damage which is then added to Current BodyTemp.
 	UPROPERTY(BlueprintReadOnly, Category = "BodyTemp Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedDirectDamage;
-	ATTRIBUTE_ACCESSORS(UAlsxtBodyTempAttributeSet, ReceivedDirectDamage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBodyTempAttributeSet, ReceivedDirectDamage)
 	
 	// Holds the current value for BodyTemp.
 	UPROPERTY(BlueprintReadOnly, Category = "BodyTemp Attribute Set", ReplicatedUsing = OnRep_CurrentBodyTemp)
 	FGameplayAttributeData CurrentBodyTemp;
-	ATTRIBUTE_ACCESSORS(UAlsxtBodyTempAttributeSet, CurrentBodyTemp)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBodyTempAttributeSet, CurrentBodyTemp)
 
 	// Holds the value for Maximum BodyTemp.
 	UPROPERTY(BlueprintReadOnly, Category = "BodyTemp Attribute Set", ReplicatedUsing = OnRep_MaximumBodyTemp)
 	FGameplayAttributeData MaximumBodyTemp;
-	ATTRIBUTE_ACCESSORS(UAlsxtBodyTempAttributeSet, MaximumBodyTemp)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBodyTempAttributeSet, MaximumBodyTemp)
 
 	// Holds the value for BodyTemp Regeneration.
 	UPROPERTY(BlueprintReadOnly, Category = "BodyTemp Attribute Set", ReplicatedUsing = OnRep_BodyTempRegeneration)
 	FGameplayAttributeData BodyTempRegeneration;
-	ATTRIBUTE_ACCESSORS(UAlsxtBodyTempAttributeSet, BodyTempRegeneration)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBodyTempAttributeSet, BodyTempRegeneration)
 
 	// Holds the current bleeding amount
 	UPROPERTY(BlueprintReadOnly, Category = "BodyTemp Attribute Set", ReplicatedUsing = OnRep_Bleeding)
 	FGameplayAttributeData Bleeding;
-	ATTRIBUTE_ACCESSORS(UAlsxtBodyTempAttributeSet, Bleeding)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBodyTempAttributeSet, Bleeding)
 
 	// Holds the current bleed healing rate
 	UPROPERTY(BlueprintReadOnly, Category = "BodyTemp Attribute Set", ReplicatedUsing = OnRep_BleedHealing)
 	FGameplayAttributeData BleedHealing;
-	ATTRIBUTE_ACCESSORS(UAlsxtBodyTempAttributeSet, BleedHealing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBodyTempAttributeSet, BleedHealing)
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

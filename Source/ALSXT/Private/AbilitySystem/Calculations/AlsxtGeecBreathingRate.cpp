@@ -1,7 +1,11 @@
 #include "AbilitySystem/Calculations/AlsxtGeecBreathingRate.h"
 #include "AbilitySystem/AttributeSets/AlsxtStaminaAttributeSet.h"
+#include "AbilitySystem/AttributeSets/AlsxtBreathAttributeSet.h"
 #include "GameplayEffect.h"
 #include "AbilitySystemComponent.h"
+#include "AlsCharacter.h"
+#include "AlsxtCharacter.h"
+#include "Chaos/PBDSuspensionConstraintData.h"
 
 // Define the attribute capture macro. This helps ensure proper attribute access.
 // DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtStaminaAttributeSet, CurrentStamina, Target, false);
@@ -11,14 +15,14 @@
 struct FAlsxtBreathingRateStatics
 {
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CurrentStamina);
-	DECLARE_ATTRIBUTE_CAPTUREDEF(MaximumStamina);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(MaxStamina);
 
 	FAlsxtBreathingRateStatics()
 	{
 		// Capture the Target's Stamina attribute.
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtStaminaAttributeSet, CurrentStamina, Target, false);
 		// Capture the Target's MaxStamina attribute.
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtStaminaAttributeSet, MaximumStamina, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtStaminaAttributeSet, MaxStamina, Target, false);
 
 	}
 };
@@ -35,13 +39,13 @@ UAlsxtGeecBreathingRate::UAlsxtGeecBreathingRate()
 	// `Target` indicates the character receiving the Gameplay Effect.
 	// `false` means we don't need a snapshot of the attribute at the start.
 	StaminaDef = FGameplayEffectAttributeCaptureDefinition(UAlsxtStaminaAttributeSet::GetCurrentStaminaAttribute(), EGameplayEffectAttributeCaptureSource::Target, false);
-	MaxStaminaDef = FGameplayEffectAttributeCaptureDefinition(UAlsxtStaminaAttributeSet::GetMaximumStaminaAttribute(), EGameplayEffectAttributeCaptureSource::Target, false);
+	MaxStaminaDef = FGameplayEffectAttributeCaptureDefinition(UAlsxtStaminaAttributeSet::GetMaxStaminaAttribute(), EGameplayEffectAttributeCaptureSource::Target, false);
 	// UAlsxtGeecBreathingRate::FBreathingRateCaptureDefinition UAlsxtGeecBreathingRate::BreathingRateCaptureDefinition;
 
 	// Add the capture definitions to the relevant attributes.
 	// Add the captured attributes to the RelevantAttributesToCapture array.
 	RelevantAttributesToCapture.Add(AlsxtBreathingRateStatics().CurrentStaminaDef);
-	RelevantAttributesToCapture.Add(AlsxtBreathingRateStatics().MaximumStaminaDef);
+	RelevantAttributesToCapture.Add(AlsxtBreathingRateStatics().MaxStaminaDef);
 	// RelevantAttributesToCapture.Add(StaminaDef);
 	// RelevantAttributesToCapture.Add(MaxStaminaDef);
 	// RelevantAttributesToCapture.Add(BreathingRateCaptureDefinition.HoldingBreathLengthDef);
@@ -88,11 +92,28 @@ void UAlsxtGeecBreathingRate::Execute_Implementation(const FGameplayEffectCustom
 		// Default to a resting rate if max stamina is zero or invalid.
 		BreathingRate = 1.0f; 
 	}
+
+	AActor* TargetActor = TargetAbilitySystemComponent ? TargetAbilitySystemComponent->GetOwnerActor() : nullptr;
+	AAlsxtCharacter* MyCharacter = Cast<AAlsxtCharacter>(TargetActor);
+
+	if (!MyCharacter)
+	{
+		return;
+	}
+
+	float BreathingRateValue = 0.f;
+	FGameplayEffectAttributeCaptureDefinition GameplayEffectAttributeCaptureDefinition = FGameplayEffectAttributeCaptureDefinition();
+	GameplayEffectAttributeCaptureDefinition.AttributeToCapture = UAlsxtBreathAttributeSet::GetCurrentBreathRateAttribute();
+	GameplayEffectAttributeCaptureDefinition.AttributeSource = EGameplayEffectAttributeCaptureSource::Source;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GameplayEffectAttributeCaptureDefinition, FAggregatorEvaluateParameters(), BreathingRateValue);
+
+	// Update the struct in the Character
+	MyCharacter->AnimationParametersState.BreathingRate = BreathingRateValue;
 	
 	// --- Apply the output modifier ---
 	// Create a new modifier for the 'BreathingRate' attribute.
 	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(
-		UAlsxtStaminaAttributeSet::GetBreathingRateAttribute(),
+		UAlsxtBreathAttributeSet::GetCurrentBreathRateAttribute(),
 		EGameplayModOp::Override, // This will directly set the base value.
 		BreathingRate
 	));

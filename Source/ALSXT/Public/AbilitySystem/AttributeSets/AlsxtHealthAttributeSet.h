@@ -42,47 +42,47 @@ class ALSXT_API UAlsxtHealthAttributeSet : public UAlsxtAttributeSetBase
 	// Used to create a local copy of Damage which is then subtracted from Current Health.
 	UPROPERTY(BlueprintReadOnly, Category = "Health Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Damage;
-	ATTRIBUTE_ACCESSORS(UAlsxtHealthAttributeSet, Damage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHealthAttributeSet, Damage)
 
 	// Used to create a local copy of Healing which is then added to Current Health.
 	UPROPERTY(BlueprintReadOnly, Category = "Health Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Healing;
-	ATTRIBUTE_ACCESSORS(UAlsxtHealthAttributeSet, Healing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHealthAttributeSet, Healing)
 
 	// Used to create a local copy of Bleed which is then added to Bleeding.
 	UPROPERTY(BlueprintReadOnly, Category = "Health Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedBleed;
-	ATTRIBUTE_ACCESSORS(UAlsxtHealthAttributeSet, ReceivedBleed)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHealthAttributeSet, ReceivedBleed)
 
 	// Used to create a local copy of Direct Damage which is then added to Current Health.
 	UPROPERTY(BlueprintReadOnly, Category = "Health Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedDirectDamage;
-	ATTRIBUTE_ACCESSORS(UAlsxtHealthAttributeSet, ReceivedDirectDamage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHealthAttributeSet, ReceivedDirectDamage)
 	
 	// Holds the current value for Health.
 	UPROPERTY(BlueprintReadOnly, Category = "Health Attribute Set", ReplicatedUsing = OnRep_CurrentHealth)
 	FGameplayAttributeData CurrentHealth;
-	ATTRIBUTE_ACCESSORS(UAlsxtHealthAttributeSet, CurrentHealth)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHealthAttributeSet, CurrentHealth)
 
 	// Holds the value for Maximum Health.
 	UPROPERTY(BlueprintReadOnly, Category = "Health Attribute Set", ReplicatedUsing = OnRep_MaximumHealth)
 	FGameplayAttributeData MaximumHealth;
-	ATTRIBUTE_ACCESSORS(UAlsxtHealthAttributeSet, MaximumHealth)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHealthAttributeSet, MaximumHealth)
 
 	// Holds the value for Health Regeneration.
 	UPROPERTY(BlueprintReadOnly, Category = "Health Attribute Set", ReplicatedUsing = OnRep_HealthRegeneration)
 	FGameplayAttributeData HealthRegeneration;
-	ATTRIBUTE_ACCESSORS(UAlsxtHealthAttributeSet, HealthRegeneration)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHealthAttributeSet, HealthRegeneration)
 
 	// Holds the current bleeding amount
 	UPROPERTY(BlueprintReadOnly, Category = "Health Attribute Set", ReplicatedUsing = OnRep_Bleeding)
 	FGameplayAttributeData Bleeding;
-	ATTRIBUTE_ACCESSORS(UAlsxtHealthAttributeSet, Bleeding)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHealthAttributeSet, Bleeding)
 
 	// Holds the current bleed healing rate
 	UPROPERTY(BlueprintReadOnly, Category = "Health Attribute Set", ReplicatedUsing = OnRep_BleedHealing)
 	FGameplayAttributeData BleedHealing;
-	ATTRIBUTE_ACCESSORS(UAlsxtHealthAttributeSet, BleedHealing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHealthAttributeSet, BleedHealing)
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

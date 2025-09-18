@@ -41,11 +41,11 @@ public:
 	// Holds the current value for Resistance.
 	UPROPERTY(BlueprintReadOnly, Category = "Abilities Attribute Set", ReplicatedUsing = OnRep_CooldownMultiplier)
 	FGameplayAttributeData CooldownMultiplier;
-	ATTRIBUTE_ACCESSORS(UAlsxtAbilitiesAttributeSet, CooldownMultiplier)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtAbilitiesAttributeSet, CooldownMultiplier)
 
 	UPROPERTY(BlueprintReadOnly, Category = "Abilities Attribute Set", ReplicatedUsing = OnRep_CostMultiplier)
 	FGameplayAttributeData CostMultiplier;
-	ATTRIBUTE_ACCESSORS(UAlsxtAbilitiesAttributeSet, CostMultiplier)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtAbilitiesAttributeSet, CostMultiplier)
 
 	UFUNCTION(BlueprintPure, Category = "Abilities Attribute Set")
 	static FVector2D GetMinMaxCooldownMultiplier() { return FVector2D(COOLDOWN_MULTIPLIER_MIN, COOLDOWN_MULTIPLIER_MAX); }

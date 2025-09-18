@@ -36,7 +36,7 @@ public:
 	// Holds the current value for Resistance.
 	UPROPERTY(BlueprintReadOnly, Category = "Resistance Attribute Set", ReplicatedUsing = OnRep_Resistance)
 	FGameplayAttributeData Resistance;
-	ATTRIBUTE_ACCESSORS(UAlsxtResistanceAttributeSet, Resistance)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtResistanceAttributeSet, Resistance)
 
 	UFUNCTION(BlueprintPure, Category = "Resistance Attribute Set")
 	static float GetBaseResistance() { return RESISTANCE_BASE; }

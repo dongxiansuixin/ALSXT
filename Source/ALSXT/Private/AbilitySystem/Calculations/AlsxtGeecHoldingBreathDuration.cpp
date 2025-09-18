@@ -7,7 +7,7 @@
 struct FAlsxtHoldingBreathDurationStatics
 {
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CurrentStamina);
-	DECLARE_ATTRIBUTE_CAPTUREDEF(MaximumStamina);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(MaxStamina);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CurrentHoldBreathDuration);
 
 	FAlsxtHoldingBreathDurationStatics()
@@ -15,7 +15,7 @@ struct FAlsxtHoldingBreathDurationStatics
 		// Capture the Target's Stamina attribute.
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtStaminaAttributeSet, CurrentStamina, Target, false);
 		// Capture the Target's MaxStamina attribute.
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtStaminaAttributeSet, MaximumStamina, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtStaminaAttributeSet, MaxStamina, Target, false);
 		// Capture the Target's BreathDuration attribute.
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtHoldBreathAttributeSet, CurrentHoldBreathDuration, Target, false);
 	}
@@ -31,7 +31,7 @@ UAlsxtGeecHoldingBreathDuration::UAlsxtGeecHoldingBreathDuration()
 {
 	// Add the captured attributes to the RelevantAttributesToCapture array.
 	RelevantAttributesToCapture.Add(HoldingBreathDurationStatics().CurrentStaminaDef);
-	RelevantAttributesToCapture.Add(HoldingBreathDurationStatics().MaximumStaminaDef);
+	RelevantAttributesToCapture.Add(HoldingBreathDurationStatics().MaxStaminaDef);
 	RelevantAttributesToCapture.Add(HoldingBreathDurationStatics().CurrentHoldBreathDurationDef);
 }
 
@@ -51,7 +51,7 @@ void UAlsxtGeecHoldingBreathDuration::Execute_Implementation(const FGameplayEffe
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(HoldingBreathDurationStatics().CurrentStaminaDef, EvaluationParameters, CurrentStamina);
 
 	float MaxStamina = 0.0f;
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(HoldingBreathDurationStatics().MaximumStaminaDef, EvaluationParameters, MaxStamina);
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(HoldingBreathDurationStatics().MaxStaminaDef, EvaluationParameters, MaxStamina);
 
 	float BaseBreathDuration = 0.0f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(HoldingBreathDurationStatics().CurrentHoldBreathDurationDef, EvaluationParameters, BaseBreathDuration);

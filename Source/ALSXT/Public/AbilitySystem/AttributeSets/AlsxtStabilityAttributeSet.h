@@ -42,47 +42,47 @@ class ALSXT_API UAlsxtStabilityAttributeSet : public UAlsxtAttributeSetBase
 	// Used to create a local copy of Damage which is then subtracted from Current Stability.
 	UPROPERTY(BlueprintReadOnly, Category = "Stability Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Damage;
-	ATTRIBUTE_ACCESSORS(UAlsxtStabilityAttributeSet, Damage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStabilityAttributeSet, Damage)
 
 	// Used to create a local copy of Healing which is then added to Current Stability.
 	UPROPERTY(BlueprintReadOnly, Category = "Stability Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Healing;
-	ATTRIBUTE_ACCESSORS(UAlsxtStabilityAttributeSet, Healing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStabilityAttributeSet, Healing)
 
 	// Used to create a local copy of Bleed which is then added to Bleeding.
 	UPROPERTY(BlueprintReadOnly, Category = "Stability Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedBleed;
-	ATTRIBUTE_ACCESSORS(UAlsxtStabilityAttributeSet, ReceivedBleed)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStabilityAttributeSet, ReceivedBleed)
 
 	// Used to create a local copy of Direct Damage which is then added to Current Stability.
 	UPROPERTY(BlueprintReadOnly, Category = "Stability Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedDirectDamage;
-	ATTRIBUTE_ACCESSORS(UAlsxtStabilityAttributeSet, ReceivedDirectDamage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStabilityAttributeSet, ReceivedDirectDamage)
 	
 	// Holds the current value for Stability.
 	UPROPERTY(BlueprintReadOnly, Category = "Stability Attribute Set", ReplicatedUsing = OnRep_CurrentStability)
 	FGameplayAttributeData CurrentStability;
-	ATTRIBUTE_ACCESSORS(UAlsxtStabilityAttributeSet, CurrentStability)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStabilityAttributeSet, CurrentStability)
 
 	// Holds the value for Maximum Stability.
 	UPROPERTY(BlueprintReadOnly, Category = "Stability Attribute Set", ReplicatedUsing = OnRep_MaximumStability)
 	FGameplayAttributeData MaximumStability;
-	ATTRIBUTE_ACCESSORS(UAlsxtStabilityAttributeSet, MaximumStability)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStabilityAttributeSet, MaximumStability)
 
 	// Holds the value for Stability Regeneration.
 	UPROPERTY(BlueprintReadOnly, Category = "Stability Attribute Set", ReplicatedUsing = OnRep_StabilityRegeneration)
 	FGameplayAttributeData StabilityRegeneration;
-	ATTRIBUTE_ACCESSORS(UAlsxtStabilityAttributeSet, StabilityRegeneration)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStabilityAttributeSet, StabilityRegeneration)
 
 	// Holds the current bleeding amount
 	UPROPERTY(BlueprintReadOnly, Category = "Stability Attribute Set", ReplicatedUsing = OnRep_Bleeding)
 	FGameplayAttributeData Bleeding;
-	ATTRIBUTE_ACCESSORS(UAlsxtStabilityAttributeSet, Bleeding)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStabilityAttributeSet, Bleeding)
 
 	// Holds the current bleed healing rate
 	UPROPERTY(BlueprintReadOnly, Category = "Stability Attribute Set", ReplicatedUsing = OnRep_BleedHealing)
 	FGameplayAttributeData BleedHealing;
-	ATTRIBUTE_ACCESSORS(UAlsxtStabilityAttributeSet, BleedHealing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStabilityAttributeSet, BleedHealing)
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

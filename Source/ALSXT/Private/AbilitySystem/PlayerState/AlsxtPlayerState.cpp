@@ -43,7 +43,7 @@ void AAlsxtPlayerState::BeginPlay()
 	Super::BeginPlay();
 	 
 	// Provide this character as owner and avatar
-	AbilitySystemComponent->InitAbilityActorInfo(this, GetPawn());
+	// AbilitySystemComponent->InitAbilityActorInfo(this, GetPawn());
 	InitializeAbilitySystem();
 }
 
@@ -63,14 +63,6 @@ UAlsxtCharacterMovementComponent* AAlsxtPlayerState::GetAlsxtCharacterMovementCo
 * @brief Connect Interface Function to provide a pointer to the AbilitySystemComponent
 */
 UAbilitySystemComponent* AAlsxtPlayerState::GetAbilitySystemComponent() const
-{
-	return AbilitySystemComponent;
-}
-
-/**
-* @brief Connect Interface Function to provide a pointer to the AlsxtAbilitySystemComponent
-*/
-UAlsxtAbilitySystemComponent* AAlsxtPlayerState::GetAlsxtAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
 }

@@ -36,7 +36,7 @@ public:
 	// Holds the current value for Weight.
 	UPROPERTY(BlueprintReadOnly, Category = "Weight Attribute Set", ReplicatedUsing = OnRep_Weight)
 	FGameplayAttributeData Weight;
-	ATTRIBUTE_ACCESSORS(UAlsxtWeightAttributeSet, Weight)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtWeightAttributeSet, Weight)
 
 	UFUNCTION(BlueprintPure, Category = "Weight Attribute Set")
 	static float GetBaseWeight() { return Weight_BASE; }

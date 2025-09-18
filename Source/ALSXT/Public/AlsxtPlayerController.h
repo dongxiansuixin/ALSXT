@@ -6,6 +6,7 @@
 #include "CoreMinimal.h"
 #include "AlsxtCharacterPlayer.h"
 #include "ModularPlayerController.h"
+#include "AbilitySystemInterface.h"
 #include "AlsxtPlayerController.generated.h"
 
 struct FInputActionValue;
@@ -23,7 +24,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAnyInputDetected);
 * Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
 */
 UCLASS()
-class ALSXT_API AAlsxtPlayerController : public AModularPlayerController
+class ALSXT_API AAlsxtPlayerController : public AModularPlayerController, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -34,6 +35,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnAnyInputDetected OnAnyInputDetected;
 
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "References")

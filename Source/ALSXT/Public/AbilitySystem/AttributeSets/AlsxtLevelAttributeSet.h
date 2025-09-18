@@ -32,12 +32,12 @@ public:
 	// Holds the current value for Level.
 	UPROPERTY(BlueprintReadOnly, Category = "Level Attribute Set", ReplicatedUsing = OnRep_CurrentLevel)
 	FGameplayAttributeData CurrentLevel;
-	ATTRIBUTE_ACCESSORS(UAlsxtLevelAttributeSet, CurrentLevel)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtLevelAttributeSet, CurrentLevel)
 
 	// Holds the value for Maximum Level.
 	UPROPERTY(BlueprintReadOnly, Category = "Level Attribute Set", ReplicatedUsing = OnRep_MaximumLevel)
 	FGameplayAttributeData MaximumLevel;
-	ATTRIBUTE_ACCESSORS(UAlsxtLevelAttributeSet, MaximumLevel)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtLevelAttributeSet, MaximumLevel)
 
 protected:
 	

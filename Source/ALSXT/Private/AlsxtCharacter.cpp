@@ -37,7 +37,35 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "State/AlsxtFootstepState.h"
 #include "AlsxtCameraAnimationInstance.h"
+#include "AbilitySystem/AttributeSets/AlsxtBreathAttributeSet.h"
 #include "AbilitySystem/AttributeSets/AlsxtStaminaAttributeSet.h"
+
+void AAlsxtCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	if (GetPlayerState())
+	{
+		UAbilitySystemComponent* ASC = GetAbilitySystemComponent(); 
+		if (ASC)
+		{
+			// Iterate through registered AttributeSets
+			for (UAttributeSet* AttributeSet : ASC->GetSpawnedAttributes()) 
+			{
+				if (AttributeSet)
+				{
+					// Perform validation checks on the AttributeSet
+					// Example: Check if a specific attribute has a non-zero value
+					// if (AttributeSet->GetHealth() <= 0.0f) { /* Log error or handle */ }
+					UE_LOG(LogTemp, Log, TEXT("AttributeSet %s initialized for PlayerState."), *AttributeSet->GetName());
+				}
+				else
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Null AttributeSet found in ASC for PlayerState."));
+				}
+			}
+		}
+	}
+}
 
 AAlsxtCharacter::AAlsxtCharacter(const FObjectInitializer& ObjectInitializer) :
                                                                               Super(ObjectInitializer.SetDefaultSubobjectClass<UAlsxtPaintableSkeletalMeshComponent>(AAlsCharacter::MeshComponentName).SetDefaultSubobjectClass<UAlsxtCharacterMovementComponent>(AAlsCharacter::CharacterMovementComponentName))
@@ -562,11 +590,6 @@ UAbilitySystemComponent* AAlsxtCharacter::GetAbilitySystemComponent() const
 	return nullptr;
 }
 
-UAlsxtAbilitySystemComponent* AAlsxtCharacter::GetAlsxtAbilitySystemComponent() const
-{
-	return nullptr;
-}
-
 void AAlsxtCharacter::CalcCamera(const float DeltaTime, FMinimalViewInfo& ViewInfo)
 {
 	if (Camera->IsActive())
@@ -781,10 +804,10 @@ void AAlsxtCharacter::InputMove(const FInputActionValue& ActionValue)
 
 void AAlsxtCharacter::InputSprint(const FInputActionValue& ActionValue)
 {
-	if (CanSprint())
-	{
-		SetDesiredGait(ActionValue.Get<bool>() ? AlsGaitTags::Sprinting : AlsGaitTags::Running);
-	}
+	// if (CanSprint())
+	// {
+	// 	SetDesiredGait(ActionValue.Get<bool>() ? AlsGaitTags::Sprinting : AlsGaitTags::Running);
+	// }
 }
 
 void AAlsxtCharacter::InputWalk()
@@ -3447,7 +3470,7 @@ FAlsxtTargetBreathState AAlsxtCharacter::CalculateTargetBreathState()
 {
 	FAlsxtTargetBreathState NewTargetBreathState;
 
-	const FGameplayAttribute BreathingRateAttribute = UAlsxtStaminaAttributeSet::GetBreathingRateAttribute();
+	const FGameplayAttribute BreathingRateAttribute = UAlsxtBreathAttributeSet::GetCurrentBreathRateAttribute();
 	float GasBreathRate {0.0f};
 	if (BreathingRateAttribute.IsValid())
 	{
@@ -3720,6 +3743,11 @@ bool AAlsxtCharacter::CanEmote_Implementation() const
 bool AAlsxtCharacter::CanGesture_Implementation() const
 {
 	return true;
+}
+
+FAlsxtAnimationParametersState AAlsxtCharacter::GetCharacterAnimationParametersState_Implementation() const
+{
+	return AnimationParametersState;
 }
 
 FGameplayTag AAlsxtCharacter::GetCharacterLocomotionAction_Implementation() const

@@ -74,6 +74,9 @@ protected:
 	TObjectPtr<UAlsxtAbilitySystemComponent> AlsxtAbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
+	FAlsxtAnimationParametersState AnimationParametersState;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))
 	FALSXTJigglePhysicsSettings JigglePhysicsSettings;
 
 	UPROPERTY(BlueprintReadOnly, Category = "State", Transient, Meta = (AllowPrivateAccess))

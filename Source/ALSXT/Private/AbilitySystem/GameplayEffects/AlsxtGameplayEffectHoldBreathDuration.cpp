@@ -8,7 +8,7 @@
 UAlsxtGameplayEffectHoldBreathDuration::UAlsxtGameplayEffectHoldBreathDuration()
 {
 	FGameplayEffectAttributeCaptureDefinition CaptureDef;
-	CaptureDef.AttributeToCapture = UAlsxtHoldBreathAttributeSet::GetCurrentHoldBreathAttribute();
+	CaptureDef.AttributeToCapture = UAlsxtHoldBreathAttributeSet::GetCurrentHoldBreathDurationAttribute();
 
 	FGameplayEffectExecutionDefinition ExecutionDefinition;
 	// Set the execution calculation class to UAlsxtGeecBreathingRate

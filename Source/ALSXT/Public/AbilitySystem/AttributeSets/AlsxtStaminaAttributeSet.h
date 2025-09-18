@@ -12,8 +12,8 @@
 * @file AlsxtStaminaAttributeSet.h
 * @brief Contains Attributes related to Stamina. Any Character that uses Stamina will need this Attribute Set.
 * @attribute CurrentStamina - Primarily used as a cost resource for Abilities.
-* @attribute MaximumStamina - The maximum amount of Stamina the Character can have.
-* @attribute StaminaRegeneration - How much Stamina is gained per period of Regeneration.
+* @attribute MaxStamina - The Max amount of Stamina the Character can have.
+* @attribute StaminaRegen - How much Stamina is gained per period of Regen.
 */
 UCLASS()
 class ALSXT_API UAlsxtStaminaAttributeSet : public UAlsxtAttributeSetBase
@@ -32,23 +32,23 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	// Holds the current value for Stamina.
-	UPROPERTY(BlueprintReadOnly, Category = "Stamina Attribute Set", ReplicatedUsing = OnRep_CurrentStamina)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stamina Attribute Set", ReplicatedUsing = OnRep_CurrentStamina)
 	FGameplayAttributeData CurrentStamina;
-	ATTRIBUTE_ACCESSORS(UAlsxtStaminaAttributeSet, CurrentStamina)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStaminaAttributeSet, CurrentStamina)
 
-	// Holds the value for Maximum Stamina.
-	UPROPERTY(BlueprintReadOnly, Category = "Stamina Attribute Set", ReplicatedUsing = OnRep_MaximumStamina)
-	FGameplayAttributeData MaximumStamina;
-	ATTRIBUTE_ACCESSORS(UAlsxtStaminaAttributeSet, MaximumStamina)
+	// Holds the value for Max Stamina.
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stamina Attribute Set", ReplicatedUsing = OnRep_MaxStamina)
+	FGameplayAttributeData MaxStamina;
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStaminaAttributeSet, MaxStamina)
 
-	// Holds the current value for Stamina Regeneration.
-	UPROPERTY(BlueprintReadOnly, Category = "Stamina Attribute Set", ReplicatedUsing = OnRep_StaminaRegeneration)
-	FGameplayAttributeData StaminaRegeneration;
-	ATTRIBUTE_ACCESSORS(UAlsxtStaminaAttributeSet, StaminaRegeneration)
+	// Holds the current value for Stamina Regen.
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stamina Attribute Set", ReplicatedUsing = OnRep_CurrentStaminaRegen)
+	FGameplayAttributeData CurrentStaminaRegen;
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStaminaAttributeSet, CurrentStaminaRegen)
 
-	UPROPERTY(BlueprintReadOnly, Category = "Breathing Rate", ReplicatedUsing = OnRep_BreathingRate)
-	FGameplayAttributeData BreathingRate;
-	ATTRIBUTE_ACCESSORS(UAlsxtStaminaAttributeSet, BreathingRate);
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Breathing Rate", ReplicatedUsing = OnRep_MaxStaminaRegen)
+	FGameplayAttributeData MaxStaminaRegen;
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStaminaAttributeSet, MaxStaminaRegen);
 
 protected:
 	
@@ -56,11 +56,11 @@ protected:
 	virtual void OnRep_CurrentStamina(const FGameplayAttributeData& OldValue);
 
 	UFUNCTION()
-	virtual void OnRep_MaximumStamina(const FGameplayAttributeData& OldValue);
+	virtual void OnRep_MaxStamina(const FGameplayAttributeData& OldValue);
 
 	UFUNCTION()
-	virtual void OnRep_StaminaRegeneration(const FGameplayAttributeData& OldValue);
+	virtual void OnRep_CurrentStaminaRegen(const FGameplayAttributeData& OldValue);
 
 	UFUNCTION()
-	virtual void OnRep_BreathingRate(const FGameplayAttributeData& OldValue);
+	virtual void OnRep_MaxStaminaRegen(const FGameplayAttributeData& OldValue);
 };

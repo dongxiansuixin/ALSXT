@@ -30,11 +30,11 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Movement Attribute Set", ReplicatedUsing = OnRep_MovementSpeedMultiplier)
 	FGameplayAttributeData MovementSpeedMultiplier;
-	ATTRIBUTE_ACCESSORS(UAlsxtMovementAttributeSet, MovementSpeedMultiplier)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtMovementAttributeSet, MovementSpeedMultiplier)
 
 	UPROPERTY(BlueprintReadOnly, Category = "Movement Attribute Set", ReplicatedUsing = OnRep_MovementAccelerationMultiplier)
 	FGameplayAttributeData MovementAccelerationMultiplier;
-	ATTRIBUTE_ACCESSORS(UAlsxtMovementAttributeSet, MovementAccelerationMultiplier)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtMovementAttributeSet, MovementAccelerationMultiplier)
 protected:
 	
 	UFUNCTION()

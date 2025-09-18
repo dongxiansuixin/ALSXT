@@ -8,11 +8,10 @@
 
 UAlsxtHoldBreathAttributeSet::UAlsxtHoldBreathAttributeSet()
 {
-	MaximumHoldBreath = 1.0f;
-	CurrentHoldBreath = 1.0f;
-	HoldBreathRegeneration = 0.0f;
-	Bleeding = 0.f;
-	BleedHealing = 0.f;
+	MaxHoldBreathDuration = 1.0f;
+	CurrentHoldBreathDuration = 1.0f;
+	CurrentHoldBreathDurationRegen = 0.0f;
+	MaxHoldBreathDurationRegen = 0.0f;
 }
 
 void UAlsxtHoldBreathAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -24,26 +23,25 @@ void UAlsxtHoldBreathAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimePr
 	Params.Condition = COND_None;
 
 	// Replicated to all
-	DOREPLIFETIME_WITH_PARAMS_FAST(UAlsxtHoldBreathAttributeSet, CurrentHoldBreath, Params);
-	DOREPLIFETIME_WITH_PARAMS_FAST(UAlsxtHoldBreathAttributeSet, MaximumHoldBreath, Params);
-	DOREPLIFETIME_WITH_PARAMS_FAST(UAlsxtHoldBreathAttributeSet, Bleeding, Params);
+	DOREPLIFETIME_WITH_PARAMS_FAST(UAlsxtHoldBreathAttributeSet, CurrentHoldBreathDuration, Params);
+	DOREPLIFETIME_WITH_PARAMS_FAST(UAlsxtHoldBreathAttributeSet, MaxHoldBreathDuration, Params);
 
 	// Only Owner
 	Params.Condition = COND_OwnerOnly;
-	DOREPLIFETIME_WITH_PARAMS_FAST(UAlsxtHoldBreathAttributeSet, HoldBreathRegeneration, Params);
-	DOREPLIFETIME_WITH_PARAMS_FAST(UAlsxtHoldBreathAttributeSet, BleedHealing, Params);
+	DOREPLIFETIME_WITH_PARAMS_FAST(UAlsxtHoldBreathAttributeSet, CurrentHoldBreathDurationRegen, Params);
+	DOREPLIFETIME_WITH_PARAMS_FAST(UAlsxtHoldBreathAttributeSet, MaxHoldBreathDurationRegen, Params);
 }
 
 void UAlsxtHoldBreathAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const
 {
 	Super::PreAttributeBaseChange(Attribute, NewValue);
-	// const FCustomAttributeMaxValue* MaximumValue;
+	// const FCustomAttributeMaxValue* MaxValue;
 
-	if (const FAlsxtCustomAttributeMaxValue* MaximumValue = AttributeMaxValue.Find(Attribute))
+	if (const FAlsxtCustomAttributeMaxValue* MaxValue = AttributeMaxValue.Find(Attribute))
 	{
-		// const float Max = MaximumValue->MaxAttribute.IsValid() ? MaximumValue->MaxAttribute.GetNumericValue(this) : MaximumValue->MaxFloat.GetValueAtLevel(0);
+		const float Max = MaxValue->MaxAttribute.IsValid() ? MaxValue->MaxAttribute.GetNumericValue(this) : MaxValue->MaxFloat.GetValueAtLevel(0);
 
-		// NewValue = FMath::Clamp(NewValue, 0.f, Max);
+		NewValue = FMath::Clamp(NewValue, 0.f, Max);
 		return;
 	}
 }
@@ -52,50 +50,29 @@ void UAlsxtHoldBreathAttributeSet::PostGameplayEffectExecute(const FGameplayEffe
 {
 	Super::PostGameplayEffectExecute(Data);
 
-	if (Data.EvaluatedData.Attribute == GetDamageAttribute())
+	if (Data.EvaluatedData.Attribute == GetCurrentHoldBreathDurationAttribute())
 	{
-		// Store a local copy of the amount of Damage done and clear the Damage attribute.
-		const float LocalDamageDone = GetDamage();
+		// Store a local copy CurrentHoldBreathDuration and clear the CurrentHoldBreathDuration attribute.
+		const float LocalCurrentHoldBreathDuration = GetCurrentHoldBreathDuration();
 
-		SetDamage(0.f);
+		SetCurrentHoldBreathDuration(0.f);
 	
-		if (LocalDamageDone > 0.0f)
+		if (LocalCurrentHoldBreathDuration > 0.0f)
 		{
-			// Apply the HoldBreath change and then clamp it.
-			const float NewHoldBreath = GetCurrentHoldBreath() - LocalDamageDone;
+			// Apply the CurrentHoldBreathDuration change and then clamp it.
+			const float NewCurrentHoldBreathDuration = GetCurrentHoldBreathDuration() - LocalCurrentHoldBreathDuration;
 
-			SetCurrentHoldBreath(FMath::Clamp(NewHoldBreath, 0.0f, GetMaximumHoldBreath()));
+			SetCurrentHoldBreathDuration(FMath::Clamp(NewCurrentHoldBreathDuration, 0.0f, GetMaxHoldBreathDuration()));
 		}
 		return;
 	}
-
-	if (Data.EvaluatedData.Attribute == GetHealingAttribute())
-	{
-		// Store a local copy of the amount of Healing done and clear the Healing attribute.
-		const float LocalHealingDone = GetHealing();
-
-		SetHealing(0.f);
 	
-		if (LocalHealingDone > 0.0f)
-		{
-			// Apply the HoldBreath change and then clamp it.
-			const float NewHoldBreath = GetCurrentHoldBreath() + LocalHealingDone;
 
-			SetCurrentHoldBreath(FMath::Clamp(NewHoldBreath, 0.0f, GetMaximumHoldBreath()));
-		}
-		return;
-	}
-
-	if (Data.EvaluatedData.Attribute == GetHoldBreathRegenerationAttribute())
+	if (Data.EvaluatedData.Attribute == GetCurrentHoldBreathDurationRegenAttribute())
 	{
-		SetHoldBreathRegeneration(FMath::Clamp(GetHoldBreathRegeneration(), 0.0f, GetMaximumHoldBreath()));
+		SetCurrentHoldBreathDurationRegen(FMath::Clamp(GetCurrentHoldBreathDurationRegen(), 0.0f, GetMaxHoldBreathDuration()));
 		return;
 	}
-}
-
-void UAlsxtHoldBreathAttributeSet::OnRep_CurrentHoldBreath(const FGameplayAttributeData& OldValue)
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtHoldBreathAttributeSet, CurrentHoldBreath, OldValue);
 }
 
 void UAlsxtHoldBreathAttributeSet::OnRep_CurrentHoldBreathDuration(const FGameplayAttributeData& OldValue)
@@ -103,45 +80,46 @@ void UAlsxtHoldBreathAttributeSet::OnRep_CurrentHoldBreathDuration(const FGamepl
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtHoldBreathAttributeSet, CurrentHoldBreathDuration, OldValue);
 }
 
-void UAlsxtHoldBreathAttributeSet::OnRep_MaximumHoldBreath(const FGameplayAttributeData& OldValue)
+void UAlsxtHoldBreathAttributeSet::OnRep_MaxHoldBreathDuration(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtHoldBreathAttributeSet, MaximumHoldBreath, OldValue);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtHoldBreathAttributeSet, MaxHoldBreathDuration, OldValue);
 }
 
-void UAlsxtHoldBreathAttributeSet::OnRep_HoldBreathRegeneration(const FGameplayAttributeData& OldValue)
+void UAlsxtHoldBreathAttributeSet::OnRep_CurrentHoldBreathDurationRegen(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtHoldBreathAttributeSet, HoldBreathRegeneration, OldValue);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtHoldBreathAttributeSet, CurrentHoldBreathDurationRegen, OldValue);
 }
 
-void UAlsxtHoldBreathAttributeSet::OnRep_Bleeding(const FGameplayAttributeData& OldValue)
+void UAlsxtHoldBreathAttributeSet::OnRep_MaxHoldBreathDurationRegen(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtHoldBreathAttributeSet, Bleeding, OldValue);
-}
-
-void UAlsxtHoldBreathAttributeSet::OnRep_BleedHealing(const FGameplayAttributeData& OldValue)
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtHoldBreathAttributeSet, BleedHealing, OldValue);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAlsxtHoldBreathAttributeSet, MaxHoldBreathDurationRegen, OldValue);
 }
 
 void UAlsxtHoldBreathAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
 {
 	Super::PostAttributeChange(Attribute, OldValue, NewValue);
 	
-	if (Attribute == GetCurrentHoldBreathAttribute())
+	if (Attribute == GetCurrentHoldBreathDurationAttribute())
 	{
-		CheckMaxReachedForAttribute(MaximumHoldBreath, ALSXTGASGameplayTags::State::TAG_State_Max_HoldingBreath.GetTag(), NewValue);
-		return;
-	}
-	
-	if (Attribute == GetBleedingAttribute())
-	{
-		CheckStatusTagForAttribute(ALSXTGASGameplayTags::Statuses::TAG_Debuff_Bleeding, NewValue, OldValue);
+		CheckMaxReachedForAttribute(MaxHoldBreathDuration, ALSXTGASGameplayTags::State::TAG_State_Max_HoldingBreath.GetTag(), NewValue);
 		return;
 	}
 
-	if (Attribute == GetMaximumHoldBreathAttribute())
+	if (Attribute == GetCurrentHoldBreathDurationRegenAttribute())
 	{
-		AdjustAttributeForMaxChange(GetCurrentHoldBreathAttribute(), OldValue, NewValue);
+		CheckMaxReachedForAttribute(MaxHoldBreathDurationRegen, ALSXTGASGameplayTags::State::TAG_State_Max_HoldingBreathRegen.GetTag(), NewValue);
+		return;
+	}
+
+	if (Attribute == GetMaxHoldBreathDurationAttribute())
+	{
+		AdjustAttributeForMaxChange(GetCurrentHoldBreathDurationAttribute(), OldValue, NewValue);
+		return;
+	}
+
+	if (Attribute == GetMaxHoldBreathDurationRegenAttribute())
+	{
+		AdjustAttributeForMaxChange(GetCurrentHoldBreathDurationRegenAttribute(), OldValue, NewValue);
 		return;
 	}
 }
@@ -153,21 +131,27 @@ void UAlsxtHoldBreathAttributeSet::PostAttributeBaseChange(const FGameplayAttrib
 
 void UAlsxtHoldBreathAttributeSet::ClampAttributes(const FGameplayAttribute& Attribute, float& NewValue) const
 {
-	if (Attribute == GetMaximumHoldBreathAttribute())
+	if (Attribute == GetMaxHoldBreathDurationAttribute())
 	{
 		NewValue = FMath::Max(NewValue, 1.f);
 		return;
 	}
-	if (Attribute == GetCurrentHoldBreathAttribute())
+	if (Attribute == GetMaxHoldBreathDurationRegenAttribute())
 	{
-		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaximumHoldBreath());
+		NewValue = FMath::Max(NewValue, 1.f);
 		return;
 	}
-	if (Attribute == GetBleedingAttribute() || Attribute == GetBleedHealingAttribute())
+	if (Attribute == GetCurrentHoldBreathDurationAttribute())
 	{
-		NewValue = FMath::Max(NewValue, 0.f);
+		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxHoldBreathDuration());
 		return;
 	}
+	if (Attribute == GetCurrentHoldBreathDurationRegenAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxHoldBreathDurationRegen());
+		return;
+	}
+
 }
 
 

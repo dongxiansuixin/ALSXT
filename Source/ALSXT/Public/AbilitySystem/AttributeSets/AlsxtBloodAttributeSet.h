@@ -42,47 +42,47 @@ class ALSXT_API UAlsxtBloodAttributeSet : public UAlsxtAttributeSetBase
 	// Used to create a local copy of Damage which is then subtracted from Current Blood.
 	UPROPERTY(BlueprintReadOnly, Category = "Blood Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Damage;
-	ATTRIBUTE_ACCESSORS(UAlsxtBloodAttributeSet, Damage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBloodAttributeSet, Damage)
 
 	// Used to create a local copy of Healing which is then added to Current Blood.
 	UPROPERTY(BlueprintReadOnly, Category = "Blood Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Healing;
-	ATTRIBUTE_ACCESSORS(UAlsxtBloodAttributeSet, Healing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBloodAttributeSet, Healing)
 
 	// Used to create a local copy of Bleed which is then added to Bleeding.
 	UPROPERTY(BlueprintReadOnly, Category = "Blood Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedBleed;
-	ATTRIBUTE_ACCESSORS(UAlsxtBloodAttributeSet, ReceivedBleed)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBloodAttributeSet, ReceivedBleed)
 
 	// Used to create a local copy of Direct Damage which is then added to Current Blood.
 	UPROPERTY(BlueprintReadOnly, Category = "Blood Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedDirectDamage;
-	ATTRIBUTE_ACCESSORS(UAlsxtBloodAttributeSet, ReceivedDirectDamage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBloodAttributeSet, ReceivedDirectDamage)
 	
 	// Holds the current value for Blood.
 	UPROPERTY(BlueprintReadOnly, Category = "Blood Attribute Set", ReplicatedUsing = OnRep_CurrentBlood)
 	FGameplayAttributeData CurrentBlood;
-	ATTRIBUTE_ACCESSORS(UAlsxtBloodAttributeSet, CurrentBlood)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBloodAttributeSet, CurrentBlood)
 
 	// Holds the value for Maximum Blood.
 	UPROPERTY(BlueprintReadOnly, Category = "Blood Attribute Set", ReplicatedUsing = OnRep_MaximumBlood)
 	FGameplayAttributeData MaximumBlood;
-	ATTRIBUTE_ACCESSORS(UAlsxtBloodAttributeSet, MaximumBlood)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBloodAttributeSet, MaximumBlood)
 
 	// Holds the value for Blood Regeneration.
 	UPROPERTY(BlueprintReadOnly, Category = "Blood Attribute Set", ReplicatedUsing = OnRep_BloodRegeneration)
 	FGameplayAttributeData BloodRegeneration;
-	ATTRIBUTE_ACCESSORS(UAlsxtBloodAttributeSet, BloodRegeneration)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBloodAttributeSet, BloodRegeneration)
 
 	// Holds the current bleeding amount
 	UPROPERTY(BlueprintReadOnly, Category = "Blood Attribute Set", ReplicatedUsing = OnRep_Bleeding)
 	FGameplayAttributeData Bleeding;
-	ATTRIBUTE_ACCESSORS(UAlsxtBloodAttributeSet, Bleeding)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBloodAttributeSet, Bleeding)
 
 	// Holds the current bleed healing rate
 	UPROPERTY(BlueprintReadOnly, Category = "Blood Attribute Set", ReplicatedUsing = OnRep_BleedHealing)
 	FGameplayAttributeData BleedHealing;
-	ATTRIBUTE_ACCESSORS(UAlsxtBloodAttributeSet, BleedHealing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBloodAttributeSet, BleedHealing)
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

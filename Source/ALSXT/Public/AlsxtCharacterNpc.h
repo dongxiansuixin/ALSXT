@@ -31,8 +31,6 @@ public:
 	
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override
 	{ return AbilitySystemComponent; }
-	virtual UAlsxtAbilitySystemComponent* GetAlsxtAbilitySystemComponent() const override
-	{ return AbilitySystemComponent; }
 	
 protected:	
 	UAlsxtAbilitySystemComponent* AbilitySystemComponent;

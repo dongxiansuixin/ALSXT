@@ -22,7 +22,7 @@ class UAlsxtCharacterMovementComponent;
 * Create a Blueprint class based on this class, do not use the C++ class directly in the Editor
 */
 UCLASS()
-class ALSXT_API AAlsxtPlayerState : public AModularPlayerState, public IAlsxtAbilitySystemInterface
+class ALSXT_API AAlsxtPlayerState : public AModularPlayerState, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 	
@@ -34,7 +34,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = "MovementComponent")
 	UAlsxtCharacterMovementComponent* GetAlsxtCharacterMovementComponent() const;
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-	virtual UAlsxtAbilitySystemComponent* GetAlsxtAbilitySystemComponent() const override;
 
 
 	void InitializeAbilitySystem();
@@ -42,11 +41,6 @@ public:
 	// This event is fired after Ability System Component initialization is finished.
 	UFUNCTION(BlueprintNativeEvent)
 	void PostInitializeAbilitySystem();
-	
-	virtual const TSoftObjectPtr<UAlsxtAbilitySystemInitializationDataAsset> GetAbilitySystemInitializationData() const override
-	{
-		return AbilitySystemInitializationData;
-	}
 
 protected:
 	// Data used to initialize the Ability System Component. (Can be found in "AlsxtAbilitySystemData.h")

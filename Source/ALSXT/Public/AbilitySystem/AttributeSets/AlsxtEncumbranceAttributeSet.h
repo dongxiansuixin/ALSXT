@@ -36,7 +36,7 @@ public:
 	// Holds the current value for Encumbrance.
 	UPROPERTY(BlueprintReadOnly, Category = "Encumbrance Attribute Set", ReplicatedUsing = OnRep_Encumbrance)
 	FGameplayAttributeData Encumbrance;
-	ATTRIBUTE_ACCESSORS(UAlsxtEncumbranceAttributeSet, Encumbrance)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtEncumbranceAttributeSet, Encumbrance)
 
 	UFUNCTION(BlueprintPure, Category = "Encumbrance Attribute Set")
 	static float GetBaseEncumbrance() { return Encumbrance_BASE; }

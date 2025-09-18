@@ -12,6 +12,7 @@
 #include "Stats/Stats.h"
 #include "Interfaces/AlsxtFirearmInterface.h"
 #include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
+#include "AbilitySystem/AttributeSets/AlsxtBreathAttributeSet.h"
 #include "AbilitySystem/AttributeSets/AlsxtStaminaAttributeSet.h"
 
 UAlsxtAnimationInstance::UAlsxtAnimationInstance()
@@ -70,6 +71,7 @@ void UAlsxtAnimationInstance::NativeUpdateAnimation(const float DeltaTime)
 	
 	if (GetOwningActor()->Implements<UAlsxtCharacterInterface>())
 	{
+		AnimationParametersState = IAlsxtCharacterInterface::Execute_GetCharacterAnimationParametersState(GetOwningActor());
 		JigglePhysicsSettings = IAlsxtCharacterInterface::Execute_GetCharacterJigglePhysicsSettings(GetOwningActor());
 		Freelooking = IAlsxtCharacterInterface::Execute_GetCharacterFreelooking(GetOwningActor());
 		Sex = IAlsxtCharacterInterface::Execute_GetCharacterSex(GetOwningActor());
@@ -298,7 +300,7 @@ float UAlsxtAnimationInstance::GetBreathingRate() const
 	if (AlsxtAbilitySystemComponent)
 	{
 		// 4. Get the breathing rate attribute value from the attribute set.
-		const FGameplayAttribute BreathingRateAttribute = UAlsxtStaminaAttributeSet::GetBreathingRateAttribute();
+		const FGameplayAttribute BreathingRateAttribute = UAlsxtBreathAttributeSet::GetCurrentBreathRateAttribute();
 		if (BreathingRateAttribute.IsValid())
 		{
 			// You can use the GetNumericAttribute function to get the current value.

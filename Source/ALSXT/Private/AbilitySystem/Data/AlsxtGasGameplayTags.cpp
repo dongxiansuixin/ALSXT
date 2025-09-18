@@ -24,6 +24,20 @@ namespace ALSXTGASGameplayTags
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Character_Type_NPC, "Character.Type.NonPlayerCharacter", "A Gameplay Tag applied to Characters that are AI controlled.")
 	}
 
+	namespace StaminaCost
+	{
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_StaminaCost_Infinite_Sprint, "StaminaCost.Infinite.Sprint", "A Gameplay Tag applied to Sprinting Stamina Cost")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_StaminaCost_Instant_Jump, "StaminaCost.Instant.Jump", "A Gameplay Tag applied to Jumping Stamina Cost")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_StaminaCost_Instant_Roll, "StaminaCost.Instant.Sprint", "A Gameplay Tag applied to Sprinting Stamina Cost")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_StaminaCost_Instant_Mantle, "StaminaCost.Instant.Mantle", "A Gameplay Tag applied to Mantle Stamina Cost")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_StaminaCost_Instant_Vault, "StaminaCost.Instant.Vault", "A Gameplay Tag applied to Vaulting Stamina Cost")
+	}
+
+	namespace Data
+	{
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Data_Magnitude_Sprint, "Data.Magnitude.Sprint", "A Gameplay Tag applied to Sprinting Magnitude")
+	}
+
 	namespace BasicAttack
 	{
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_DamageType_DirectDamage, "DamageType.DirectDamage", "Basic Damage Type. Used to calculated Resistance to Basic Damage.")
@@ -46,6 +60,8 @@ namespace ALSXTGASGameplayTags
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Stability, "State.Max.Stamina", "Max Stamina reached")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_HoldingBreath, "Gameplay.State.Max.HoldingBreath", "Max HoldingBreath reached")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Breath, "Gameplay.State.Max.Breath", "Max Breath reached")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_BreathRegen, "Gameplay.State.Max.BreathRegen", "Max Breath reached")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_HoldingBreathRegen, "Gameplay.State.Max.HoldingBreathRegen", "Max Breath reached")
 
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Blood, "State.Max.Blood", "Max Blood reached")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_BodyTemp, "State.Max.BodyTemp", "Max BodyTemp reached")

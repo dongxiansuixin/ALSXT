@@ -16,6 +16,7 @@
 #include "State/AlsxtSlidingState.h"
 #include "AlsCharacterMovementComponent.h"
 #include "Settings/AlsxtStatusSettings.h"
+#include "State/AlsxtAnimationParametersState.h"
 #include "State/AlsxtClothingState.h"
 #include "State/AlsxtStatusState.h"
 #include "AlsxtCharacterInterface.generated.h"
@@ -67,6 +68,9 @@ public:
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
   UAlsxtAnimationInstance* GetCharacterAnimInstance() const;
+
+  UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
+  FAlsxtAnimationParametersState GetCharacterAnimationParametersState() const;
 
   UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "ALSXTCharacter Interface")
   FALSXTJigglePhysicsSettings GetCharacterJigglePhysicsSettings() const;

@@ -35,22 +35,22 @@ public:
 	// Holds the current value for Breath.
 	UPROPERTY(BlueprintReadOnly, Category = "Breath Attribute Set", ReplicatedUsing = OnRep_CurrentBreathRate)
 	FGameplayAttributeData CurrentBreathRate;
-	ATTRIBUTE_ACCESSORS(UAlsxtBreathAttributeSet, CurrentBreathRate)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBreathAttributeSet, CurrentBreathRate)
 
 	// Holds the value for Maximum Breath.
 	UPROPERTY(BlueprintReadOnly, Category = "Breath Attribute Set", ReplicatedUsing = OnRep_MaximumBreathRate)
 	FGameplayAttributeData MaximumBreathRate;
-	ATTRIBUTE_ACCESSORS(UAlsxtBreathAttributeSet, MaximumBreathRate)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBreathAttributeSet, MaximumBreathRate)
 
 	// Holds the current value for Breath Regeneration.
-	UPROPERTY(BlueprintReadOnly, Category = "Breath Attribute Set", ReplicatedUsing = OnRep_BreathRegeneration)
-	FGameplayAttributeData BreathRegeneration;
-	ATTRIBUTE_ACCESSORS(UAlsxtBreathAttributeSet, BreathRegeneration)
+	UPROPERTY(BlueprintReadOnly, Category = "Breath Attribute Set", ReplicatedUsing = OnRep_CurrentBreathRegeneration)
+	FGameplayAttributeData CurrentBreathRegeneration;
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBreathAttributeSet, CurrentBreathRegeneration)
 
-	// Length of time the player can hold their breath
-	UPROPERTY(BlueprintReadOnly, Category = "Breath Attribute Set", ReplicatedUsing = OnRep_HoldingBreathLength)
-	FGameplayAttributeData HoldingBreathLength;
-	ATTRIBUTE_ACCESSORS(UAlsxtBreathAttributeSet, HoldingBreathLength);
+	// Holds the current value for Breath Regeneration.
+	UPROPERTY(BlueprintReadOnly, Category = "Breath Attribute Set", ReplicatedUsing = OnRep_MaxBreathRegeneration)
+	FGameplayAttributeData MaxBreathRegeneration;
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtBreathAttributeSet, MaxBreathRegeneration)
 
 protected:
 	
@@ -61,8 +61,8 @@ protected:
 	virtual void OnRep_MaximumBreathRate(const FGameplayAttributeData& OldValue);
 
 	UFUNCTION()
-	virtual void OnRep_BreathRegeneration(const FGameplayAttributeData& OldValue);
+	virtual void OnRep_CurrentBreathRegeneration(const FGameplayAttributeData& OldValue);
 
 	UFUNCTION()
-	virtual void OnRep_HoldingBreathLength(const FGameplayAttributeData& OldValue);
+	virtual void OnRep_MaxBreathRegeneration(const FGameplayAttributeData& OldValue);
 };

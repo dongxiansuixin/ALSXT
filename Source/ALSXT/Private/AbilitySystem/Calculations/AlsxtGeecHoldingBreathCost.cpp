@@ -14,12 +14,12 @@ static const FALSXTExecutionCalculationStaminaAndHoldBreathStatics& GetStaminaAn
 struct FHoldingBreathCostCapture
 {
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CurrentStamina);
-	DECLARE_ATTRIBUTE_CAPTUREDEF(CurrentHoldBreath);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(CurrentHoldBreathDuration);
 
 	FHoldingBreathCostCapture()
 	{
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtStaminaAttributeSet, CurrentStamina, Target, true);
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtHoldBreathAttributeSet, CurrentHoldBreath, Target, true);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtHoldBreathAttributeSet, CurrentHoldBreathDuration, Target, true);
 	}
 };
 
@@ -40,7 +40,7 @@ UAlsxtGeecHoldingBreathCost::UAlsxtGeecHoldingBreathCost()
 
 	// Capture the target's Hold Breath attribute
 	FGameplayEffectAttributeCaptureDefinition HoldBreathDef;
-	HoldBreathDef.AttributeToCapture = UAlsxtHoldBreathAttributeSet::GetCurrentHoldBreathAttribute();
+	HoldBreathDef.AttributeToCapture = UAlsxtHoldBreathAttributeSet::GetCurrentHoldBreathDurationAttribute();
 	HoldBreathDef.AttributeSource = EGameplayEffectAttributeCaptureSource::Target;
 	HoldBreathDef.bSnapshot = false;
 	RelevantAttributesToCapture.Add(HoldBreathDef);
@@ -87,5 +87,5 @@ void UAlsxtGeecHoldingBreathCost::Execute_Implementation(const FGameplayEffectCu
 
 	// Apply the costs to the respective attributes
 	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UAlsxtStaminaAttributeSet::GetCurrentStaminaAttribute(), EGameplayModOp::Additive, -TotalStaminaCost));
-	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UAlsxtHoldBreathAttributeSet::GetCurrentHoldBreathAttribute(), EGameplayModOp::Additive, -TotalBreathCost));
+	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UAlsxtHoldBreathAttributeSet::GetCurrentHoldBreathDurationAttribute(), EGameplayModOp::Additive, -TotalBreathCost));
 }

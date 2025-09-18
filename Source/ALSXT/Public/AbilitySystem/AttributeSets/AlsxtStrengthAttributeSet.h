@@ -42,47 +42,47 @@ class ALSXT_API UAlsxtStrengthAttributeSet : public UAlsxtAttributeSetBase
 	// Used to create a local copy of Damage which is then subtracted from Current Strength.
 	UPROPERTY(BlueprintReadOnly, Category = "Strength Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Damage;
-	ATTRIBUTE_ACCESSORS(UAlsxtStrengthAttributeSet, Damage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStrengthAttributeSet, Damage)
 
 	// Used to create a local copy of Healing which is then added to Current Strength.
 	UPROPERTY(BlueprintReadOnly, Category = "Strength Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Healing;
-	ATTRIBUTE_ACCESSORS(UAlsxtStrengthAttributeSet, Healing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStrengthAttributeSet, Healing)
 
 	// Used to create a local copy of Bleed which is then added to Bleeding.
 	UPROPERTY(BlueprintReadOnly, Category = "Strength Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedBleed;
-	ATTRIBUTE_ACCESSORS(UAlsxtStrengthAttributeSet, ReceivedBleed)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStrengthAttributeSet, ReceivedBleed)
 
 	// Used to create a local copy of Direct Damage which is then added to Current Strength.
 	UPROPERTY(BlueprintReadOnly, Category = "Strength Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedDirectDamage;
-	ATTRIBUTE_ACCESSORS(UAlsxtStrengthAttributeSet, ReceivedDirectDamage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStrengthAttributeSet, ReceivedDirectDamage)
 	
 	// Holds the current value for Strength.
 	UPROPERTY(BlueprintReadOnly, Category = "Strength Attribute Set", ReplicatedUsing = OnRep_CurrentStrength)
 	FGameplayAttributeData CurrentStrength;
-	ATTRIBUTE_ACCESSORS(UAlsxtStrengthAttributeSet, CurrentStrength)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStrengthAttributeSet, CurrentStrength)
 
 	// Holds the value for Maximum Strength.
 	UPROPERTY(BlueprintReadOnly, Category = "Strength Attribute Set", ReplicatedUsing = OnRep_MaximumStrength)
 	FGameplayAttributeData MaximumStrength;
-	ATTRIBUTE_ACCESSORS(UAlsxtStrengthAttributeSet, MaximumStrength)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStrengthAttributeSet, MaximumStrength)
 
 	// Holds the value for Strength Regeneration.
 	UPROPERTY(BlueprintReadOnly, Category = "Strength Attribute Set", ReplicatedUsing = OnRep_StrengthRegeneration)
 	FGameplayAttributeData StrengthRegeneration;
-	ATTRIBUTE_ACCESSORS(UAlsxtStrengthAttributeSet, StrengthRegeneration)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStrengthAttributeSet, StrengthRegeneration)
 
 	// Holds the current bleeding amount
 	UPROPERTY(BlueprintReadOnly, Category = "Strength Attribute Set", ReplicatedUsing = OnRep_Bleeding)
 	FGameplayAttributeData Bleeding;
-	ATTRIBUTE_ACCESSORS(UAlsxtStrengthAttributeSet, Bleeding)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStrengthAttributeSet, Bleeding)
 
 	// Holds the current bleed healing rate
 	UPROPERTY(BlueprintReadOnly, Category = "Strength Attribute Set", ReplicatedUsing = OnRep_BleedHealing)
 	FGameplayAttributeData BleedHealing;
-	ATTRIBUTE_ACCESSORS(UAlsxtStrengthAttributeSet, BleedHealing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtStrengthAttributeSet, BleedHealing)
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

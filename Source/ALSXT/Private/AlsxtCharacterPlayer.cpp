@@ -5,6 +5,7 @@
 #include "AlsxtCharacterPlayer.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "AbilitySystem/Data/AlsxtGasGameplayTags.h"
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/PlayerController.h"
 #include "Utility/AlsVector.h"
@@ -128,20 +129,24 @@ void AAlsxtCharacterPlayer::PossessedBy(AController * NewController)
 
 UAbilitySystemComponent* AAlsxtCharacterPlayer::GetAbilitySystemComponent() const
 {
-	if (IAlsxtAbilitySystemInterface* AlsxtAbilitySystemInterface = Cast<IAlsxtAbilitySystemInterface>(PlayerState.Get()))
+	if (IAbilitySystemInterface* AbilitySystemInterface = Cast<IAbilitySystemInterface>(GetPlayerState()))
 	{
-		return AlsxtAbilitySystemInterface->GetAbilitySystemComponent();
+		return AbilitySystemInterface->GetAbilitySystemComponent();
 	}
-	return nullptr;
+	else
+	{
+		return nullptr;
+	}
 }
 
-UAlsxtAbilitySystemComponent* AAlsxtCharacterPlayer::GetAlsxtAbilitySystemComponent() const
+void AAlsxtCharacterPlayer::OnRep_PlayerState()
 {
-	if (IAlsxtAbilitySystemInterface* AlsxtAbilitySystemInterface = Cast<IAlsxtAbilitySystemInterface>(PlayerState.Get()))
+	Super::OnRep_PlayerState();
+	AAlsxtPlayerState* PS = GetPlayerState<AAlsxtPlayerState>();
+	if (PS)
 	{
-		return AlsxtAbilitySystemInterface->GetAlsxtAbilitySystemComponent();
+		PS->GetAbilitySystemComponent()->InitAbilityActorInfo(PS, this);
 	}
-	return nullptr;
 }
 
 void AAlsxtCharacterPlayer::Input_OnLookMouse(const FInputActionValue& ActionValue)
@@ -182,7 +187,28 @@ void AAlsxtCharacterPlayer::Input_OnMove(const FInputActionValue& ActionValue)
 
 void AAlsxtCharacterPlayer::Input_OnSprint(const FInputActionValue& ActionValue)
 {
-	SetDesiredGait(ActionValue.Get<bool>() ? AlsGaitTags::Sprinting : AlsGaitTags::Running);
+	if (GetAbilitySystemComponent())
+	{
+		FGameplayTagContainer SprintGameplayTags;
+		// SprintGameplayTags.AddTag(ALSXTAbilityGameplayTags::Sprint);
+		SprintGameplayTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Gameplay.Ability.Sprint")));
+		if (ActionValue.Get<bool>() && GetAbilitySystemComponent()->TryActivateAbilitiesByTag(SprintGameplayTags, true))
+		{
+			// GetAbilitySystemComponent()->TryActivateAbilitiesByTag(SprintGameplayTags);
+			// GetAbilitySystemComponent()->TryActivateAbility(SprintHandle);
+			// GetAbilitySystemComponent()->Activa
+		}
+		else
+		{
+			// GetAbilitySystemComponent()->CancelAbilities(SprintGameplayTagsPtr,nullptr, nullptr);
+			GetAbilitySystemComponent()->CancelAbilities(&SprintGameplayTags);
+			UE_LOG(LogTemp, Warning, TEXT("TryActivateAbilitiesByTag failed!"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GetAbilitySystemComponent failed!"));
+	}
 }
 
 void AAlsxtCharacterPlayer::Input_OnWalk()

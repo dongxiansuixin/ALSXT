@@ -42,47 +42,47 @@ class ALSXT_API UAlsxtHydrationAttributeSet : public UAlsxtAttributeSetBase
 	// Used to create a local copy of Damage which is then subtracted from Current Hydration.
 	UPROPERTY(BlueprintReadOnly, Category = "Hydration Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Damage;
-	ATTRIBUTE_ACCESSORS(UAlsxtHydrationAttributeSet, Damage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHydrationAttributeSet, Damage)
 
 	// Used to create a local copy of Healing which is then added to Current Hydration.
 	UPROPERTY(BlueprintReadOnly, Category = "Hydration Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Healing;
-	ATTRIBUTE_ACCESSORS(UAlsxtHydrationAttributeSet, Healing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHydrationAttributeSet, Healing)
 
 	// Used to create a local copy of Bleed which is then added to Bleeding.
 	UPROPERTY(BlueprintReadOnly, Category = "Hydration Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedBleed;
-	ATTRIBUTE_ACCESSORS(UAlsxtHydrationAttributeSet, ReceivedBleed)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHydrationAttributeSet, ReceivedBleed)
 
 	// Used to create a local copy of Direct Damage which is then added to Current Hydration.
 	UPROPERTY(BlueprintReadOnly, Category = "Hydration Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedDirectDamage;
-	ATTRIBUTE_ACCESSORS(UAlsxtHydrationAttributeSet, ReceivedDirectDamage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHydrationAttributeSet, ReceivedDirectDamage)
 	
 	// Holds the current value for Hydration.
 	UPROPERTY(BlueprintReadOnly, Category = "Hydration Attribute Set", ReplicatedUsing = OnRep_CurrentHydration)
 	FGameplayAttributeData CurrentHydration;
-	ATTRIBUTE_ACCESSORS(UAlsxtHydrationAttributeSet, CurrentHydration)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHydrationAttributeSet, CurrentHydration)
 
 	// Holds the value for Maximum Hydration.
 	UPROPERTY(BlueprintReadOnly, Category = "Hydration Attribute Set", ReplicatedUsing = OnRep_MaximumHydration)
 	FGameplayAttributeData MaximumHydration;
-	ATTRIBUTE_ACCESSORS(UAlsxtHydrationAttributeSet, MaximumHydration)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHydrationAttributeSet, MaximumHydration)
 
 	// Holds the value for Hydration Regeneration.
 	UPROPERTY(BlueprintReadOnly, Category = "Hydration Attribute Set", ReplicatedUsing = OnRep_HydrationRegeneration)
 	FGameplayAttributeData HydrationRegeneration;
-	ATTRIBUTE_ACCESSORS(UAlsxtHydrationAttributeSet, HydrationRegeneration)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHydrationAttributeSet, HydrationRegeneration)
 
 	// Holds the current bleeding amount
 	UPROPERTY(BlueprintReadOnly, Category = "Hydration Attribute Set", ReplicatedUsing = OnRep_Bleeding)
 	FGameplayAttributeData Bleeding;
-	ATTRIBUTE_ACCESSORS(UAlsxtHydrationAttributeSet, Bleeding)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHydrationAttributeSet, Bleeding)
 
 	// Holds the current bleed healing rate
 	UPROPERTY(BlueprintReadOnly, Category = "Hydration Attribute Set", ReplicatedUsing = OnRep_BleedHealing)
 	FGameplayAttributeData BleedHealing;
-	ATTRIBUTE_ACCESSORS(UAlsxtHydrationAttributeSet, BleedHealing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtHydrationAttributeSet, BleedHealing)
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

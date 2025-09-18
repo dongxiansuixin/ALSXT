@@ -92,6 +92,20 @@ void AAlsxtPlayerController::SetupInputComponent()
 	}
 }
 
+/**
+* @brief Connect Interface Function to provide a pointer to the AbilitySystemComponent
+*/
+UAbilitySystemComponent* AAlsxtPlayerController::GetAbilitySystemComponent() const
+{
+	AAlsxtPlayerState* PS = GetPlayerState<AAlsxtPlayerState>();
+	if (PS)
+	{
+		// Init ASC with PS (Owner) and our new Pawn (AvatarActor)
+		return PS->GetAbilitySystemComponent();
+	}
+	return nullptr;
+}
+
 void AAlsxtPlayerController::Input_OnHandleAnyInputKey()
 {
 	OnAnyInputDetected.Broadcast();

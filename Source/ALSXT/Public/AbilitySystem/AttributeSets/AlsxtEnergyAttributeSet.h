@@ -42,47 +42,47 @@ class ALSXT_API UAlsxtEnergyAttributeSet : public UAlsxtAttributeSetBase
 	// Used to create a local copy of Damage which is then subtracted from Current Energy.
 	UPROPERTY(BlueprintReadOnly, Category = "Energy Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Damage;
-	ATTRIBUTE_ACCESSORS(UAlsxtEnergyAttributeSet, Damage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtEnergyAttributeSet, Damage)
 
 	// Used to create a local copy of Healing which is then added to Current Energy.
 	UPROPERTY(BlueprintReadOnly, Category = "Energy Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Healing;
-	ATTRIBUTE_ACCESSORS(UAlsxtEnergyAttributeSet, Healing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtEnergyAttributeSet, Healing)
 
 	// Used to create a local copy of Bleed which is then added to Bleeding.
 	UPROPERTY(BlueprintReadOnly, Category = "Energy Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedBleed;
-	ATTRIBUTE_ACCESSORS(UAlsxtEnergyAttributeSet, ReceivedBleed)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtEnergyAttributeSet, ReceivedBleed)
 
 	// Used to create a local copy of Direct Damage which is then added to Current Energy.
 	UPROPERTY(BlueprintReadOnly, Category = "Energy Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedDirectDamage;
-	ATTRIBUTE_ACCESSORS(UAlsxtEnergyAttributeSet, ReceivedDirectDamage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtEnergyAttributeSet, ReceivedDirectDamage)
 	
 	// Holds the current value for Energy.
 	UPROPERTY(BlueprintReadOnly, Category = "Energy Attribute Set", ReplicatedUsing = OnRep_CurrentEnergy)
 	FGameplayAttributeData CurrentEnergy;
-	ATTRIBUTE_ACCESSORS(UAlsxtEnergyAttributeSet, CurrentEnergy)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtEnergyAttributeSet, CurrentEnergy)
 
 	// Holds the value for Maximum Energy.
 	UPROPERTY(BlueprintReadOnly, Category = "Energy Attribute Set", ReplicatedUsing = OnRep_MaximumEnergy)
 	FGameplayAttributeData MaximumEnergy;
-	ATTRIBUTE_ACCESSORS(UAlsxtEnergyAttributeSet, MaximumEnergy)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtEnergyAttributeSet, MaximumEnergy)
 
 	// Holds the value for Energy Regeneration.
 	UPROPERTY(BlueprintReadOnly, Category = "Energy Attribute Set", ReplicatedUsing = OnRep_EnergyRegeneration)
 	FGameplayAttributeData EnergyRegeneration;
-	ATTRIBUTE_ACCESSORS(UAlsxtEnergyAttributeSet, EnergyRegeneration)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtEnergyAttributeSet, EnergyRegeneration)
 
 	// Holds the current bleeding amount
 	UPROPERTY(BlueprintReadOnly, Category = "Energy Attribute Set", ReplicatedUsing = OnRep_Bleeding)
 	FGameplayAttributeData Bleeding;
-	ATTRIBUTE_ACCESSORS(UAlsxtEnergyAttributeSet, Bleeding)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtEnergyAttributeSet, Bleeding)
 
 	// Holds the current bleed healing rate
 	UPROPERTY(BlueprintReadOnly, Category = "Energy Attribute Set", ReplicatedUsing = OnRep_BleedHealing)
 	FGameplayAttributeData BleedHealing;
-	ATTRIBUTE_ACCESSORS(UAlsxtEnergyAttributeSet, BleedHealing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtEnergyAttributeSet, BleedHealing)
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

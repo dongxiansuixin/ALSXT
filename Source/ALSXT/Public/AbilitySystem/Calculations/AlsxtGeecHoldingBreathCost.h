@@ -16,7 +16,7 @@ struct FALSXTExecutionCalculationStaminaAndHoldBreathStatics
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CurrentStamina);
 
 	// Define the capture for the hold breath attribute on the target
-	DECLARE_ATTRIBUTE_CAPTUREDEF(CurrentHoldBreath);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(CurrentHoldBreathDuration);
 
 	FALSXTExecutionCalculationStaminaAndHoldBreathStatics()
 	{
@@ -24,7 +24,7 @@ struct FALSXTExecutionCalculationStaminaAndHoldBreathStatics
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtStaminaAttributeSet, CurrentStamina, Target, false);
 
 		// Capture HoldBreath attribute from the Target
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtHoldBreathAttributeSet, CurrentHoldBreath, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAlsxtHoldBreathAttributeSet, CurrentHoldBreathDuration, Target, false);
 	}
 };
 

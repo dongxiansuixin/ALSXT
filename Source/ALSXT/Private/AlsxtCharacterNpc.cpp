@@ -38,6 +38,7 @@ void AAlsxtCharacterNpc::BeginPlay()
 	 
 	// Provide this character as owner and avatar
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	InitializeAbilitySystem();
 }
 
 void AAlsxtCharacterNpc::InitializeAbilitySystem()

@@ -42,47 +42,47 @@ class ALSXT_API UAlsxtNutritionAttributeSet : public UAlsxtAttributeSetBase
 	// Used to create a local copy of Damage which is then subtracted from Current Nutrition.
 	UPROPERTY(BlueprintReadOnly, Category = "Nutrition Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Damage;
-	ATTRIBUTE_ACCESSORS(UAlsxtNutritionAttributeSet, Damage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtNutritionAttributeSet, Damage)
 
 	// Used to create a local copy of Healing which is then added to Current Nutrition.
 	UPROPERTY(BlueprintReadOnly, Category = "Nutrition Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Healing;
-	ATTRIBUTE_ACCESSORS(UAlsxtNutritionAttributeSet, Healing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtNutritionAttributeSet, Healing)
 
 	// Used to create a local copy of Bleed which is then added to Bleeding.
 	UPROPERTY(BlueprintReadOnly, Category = "Nutrition Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedBleed;
-	ATTRIBUTE_ACCESSORS(UAlsxtNutritionAttributeSet, ReceivedBleed)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtNutritionAttributeSet, ReceivedBleed)
 
 	// Used to create a local copy of Direct Damage which is then added to Current Nutrition.
 	UPROPERTY(BlueprintReadOnly, Category = "Nutrition Attribute Set", meta = (HideFromLevelInfos))
 	FGameplayAttributeData ReceivedDirectDamage;
-	ATTRIBUTE_ACCESSORS(UAlsxtNutritionAttributeSet, ReceivedDirectDamage)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtNutritionAttributeSet, ReceivedDirectDamage)
 	
 	// Holds the current value for Nutrition.
 	UPROPERTY(BlueprintReadOnly, Category = "Nutrition Attribute Set", ReplicatedUsing = OnRep_CurrentNutrition)
 	FGameplayAttributeData CurrentNutrition;
-	ATTRIBUTE_ACCESSORS(UAlsxtNutritionAttributeSet, CurrentNutrition)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtNutritionAttributeSet, CurrentNutrition)
 
 	// Holds the value for Maximum Nutrition.
 	UPROPERTY(BlueprintReadOnly, Category = "Nutrition Attribute Set", ReplicatedUsing = OnRep_MaximumNutrition)
 	FGameplayAttributeData MaximumNutrition;
-	ATTRIBUTE_ACCESSORS(UAlsxtNutritionAttributeSet, MaximumNutrition)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtNutritionAttributeSet, MaximumNutrition)
 
 	// Holds the value for Nutrition Regeneration.
 	UPROPERTY(BlueprintReadOnly, Category = "Nutrition Attribute Set", ReplicatedUsing = OnRep_NutritionRegeneration)
 	FGameplayAttributeData NutritionRegeneration;
-	ATTRIBUTE_ACCESSORS(UAlsxtNutritionAttributeSet, NutritionRegeneration)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtNutritionAttributeSet, NutritionRegeneration)
 
 	// Holds the current bleeding amount
 	UPROPERTY(BlueprintReadOnly, Category = "Nutrition Attribute Set", ReplicatedUsing = OnRep_Bleeding)
 	FGameplayAttributeData Bleeding;
-	ATTRIBUTE_ACCESSORS(UAlsxtNutritionAttributeSet, Bleeding)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtNutritionAttributeSet, Bleeding)
 
 	// Holds the current bleed healing rate
 	UPROPERTY(BlueprintReadOnly, Category = "Nutrition Attribute Set", ReplicatedUsing = OnRep_BleedHealing)
 	FGameplayAttributeData BleedHealing;
-	ATTRIBUTE_ACCESSORS(UAlsxtNutritionAttributeSet, BleedHealing)
+	ATTRIBUTE_ACCESSORS_BASIC(UAlsxtNutritionAttributeSet, BleedHealing)
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
