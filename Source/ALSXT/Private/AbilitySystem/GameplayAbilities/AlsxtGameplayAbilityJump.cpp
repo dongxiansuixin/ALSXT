@@ -1,29 +1,63 @@
 // MIT
 
 #include "AbilitySystem/GameplayAbilities/AlsxtGameplayAbilityJump.h"
+#include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
+#include "AlsxtCharacter.h"
 #include "GameFramework/Character.h"
 
 UAlsxtGameplayAbilityJump::UAlsxtGameplayAbilityJump()
 {
 	// InstancingPolicy = EGameplayAbilityInstancingPolicy::NonInstanced;
 	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
-	// AbilityTags.AddTag(FGameplayTag::RequestGameplayTag(FName("Gameplay.Ability.Jump"))); 
 	const FGameplayTagContainer InitialTags {FGameplayTag::RequestGameplayTag(FName("Gameplay.Ability.Jump"))};
 	SetAssetTags(InitialTags);
+
+	// Default tag for setting the stamina cost magnitude
+	StaminaCostTag = FGameplayTag::RequestGameplayTag(FName("StaminaCost.Instant.Jump"));
 
 }
 
 void UAlsxtGameplayAbilityJump::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo * ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData * TriggerEventData)
 {
+	if (!ActorInfo->IsNetAuthority())
+	{
+		return;
+	}
+
 	if (HasAuthorityOrPredictionKey(ActorInfo, &ActivationInfo))
 	{
 		if (!CommitAbility(Handle, ActorInfo, ActivationInfo))
 		{
 			EndAbility(Handle, ActorInfo, ActivationInfo, true, true);
 		}
+		
+		if (UAbilitySystemComponent* ASC = GetAbilitySystemComponentFromActorInfo())
+		{
+			if (AAlsxtCharacter* Character = Cast<AAlsxtCharacter>(ActorInfo->AvatarActor.Get()))
+			{
+				if (Character->CanJump() && StaminaCostEffect)
+				{
+					if (StaminaCostEffect)
+					{
+						// Create a new effect context
+						FGameplayEffectContextHandle EffectContext = ASC->MakeEffectContext();
+						EffectContext.AddInstigator(ActorInfo->AvatarActor.Get(), ActorInfo->AvatarActor.Get());
 
-		ACharacter * Character = CastChecked<ACharacter>(ActorInfo->AvatarActor.Get());
-		Character->Jump();
+						// Create the effect spec and set the cost
+						UGameplayEffect* CostEffect = StaminaCostEffect->GetDefaultObject<UGameplayEffect>();
+						// FGameplayEffectSpecHandle CostSpecHandle = ASC->MakeOutgoingGameplayEffectSpec(StaminaCostEffect, GetAbilityLevel());
+						FGameplayEffectSpecHandle CostSpecHandle = ASC->MakeOutgoingSpec(StaminaCostEffect, GetAbilityLevel(), EffectContext);
+						CostSpecHandle.Data->SetSetByCallerMagnitude(StaminaCostTag, -BaseJumpStaminaCost); // Use negative for costs
+
+						// Apply the stamina cost effect
+						ActorInfo->AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*CostSpecHandle.Data.Get());
+					}
+					
+					// Perform the jump action
+					Character->Jump();
+				}
+			}
+		}
 	}
 }
 

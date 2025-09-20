@@ -17,6 +17,7 @@ UAlsxtGameplayAbilitySprint::UAlsxtGameplayAbilitySprint()
 	// AbilityTags.AddTag(FGameplayTag::RequestGameplayTag(FName("Gameplay.Ability.Sprint")));
 	SetAssetTags(AssetTags);
 	BaseStaminaCostPerSecond = 0.05f;
+	StaminaCostTag = FGameplayTag::RequestGameplayTag(FName("StaminaCost.Infinite.Sprint"));
 }
 
 void UAlsxtGameplayAbilitySprint::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
@@ -31,55 +32,25 @@ void UAlsxtGameplayAbilitySprint::ActivateAbility(const FGameplayAbilitySpecHand
 		EndAbility(Handle, ActorInfo, ActivationInfo, true, true);
 		return;
 	}
-	
-	FGameplayEffectContextHandle SprintGameplayEffectContextHandle = ActorInfo->AbilitySystemComponent.Get()->MakeEffectContext();
-	SprintGameplayEffectContextHandle.SetAbility(this);
 
-	// Apply stamina drain effect
 	if (StaminaCostEffect)
 	{
-		// FGameplayEffectSpecHandle SpecHandle = MakeOutgoingGameplayEffectSpec(Handle, ActorInfo, ActivationInfo, StaminaCostEffect, GetAbilityLevel());
-		// FGameplayEffectSpecHandle SpecHandle2 = ActorInfo->AbilitySystemComponent.Get()->MakeOutgoingSpec(StaminaCostEffect,1, SprintGameplayEffectContextHandle);
-		// FActiveGameplayEffectHandle ActiveGameplayEffectHandle = ApplyGameplayEffectSpecToOwner(Handle, ActorInfo, ActivationInfo, SpecHandle);
-
-		FGameplayEffectContextHandle EffectContext = ActorInfo->AbilitySystemComponent.Get()->MakeEffectContext();
-		// EffectContext.SetAbility(this);
-		// FActiveGameplayEffectHandle ActiveGEHandle = ApplyGameplayEffectSpecToOwner(Handle, ActorInfo, ActivationInfo, SpecHandle);
-		// ActiveStaminaDrainEffectHandle = ActorInfo->AbilitySystemComponent.Get()->ApplyGameplayEffectToSelf(StaminaCostEffect.GetDefaultObject(), GetAbilityLevel(), EffectContext);
-
-		// if (SpecHandle.IsValid())
-		// {
-		// 	// Set a fixed magnitude
-		// 	SpecHandle.Data->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(TEXT("Data.Magnitude.Sprint")), 50.0f);
-		// 	ActiveStaminaDrainEffectHandle = ActorInfo->AbilitySystemComponent.Get()->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
-		// }
-
-		if (EffectContext.IsValid())
+		FGameplayEffectContextHandle EffectContext = ActorInfo->AbilitySystemComponent->MakeEffectContext();
+		EffectContext.AddInstigator(ActorInfo->AvatarActor.Get(), ActorInfo->AvatarActor.Get());
+		StaminaDrainEffectSpecHandle = ActorInfo->AbilitySystemComponent->MakeOutgoingSpec(StaminaCostEffect, 1.0f, EffectContext);
+		StaminaDrainEffectSpecHandle.Data->SetSetByCallerMagnitude(StaminaCostTag, -BaseStaminaCostPerSecond);
+        
+		if (StaminaDrainEffectSpecHandle.IsValid())
 		{
-			// ActiveStaminaDrainEffectHandle = ActorInfo->AbilitySystemComponent.Get()->ApplyGameplayEffectToSelf(StaminaCostEffect.GetDefaultObject(), GetAbilityLevel(), EffectContext);
+			ActorInfo->AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*StaminaDrainEffectSpecHandle.Data.Get());
 		}
-		
-		
 	}
-
-	// ActorInfo->AbilitySystemComponent.Get()->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
-	
-	// Apply stamina drain effect
-	// if (StaminaCostEffect)
-	// {
-	// 	FGameplayEffectContextHandle EffectContext = ActorInfo->AbilitySystemComponent.Get()->MakeEffectContext();
-	// 	// FActiveGameplayEffectHandle ActiveGEHandle = ApplyGameplayEffectSpecToOwner(Handle, ActorInfo, ActivationInfo, SpecHandle);
-	// 	ActiveStaminaDrainEffectHandle = ActorInfo->AbilitySystemComponent.Get()->ApplyGameplayEffectToSelf(StaminaCostEffect.GetDefaultObject(), GetAbilityLevel(), EffectContext);
-	// }
 
 	AAlsxtCharacter* Character = Cast<AAlsxtCharacter>(ActorInfo->AvatarActor.Get());
 	if (Character->CanSprint())
 	{
 		Character->SetDesiredGait(AlsGaitTags::Sprinting);
 	}
-
-	// Apply initial stamina cost and set up timer for continuous drain
-	// GetWorld()->GetTimerManager().SetTimer(StaminaDrainTimerHandle, this, &UAlsxtGameplayAbilitySprint::ApplyStaminaCost, 0.2f, true);
 }
 
 void UAlsxtGameplayAbilitySprint::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
@@ -96,32 +67,22 @@ void UAlsxtGameplayAbilitySprint::EndAbility(const FGameplayAbilitySpecHandle Ha
 		return;
 	}
 
-	if (StaminaDrainTimerHandle.IsValid())
+	// Remove the stamina drain Gameplay Effect
+	if (HasAuthority(&ActivationInfo) && StaminaDrainEffectSpecHandle.IsValid())
 	{
-		GetWorld()->GetTimerManager().ClearTimer(StaminaDrainTimerHandle);
+		ActorInfo->AbilitySystemComponent->RemoveActiveGameplayEffectBySourceEffect(StaminaCostEffect, ActorInfo->AbilitySystemComponent.Get(), -1);
 	}
 
 	
-	if (HasAuthority(&ActivationInfo) && ActiveStaminaDrainEffectHandle.IsValid())
-	{
-		ActorInfo->AbilitySystemComponent->RemoveActiveGameplayEffect(ActiveStaminaDrainEffectHandle);
-	}
+	// if (HasAuthority(&ActivationInfo) && ActiveStaminaDrainEffectHandle.IsValid())
+	// {
+	// 	ActorInfo->AbilitySystemComponent->RemoveActiveGameplayEffect(ActiveStaminaDrainEffectHandle);
+	// }
 	
 
 	AAlsxtCharacter* Character = Cast<AAlsxtCharacter>(ActorInfo->AvatarActor.Get());
 	Character->SetDesiredGait(AlsGaitTags::Running);
-
-	// Apply stamina drain effect
-	if (StaminaRegenEffect)
-	{
-		FGameplayEffectContextHandle EffectContext = ActorInfo->AbilitySystemComponent.Get()->MakeEffectContext();
-		FGameplayEffectSpecHandle StaminaRegenSpecHandle = ActorInfo->AbilitySystemComponent.Get()->MakeOutgoingSpec(StaminaRegenEffect, GetAbilityLevel(), EffectContext);
-		FGameplayEffectContextHandle StaminaRegenEffectContext = ActorInfo->AbilitySystemComponent.Get()->MakeEffectContext();
-		StaminaRegenSpecHandle.Data->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("StaminaCost.Infinite.Sprint")), -BaseStaminaCostPerSecond);
-		// ActiveStaminaRegenEffectHandle = ActorInfo->AbilitySystemComponent.Get()->ApplyGameplayEffectToSelf(StaminaRegenEffect.GetDefaultObject(), 1.0f, EffectContext);
-		ActiveStaminaRegenEffectHandle = ActorInfo->AbilitySystemComponent.Get()->ApplyGameplayEffectSpecToSelf(*StaminaRegenSpecHandle.Data.Get());
-	}
-
+	
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }
 
@@ -134,9 +95,9 @@ bool UAlsxtGameplayAbilitySprint::CanActivateAbility(const FGameplayAbilitySpecH
 		return false;
 	}
 	
-	const UAlsxtStaminaAttributeSet* MyAttributeSet = ASC->GetSet<UAlsxtStaminaAttributeSet>();
+	const UAlsxtStaminaAttributeSet* StaminaAttributeSet = ASC->GetSet<UAlsxtStaminaAttributeSet>();
 	
-	if (!IsValid(MyAttributeSet))
+	if (!IsValid(StaminaAttributeSet))
 	{
 		// Optionally, provide a reason why activation failed for debugging.
 		// You can use a tag, for example: FGameplayTag::RequestGameplayTag(TEXT("Ability.Cost.MissingAttributeSet"));
@@ -144,29 +105,4 @@ bool UAlsxtGameplayAbilitySprint::CanActivateAbility(const FGameplayAbilitySpecH
 	}
 	
 	return Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
-}
-
-void UAlsxtGameplayAbilitySprint::ApplyStaminaCost()
-{
-	if (UAbilitySystemComponent* ASC = GetAbilitySystemComponentFromActorInfo())
-	{
-		FGameplayEffectContextHandle EffectContext = ASC->MakeEffectContext();
-		FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(StaminaCostEffect, GetAbilityLevel(), EffectContext);
-		if (SpecHandle.IsValid() && SpecHandle.Data.IsValid())
-		{
-			// SpecHandle.Data->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(TEXT("StaminaCost.Infinite.Sprint")), 50.0f);
-			SpecHandle.Data->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("StaminaCost.Infinite.Sprint")), -BaseStaminaCostPerSecond);
-			ASC->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), ASC);
-			// ASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
-
-			// Check if stamina is below threshold to end ability
-			if (const UAlsxtStaminaAttributeSet* StaminaSet = ASC->GetSet<UAlsxtStaminaAttributeSet>())
-			{
-				if (StaminaSet->GetCurrentStamina() <= 0.0f) // Or your defined threshold
-				{
-					EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, true, false);
-				}
-			}
-		}
-	}
 }

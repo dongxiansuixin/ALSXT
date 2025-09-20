@@ -19,7 +19,7 @@ public:
 	UAlsxtGameplayAbilitySprint();
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Stamina")
-	float BaseStaminaCostPerSecond = 0.05f; // Unique cost for sprint
+	float BaseStaminaCostPerSecond = 0.05f; // Base Cost per Second for sprint
 
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
@@ -35,14 +35,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Sprint")
 	TSubclassOf<UGameplayEffect> StaminaRegenEffect;
 
+	// Tag to set the magnitude of the stamina cost effect
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sprint|Cost")
+	FGameplayTag StaminaCostTag;
+
 	UPROPERTY()
-	FTimerHandle StaminaDrainTimerHandle;
-
-	FActiveGameplayEffectHandle ActiveStaminaDrainEffectHandle;
-	FActiveGameplayEffectHandle ActiveStaminaRegenEffectHandle;
-
-	UFUNCTION()
-	void ApplyStaminaCost();
+	FGameplayEffectSpecHandle StaminaDrainEffectSpecHandle;
 	
 };
 	

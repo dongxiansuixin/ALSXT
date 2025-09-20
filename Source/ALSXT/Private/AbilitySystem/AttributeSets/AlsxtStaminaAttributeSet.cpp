@@ -55,7 +55,7 @@ void UAlsxtStaminaAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimePrope
 
 	FDoRepLifetimeParams Params{};
 	Params.bIsPushBased = true;
-	Params.Condition = COND_None;
+	// Params.Condition = COND_None;
 
 	// Replicated to all
 	DOREPLIFETIME_WITH_PARAMS_FAST(UAlsxtStaminaAttributeSet, CurrentStamina, Params);

@@ -38,7 +38,7 @@ void AAlsxtCharacterPlayer::SetupPlayerInputComponent(UInputComponent* Input)
 {
 	// Super::SetupPlayerInputComponent(Input);
 
-	auto* EnhancedInput{Cast<UEnhancedInputComponent>(Input)};
+	EnhancedInput = Cast<UEnhancedInputComponent>(Input);
 	if (IsValid(EnhancedInput))
 	{
 		EnhancedInput->BindAction(LookMouseAction, ETriggerEvent::Triggered, this, &ThisClass::Input_OnLookMouse);
@@ -187,27 +187,30 @@ void AAlsxtCharacterPlayer::Input_OnMove(const FInputActionValue& ActionValue)
 
 void AAlsxtCharacterPlayer::Input_OnSprint(const FInputActionValue& ActionValue)
 {
-	if (GetAbilitySystemComponent())
+	if (GetLocomotionState().Velocity.Length() > KINDA_SMALL_NUMBER && GetLocomotionState().bMoving && GetLocomotionState().bHasInput)
 	{
-		FGameplayTagContainer SprintGameplayTags;
-		// SprintGameplayTags.AddTag(ALSXTAbilityGameplayTags::Sprint);
-		SprintGameplayTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Gameplay.Ability.Sprint")));
-		if (ActionValue.Get<bool>() && GetAbilitySystemComponent()->TryActivateAbilitiesByTag(SprintGameplayTags, true))
+		if (GetAbilitySystemComponent())
 		{
-			// GetAbilitySystemComponent()->TryActivateAbilitiesByTag(SprintGameplayTags);
-			// GetAbilitySystemComponent()->TryActivateAbility(SprintHandle);
-			// GetAbilitySystemComponent()->Activa
+			FGameplayTagContainer SprintGameplayTags;
+			SprintGameplayTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Gameplay.Ability.Sprint")));
+			if (ActionValue.Get<bool>() && GetAbilitySystemComponent()->TryActivateAbilitiesByTag(SprintGameplayTags, true))
+			{
+				// OnSprint Event Dispatcher
+			}
+			else
+			{
+				GetAbilitySystemComponent()->CancelAbilities(&SprintGameplayTags);
+				UE_LOG(LogTemp, Warning, TEXT("TryActivateAbilitiesByTag failed!"));
+			}
 		}
 		else
 		{
-			// GetAbilitySystemComponent()->CancelAbilities(SprintGameplayTagsPtr,nullptr, nullptr);
-			GetAbilitySystemComponent()->CancelAbilities(&SprintGameplayTags);
-			UE_LOG(LogTemp, Warning, TEXT("TryActivateAbilitiesByTag failed!"));
+			UE_LOG(LogTemp, Warning, TEXT("GetAbilitySystemComponent failed!"));
 		}
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("GetAbilitySystemComponent failed!"));
+		UE_LOG(LogTemp, Warning, TEXT("Input Vector: %s"), *GetLocomotionState().Velocity.ToString());
 	}
 }
 
@@ -247,6 +250,7 @@ void AAlsxtCharacterPlayer::Input_OnCrouch()
 
 void AAlsxtCharacterPlayer::Input_OnJump(const FInputActionValue& ActionValue)
 {
+	// New Code
 	if (ActionValue.Get<bool>())
 	{
 		if (StopRagdolling())
@@ -259,18 +263,82 @@ void AAlsxtCharacterPlayer::Input_OnJump(const FInputActionValue& ActionValue)
 			return;
 		}
 
+		// Try StartMantlingGrounded
+		if (GetAbilitySystemComponent())
+		{
+			FGameplayTagContainer MantlingGameplayTags;
+			MantlingGameplayTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Gameplay.Ability.Mantle")));
+			if (ActionValue.Get<bool>() && GetAbilitySystemComponent()->TryActivateAbilitiesByTag(MantlingGameplayTags, true) && StartMantlingGrounded())
+			{
+				// OnMantle Event Dispatcher
+			}
+			else
+			{
+				GetAbilitySystemComponent()->CancelAbilities(&MantlingGameplayTags);
+				UE_LOG(LogTemp, Warning, TEXT("TryActivateAbilitiesByTag Gameplay.Ability.Mantle failed!"));
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GetAbilitySystemComponent for Jump Ability failed!"));
+		}
+
 		if (GetStance() == AlsStanceTags::Crouching)
 		{
 			SetDesiredStance(AlsStanceTags::Standing);
 			return;
 		}
 
-		Jump();
+		// Try to Jump
+		if (GetAbilitySystemComponent())
+		{
+			FGameplayTagContainer JumpGameplayTags;
+			JumpGameplayTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Gameplay.Ability.Jump")));
+			if (ActionValue.Get<bool>() && GetAbilitySystemComponent()->TryActivateAbilitiesByTag(JumpGameplayTags, true))
+			{
+				// OnSprint Event Dispatcher
+			}
+			else
+			{
+				GetAbilitySystemComponent()->CancelAbilities(&JumpGameplayTags);
+				UE_LOG(LogTemp, Warning, TEXT("TryActivateAbilitiesByTag Gameplay.Ability.Jump failed!"));
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GetAbilitySystemComponent for Jump Ability failed!"));
+		}
 	}
 	else
 	{
 		StopJumping();
 	}
+
+	// Legacy Code
+	// if (ActionValue.Get<bool>())
+	// {
+	// 	if (StopRagdolling())
+	// 	{
+	// 		return;
+	// 	}
+// 
+	// 	if (StartMantlingGrounded())
+	// 	{
+	// 		return;
+	// 	}
+// 
+	// 	if (GetStance() == AlsStanceTags::Crouching)
+	// 	{
+	// 		SetDesiredStance(AlsStanceTags::Standing);
+	// 		return;
+	// 	}
+// 
+	// 	Jump();
+	// }
+	// else
+	// {
+	// 	StopJumping();
+	// }
 }
 
 void AAlsxtCharacterPlayer::Input_OnAim(const FInputActionValue& ActionValue)

@@ -10,6 +10,7 @@ namespace ALSXTAbilityGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Jump, TEXT("Gameplay.Ability.Jump"))
 	UE_DEFINE_GAMEPLAY_TAG(Roll, TEXT("Gameplay.Ability.Roll"))
 	UE_DEFINE_GAMEPLAY_TAG(Mantle, TEXT("Gameplay.Ability.Mantle"))
+	UE_DEFINE_GAMEPLAY_TAG(Vault, TEXT("Gameplay.Ability.Vault"))
 	UE_DEFINE_GAMEPLAY_TAG(HoldItem, TEXT("Gameplay.Ability.HoldItem"))
 }
 
@@ -28,7 +29,7 @@ namespace ALSXTGASGameplayTags
 	{
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_StaminaCost_Infinite_Sprint, "StaminaCost.Infinite.Sprint", "A Gameplay Tag applied to Sprinting Stamina Cost")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_StaminaCost_Instant_Jump, "StaminaCost.Instant.Jump", "A Gameplay Tag applied to Jumping Stamina Cost")
-		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_StaminaCost_Instant_Roll, "StaminaCost.Instant.Sprint", "A Gameplay Tag applied to Sprinting Stamina Cost")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_StaminaCost_Instant_Roll, "StaminaCost.Instant.Roll", "A Gameplay Tag applied to Sprinting Stamina Cost")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_StaminaCost_Instant_Mantle, "StaminaCost.Instant.Mantle", "A Gameplay Tag applied to Mantle Stamina Cost")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_StaminaCost_Instant_Vault, "StaminaCost.Instant.Vault", "A Gameplay Tag applied to Vaulting Stamina Cost")
 	}

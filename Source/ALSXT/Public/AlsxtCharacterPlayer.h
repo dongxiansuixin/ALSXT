@@ -42,6 +42,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Input", Meta = (DisplayThumbnail = false))
 	TObjectPtr<UInputMappingContext> InputMappingContextNew;
 
+	TObjectPtr<UEnhancedInputComponent> EnhancedInput;
+
 	virtual void OnRep_PlayerState() override;
 	
 	virtual void Input_OnLookMouse(const FInputActionValue& ActionValue);
