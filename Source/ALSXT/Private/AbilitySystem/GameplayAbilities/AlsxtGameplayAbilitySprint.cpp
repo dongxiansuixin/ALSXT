@@ -1,12 +1,12 @@
 // MIT
 
-
 #include "AbilitySystem/GameplayAbilities/AlsxtGameplayAbilitySprint.h"
 #include "AbilitySystem/AbilitySystemComponent/AlsxtAbilitySystemComponent.h"
 #include "AlsxtCharacter.h"
 #include "AlsxtCharacterMovementComponent.h"
 #include "AbilitySystem/AttributeSets/AlsxtStaminaAttributeSet.h"
 #include "GameplayEffect.h"
+#include "TimerManager.h"
 
 UAlsxtGameplayAbilitySprint::UAlsxtGameplayAbilitySprint()
 {
@@ -82,6 +82,14 @@ void UAlsxtGameplayAbilitySprint::EndAbility(const FGameplayAbilitySpecHandle Ha
 
 	AAlsxtCharacter* Character = Cast<AAlsxtCharacter>(ActorInfo->AvatarActor.Get());
 	Character->SetDesiredGait(AlsGaitTags::Running);
+
+	// Try to Activate Stamina Regen Ability
+	FGameplayTagContainer StaminaRegenGameplayTags;
+	StaminaRegenGameplayTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Gameplay.Ability.StaminaRegen")));
+	if (ActorInfo->AbilitySystemComponent->TryActivateAbilitiesByTag(StaminaRegenGameplayTags, true))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UAlsxtGameplayAbilitySprint::EndAbility: Gameplay.Ability.StaminaRegen activated!"));
+	}
 	
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }

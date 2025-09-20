@@ -7,6 +7,7 @@ namespace ALSXTAbilityGameplayTags
 {
 	UE_DEFINE_GAMEPLAY_TAG(Sprint, TEXT("Gameplay.Ability.Sprint"))
 	UE_DEFINE_GAMEPLAY_TAG(Breathing, TEXT("Gameplay.Ability.Breathing"))
+	UE_DEFINE_GAMEPLAY_TAG(StaminaRegen, TEXT("Gameplay.Ability.StaminaRegen"))
 	UE_DEFINE_GAMEPLAY_TAG(Jump, TEXT("Gameplay.Ability.Jump"))
 	UE_DEFINE_GAMEPLAY_TAG(Roll, TEXT("Gameplay.Ability.Roll"))
 	UE_DEFINE_GAMEPLAY_TAG(Mantle, TEXT("Gameplay.Ability.Mantle"))
@@ -48,12 +49,18 @@ namespace ALSXTGASGameplayTags
 
 	namespace State
 	{
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_ConsumingStamina, "State.ConsumingStamina", "ConsumingStamina")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Consuming_Stamina, "State.Consuming.Stamina", "Consuming Stamina")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_RegeneratingStamina, "State.RegeneratingStamina", "RegeneratingStamina")
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Regen_Stamina, "State.Regen.Stamina", "Regenerating Stamina")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_KnockedDown, "State.KnockedDown", "KnockedDown")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Unconscious, "State.Unconscious", "Unconscious")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Dead, "Gameplay.State.Dead", "Dead")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_HoldingBreath, "State.HoldingBreath", "HoldingBreath Active")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_OutOfBreath, "State.OutOfBreath", "OutOfBreath")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Exhausted, "State.Exhausted", "Exhausted")
+
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Cooldown_StaminaRegen, "State.Cooldown.StaminaRegen", "Stamina Regeneration Cooldown")
 
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Health, "State.Max.Health", "Max Health reached")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_State_Max_Stamina, "State.Max.Stamina", "Max Stamina reached")

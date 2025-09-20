@@ -4,22 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/GameplayAbilities/AlsxtGameplayAbilityBase.h"
-#include "AlsxtGameplayAbilitySprint.generated.h"
+#include "AlsxtGameplayAbilityStaminaRegen.generated.h"
 
 struct FEventData;
 /**
  * 
  */
 UCLASS()
-class ALSXT_API UAlsxtGameplayAbilitySprint : public UAlsxtGameplayAbilityBase
+class ALSXT_API UAlsxtGameplayAbilityStaminaRegen : public UAlsxtGameplayAbilityBase
 {
 	GENERATED_BODY()
 	
 public:
-	UAlsxtGameplayAbilitySprint();
+	UAlsxtGameplayAbilityStaminaRegen();
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Stamina")
-	float BaseStaminaCostPerSecond = 0.05f; // Base Cost per Second for sprint
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "StaminaRegen")
+	float BaseStaminaRegenPerSecond = 0.05f; // Base Cost per Second for sprint
 
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
@@ -28,18 +28,25 @@ public:
 		const FGameplayTagContainer* SourceTags = nullptr, const FGameplayTagContainer* TargetTags = nullptr,
 		FGameplayTagContainer* OptionalRelevantTags = nullptr) const override;
 
-protected:
-	UPROPERTY(EditDefaultsOnly, Category = "Sprint")
-	TSubclassOf<UGameplayEffect> StaminaCostEffect;
+	UFUNCTION()
+	void OnDelayFinished();
 
-	UPROPERTY(EditDefaultsOnly, Category = "Sprint")
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = "Stamina Regen")
 	TSubclassOf<UGameplayEffect> StaminaRegenEffect;
 
 	// Tag to set the magnitude of the stamina cost effect
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sprint|Cost")
-	FGameplayTag StaminaCostTag;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "StaminaRegen")
+	FGameplayTag StaminaRegenTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GameplayEffect")
+	float DelayDuration = 1.0f;
 
 	UPROPERTY()
-	FGameplayEffectSpecHandle StaminaDrainEffectSpecHandle;
+	FGameplayEffectSpecHandle StaminaRegenEffectSpecHandle;
+
+	FTimerHandle DelayTimerHandle;
+	
+	FTimerDelegate DelayTimerDelegate;
 };
 	

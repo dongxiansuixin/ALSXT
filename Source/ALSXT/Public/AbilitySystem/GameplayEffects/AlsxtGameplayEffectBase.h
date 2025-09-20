@@ -13,8 +13,6 @@ UCLASS()
 class ALSXT_API UAlsxtGameplayEffectBase : public UGameplayEffect
 {
 	GENERATED_BODY()
-	
-	
-	
+
 	
 };

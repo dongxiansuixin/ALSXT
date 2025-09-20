@@ -3,6 +3,3 @@
 
 #include "AbilitySystem/GameplayEffects/AlsxtGameplayEffectBase.h"
 
-
-
-

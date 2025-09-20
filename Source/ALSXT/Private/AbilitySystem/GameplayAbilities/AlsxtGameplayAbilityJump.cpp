@@ -9,8 +9,10 @@ UAlsxtGameplayAbilityJump::UAlsxtGameplayAbilityJump()
 {
 	// InstancingPolicy = EGameplayAbilityInstancingPolicy::NonInstanced;
 	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
-	const FGameplayTagContainer InitialTags {FGameplayTag::RequestGameplayTag(FName("Gameplay.Ability.Jump"))};
-	SetAssetTags(InitialTags);
+	NetExecutionPolicy = EGameplayAbilityNetExecutionPolicy::LocalPredicted;
+	FGameplayTagContainer AssetTags = { };
+	AssetTags.AddTag(FGameplayTag::RequestGameplayTag(FName("Gameplay.Ability.Jump")));
+	SetAssetTags(AssetTags);
 
 	// Default tag for setting the stamina cost magnitude
 	StaminaCostTag = FGameplayTag::RequestGameplayTag(FName("StaminaCost.Instant.Jump"));
@@ -19,10 +21,10 @@ UAlsxtGameplayAbilityJump::UAlsxtGameplayAbilityJump()
 
 void UAlsxtGameplayAbilityJump::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo * ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData * TriggerEventData)
 {
-	if (!ActorInfo->IsNetAuthority())
-	{
-		return;
-	}
+	// if (!ActorInfo->IsNetAuthority())
+	// {
+	// 	return;
+	// }
 
 	if (HasAuthorityOrPredictionKey(ActorInfo, &ActivationInfo))
 	{

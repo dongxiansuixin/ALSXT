@@ -200,17 +200,16 @@ void AAlsxtCharacterPlayer::Input_OnSprint(const FInputActionValue& ActionValue)
 			else
 			{
 				GetAbilitySystemComponent()->CancelAbilities(&SprintGameplayTags);
-				UE_LOG(LogTemp, Warning, TEXT("TryActivateAbilitiesByTag failed!"));
 			}
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("GetAbilitySystemComponent failed!"));
+			UE_LOG(LogTemp, Warning, TEXT("On Sprint: GetAbilitySystemComponent failed!"));
 		}
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Input Vector: %s"), *GetLocomotionState().Velocity.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("On Sprint: Input Vector: %s"), *GetLocomotionState().Velocity.ToString());
 	}
 }
 
@@ -275,12 +274,12 @@ void AAlsxtCharacterPlayer::Input_OnJump(const FInputActionValue& ActionValue)
 			else
 			{
 				GetAbilitySystemComponent()->CancelAbilities(&MantlingGameplayTags);
-				UE_LOG(LogTemp, Warning, TEXT("TryActivateAbilitiesByTag Gameplay.Ability.Mantle failed!"));
+				// UE_LOG(LogTemp, Warning, TEXT("OnJump: TryActivateAbilitiesByTag Gameplay.Ability.Mantle failed!"));
 			}
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("GetAbilitySystemComponent for Jump Ability failed!"));
+			UE_LOG(LogTemp, Warning, TEXT("OnJump: GetAbilitySystemComponent failed!"));
 		}
 
 		if (GetStance() == AlsStanceTags::Crouching)
@@ -296,17 +295,18 @@ void AAlsxtCharacterPlayer::Input_OnJump(const FInputActionValue& ActionValue)
 			JumpGameplayTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Gameplay.Ability.Jump")));
 			if (ActionValue.Get<bool>() && GetAbilitySystemComponent()->TryActivateAbilitiesByTag(JumpGameplayTags, true))
 			{
-				// OnSprint Event Dispatcher
+				// OnJumpEvent Dispatcher
+				UE_LOG(LogTemp, Warning, TEXT("OnJump: activated!"));
 			}
 			else
 			{
 				GetAbilitySystemComponent()->CancelAbilities(&JumpGameplayTags);
-				UE_LOG(LogTemp, Warning, TEXT("TryActivateAbilitiesByTag Gameplay.Ability.Jump failed!"));
+				// UE_LOG(LogTemp, Warning, TEXT("OnJump: TryActivateAbilitiesByTag Gameplay.Ability.Jump failed!"));
 			}
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("GetAbilitySystemComponent for Jump Ability failed!"));
+			UE_LOG(LogTemp, Warning, TEXT("OnJump: GetAbilitySystemComponent failed!"));
 		}
 	}
 	else

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AlsxtGameplayEffectBase.h"
+#include "GameplayEffect.h"
 #include "AlsxtGameplayEffectCooldownBase.generated.h"
 
 /**
@@ -14,7 +15,11 @@ class ALSXT_API UAlsxtGameplayEffectCooldownBase : public UAlsxtGameplayEffectBa
 {
 	GENERATED_BODY()
 	
+public:
+	UAlsxtGameplayEffectCooldownBase();
 	
-	
+protected:
+	UPROPERTY()
+	FGameplayTag CooldownTag;
 	
 };
